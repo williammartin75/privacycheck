@@ -2,18 +2,30 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Generate personalized cookie banner script for Pro users
 export async function GET(request: NextRequest) {
-    const { searchParams } = new URL(request.url);
-    const siteId = searchParams.get('id');
-    const primaryColor = searchParams.get('color') || '2563eb';
-    const position = searchParams.get('position') || 'bottom';
-    const privacyUrl = searchParams.get('privacy') || '/privacy';
+  const { searchParams } = new URL(request.url);
+  const siteId = searchParams.get('id');
+  const primaryColor = searchParams.get('color') || '2563eb';
+  const position = searchParams.get('position') || 'bottom';
+  const privacyUrl = searchParams.get('privacy') || '/privacy';
 
-    const script = `
+  const script = `
 (function() {
   'use strict';
   
   var STORAGE_KEY = 'privacychecker_consent';
+  var VISITOR_KEY = 'privacychecker_visitor_id';
   var SITE_ID = '${siteId || 'default'}';
+  var API_URL = 'https://privacychecker.pro/api/consent';
+  
+  // Generate or retrieve visitor ID
+  function getVisitorId() {
+    var id = localStorage.getItem(VISITOR_KEY);
+    if (!id) {
+      id = 'v_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+      localStorage.setItem(VISITOR_KEY, id);
+    }
+    return id;
+  }
   
   if (localStorage.getItem(STORAGE_KEY)) return;
   
@@ -82,17 +94,42 @@ export async function GET(request: NextRequest) {
   document.body.appendChild(banner);
   
   function saveConsent(type) {
-    var consent = {
-      siteId: SITE_ID,
-      type: type,
-      timestamp: new Date().toISOString(),
+    var visitorId = getVisitorId();
+    var categories = {
       necessary: true,
       analytics: type === 'accept',
       marketing: type === 'accept',
       preferences: type === 'accept'
     };
+    var consent = {
+      siteId: SITE_ID,
+      visitorId: visitorId,
+      type: type,
+      timestamp: new Date().toISOString(),
+      necessary: categories.necessary,
+      analytics: categories.analytics,
+      marketing: categories.marketing,
+      preferences: categories.preferences
+    };
+    
+    // Save locally
     localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
     banner.remove();
+    
+    // Send to API for audit trail (fire and forget)
+    try {
+      fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          siteId: SITE_ID,
+          visitorId: visitorId,
+          consentType: type,
+          categories: categories
+        })
+      }).catch(function() {});
+    } catch(e) {}
+    
     window.dispatchEvent(new CustomEvent('privacychecker:consent', { detail: consent }));
   }
   
@@ -101,10 +138,10 @@ export async function GET(request: NextRequest) {
 })();
 `;
 
-    return new NextResponse(script, {
-        headers: {
-            'Content-Type': 'application/javascript',
-            'Cache-Control': 'public, max-age=3600',
-        },
-    });
+  return new NextResponse(script, {
+    headers: {
+      'Content-Type': 'application/javascript',
+      'Cache-Control': 'public, max-age=3600',
+    },
+  });
 }
