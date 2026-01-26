@@ -14,6 +14,27 @@ interface PageScan {
     trackersFound: string[];
 }
 
+interface SecurityHeaders {
+    csp: boolean;
+    xFrameOptions: boolean;
+    xContentType: boolean;
+    strictTransportSecurity: boolean;
+    referrerPolicy: boolean;
+    permissionsPolicy: boolean;
+}
+
+interface SSLInfo {
+    valid: boolean;
+    hsts: boolean;
+    hstsMaxAge: number | null;
+}
+
+interface EmailSecurity {
+    spf: boolean;
+    dmarc: boolean;
+    domain: string;
+}
+
 interface AuditResult {
     score: number;
     domain: string;
@@ -36,6 +57,10 @@ interface AuditResult {
         optOutMechanism: boolean;
         ageVerification: boolean;
         cookiePolicy: boolean;
+        // P0 Security modules
+        ssl: SSLInfo;
+        securityHeaders: SecurityHeaders;
+        emailSecurity: EmailSecurity;
     };
     regulations: string[];
 }
@@ -133,6 +158,48 @@ const AGE_PATTERNS = [
 const COOKIE_POLICY_PATTERNS = [
     '/cookie-policy', '/cookies', 'cookie policy', 'use of cookies', 'we use cookies',
 ];
+
+// P0 Security: Check security headers from response
+function checkSecurityHeaders(headers: Headers): SecurityHeaders {
+    return {
+        csp: !!headers.get('content-security-policy'),
+        xFrameOptions: !!headers.get('x-frame-options'),
+        xContentType: headers.get('x-content-type-options') === 'nosniff',
+        strictTransportSecurity: !!headers.get('strict-transport-security'),
+        referrerPolicy: !!headers.get('referrer-policy'),
+        permissionsPolicy: !!headers.get('permissions-policy') || !!headers.get('feature-policy'),
+    };
+}
+
+// P0 Security: Parse HSTS max-age value
+function parseHstsMaxAge(hstsHeader: string | null): number | null {
+    if (!hstsHeader) return null;
+    const match = hstsHeader.match(/max-age=(\d+)/i);
+    return match ? parseInt(match[1], 10) : null;
+}
+
+// P0 Security: Check DNS record via Google DNS-over-HTTPS (free, no lib needed)
+async function checkDNSRecord(name: string, contains: string): Promise<boolean> {
+    try {
+        const res = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(name)}&type=TXT`, {
+            headers: { 'Accept': 'application/dns-json' },
+        });
+        if (!res.ok) return false;
+        const data = await res.json();
+        return data.Answer?.some((a: { data?: string }) => a.data?.toLowerCase().includes(contains.toLowerCase())) || false;
+    } catch {
+        return false;
+    }
+}
+
+// P0 Security: Check email security (SPF, DMARC) via DNS
+async function checkEmailSecurity(domain: string): Promise<EmailSecurity> {
+    const [spf, dmarc] = await Promise.all([
+        checkDNSRecord(domain, 'v=spf1'),
+        checkDNSRecord(`_dmarc.${domain}`, 'v=dmarc1'),
+    ]);
+    return { spf, dmarc, domain };
+}
 
 // Extract internal links from HTML
 function extractInternalLinks(html: string, baseUrl: URL): string[] {
@@ -284,7 +351,7 @@ export async function POST(request: NextRequest) {
         let combinedHtml = '';
 
         // Fetch main page
-        const fetchPage = async (pageUrl: string): Promise<{ html: string; cookies: string | null } | null> => {
+        const fetchPage = async (pageUrl: string): Promise<{ html: string; cookies: string | null; headers: Headers } | null> => {
             try {
                 const response = await fetch(pageUrl, {
                     headers: {
@@ -295,6 +362,7 @@ export async function POST(request: NextRequest) {
                 return {
                     html: await response.text(),
                     cookies: response.headers.get('set-cookie'),
+                    headers: response.headers,
                 };
             } catch {
                 return null;
@@ -310,6 +378,15 @@ export async function POST(request: NextRequest) {
         combinedHtml = mainPage.html;
         const mainCookies = extractCookies(mainPage.html, mainPage.cookies);
         const mainTrackers = detectTrackers(mainPage.html);
+
+        // P0 Security: Check security headers and email security
+        const securityHeaders = checkSecurityHeaders(mainPage.headers);
+        const emailSecurity = await checkEmailSecurity(domain);
+        const sslInfo: SSLInfo = {
+            valid: isHttps,
+            hsts: securityHeaders.strictTransportSecurity,
+            hstsMaxAge: parseHstsMaxAge(mainPage.headers.get('strict-transport-security')),
+        };
 
         pages.push({
             url: baseUrl.toString(),
@@ -399,6 +476,15 @@ export async function POST(request: NextRequest) {
         if (!hasCookiePolicy) score -= 6;
         score -= Math.min(allTrackers.length * 2, 8);
         score -= Math.min(undeclaredCookies, 5);
+
+        // P0 Security: Security headers score penalty (-10 max)
+        const headersCount = Object.values(securityHeaders).filter(Boolean).length;
+        score -= Math.max(0, 10 - headersCount * 2);
+
+        // P0 Security: Email security score penalty (-6 max)
+        if (!emailSecurity.spf) score -= 3;
+        if (!emailSecurity.dmarc) score -= 3;
+
         score = Math.max(0, Math.min(100, score));
 
         const result: AuditResult = {
@@ -423,6 +509,10 @@ export async function POST(request: NextRequest) {
                 optOutMechanism: hasOptOutMechanism,
                 ageVerification: hasAgeVerification,
                 cookiePolicy: hasCookiePolicy,
+                // P0 Security modules
+                ssl: sslInfo,
+                securityHeaders,
+                emailSecurity,
             },
             regulations,
         };
