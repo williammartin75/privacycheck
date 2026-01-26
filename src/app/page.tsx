@@ -717,15 +717,12 @@ export default function Home() {
           <div className="container mx-auto px-6">
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
             <p className="text-gray-600 text-center mb-2">Comprehensive coverage for global privacy compliance</p>
-            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '144px' }}>
+            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '120px' }}>
               <img
                 src="/badges.png"
                 alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                className="object-cover"
+                className="object-cover h-[280px] sm:h-[360px] -my-[80px] sm:-my-[108px]"
                 style={{
-                  height: '360px',
-                  marginTop: '-108px',
-                  marginBottom: '-108px',
                   filter: 'brightness(1.08) contrast(1.1)'
                 }}
               />
