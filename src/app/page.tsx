@@ -117,6 +117,13 @@ export default function Home() {
 
   const handleAudit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Require login before audit
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+
     setLoading(true);
     setError('');
     setResult(null);
