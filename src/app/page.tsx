@@ -252,7 +252,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-3 sm:gap-6">
             <a href="#pricing" className="text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">Pricing</a>
-            <a href="#faq" className="text-sm sm:text-base text-gray-600 hover:text-gray-900 transition hidden sm:block">FAQ</a>
+            <a href="#faq" className="text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">FAQ</a>
             {user ? (
               <div className="flex items-center gap-4">
                 <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition text-sm">
@@ -292,7 +292,7 @@ export default function Home() {
           <form onSubmit={handleAudit} className="max-w-2xl mx-auto mb-12">
             <div className="flex flex-col sm:flex-row gap-4">
               <input
-                type="url"
+                type="text"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="Enter your website URL (e.g., https://example.com)"
