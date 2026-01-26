@@ -121,11 +121,17 @@ export default function Home() {
     setError('');
     setResult(null);
 
+    // Normalize URL: add https:// if missing
+    let normalizedUrl = url.trim();
+    if (!normalizedUrl.match(/^https?:\/\//i)) {
+      normalizedUrl = 'https://' + normalizedUrl;
+    }
+
     try {
       const response = await fetch('/api/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url: normalizedUrl }),
       });
 
       if (!response.ok) throw new Error('Audit failed');
