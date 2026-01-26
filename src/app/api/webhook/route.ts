@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
             }
 
             case 'customer.subscription.updated': {
-                const subscription = event.data.object as Stripe.Subscription;
+                const subscription = event.data.object as Stripe.Subscription & { current_period_end: number };
 
                 await supabase.from('subscriptions').update({
                     status: subscription.status === 'active' ? 'active' : 'inactive',
