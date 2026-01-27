@@ -88,6 +88,8 @@ export default function Home() {
   const [expandedRec, setExpandedRec] = useState<string | null>(null);
   const [isPro, setIsPro] = useState(false);
   const [scanProgress, setScanProgress] = useState({ current: 0, total: 20, status: '' });
+  const [isScheduled, setIsScheduled] = useState(false);
+  const [schedulingLoading, setSchedulingLoading] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -217,6 +219,35 @@ export default function Home() {
       setError('Failed to audit site. Please check the URL and try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSchedule = async () => {
+    if (!result || !user || !isPro) return;
+
+    setSchedulingLoading(true);
+    try {
+      if (isScheduled) {
+        // Get schedule ID first
+        const res = await fetch('/api/schedules');
+        const { schedules } = await res.json();
+        const schedule = schedules?.find((s: { domain: string }) => s.domain === result.domain);
+        if (schedule) {
+          await fetch(`/api/schedules?id=${schedule.id}`, { method: 'DELETE' });
+        }
+        setIsScheduled(false);
+      } else {
+        await fetch('/api/schedules', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ domain: result.domain, frequency: 'weekly' }),
+        });
+        setIsScheduled(true);
+      }
+    } catch (err) {
+      console.error('Schedule error:', err);
+    } finally {
+      setSchedulingLoading(false);
     }
   };
 
@@ -496,6 +527,39 @@ export default function Home() {
                     </>
                   )}
                 </button>
+
+                {/* Schedule Button (Pro only) */}
+                {isPro && (
+                  <button
+                    onClick={handleSchedule}
+                    disabled={schedulingLoading}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${isScheduled
+                        ? 'bg-green-100 text-green-700 border border-green-200 hover:bg-green-200'
+                        : 'bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200'
+                      }`}
+                  >
+                    {schedulingLoading ? (
+                      <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                    ) : isScheduled ? (
+                      <>
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                        </svg>
+                        Scheduled Weekly
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Schedule Weekly Scan
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
 
               {/* Score Breakdown */}
@@ -759,10 +823,10 @@ export default function Home() {
                         <span
                           key={i}
                           className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2 ${tracker.risk === 'high'
-                              ? 'bg-red-100 border border-red-200 text-red-700'
-                              : tracker.risk === 'medium'
-                                ? 'bg-orange-100 border border-orange-200 text-orange-700'
-                                : 'bg-yellow-100 border border-yellow-200 text-yellow-700'
+                            ? 'bg-red-100 border border-red-200 text-red-700'
+                            : tracker.risk === 'medium'
+                              ? 'bg-orange-100 border border-orange-200 text-orange-700'
+                              : 'bg-yellow-100 border border-yellow-200 text-yellow-700'
                             }`}
                         >
                           <span className={`w-2 h-2 rounded-full ${tracker.risk === 'high' ? 'bg-red-500' : tracker.risk === 'medium' ? 'bg-orange-500' : 'bg-yellow-500'
