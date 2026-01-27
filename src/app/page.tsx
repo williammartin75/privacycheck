@@ -1620,6 +1620,30 @@ export default function Home() {
                   </svg>
                   Exposed Emails Detection
                 </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <strong>AI Risk Predictor</strong> (€ Fine Estimation)
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <strong>Vendor Risk Score</strong> (45+ third-parties)
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <strong>Attack Surface Scanner</strong> (.git, .env, S3)
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Compliance Drift Detection
+                </li>
               </ul>
               <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-xl hover:bg-teal-50 transition text-center mt-auto">
                 Start 7-Day Free Trial
@@ -1634,7 +1658,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto space-y-6">
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What does PrivacyChecker scan?</h3>
-              <p className="text-gray-600">We check 14 compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, opt-out mechanisms, security headers, and more. We also detect all cookies and third-party trackers on your site.</p>
+              <p className="text-gray-600">We check 14+ compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, and security headers. Plus: third-party vendor risk scores (45+ trackers), exposed files (.git, .env, backups), DNS security (SPF/DMARC), and AI-powered GDPR fine estimation.</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Is the audit really free?</h3>
@@ -1649,8 +1673,8 @@ export default function Home() {
               <p className="text-gray-600">We check compliance against GDPR (Europe), CCPA (California), LGPD (Brazil), and 50+ other global privacy regulations. Your results show which laws apply to your site based on its content.</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">What&apos;s included in Pro?</h3>
-              <p className="text-gray-600">Pro includes everything in Free, plus: detailed step-by-step fix recommendations, downloadable PDF compliance reports, email alerts if your score drops, automatic monthly re-scans (or weekly with Pro+), a ready-to-use Cookie Banner Widget, and Google Consent Mode v2 integration.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">What&apos;s included in Pro and Pro+?</h3>
+              <p className="text-gray-600">Pro includes step-by-step fix recommendations, PDF reports, email alerts, monthly auto-scans, Cookie Banner Widget (geo-targeting 8 privacy laws), and Google Consent Mode v2. Pro+ adds: weekly scans, AI Risk Predictor (€ fine estimation), Vendor Risk Scores, Attack Surface Scanner (.git, .env, S3 exposed), DNS Security checks (SPF/DKIM/DMARC), and Compliance Drift Detection.</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What is the Cookie Banner Widget?</h3>

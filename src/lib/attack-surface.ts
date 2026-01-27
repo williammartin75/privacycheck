@@ -86,6 +86,90 @@ const CLOUD_PATTERNS = [
     { pattern: /azurewebsites\.net/i, name: 'Azure Web Apps', type: 'cloud' as const },
 ];
 
+// DNS Security Scanner - Check SPF, DKIM, DMARC records
+async function checkDNSSecurity(domain: string): Promise<AttackSurfaceFinding[]> {
+    const findings: AttackSurfaceFinding[] = [];
+
+    try {
+        // Use Google DNS-over-HTTPS API for TXT records
+        const txtResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=TXT`, {
+            signal: AbortSignal.timeout(5000),
+        });
+        const txtData = await txtResponse.json();
+        const txtRecords = txtData.Answer?.map((a: { data: string }) => a.data) || [];
+
+        // Check SPF
+        const spfRecord = txtRecords.find((r: string) => r.includes('v=spf1'));
+        if (!spfRecord) {
+            findings.push({
+                type: 'dns',
+                severity: 'medium',
+                title: 'Missing SPF Record',
+                description: 'No SPF record found. This allows email spoofing from your domain.',
+                remediation: 'Add an SPF TXT record to specify allowed email senders. Example: "v=spf1 include:_spf.google.com ~all"',
+            });
+        } else if (spfRecord.includes('+all')) {
+            findings.push({
+                type: 'dns',
+                severity: 'high',
+                title: 'Weak SPF Record (+all)',
+                description: 'SPF record allows any server to send email as your domain.',
+                details: spfRecord,
+                remediation: 'Change "+all" to "~all" or "-all" to restrict email sending.',
+            });
+        }
+
+        // Check DMARC
+        const dmarcResponse = await fetch(`https://dns.google/resolve?name=_dmarc.${domain}&type=TXT`, {
+            signal: AbortSignal.timeout(5000),
+        });
+        const dmarcData = await dmarcResponse.json();
+        const dmarcRecord = dmarcData.Answer?.[0]?.data;
+
+        if (!dmarcRecord) {
+            findings.push({
+                type: 'dns',
+                severity: 'medium',
+                title: 'Missing DMARC Record',
+                description: 'No DMARC policy found. Email spoofing attacks cannot be prevented.',
+                remediation: 'Add a DMARC TXT record at _dmarc.yourdomain.com. Example: "v=DMARC1; p=quarantine; rua=mailto:dmarc@yourdomain.com"',
+            });
+        } else if (dmarcRecord.includes('p=none')) {
+            findings.push({
+                type: 'dns',
+                severity: 'low',
+                title: 'DMARC Policy Set to None',
+                description: 'DMARC is configured but not enforcing. Emails failing checks are still delivered.',
+                details: dmarcRecord,
+                remediation: 'Consider upgrading DMARC policy from p=none to p=quarantine or p=reject.',
+            });
+        }
+
+        // Check for exposed MX records (informational)
+        const mxResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`, {
+            signal: AbortSignal.timeout(5000),
+        });
+        const mxData = await mxResponse.json();
+        const mxRecords = mxData.Answer || [];
+
+        if (mxRecords.length > 0) {
+            const mxServers = mxRecords.map((r: { data: string }) => r.data.split(' ')[1]).join(', ');
+            findings.push({
+                type: 'dns',
+                severity: 'info',
+                title: `${mxRecords.length} Mail Server(s) Detected`,
+                description: `MX records: ${mxServers}`,
+                remediation: 'Ensure mail servers are properly secured with TLS and anti-spam measures.',
+            });
+        }
+
+    } catch (error) {
+        console.error('DNS security check error:', error);
+    }
+
+    return findings;
+}
+
 // Check if a path returns a valid response (exists and not 404)
 async function checkExposedPath(baseUrl: string, pathInfo: typeof EXPOSED_PATHS[0]): Promise<AttackSurfaceFinding | null> {
     try {
@@ -257,6 +341,10 @@ export async function scanAttackSurface(baseUrl: string, html: string): Promise<
 
     // 5. Detect exposed secrets
     findings.push(...detectExposedSecrets(html));
+
+    // 6. Check DNS security (SPF, DKIM, DMARC)
+    const dnsFindings = await checkDNSSecurity(url.hostname);
+    findings.push(...dnsFindings);
 
     // Calculate overall risk
     let overallRisk: 'low' | 'medium' | 'high' | 'critical' = 'low';
