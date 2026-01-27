@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 
-// Google OAuth configuration
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
-const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_SITE_URL
-    ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`
-    : 'https://privacychecker.pro/api/auth/callback';
-
 export async function GET() {
+    const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+    const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_SITE_URL
+        ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`
+        : 'https://privacychecker.pro/api/auth/callback';
+
+    if (!GOOGLE_CLIENT_ID) {
+        return NextResponse.json({ error: 'Google OAuth not configured' }, { status: 500 });
+    }
     // Build Google OAuth URL
     const params = new URLSearchParams({
         client_id: GOOGLE_CLIENT_ID,

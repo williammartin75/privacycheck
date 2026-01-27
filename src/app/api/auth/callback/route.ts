@@ -1,25 +1,24 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Google OAuth configuration
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
-const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_SITE_URL
-    ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`
-    : 'https://privacychecker.pro/api/auth/callback';
-
-// Supabase client with service role for user creation
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function GET(request: NextRequest) {
+    const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
+    const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
+    const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_SITE_URL
+        ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`
+        : 'https://privacychecker.pro/api/auth/callback';
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://privacychecker.pro';
+
+    // Supabase client with service role
+    const supabaseAdmin = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
     const searchParams = request.nextUrl.searchParams;
     const code = searchParams.get('code');
     const error = searchParams.get('error');
-
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://privacychecker.pro';
 
     if (error) {
         return NextResponse.redirect(`${baseUrl}/login?error=${encodeURIComponent(error)}`);
