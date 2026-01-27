@@ -1223,7 +1223,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto space-y-6">
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What does PrivacyChecker scan?</h3>
-              <p className="text-gray-600">We check 11+ compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, and more. We also detect all cookies and third-party trackers on your site.</p>
+              <p className="text-gray-600">We check 14 compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, opt-out mechanisms, security headers, and more. We also detect all cookies and third-party trackers on your site.</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Is the audit really free?</h3>
@@ -1239,7 +1239,7 @@ export default function Home() {
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What&apos;s included in Pro?</h3>
-              <p className="text-gray-600">Pro includes everything in Free, plus: detailed step-by-step fix recommendations, downloadable PDF compliance reports, email alerts if your score drops, automatic monthly re-scans, a ready-to-use Cookie Banner Widget, and Google Consent Mode v2 integration.</p>
+              <p className="text-gray-600">Pro includes everything in Free, plus: detailed step-by-step fix recommendations, downloadable PDF compliance reports, email alerts if your score drops, automatic monthly re-scans (or weekly with Pro+), a ready-to-use Cookie Banner Widget, and Google Consent Mode v2 integration.</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What is the Cookie Banner Widget?</h3>
