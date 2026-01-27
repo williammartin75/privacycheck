@@ -63,6 +63,12 @@ interface AuditResult {
         emailSecurity: EmailSecurity;
         // Email Exposure
         exposedEmails: string[];
+        // External Resources
+        externalResources: {
+            scripts: { src: string; provider: string }[];
+            fonts: { src: string; provider: string }[];
+            iframes: { src: string; provider: string }[];
+        };
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -226,6 +232,114 @@ function extractExposedEmails(html: string): string[] {
         .slice(0, 20); // Limit to 20 emails max
 
     return filtered;
+}
+
+// Known providers for external resources
+const KNOWN_PROVIDERS: Record<string, string> = {
+    'google': 'Google',
+    'googleapis': 'Google',
+    'gstatic': 'Google',
+    'googletagmanager': 'Google Tag Manager',
+    'google-analytics': 'Google Analytics',
+    'facebook': 'Facebook',
+    'fbcdn': 'Facebook',
+    'twitter': 'Twitter/X',
+    'twimg': 'Twitter/X',
+    'linkedin': 'LinkedIn',
+    'cloudflare': 'Cloudflare',
+    'cdnjs': 'CDNJS',
+    'jsdelivr': 'jsDelivr',
+    'unpkg': 'unpkg',
+    'jquery': 'jQuery',
+    'bootstrap': 'Bootstrap',
+    'fontawesome': 'Font Awesome',
+    'hotjar': 'Hotjar',
+    'hubspot': 'HubSpot',
+    'intercom': 'Intercom',
+    'crisp': 'Crisp',
+    'zendesk': 'Zendesk',
+    'stripe': 'Stripe',
+    'paypal': 'PayPal',
+    'youtube': 'YouTube',
+    'vimeo': 'Vimeo',
+    'typekit': 'Adobe Fonts',
+    'fonts.adobe': 'Adobe Fonts',
+    'tiktok': 'TikTok',
+    'snapchat': 'Snapchat',
+    'pinterest': 'Pinterest',
+    'amazon': 'Amazon',
+    'cloudfront': 'AWS CloudFront',
+    'akamai': 'Akamai',
+};
+
+function getProvider(url: string): string {
+    const lower = url.toLowerCase();
+    for (const [key, provider] of Object.entries(KNOWN_PROVIDERS)) {
+        if (lower.includes(key)) return provider;
+    }
+    try {
+        const hostname = new URL(url).hostname;
+        return hostname.replace('www.', '').split('.').slice(-2).join('.');
+    } catch {
+        return 'Unknown';
+    }
+}
+
+// Extract external resources (scripts, fonts, iframes)
+function extractExternalResources(html: string, baseDomain: string): {
+    scripts: { src: string; provider: string }[];
+    fonts: { src: string; provider: string }[];
+    iframes: { src: string; provider: string }[];
+} {
+    const scripts: { src: string; provider: string }[] = [];
+    const fonts: { src: string; provider: string }[] = [];
+    const iframes: { src: string; provider: string }[] = [];
+
+    // Extract external scripts
+    const scriptRegex = /<script[^>]+src=["']([^"']+)["']/gi;
+    let match;
+    while ((match = scriptRegex.exec(html)) !== null) {
+        const src = match[1];
+        if (src.startsWith('http') && !src.includes(baseDomain)) {
+            const provider = getProvider(src);
+            if (!scripts.find(s => s.src === src)) {
+                scripts.push({ src, provider });
+            }
+        }
+    }
+
+    // Extract external fonts (link tags with fonts)
+    const linkRegex = /<link[^>]+href=["']([^"']+)["'][^>]*>/gi;
+    while ((match = linkRegex.exec(html)) !== null) {
+        const href = match[1];
+        const fullTag = match[0].toLowerCase();
+        if (href.startsWith('http') && !href.includes(baseDomain)) {
+            if (fullTag.includes('font') || href.includes('font') || href.includes('typekit')) {
+                const provider = getProvider(href);
+                if (!fonts.find(f => f.src === href)) {
+                    fonts.push({ src: href, provider });
+                }
+            }
+        }
+    }
+
+    // Extract iframes
+    const iframeRegex = /<iframe[^>]+src=["']([^"']+)["']/gi;
+    while ((match = iframeRegex.exec(html)) !== null) {
+        const src = match[1];
+        if (src.startsWith('http') && !src.includes(baseDomain)) {
+            const provider = getProvider(src);
+            if (!iframes.find(i => i.src === src)) {
+                iframes.push({ src, provider });
+            }
+        }
+    }
+
+    return {
+        scripts: scripts.slice(0, 30),
+        fonts: fonts.slice(0, 10),
+        iframes: iframes.slice(0, 10)
+    };
 }
 
 // Extract internal links from HTML
@@ -582,6 +696,9 @@ export async function POST(request: NextRequest) {
             score -= emailPenalty;
         }
 
+        // External Resources
+        const externalResources = extractExternalResources(combinedHtml, domain);
+
         score = Math.max(0, Math.min(100, score));
 
         const result: AuditResult = {
@@ -612,6 +729,8 @@ export async function POST(request: NextRequest) {
                 emailSecurity,
                 // Email Exposure
                 exposedEmails,
+                // External Resources
+                externalResources,
             },
             regulations,
             scoreBreakdown,

@@ -64,6 +64,12 @@ interface AuditResult {
     };
     // Email Exposure
     exposedEmails?: string[];
+    // External Resources
+    externalResources?: {
+      scripts: { src: string; provider: string }[];
+      fonts: { src: string; provider: string }[];
+      iframes: { src: string; provider: string }[];
+    };
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -671,6 +677,72 @@ export default function Home() {
                   </p>
                 </div>
               )}
+
+              {/* External Resources */}
+              {result.issues.externalResources && (
+                (result.issues.externalResources.scripts.length > 0 ||
+                  result.issues.externalResources.fonts.length > 0 ||
+                  result.issues.externalResources.iframes.length > 0) && (
+                  <div className="mb-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4">External Resources</h3>
+                    <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
+                      <p className="text-orange-700 text-sm mb-4">
+                        These third-party resources can track your visitors, impact performance, and create privacy/security risks.
+                      </p>
+
+                      {/* Scripts */}
+                      {result.issues.externalResources.scripts.length > 0 && (
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <span className="px-2 py-1 bg-orange-200 rounded text-xs">{result.issues.externalResources.scripts.length}</span>
+                            External Scripts
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].map((provider, i) => (
+                              <span key={i} className="px-3 py-1 bg-white border border-orange-200 rounded-full text-orange-700 text-sm">
+                                {provider}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Fonts */}
+                      {result.issues.externalResources.fonts.length > 0 && (
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <span className="px-2 py-1 bg-orange-200 rounded text-xs">{result.issues.externalResources.fonts.length}</span>
+                            External Fonts
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {[...new Set(result.issues.externalResources.fonts.map(f => f.provider))].map((provider, i) => (
+                              <span key={i} className="px-3 py-1 bg-white border border-orange-200 rounded-full text-orange-700 text-sm">
+                                {provider}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Iframes */}
+                      {result.issues.externalResources.iframes.length > 0 && (
+                        <div>
+                          <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <span className="px-2 py-1 bg-red-200 rounded text-xs">{result.issues.externalResources.iframes.length}</span>
+                            Embedded Iframes
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {[...new Set(result.issues.externalResources.iframes.map(f => f.provider))].map((provider, i) => (
+                              <span key={i} className="px-3 py-1 bg-white border border-red-200 rounded-full text-red-700 text-sm">
+                                {provider}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
 
               {/* Cookies Section */}
               <div className="mb-6">
