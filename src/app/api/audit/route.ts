@@ -576,7 +576,11 @@ function extractTitle(html: string): string {
 // Main audit function
 export async function POST(request: NextRequest) {
     try {
-        const { url, isPro = false } = await request.json();
+        const { url, tier = 'free' } = await request.json();
+
+        // Tier-based helpers
+        const isPro = tier === 'pro' || tier === 'pro_plus';
+        const isProPlus = tier === 'pro_plus';
 
         if (!url) {
             return NextResponse.json({ error: 'URL is required' }, { status: 400 });
@@ -653,8 +657,8 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        // Get internal links - limit based on plan (Free: 20 total, Pro: 100 total)
-        const maxExtraPages = isPro ? 99 : 19; // +1 for main page = 20 or 100
+        // Get internal links - limit based on plan (Free: 5, Pro: 20, Pro+: 100)
+        const maxExtraPages = isProPlus ? 99 : (isPro ? 19 : 4); // +1 for main page = 5, 20, or 100
         const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
 
         // For deeper crawl, also get links from the first batch of pages

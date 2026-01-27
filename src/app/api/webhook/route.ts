@@ -38,12 +38,16 @@ export async function POST(request: NextRequest) {
                     const user = users?.users.find(u => u.email === session.customer_email);
 
                     if (user) {
+                        // Extract tier from metadata (default to 'pro')
+                        const tier = (session.metadata?.tier === 'pro_plus') ? 'pro_plus' : 'pro';
+
                         // Create or update subscription
                         await supabase.from('subscriptions').upsert({
                             user_id: user.id,
                             stripe_customer_id: session.customer as string,
                             stripe_subscription_id: session.subscription as string,
                             status: 'active',
+                            tier: tier,
                             updated_at: new Date().toISOString(),
                         }, {
                             onConflict: 'user_id'

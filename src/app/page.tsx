@@ -88,11 +88,15 @@ export default function Home() {
   const [showPages, setShowPages] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [expandedRec, setExpandedRec] = useState<string | null>(null);
-  const [isPro, setIsPro] = useState(false);
+  const [tier, setTier] = useState<'free' | 'pro' | 'pro_plus'>('free');
   const [scanProgress, setScanProgress] = useState({ current: 0, total: 20, status: '' });
   const [isScheduled, setIsScheduled] = useState(false);
   const [schedulingLoading, setSchedulingLoading] = useState(false);
   const supabase = createClient();
+
+  // Helper for tier checks
+  const isPro = tier === 'pro' || tier === 'pro_plus';
+  const isProPlus = tier === 'pro_plus';
 
   useEffect(() => {
     const checkUser = async () => {
@@ -100,15 +104,15 @@ export default function Home() {
       setUser(user);
 
       if (user) {
-        // Check subscription status
+        // Check subscription status and tier
         const { data: subscription, error } = await supabase
           .from('subscriptions')
-          .select('status')
+          .select('status, tier')
           .eq('user_id', user.id)
           .maybeSingle();
 
         if (!error && subscription?.status === 'active') {
-          setIsPro(true);
+          setTier(subscription.tier || 'pro');
         }
       }
     };
@@ -117,7 +121,7 @@ export default function Home() {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      if (!session?.user) setIsPro(false);
+      if (!session?.user) setTier('free');
     });
 
     return () => subscription.unsubscribe();
@@ -163,8 +167,8 @@ export default function Home() {
     setError('');
     setResult(null);
 
-    // Initialize progress
-    const maxPages = isPro ? 100 : 20;
+    // Initialize progress - page limits by tier
+    const maxPages = isProPlus ? 100 : (isPro ? 20 : 5);
     setScanProgress({ current: 0, total: maxPages, status: 'Connecting...' });
 
     // Simulate progress during scan
@@ -195,7 +199,7 @@ export default function Home() {
       const response = await fetch('/api/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: normalizedUrl, isPro }),
+        body: JSON.stringify({ url: normalizedUrl, tier }),
       });
 
       if (!response.ok) throw new Error('Audit failed');

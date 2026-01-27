@@ -47,7 +47,7 @@ export async function GET(request: Request) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         url: `https://${scan.domain}`,
-                        isPro: true // Pro features for scheduled scans
+                        tier: scan.frequency === 'weekly' ? 'pro_plus' : 'pro' // Pro+ for weekly, Pro for monthly
                     }),
                 });
 
