@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function SessionHandler() {
+function SessionContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -50,5 +50,20 @@ export default function SessionHandler() {
                 <p className="text-gray-600">Signing you in...</p>
             </div>
         </div>
+    );
+}
+
+export default function SessionHandler() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-600">Loading...</p>
+                </div>
+            </div>
+        }>
+            <SessionContent />
+        </Suspense>
     );
 }
