@@ -33,17 +33,9 @@ export default function SignupPage() {
         setLoading(false);
     };
 
-    const handleGoogleSignup = async () => {
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
-            },
-        });
-
-        if (error) {
-            setError(error.message);
-        }
+    const handleGoogleSignup = () => {
+        // Redirect to our custom OAuth flow (shows privacychecker.pro in Google consent)
+        window.location.href = '/api/auth/google';
     };
 
     if (success) {
