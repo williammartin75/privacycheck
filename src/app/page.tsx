@@ -1076,9 +1076,12 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-2xl border border-blue-500 relative shadow-xl">
+            <div className="p-8 bg-gradient-to-b from-blue-600 to-cyan-600 rounded-2xl border border-blue-400 relative shadow-xl">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 rounded-full text-sm font-medium text-gray-900">
+                🔥 Most Popular
+              </div>
               <h3 className="text-xl font-semibold text-white mb-4">Pro</h3>
-              <p className="text-4xl font-bold text-white mb-6">€19<span className="text-lg text-blue-200">/month</span></p>
+              <p className="text-4xl font-bold text-white mb-6">€19<span className="text-lg text-blue-100">/month</span></p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1135,15 +1138,15 @@ export default function Home() {
             </div>
 
             {/* Pro+ */}
-            <div className="p-8 bg-gradient-to-b from-purple-600 to-purple-700 rounded-2xl border border-purple-500 relative shadow-xl">
+            <div className="p-8 bg-gradient-to-b from-green-500 to-emerald-600 rounded-2xl border border-green-400 relative shadow-xl">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 rounded-full text-sm font-medium text-gray-900">
-                Most Popular
+                ⭐ Best Value
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">Pro+</h3>
-              <p className="text-4xl font-bold text-white mb-6">€29<span className="text-lg text-purple-200">/month</span></p>
+              <p className="text-4xl font-bold text-white mb-6">€29<span className="text-lg text-green-100">/month</span></p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Everything in Pro
@@ -1167,31 +1170,31 @@ export default function Home() {
                   <strong>Data Breach Detection</strong> (HIBP)
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Social Trackers (FB, TikTok, LinkedIn...)
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Security Headers Analysis
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Email Security (SPF/DKIM/DMARC)
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Exposed Emails Detection
                 </li>
               </ul>
-              <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-purple-600 font-semibold rounded-xl hover:bg-purple-50 transition text-center">
+              <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-green-600 font-semibold rounded-xl hover:bg-green-50 transition text-center">
                 Start 7-Day Free Trial
               </button>
             </div>
