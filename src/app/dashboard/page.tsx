@@ -254,6 +254,91 @@ export default function DashboardPage() {
                     </div>
                 )}
 
+                {/* Score History Chart */}
+                {scans.length > 1 && (
+                    <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 className="text-lg font-bold text-gray-900">Score History</h2>
+                                <p className="text-gray-500 text-sm">Track your compliance progress over time</p>
+                            </div>
+                        </div>
+
+                        {/* SVG Chart */}
+                        <div className="relative h-64 bg-gray-50 rounded-xl p-4">
+                            <svg className="w-full h-full" viewBox="0 0 800 200" preserveAspectRatio="none">
+                                {/* Grid lines */}
+                                <line x1="0" y1="0" x2="800" y2="0" stroke="#e5e7eb" strokeWidth="1" />
+                                <line x1="0" y1="50" x2="800" y2="50" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="4" />
+                                <line x1="0" y1="100" x2="800" y2="100" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="4" />
+                                <line x1="0" y1="150" x2="800" y2="150" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="4" />
+                                <line x1="0" y1="200" x2="800" y2="200" stroke="#e5e7eb" strokeWidth="1" />
+
+                                {/* Score line */}
+                                <polyline
+                                    fill="none"
+                                    stroke="#3b82f6"
+                                    strokeWidth="3"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    points={scans
+                                        .slice(0, 20)
+                                        .reverse()
+                                        .map((scan, i, arr) => {
+                                            const x = (i / Math.max(arr.length - 1, 1)) * 780 + 10;
+                                            const y = 200 - (scan.score / 100) * 190;
+                                            return `${x},${y}`;
+                                        })
+                                        .join(' ')}
+                                />
+
+                                {/* Data points */}
+                                {scans.slice(0, 20).reverse().map((scan, i, arr) => {
+                                    const x = (i / Math.max(arr.length - 1, 1)) * 780 + 10;
+                                    const y = 200 - (scan.score / 100) * 190;
+                                    const color = scan.score >= 80 ? '#22c55e' : scan.score >= 50 ? '#eab308' : '#ef4444';
+                                    return (
+                                        <g key={scan.id}>
+                                            <circle cx={x} cy={y} r="6" fill={color} stroke="white" strokeWidth="2" />
+                                            <title>{`${scan.domain}: ${scan.score}% - ${new Date(scan.created_at).toLocaleDateString()}`}</title>
+                                        </g>
+                                    );
+                                })}
+                            </svg>
+
+                            {/* Y-axis labels */}
+                            <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-400 -ml-1">
+                                <span>100%</span>
+                                <span>75%</span>
+                                <span>50%</span>
+                                <span>25%</span>
+                                <span>0%</span>
+                            </div>
+                        </div>
+
+                        {/* Legend */}
+                        <div className="flex items-center justify-center gap-6 mt-4 text-sm">
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                <span className="text-gray-600">Compliant (80%+)</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <span className="text-gray-600">Needs Work (50-79%)</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                <span className="text-gray-600">Non-Compliant (&lt;50%)</span>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <h1 className="text-3xl font-bold text-gray-900 mb-8">Your Scans</h1>
 
                 {scans.length === 0 ? (
