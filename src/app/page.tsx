@@ -128,7 +128,7 @@ export default function Home() {
     setUser(null);
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (tier: 'pro' | 'pro_plus' = 'pro') => {
     if (!user) {
       window.location.href = '/login';
       return;
@@ -138,7 +138,7 @@ export default function Home() {
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user.email }),
+        body: JSON.stringify({ email: user.email, tier }),
       });
 
       const data = await response.json();
@@ -320,7 +320,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
                 <p className="text-gray-600 text-sm mb-3">Upgrade to Pro to see step-by-step fix instructions</p>
-                <button onClick={handleCheckout} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                <button onClick={() => handleCheckout()} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">
                   Upgrade to Pro - €19/mo
                 </button>
               </div>
@@ -995,7 +995,7 @@ export default function Home() {
               <div className="mt-8 p-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl text-center">
                 <h4 className="text-xl font-bold text-white mb-2">Get the Full Audit Report</h4>
                 <p className="text-blue-100 mb-4">Detailed recommendations, PDF export, and continuous monitoring</p>
-                <button onClick={handleCheckout} className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition">
+                <button onClick={() => handleCheckout()} className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition">
                   Start Free 7-Day Trial
                 </button>
               </div>
@@ -1035,7 +1035,7 @@ export default function Home() {
         <section id="pricing" className="py-20">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">Simple pricing</h2>
           <p className="text-gray-600 text-center mb-12">Free to scan. Upgrade to unlock recommendations.</p>
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Free</h3>
               <p className="text-4xl font-bold text-gray-900 mb-6">€0</p>
@@ -1077,9 +1077,6 @@ export default function Home() {
             </div>
 
             <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-2xl border border-blue-500 relative shadow-xl">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 rounded-full text-sm font-medium text-gray-900">
-                Recommended
-              </div>
               <h3 className="text-xl font-semibold text-white mb-4">Pro</h3>
               <p className="text-4xl font-bold text-white mb-6">€19<span className="text-lg text-blue-200">/month</span></p>
               <ul className="space-y-3 mb-8">
@@ -1088,6 +1085,12 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Everything in Free
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <strong>20 pages</strong> scanned
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1126,7 +1129,69 @@ export default function Home() {
                   <strong>Google Consent Mode v2</strong>
                 </li>
               </ul>
-              <button onClick={handleCheckout} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition text-center">
+              <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition text-center">
+                Start 7-Day Free Trial
+              </button>
+            </div>
+
+            {/* Pro+ */}
+            <div className="p-8 bg-gradient-to-b from-purple-600 to-purple-700 rounded-2xl border border-purple-500 relative shadow-xl">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 rounded-full text-sm font-medium text-gray-900">
+                Most Popular
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-4">Pro+</h3>
+              <p className="text-4xl font-bold text-white mb-6">€29<span className="text-lg text-purple-200">/month</span></p>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Everything in Pro
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <strong>100 pages</strong> scanned
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <strong>Weekly</strong> auto-scan
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <strong>Data Breach Detection</strong> (HIBP)
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Social Trackers (FB, TikTok, LinkedIn...)
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Security Headers Analysis
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Email Security (SPF/DKIM/DMARC)
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Exposed Emails Detection
+                </li>
+              </ul>
+              <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-purple-600 font-semibold rounded-xl hover:bg-purple-50 transition text-center">
                 Start 7-Day Free Trial
               </button>
             </div>

@@ -5,13 +5,18 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: NextRequest) {
     try {
-        const { email } = await request.json();
+        const { email, tier = 'pro' } = await request.json();
+
+        // Select price ID based on tier
+        const priceId = tier === 'pro_plus'
+            ? process.env.STRIPE_PRICE_ID_PRO_PLUS!
+            : process.env.STRIPE_PRICE_ID!;
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [
                 {
-                    price: process.env.STRIPE_PRICE_ID!,
+                    price: priceId,
                     quantity: 1,
                 },
             ],
@@ -24,6 +29,7 @@ export async function POST(request: NextRequest) {
             customer_email: email,
             metadata: {
                 email: email,
+                tier: tier,
             },
         });
 
