@@ -78,6 +78,7 @@ export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [expandedRec, setExpandedRec] = useState<string | null>(null);
   const [isPro, setIsPro] = useState(false);
+  const [scanProgress, setScanProgress] = useState({ current: 0, total: 20, status: '' });
   const supabase = createClient();
 
   useEffect(() => {
@@ -149,6 +150,28 @@ export default function Home() {
     setError('');
     setResult(null);
 
+    // Initialize progress
+    const maxPages = isPro ? 100 : 20;
+    setScanProgress({ current: 0, total: maxPages, status: 'Connecting...' });
+
+    // Simulate progress during scan
+    const statuses = [
+      'Fetching main page...',
+      'Analyzing cookies...',
+      'Detecting trackers...',
+      'Checking security headers...',
+      'Scanning linked pages...',
+      'Extracting emails...',
+      'Calculating score...',
+    ];
+    let statusIndex = 0;
+    let simulatedPages = 0;
+    const progressInterval = setInterval(() => {
+      simulatedPages = Math.min(simulatedPages + Math.floor(Math.random() * 3) + 1, maxPages - 1);
+      statusIndex = Math.min(statusIndex + 1, statuses.length - 1);
+      setScanProgress({ current: simulatedPages, total: maxPages, status: statuses[statusIndex] });
+    }, 800);
+
     // Normalize URL: add https:// if missing
     let normalizedUrl = url.trim();
     if (!normalizedUrl.match(/^https?:\/\//i)) {
@@ -165,6 +188,8 @@ export default function Home() {
       if (!response.ok) throw new Error('Audit failed');
 
       const data = await response.json();
+      clearInterval(progressInterval);
+      setScanProgress({ current: data.pagesScanned, total: data.pagesScanned, status: 'Complete!' });
       setResult(data);
 
       // Save scan to database if user is logged in
@@ -178,6 +203,8 @@ export default function Home() {
         });
       }
     } catch {
+      clearInterval(progressInterval);
+      setScanProgress({ current: 0, total: maxPages, status: 'Error' });
       setError('Failed to audit site. Please check the URL and try again.');
     } finally {
       setLoading(false);
@@ -339,6 +366,41 @@ export default function Home() {
               </button>
             </div>
           </form>
+
+          {/* Progress Bar */}
+          {loading && (
+            <div className="max-w-2xl mx-auto mb-8">
+              <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center animate-pulse">
+                      <svg className="w-5 h-5 text-blue-600 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Scanning in progress...</p>
+                      <p className="text-sm text-gray-500">{scanProgress.status}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-blue-600">{scanProgress.current}</p>
+                    <p className="text-xs text-gray-500">/ {scanProgress.total} pages</p>
+                  </div>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full transition-all duration-500 ease-out"
+                    style={{ width: `${Math.min((scanProgress.current / scanProgress.total) * 100, 100)}%` }}
+                  />
+                </div>
+                <p className="mt-2 text-xs text-gray-400 text-center">
+                  {isPro ? 'Pro scan: up to 100 pages' : 'Free scan: up to 20 pages'}
+                </p>
+              </div>
+            </div>
+          )}
 
           {error && (
             <div className="max-w-2xl mx-auto mb-8 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600">
