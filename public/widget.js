@@ -19,6 +19,21 @@
         return;
     }
 
+    // Google Consent Mode v2: Set default consent state (denied until user consents)
+    // This MUST run before Google tags load
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied',
+        'security_storage': 'granted',
+        'wait_for_update': 500 // Wait 500ms for user interaction
+    });
+
     // Check if consent already given
     const existingConsent = localStorage.getItem(CONSENT_KEY);
     if (existingConsent) {
