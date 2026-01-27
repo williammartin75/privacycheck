@@ -254,20 +254,15 @@ export function calculateRiskPrediction(auditData: {
         probability += 3;
     }
 
-    // Calculate company size and revenue
-    const companySize = estimateCompanySize(auditData.companyIndicators || {});
-    const revenue = REVENUE_ESTIMATES[companySize];
-
-    // Calculate fine estimates
+    // Calculate fine estimates based purely on violations detected
     const totalFactorContribution = factors.reduce((sum, f) => sum + f.fineContribution, 0);
 
-    // Apply multipliers based on severity
+    // Apply multipliers based on severity (simplified - no company size estimation)
     let minFine = Math.round(totalFactorContribution * 0.3);
-    let maxFine = Math.round(totalFactorContribution * 2);
+    let maxFine = Math.round(totalFactorContribution * 2.5);
 
-    // Cap based on GDPR maximums
-    const revenueBasedMax = revenue.avg * 0.04; // 4% of revenue
-    maxFine = Math.min(maxFine, revenueBasedMax, 20_000_000);
+    // Cap at typical GDPR fine ranges for SMBs (€1k - €500k)
+    maxFine = Math.min(maxFine, 500_000);
 
     // Minimum fine floor
     minFine = Math.max(minFine, 1_000);
