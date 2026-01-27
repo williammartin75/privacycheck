@@ -72,6 +72,8 @@ interface AuditResult {
     };
     // Social Trackers
     socialTrackers?: { name: string; risk: 'high' | 'medium' | 'low' }[];
+    // Data Breaches
+    dataBreaches?: { name: string; date: string; count: number }[];
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -534,8 +536,8 @@ export default function Home() {
                     onClick={handleSchedule}
                     disabled={schedulingLoading}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${isScheduled
-                        ? 'bg-green-100 text-green-700 border border-green-200 hover:bg-green-200'
-                        : 'bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200'
+                      ? 'bg-green-100 text-green-700 border border-green-200 hover:bg-green-200'
+                      : 'bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200'
                       }`}
                   >
                     {schedulingLoading ? (
@@ -840,6 +842,40 @@ export default function Home() {
                       <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-orange-500"></span> Medium</span>
                       <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-yellow-500"></span> Low</span>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Data Breaches */}
+              {result.issues.dataBreaches && result.issues.dataBreaches.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">⚠️ Data Breaches Detected</h3>
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                    <p className="text-red-700 text-sm mb-4">
+                      This domain has been involved in known data breaches. Users should be informed and passwords changed.
+                    </p>
+                    <div className="space-y-3">
+                      {result.issues.dataBreaches.map((breach, i) => (
+                        <div key={i} className="bg-white border border-red-100 rounded-lg p-3 flex justify-between items-center">
+                          <div>
+                            <p className="font-semibold text-red-800">{breach.name}</p>
+                            <p className="text-xs text-red-600">Breach date: {breach.date}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold text-red-700">{breach.count.toLocaleString()}</p>
+                            <p className="text-xs text-red-500">accounts affected</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <a
+                      href={`https://haveibeenpwned.com/DomainSearch?domain=${result.domain}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-4 text-sm text-red-700 hover:text-red-900"
+                    >
+                      View full details on HaveIBeenPwned →
+                    </a>
                   </div>
                 </div>
               )}

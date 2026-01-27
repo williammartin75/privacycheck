@@ -71,6 +71,8 @@ interface AuditResult {
         };
         // Social Trackers
         socialTrackers: { name: string; risk: 'high' | 'medium' | 'low' }[];
+        // Data Breaches
+        dataBreaches: { name: string; date: string; count: number }[];
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -254,6 +256,40 @@ function parseHstsMaxAge(hstsHeader: string | null): number | null {
     if (!hstsHeader) return null;
     const match = hstsHeader.match(/max-age=(\d+)/i);
     return match ? parseInt(match[1], 10) : null;
+}
+
+// Check for data breaches using HIBP public API
+async function checkDataBreaches(domain: string): Promise<{ name: string; date: string; count: number }[]> {
+    try {
+        // HIBP public breaches endpoint (free)
+        const response = await fetch('https://haveibeenpwned.com/api/v3/breaches', {
+            headers: {
+                'User-Agent': 'PrivacyChecker-Audit',
+            },
+        });
+
+        if (!response.ok) return [];
+
+        const breaches = await response.json();
+        const domainLower = domain.toLowerCase().replace('www.', '');
+
+        // Find breaches matching this domain
+        const matches = breaches.filter((breach: { Domain: string }) => {
+            const breachDomain = breach.Domain?.toLowerCase() || '';
+            return breachDomain === domainLower ||
+                breachDomain.endsWith('.' + domainLower) ||
+                domainLower.endsWith('.' + breachDomain);
+        });
+
+        return matches.slice(0, 5).map((breach: { Name: string; BreachDate: string; PwnCount: number }) => ({
+            name: breach.Name,
+            date: breach.BreachDate,
+            count: breach.PwnCount,
+        }));
+    } catch (error) {
+        console.error('HIBP check error:', error);
+        return [];
+    }
 }
 
 // P0 Security: Check DNS record via Google DNS-over-HTTPS (free, no lib needed)
@@ -768,6 +804,14 @@ export async function POST(request: NextRequest) {
         // External Resources
         const externalResources = extractExternalResources(combinedHtml, domain);
 
+        // Data Breaches check
+        const dataBreaches = await checkDataBreaches(domain);
+        if (dataBreaches.length > 0) {
+            const breachPenalty = Math.min(dataBreaches.length * 5, 15);
+            scoreBreakdown.push({ item: `Data Breaches (${dataBreaches.length})`, points: -breachPenalty, passed: false });
+            score -= breachPenalty;
+        }
+
         score = Math.max(0, Math.min(100, score));
 
         const result: AuditResult = {
@@ -802,6 +846,8 @@ export async function POST(request: NextRequest) {
                 externalResources,
                 // Social Trackers
                 socialTrackers: detectSocialTrackers(combinedHtml),
+                // Data Breaches
+                dataBreaches,
             },
             regulations,
             scoreBreakdown,
