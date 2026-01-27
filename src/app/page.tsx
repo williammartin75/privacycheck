@@ -105,6 +105,20 @@ interface AuditResult {
     }[];
     recommendation: string;
   };
+  // Attack Surface Scanner results
+  attackSurface?: {
+    overallRisk: 'low' | 'medium' | 'high' | 'critical';
+    totalFindings: number;
+    findings: {
+      type: 'dns' | 's3' | 'config' | 'api' | 'subdomain' | 'email' | 'cloud' | 'info';
+      severity: 'info' | 'low' | 'medium' | 'high' | 'critical';
+      title: string;
+      description: string;
+      details?: string;
+      remediation: string;
+    }[];
+    recommendations: string[];
+  };
 }
 
 export default function Home() {
@@ -767,9 +781,9 @@ export default function Home() {
                 <div className="mb-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-4">📊 Compliance Drift Detection</h3>
                   <div className={`rounded-xl p-5 border-2 ${driftReport.alertLevel === 'critical' ? 'bg-gradient-to-br from-red-50 to-red-100 border-red-300' :
-                      driftReport.alertLevel === 'warning' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
-                        driftReport.alertLevel === 'info' ? 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300' :
-                          'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200'
+                    driftReport.alertLevel === 'warning' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
+                      driftReport.alertLevel === 'info' ? 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300' :
+                        'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200'
                     }`}>
                     {/* Header with trend */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
@@ -799,8 +813,8 @@ export default function Home() {
                     <div className="space-y-2">
                       {driftReport.changes.slice(0, 6).map((change, i) => (
                         <div key={i} className={`flex items-center justify-between bg-white rounded-lg px-4 py-3 shadow-sm border-l-4 ${change.impact === 'negative' ? 'border-red-500' :
-                            change.impact === 'positive' ? 'border-green-500' :
-                              'border-gray-300'
+                          change.impact === 'positive' ? 'border-green-500' :
+                            'border-gray-300'
                           }`}>
                           <div className="flex items-center gap-3">
                             <span className="text-xl">
@@ -812,8 +826,8 @@ export default function Home() {
                             </div>
                           </div>
                           <span className={`text-xs px-2 py-1 rounded ${change.type === 'improvement' ? 'bg-green-100 text-green-700' :
-                              change.type === 'regression' ? 'bg-red-100 text-red-700' :
-                                'bg-gray-100 text-gray-600'
+                            change.type === 'regression' ? 'bg-red-100 text-red-700' :
+                              'bg-gray-100 text-gray-600'
                             }`}>
                             {change.category}
                           </span>
@@ -823,6 +837,97 @@ export default function Home() {
 
                     <p className="text-xs text-gray-400 mt-3">
                       * Changes compared to your previous scan of this domain. Scan history is stored locally in your browser.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Privacy Attack Surface Scanner */}
+              {result.attackSurface && result.attackSurface.totalFindings > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">🔍 Privacy Attack Surface Scanner</h3>
+                  <div className={`rounded-xl p-5 border-2 ${result.attackSurface.overallRisk === 'critical' ? 'bg-gradient-to-br from-red-50 to-red-100 border-red-300' :
+                    result.attackSurface.overallRisk === 'high' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
+                      result.attackSurface.overallRisk === 'medium' ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-300' :
+                        'bg-gradient-to-br from-green-50 to-green-100 border-green-300'
+                    }`}>
+                    {/* Header */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-3xl">🛡️</span>
+                        <div>
+                          <p className="font-semibold text-gray-800">Security & Privacy Exposure Check</p>
+                          <p className="text-sm text-gray-600">{result.attackSurface.totalFindings} finding(s) detected</p>
+                        </div>
+                      </div>
+                      <span className={`px-4 py-2 rounded-full text-sm font-bold ${result.attackSurface.overallRisk === 'critical' ? 'bg-red-600 text-white' :
+                        result.attackSurface.overallRisk === 'high' ? 'bg-orange-500 text-white' :
+                          result.attackSurface.overallRisk === 'medium' ? 'bg-yellow-500 text-white' :
+                            'bg-green-500 text-white'
+                        }`}>
+                        {result.attackSurface.overallRisk.toUpperCase()} RISK
+                      </span>
+                    </div>
+
+                    {/* Findings list */}
+                    <div className="space-y-2">
+                      {result.attackSurface.findings.slice(0, 6).map((finding, i) => (
+                        <div key={i} className={`bg-white rounded-lg px-4 py-3 shadow-sm border-l-4 ${finding.severity === 'critical' ? 'border-red-500' :
+                          finding.severity === 'high' ? 'border-orange-500' :
+                            finding.severity === 'medium' ? 'border-yellow-500' :
+                              finding.severity === 'low' ? 'border-blue-500' :
+                                'border-gray-300'
+                          }`}>
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-start gap-3">
+                              <span className="text-lg mt-0.5">
+                                {finding.severity === 'critical' ? '🔴' :
+                                  finding.severity === 'high' ? '🟠' :
+                                    finding.severity === 'medium' ? '🟡' :
+                                      finding.severity === 'low' ? '🔵' : 'ℹ️'}
+                              </span>
+                              <div>
+                                <p className="font-medium text-gray-800">{finding.title}</p>
+                                <p className="text-sm text-gray-500">{finding.description}</p>
+                                {finding.details && (
+                                  <code className="text-xs bg-gray-100 px-2 py-1 rounded mt-1 block text-gray-600 break-all">
+                                    {finding.details}
+                                  </code>
+                                )}
+                              </div>
+                            </div>
+                            <span className={`text-xs px-2 py-1 rounded flex-shrink-0 ${finding.type === 'config' ? 'bg-purple-100 text-purple-700' :
+                              finding.type === 's3' ? 'bg-orange-100 text-orange-700' :
+                                finding.type === 'api' ? 'bg-blue-100 text-blue-700' :
+                                  finding.type === 'cloud' ? 'bg-cyan-100 text-cyan-700' :
+                                    'bg-gray-100 text-gray-600'
+                              }`}>
+                              {finding.type.toUpperCase()}
+                            </span>
+                          </div>
+                          <p className="text-xs text-green-700 mt-2 bg-green-50 p-2 rounded">
+                            💡 {finding.remediation}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {result.attackSurface.recommendations.length > 0 && (
+                      <div className="mt-4 p-3 bg-white rounded-lg border border-gray-200">
+                        <p className="text-sm font-semibold text-gray-700 mb-2">🎯 Top Recommendations:</p>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          {result.attackSurface.recommendations.map((rec, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <span className="text-gray-400">•</span>
+                              {rec}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <p className="text-xs text-gray-400 mt-3">
+                      * Checks for exposed config files, cloud storage, API endpoints, and security misconfigurations.
                     </p>
                   </div>
                 </div>

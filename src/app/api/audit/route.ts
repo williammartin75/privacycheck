@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getVendorRisk, getRiskLabel, VendorRisk } from '@/lib/vendor-risk';
 import { calculateRiskPrediction, RiskPrediction } from '@/lib/risk-predictor';
+import { scanAttackSurface, AttackSurfaceResult } from '@/lib/attack-surface';
 
 interface Cookie {
     name: string;
@@ -105,6 +106,8 @@ interface AuditResult {
         }[];
         recommendation: string;
     };
+    // Attack Surface Scanner results
+    attackSurface?: AttackSurfaceResult;
 }
 
 // Known cookies database
@@ -972,6 +975,14 @@ export async function POST(request: NextRequest) {
         });
 
         result.riskPrediction = riskPrediction;
+
+        // Run Attack Surface Scanner
+        try {
+            const attackSurface = await scanAttackSurface(url, combinedHtml);
+            result.attackSurface = attackSurface;
+        } catch (attackError) {
+            console.error('Attack surface scan error:', attackError);
+        }
 
         return NextResponse.json(result);
     } catch (error) {
