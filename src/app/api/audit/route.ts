@@ -196,11 +196,13 @@ async function checkDNSRecord(name: string, contains: string): Promise<boolean> 
 
 // P0 Security: Check email security (SPF, DMARC) via DNS
 async function checkEmailSecurity(domain: string): Promise<EmailSecurity> {
+    // Strip www. prefix to check root domain DNS records
+    const rootDomain = domain.replace(/^www\./i, '');
     const [spf, dmarc] = await Promise.all([
-        checkDNSRecord(domain, 'v=spf1'),
-        checkDNSRecord(`_dmarc.${domain}`, 'v=dmarc1'),
+        checkDNSRecord(rootDomain, 'v=spf1'),
+        checkDNSRecord(`_dmarc.${rootDomain}`, 'v=dmarc1'),
     ]);
-    return { spf, dmarc, domain };
+    return { spf, dmarc, domain: rootDomain };
 }
 
 // Email Exposure: Extract email addresses from HTML
