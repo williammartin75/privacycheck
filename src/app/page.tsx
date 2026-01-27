@@ -66,6 +66,7 @@ interface AuditResult {
     exposedEmails?: string[];
   };
   regulations: string[];
+  scoreBreakdown?: { item: string; points: number; passed: boolean }[];
 }
 
 export default function Home() {
@@ -488,6 +489,31 @@ export default function Home() {
                   )}
                 </button>
               </div>
+
+              {/* Score Breakdown */}
+              {result.scoreBreakdown && result.scoreBreakdown.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Score Breakdown</h3>
+                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {result.scoreBreakdown.filter(b => b.points !== 0 || !b.passed).map((item, i) => (
+                        <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-lg ${item.passed ? 'bg-green-50 border border-green-100' : 'bg-red-50 border border-red-100'}`}>
+                          <span className={`text-sm ${item.passed ? 'text-green-700' : 'text-red-700'}`}>
+                            {item.passed ? '✓' : '✗'} {item.item}
+                          </span>
+                          <span className={`text-sm font-bold ${item.passed ? 'text-green-600' : 'text-red-600'}`}>
+                            {item.points > 0 ? '+' : ''}{item.points}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
+                      <span className="text-gray-600 font-medium">Final Score</span>
+                      <span className={`text-2xl font-bold ${getScoreColor(result.score)}`}>{result.score}/100</span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Compliance Checks */}
               <h3 className="text-xl font-bold text-gray-900 mb-2">Compliance Checklist</h3>

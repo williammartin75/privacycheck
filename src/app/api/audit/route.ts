@@ -65,6 +65,7 @@ interface AuditResult {
         exposedEmails: string[];
     };
     regulations: string[];
+    scoreBreakdown: { item: string; points: number; passed: boolean }[];
 }
 
 // Known cookies database
@@ -524,32 +525,61 @@ export async function POST(request: NextRequest) {
         if (domain.endsWith('.ca')) regulations.push('PIPEDA');
         if (domain.endsWith('.de') || htmlLower.includes('datenschutz')) regulations.push('DSGVO');
 
-        // Calculate score
+        // Calculate score with breakdown
         let score = 100;
-        if (!isHttps) score -= 12;
-        if (!hasConsentBanner) score -= 15;
-        if (!hasPrivacyPolicy) score -= 12;
-        if (!hasLegalMentions) score -= 8;
-        if (!hasDpoContact) score -= 8;
-        if (!hasDataDeleteLink) score -= 8;
-        if (!hasSecureForms && combinedHtml.includes('<form')) score -= 5;
-        if (!hasOptOutMechanism) score -= 8;
-        if (!hasCookiePolicy) score -= 6;
-        score -= Math.min(allTrackers.length * 2, 8);
-        score -= Math.min(undeclaredCookies, 5);
+        const scoreBreakdown: { item: string; points: number; passed: boolean }[] = [];
+
+        const deduct = (condition: boolean, item: string, points: number) => {
+            scoreBreakdown.push({ item, points: condition ? 0 : -points, passed: condition });
+            if (!condition) score -= points;
+        };
+
+        deduct(isHttps, 'HTTPS Enabled', 12);
+        deduct(hasConsentBanner, 'Cookie Consent Banner', 15);
+        deduct(hasPrivacyPolicy, 'Privacy Policy', 12);
+        deduct(hasLegalMentions, 'Legal Mentions', 8);
+        deduct(hasDpoContact, 'DPO Contact', 8);
+        deduct(hasDataDeleteLink, 'Data Deletion Option', 8);
+        deduct(hasSecureForms || !combinedHtml.includes('<form'), 'Secure Forms', 5);
+        deduct(hasOptOutMechanism, 'Opt-out Mechanism', 8);
+        deduct(hasCookiePolicy, 'Cookie Policy', 6);
+
+        // Trackers penalty
+        const trackerPenalty = Math.min(allTrackers.length * 2, 8);
+        if (trackerPenalty > 0) {
+            scoreBreakdown.push({ item: `Trackers (${allTrackers.length})`, points: -trackerPenalty, passed: false });
+            score -= trackerPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'No Trackers', points: 0, passed: true });
+        }
+
+        // Undeclared cookies penalty
+        if (undeclaredCookies > 0) {
+            const cookiePenalty = Math.min(undeclaredCookies, 5);
+            scoreBreakdown.push({ item: `Undeclared Cookies (${undeclaredCookies})`, points: -cookiePenalty, passed: false });
+            score -= cookiePenalty;
+        }
 
         // P0 Security: Security headers score penalty (-10 max)
         const headersCount = Object.values(securityHeaders).filter(Boolean).length;
-        score -= Math.max(0, 10 - headersCount * 2);
+        const headersPenalty = Math.max(0, 10 - headersCount * 2);
+        if (headersPenalty > 0) {
+            scoreBreakdown.push({ item: `Security Headers (${headersCount}/6)`, points: -headersPenalty, passed: false });
+            score -= headersPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Security Headers', points: 0, passed: true });
+        }
 
-        // P0 Security: Email security score penalty (-6 max)
-        if (!emailSecurity.spf) score -= 3;
-        if (!emailSecurity.dmarc) score -= 3;
+        // P0 Security: Email security
+        deduct(emailSecurity.spf, 'SPF Record', 3);
+        deduct(emailSecurity.dmarc, 'DMARC Record', 3);
 
-        // Email Exposure: Extract and penalize exposed emails
+        // Email Exposure
         const exposedEmails = extractExposedEmails(combinedHtml);
         if (exposedEmails.length > 0) {
-            score -= Math.min(exposedEmails.length * 2, 10); // -2 per email, max -10
+            const emailPenalty = Math.min(exposedEmails.length * 2, 10);
+            scoreBreakdown.push({ item: `Exposed Emails (${exposedEmails.length})`, points: -emailPenalty, passed: false });
+            score -= emailPenalty;
         }
 
         score = Math.max(0, Math.min(100, score));
@@ -584,6 +614,7 @@ export async function POST(request: NextRequest) {
                 exposedEmails,
             },
             regulations,
+            scoreBreakdown,
         };
 
         return NextResponse.json(result);
