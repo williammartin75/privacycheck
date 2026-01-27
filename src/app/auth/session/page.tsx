@@ -32,8 +32,16 @@ function SessionContent() {
                     return;
                 }
 
-                // Redirect to dashboard
-                router.push('/dashboard');
+                // Check user tier to determine redirect
+                const tierResponse = await fetch('/api/subscription');
+                const tierData = await tierResponse.json();
+
+                // Free users go to homepage, Pro users go to dashboard
+                if (tierData.tier === 'free') {
+                    router.push('/');
+                } else {
+                    router.push('/dashboard');
+                }
             } catch (err) {
                 console.error('Session setup error:', err);
                 router.push('/login?error=session_error');

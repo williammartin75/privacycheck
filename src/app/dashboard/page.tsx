@@ -43,6 +43,16 @@ export default function DashboardPage() {
                 router.push('/login');
                 return;
             }
+
+            // Check if user has Pro tier
+            const tierRes = await fetch('/api/subscription');
+            const tierData = await tierRes.json();
+            if (tierData.tier === 'free') {
+                // Free users cannot access dashboard
+                router.push('/');
+                return;
+            }
+
             setUser(user);
 
             // Fetch scans
