@@ -6,6 +6,7 @@ import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { recommendations } from '@/lib/recommendations';
 import { generatePDF } from '@/lib/pdf-generator';
+import { detectComplianceDrift, DriftReport } from '@/lib/drift-detection';
 
 interface Cookie {
   name: string;
@@ -119,6 +120,7 @@ export default function Home() {
   const [scanProgress, setScanProgress] = useState({ current: 0, total: 20, status: '' });
   const [isScheduled, setIsScheduled] = useState(false);
   const [schedulingLoading, setSchedulingLoading] = useState(false);
+  const [driftReport, setDriftReport] = useState<DriftReport | null>(null);
   const supabase = createClient();
 
   // Helper for tier checks
@@ -235,6 +237,46 @@ export default function Home() {
       clearInterval(progressInterval);
       setScanProgress({ current: data.pagesScanned, total: data.pagesScanned, status: 'Complete!' });
       setResult(data);
+
+      // Compliance Drift Detection - compare with previous scan
+      try {
+        const historyKey = `privacychecker_history_${data.domain}`;
+        const previousScan = localStorage.getItem(historyKey);
+        let parsedPrevious = null;
+
+        if (previousScan) {
+          parsedPrevious = JSON.parse(previousScan);
+        }
+
+        // Create snapshot for comparison
+        const currentSnapshot = {
+          score: data.score,
+          timestamp: new Date().toISOString(),
+          issues: {
+            consentBanner: data.issues.consentBanner,
+            privacyPolicy: data.issues.privacyPolicy,
+            https: data.issues.https,
+            cookies: data.issues.cookies,
+            trackers: data.issues.trackers,
+            legalMentions: data.issues.legalMentions,
+            dpoContact: data.issues.dpoContact,
+            dataDeleteLink: data.issues.dataDeleteLink,
+            cookiePolicy: data.issues.cookiePolicy,
+            secureforms: data.issues.secureforms,
+            optOutMechanism: data.issues.optOutMechanism,
+          },
+          vendorRisks: data.issues.vendorRisks?.map((v: { name: string; riskScore: number }) => ({ name: v.name, riskScore: v.riskScore })),
+        };
+
+        // Calculate drift
+        const drift = detectComplianceDrift(parsedPrevious, currentSnapshot);
+        setDriftReport(drift);
+
+        // Save current scan as history for next comparison
+        localStorage.setItem(historyKey, JSON.stringify(currentSnapshot));
+      } catch (driftError) {
+        console.error('Drift detection error:', driftError);
+      }
 
       // Save scan to database if user is logged in
       if (user) {
@@ -627,18 +669,18 @@ export default function Home() {
                 <div className="mb-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-4">⚠️ AI Risk Predictor - GDPR Fine Estimation</h3>
                   <div className={`rounded-xl p-6 border-2 ${result.riskPrediction.riskLevel === 'critical' ? 'bg-gradient-to-br from-red-50 to-red-100 border-red-300' :
-                      result.riskPrediction.riskLevel === 'high' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
-                        result.riskPrediction.riskLevel === 'medium' ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-300' :
-                          'bg-gradient-to-br from-green-50 to-green-100 border-green-300'
+                    result.riskPrediction.riskLevel === 'high' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
+                      result.riskPrediction.riskLevel === 'medium' ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-300' :
+                        'bg-gradient-to-br from-green-50 to-green-100 border-green-300'
                     }`}>
                     {/* Fine Estimation Header */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                       <div>
                         <p className="text-sm font-medium text-gray-500 mb-1">Potential GDPR Fine Range</p>
                         <p className={`text-3xl font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-700' :
-                            result.riskPrediction.riskLevel === 'high' ? 'text-orange-700' :
-                              result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
-                                'text-green-700'
+                          result.riskPrediction.riskLevel === 'high' ? 'text-orange-700' :
+                            result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
+                              'text-green-700'
                           }`}>
                           €{result.riskPrediction.minFine >= 1000 ? (result.riskPrediction.minFine / 1000).toFixed(0) + 'k' : result.riskPrediction.minFine}
                           {' - '}
@@ -648,9 +690,9 @@ export default function Home() {
                       <div className="text-center">
                         <p className="text-sm font-medium text-gray-500 mb-1">Risk Level</p>
                         <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'bg-red-600 text-white' :
-                            result.riskPrediction.riskLevel === 'high' ? 'bg-orange-500 text-white' :
-                              result.riskPrediction.riskLevel === 'medium' ? 'bg-yellow-500 text-white' :
-                                'bg-green-500 text-white'
+                          result.riskPrediction.riskLevel === 'high' ? 'bg-orange-500 text-white' :
+                            result.riskPrediction.riskLevel === 'medium' ? 'bg-yellow-500 text-white' :
+                              'bg-green-500 text-white'
                           }`}>
                           {result.riskPrediction.riskLevel.toUpperCase()}
                         </span>
@@ -661,9 +703,9 @@ export default function Home() {
                           <div className="w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
                             <div
                               className={`h-full ${result.riskPrediction.probability >= 70 ? 'bg-red-500' :
-                                  result.riskPrediction.probability >= 40 ? 'bg-orange-500' :
-                                    result.riskPrediction.probability >= 20 ? 'bg-yellow-500' :
-                                      'bg-green-500'
+                                result.riskPrediction.probability >= 40 ? 'bg-orange-500' :
+                                  result.riskPrediction.probability >= 20 ? 'bg-yellow-500' :
+                                    'bg-green-500'
                                 }`}
                               style={{ width: `${result.riskPrediction.probability}%` }}
                             ></div>
@@ -682,9 +724,9 @@ export default function Home() {
                             <div key={i} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
                               <div className="flex items-center gap-3">
                                 <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-500' :
-                                    factor.severity === 'high' ? 'bg-orange-500' :
-                                      factor.severity === 'medium' ? 'bg-yellow-500' :
-                                        'bg-green-500'
+                                  factor.severity === 'high' ? 'bg-orange-500' :
+                                    factor.severity === 'medium' ? 'bg-yellow-500' :
+                                      'bg-green-500'
                                   }`}></span>
                                 <div>
                                   <p className="font-medium text-gray-800">{factor.issue}</p>
@@ -704,9 +746,9 @@ export default function Home() {
 
                     {/* Recommendation */}
                     <div className={`mt-4 p-4 rounded-lg ${result.riskPrediction.riskLevel === 'critical' ? 'bg-red-200' :
-                        result.riskPrediction.riskLevel === 'high' ? 'bg-orange-200' :
-                          result.riskPrediction.riskLevel === 'medium' ? 'bg-yellow-200' :
-                            'bg-green-200'
+                      result.riskPrediction.riskLevel === 'high' ? 'bg-orange-200' :
+                        result.riskPrediction.riskLevel === 'medium' ? 'bg-yellow-200' :
+                          'bg-green-200'
                       }`}>
                       <p className="text-sm font-medium">
                         💡 <strong>Recommendation:</strong> {result.riskPrediction.recommendation}
@@ -715,6 +757,72 @@ export default function Home() {
 
                     <p className="text-xs text-gray-400 mt-3">
                       * Estimates based on GDPR enforcement patterns and detected violations. Actual fines depend on DPA discretion, company size, and specifics of the case.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Compliance Drift Detection */}
+              {driftReport && driftReport.hasChanges && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">📊 Compliance Drift Detection</h3>
+                  <div className={`rounded-xl p-5 border-2 ${driftReport.alertLevel === 'critical' ? 'bg-gradient-to-br from-red-50 to-red-100 border-red-300' :
+                      driftReport.alertLevel === 'warning' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
+                        driftReport.alertLevel === 'info' ? 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300' :
+                          'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200'
+                    }`}>
+                    {/* Header with trend */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-3xl">
+                          {driftReport.overallTrend === 'improving' ? '📈' : driftReport.overallTrend === 'declining' ? '📉' : '➡️'}
+                        </span>
+                        <div>
+                          <p className="font-semibold text-gray-800">
+                            {driftReport.overallTrend === 'improving' ? 'Privacy Improving' :
+                              driftReport.overallTrend === 'declining' ? 'Privacy Declining' : 'No Significant Change'}
+                          </p>
+                          <p className="text-sm text-gray-600">{driftReport.changes.length} change(s) detected since last scan</p>
+                        </div>
+                      </div>
+                      {driftReport.scoreDelta !== 0 && (
+                        <div className={`px-4 py-2 rounded-lg ${driftReport.scoreDelta > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                          <span className="text-2xl font-bold">
+                            {driftReport.scoreDelta > 0 ? '+' : ''}{driftReport.scoreDelta}
+                          </span>
+                          <span className="text-sm ml-1">points</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Changes list */}
+                    <div className="space-y-2">
+                      {driftReport.changes.slice(0, 6).map((change, i) => (
+                        <div key={i} className={`flex items-center justify-between bg-white rounded-lg px-4 py-3 shadow-sm border-l-4 ${change.impact === 'negative' ? 'border-red-500' :
+                            change.impact === 'positive' ? 'border-green-500' :
+                              'border-gray-300'
+                          }`}>
+                          <div className="flex items-center gap-3">
+                            <span className="text-xl">
+                              {change.impact === 'positive' ? '✅' : change.impact === 'negative' ? '❌' : '➖'}
+                            </span>
+                            <div>
+                              <p className="font-medium text-gray-800">{change.field}</p>
+                              <p className="text-sm text-gray-500">{change.description}</p>
+                            </div>
+                          </div>
+                          <span className={`text-xs px-2 py-1 rounded ${change.type === 'improvement' ? 'bg-green-100 text-green-700' :
+                              change.type === 'regression' ? 'bg-red-100 text-red-700' :
+                                'bg-gray-100 text-gray-600'
+                            }`}>
+                            {change.category}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <p className="text-xs text-gray-400 mt-3">
+                      * Changes compared to your previous scan of this domain. Scan history is stored locally in your browser.
                     </p>
                   </div>
                 </div>
