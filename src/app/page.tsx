@@ -1029,13 +1029,7 @@ export default function Home() {
             <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">2</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Get your compliance score</h3>
-              <p className="text-gray-600 text-sm mb-3">We check 11+ criteria and give you a score:</p>
-              <ul className="text-gray-600 text-sm space-y-1">
-                <li>• <strong>0-49%</strong> — Critical issues</li>
-                <li>• <strong>50-79%</strong> — Needs improvement</li>
-                <li>• <strong>80-100%</strong> — Compliant</li>
-              </ul>
-              <p className="text-gray-600 text-sm mt-3">We also show which regulations apply (GDPR, CCPA, LGPD, etc.)</p>
+              <p className="text-gray-600 text-sm">We check 14 compliance criteria and calculate your privacy score from 0 to 100%. You&apos;ll also see which regulations apply to your site (GDPR, CCPA, LGPD, etc.) based on your content and audience.</p>
             </div>
             <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">3</div>
