@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
+import { sendScoreDropAlert } from '@/lib/email';
 
 // Use service role for cron job (bypasses RLS)
 const supabase = createClient(
@@ -99,10 +100,20 @@ export async function GET(request: Request) {
                     changed: scoreChanged,
                 });
 
-                // TODO: Send email alert if score changed significantly
-                if (scoreChanged) {
-                    console.log(`Score changed for ${scan.domain}: ${oldScore} -> ${newScore}`);
-                    // Future: Call email API here
+                // Send email alert if score dropped significantly
+                if (scoreChanged && oldScore !== null && newScore < oldScore) {
+                    // Get user email via admin API
+                    const { data: userData } = await supabase.auth.admin.getUserById(scan.user_id);
+
+                    if (userData?.user?.email) {
+                        await sendScoreDropAlert(
+                            userData.user.email,
+                            scan.domain,
+                            oldScore,
+                            newScore
+                        );
+                        console.log(`Alert sent to ${userData.user.email} for ${scan.domain}`);
+                    }
                 }
 
             } catch (scanError) {
