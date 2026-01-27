@@ -61,6 +61,8 @@ interface AuditResult {
         ssl: SSLInfo;
         securityHeaders: SecurityHeaders;
         emailSecurity: EmailSecurity;
+        // Email Exposure
+        exposedEmails: string[];
     };
     regulations: string[];
 }
@@ -199,6 +201,28 @@ async function checkEmailSecurity(domain: string): Promise<EmailSecurity> {
         checkDNSRecord(`_dmarc.${domain}`, 'v=dmarc1'),
     ]);
     return { spf, dmarc, domain };
+}
+
+// Email Exposure: Extract email addresses from HTML
+function extractExposedEmails(html: string): string[] {
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+    const matches = html.match(emailRegex) || [];
+
+    // Filter out common false positives and duplicates
+    const filtered = [...new Set(matches)]
+        .filter(email => {
+            const lower = email.toLowerCase();
+            // Skip common non-personal/placeholder emails
+            if (lower.includes('example.com') || lower.includes('test.com')) return false;
+            if (lower.includes('placeholder') || lower.includes('email@')) return false;
+            if (lower.endsWith('.png') || lower.endsWith('.jpg') || lower.endsWith('.gif')) return false;
+            // Skip very short local parts (likely false positives)
+            if (email.split('@')[0].length < 3) return false;
+            return true;
+        })
+        .slice(0, 20); // Limit to 20 emails max
+
+    return filtered;
 }
 
 // Extract internal links from HTML
@@ -485,6 +509,12 @@ export async function POST(request: NextRequest) {
         if (!emailSecurity.spf) score -= 3;
         if (!emailSecurity.dmarc) score -= 3;
 
+        // Email Exposure: Extract and penalize exposed emails
+        const exposedEmails = extractExposedEmails(combinedHtml);
+        if (exposedEmails.length > 0) {
+            score -= Math.min(exposedEmails.length * 2, 10); // -2 per email, max -10
+        }
+
         score = Math.max(0, Math.min(100, score));
 
         const result: AuditResult = {
@@ -513,6 +543,8 @@ export async function POST(request: NextRequest) {
                 ssl: sslInfo,
                 securityHeaders,
                 emailSecurity,
+                // Email Exposure
+                exposedEmails,
             },
             regulations,
         };
