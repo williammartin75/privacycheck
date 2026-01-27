@@ -1081,8 +1081,8 @@ export default function Home() {
             </div>
 
             <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-2xl border border-blue-400 relative shadow-xl flex flex-col">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 rounded-full text-sm font-medium text-gray-900">
-                🔥 Most Popular
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-blue-200 rounded-full text-sm font-medium text-blue-700 shadow-sm">
+                Most Popular
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">Pro</h3>
               <p className="text-4xl font-bold text-white mb-6">€19<span className="text-lg text-blue-100">/month</span></p>
@@ -1143,8 +1143,8 @@ export default function Home() {
 
             {/* Pro+ */}
             <div className="p-8 bg-gradient-to-b from-cyan-500 to-teal-600 rounded-2xl border border-cyan-400 relative shadow-xl flex flex-col">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 rounded-full text-sm font-medium text-gray-900">
-                ⭐ Best Value
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-teal-200 rounded-full text-sm font-medium text-teal-700 shadow-sm">
+                Best Value
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">Pro+</h3>
               <p className="text-4xl font-bold text-white mb-6">€29<span className="text-lg text-cyan-100">/month</span></p>
