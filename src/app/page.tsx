@@ -159,7 +159,7 @@ export default function Home() {
       const response = await fetch('/api/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: normalizedUrl }),
+        body: JSON.stringify({ url: normalizedUrl, isPro }),
       });
 
       if (!response.ok) throw new Error('Audit failed');

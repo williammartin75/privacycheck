@@ -354,7 +354,7 @@ function extractTitle(html: string): string {
 // Main audit function
 export async function POST(request: NextRequest) {
     try {
-        const { url } = await request.json();
+        const { url, isPro = false } = await request.json();
 
         if (!url) {
             return NextResponse.json({ error: 'URL is required' }, { status: 400 });
@@ -431,12 +431,29 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        // Get internal links and scan additional pages (max 4 more)
-        const internalLinks = extractInternalLinks(mainPage.html, baseUrl).slice(0, 4);
+        // Get internal links - limit based on plan (Free: 20 total, Pro: 100 total)
+        const maxExtraPages = isPro ? 99 : 19; // +1 for main page = 20 or 100
+        const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
 
-        for (const link of internalLinks) {
-            const pageResult = await fetchPage(link);
-            if (pageResult) {
+        // For deeper crawl, also get links from the first batch of pages
+        const firstBatchLinks = allInternalLinks.slice(0, 5);
+        const scannedUrls = new Set<string>([baseUrl.toString()]);
+
+        // Parallel batch crawl function
+        const crawlBatch = async (urls: string[]) => {
+            const results = await Promise.all(
+                urls.map(async (link) => {
+                    if (scannedUrls.has(link)) return null;
+                    scannedUrls.add(link);
+                    return { link, result: await fetchPage(link) };
+                })
+            );
+            return results.filter(r => r !== null && r.result !== null) as { link: string; result: NonNullable<Awaited<ReturnType<typeof fetchPage>>> }[];
+        };
+
+        // Process results helper
+        const processPageResults = (results: { link: string; result: { html: string; cookies: string | null; headers: Headers } }[]) => {
+            for (const { link, result: pageResult } of results) {
                 combinedHtml += pageResult.html;
                 const pageCookies = extractCookies(pageResult.html, pageResult.cookies);
                 const pageTrackers = detectTrackers(pageResult.html);
@@ -458,7 +475,25 @@ export async function POST(request: NextRequest) {
                         allTrackers.push(tracker);
                     }
                 }
+
+                // Collect more links from scanned pages
+                const newLinks = extractInternalLinks(pageResult.html, baseUrl);
+                for (const newLink of newLinks) {
+                    if (!scannedUrls.has(newLink) && allInternalLinks.length < maxExtraPages * 2) {
+                        allInternalLinks.push(newLink);
+                    }
+                }
             }
+        };
+
+        // Crawl in batches of 5 concurrent requests
+        const batchSize = 5;
+        let linksToProcess = allInternalLinks.slice(0, maxExtraPages);
+
+        for (let i = 0; i < linksToProcess.length && pages.length < (isPro ? 100 : 20); i += batchSize) {
+            const batch = linksToProcess.slice(i, i + batchSize);
+            const results = await crawlBatch(batch);
+            processPageResults(results);
         }
 
         const htmlLower = combinedHtml.toLowerCase();
