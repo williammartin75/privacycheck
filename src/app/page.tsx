@@ -70,6 +70,8 @@ interface AuditResult {
       fonts: { src: string; provider: string }[];
       iframes: { src: string; provider: string }[];
     };
+    // Social Trackers
+    socialTrackers?: { name: string; risk: 'high' | 'medium' | 'low' }[];
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -743,6 +745,40 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
+
+              {/* Social Trackers */}
+              {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Social & Ad Trackers</h3>
+                  <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+                    <p className="text-purple-700 text-sm mb-4">
+                      These trackers collect user data for advertising and analytics. They may require explicit consent under GDPR.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {result.issues.socialTrackers.map((tracker, i) => (
+                        <span
+                          key={i}
+                          className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2 ${tracker.risk === 'high'
+                              ? 'bg-red-100 border border-red-200 text-red-700'
+                              : tracker.risk === 'medium'
+                                ? 'bg-orange-100 border border-orange-200 text-orange-700'
+                                : 'bg-yellow-100 border border-yellow-200 text-yellow-700'
+                            }`}
+                        >
+                          <span className={`w-2 h-2 rounded-full ${tracker.risk === 'high' ? 'bg-red-500' : tracker.risk === 'medium' ? 'bg-orange-500' : 'bg-yellow-500'
+                            }`}></span>
+                          {tracker.name}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-purple-200 flex gap-4 text-xs">
+                      <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span> High Risk</span>
+                      <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-orange-500"></span> Medium</span>
+                      <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-yellow-500"></span> Low</span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Cookies Section */}
               <div className="mb-6">

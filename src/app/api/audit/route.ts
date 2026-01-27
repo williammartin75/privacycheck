@@ -69,6 +69,8 @@ interface AuditResult {
             fonts: { src: string; provider: string }[];
             iframes: { src: string; provider: string }[];
         };
+        // Social Trackers
+        socialTrackers: { name: string; risk: 'high' | 'medium' | 'low' }[];
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -167,6 +169,73 @@ const AGE_PATTERNS = [
 const COOKIE_POLICY_PATTERNS = [
     '/cookie-policy', '/cookies', 'cookie policy', 'use of cookies', 'we use cookies',
 ];
+
+// Social Trackers Detection
+const SOCIAL_TRACKERS: { name: string; patterns: string[]; risk: 'high' | 'medium' | 'low' }[] = [
+    {
+        name: 'Facebook Pixel',
+        patterns: ['fbq(', 'facebook.com/tr', 'connect.facebook.net', 'fbevents.js', '_fbp'],
+        risk: 'high'
+    },
+    {
+        name: 'TikTok Pixel',
+        patterns: ['analytics.tiktok.com', 'ttq.load', 'tiktok.com/i18n'],
+        risk: 'high'
+    },
+    {
+        name: 'LinkedIn Insight',
+        patterns: ['snap.licdn.com', 'linkedin.com/px', '_linkedin_partner_id', 'linkedin.com/insight'],
+        risk: 'medium'
+    },
+    {
+        name: 'Twitter/X Pixel',
+        patterns: ['static.ads-twitter.com', 'analytics.twitter.com', 'twq(', 't.co/i/adsct'],
+        risk: 'medium'
+    },
+    {
+        name: 'Pinterest Tag',
+        patterns: ['pintrk(', 'ct.pinterest.com', 'assets.pinterest.com'],
+        risk: 'medium'
+    },
+    {
+        name: 'Snapchat Pixel',
+        patterns: ['sc-static.net', 'snaptr(', 'tr.snapchat.com'],
+        risk: 'medium'
+    },
+    {
+        name: 'Google Ads',
+        patterns: ['googleadservices.com', 'gtag/js?id=AW-', 'google_conversion', 'googlesyndication'],
+        risk: 'medium'
+    },
+    {
+        name: 'Microsoft/Bing Ads',
+        patterns: ['bat.bing.com', 'clarity.ms', 'uetq'],
+        risk: 'medium'
+    },
+    {
+        name: 'Reddit Pixel',
+        patterns: ['rdt(', 'alb.reddit.com', 'www.redditstatic.com/ads'],
+        risk: 'low'
+    },
+];
+
+function detectSocialTrackers(html: string): { name: string; risk: 'high' | 'medium' | 'low' }[] {
+    const detected: { name: string; risk: 'high' | 'medium' | 'low' }[] = [];
+    const htmlLower = html.toLowerCase();
+
+    for (const tracker of SOCIAL_TRACKERS) {
+        for (const pattern of tracker.patterns) {
+            if (htmlLower.includes(pattern.toLowerCase())) {
+                if (!detected.find(d => d.name === tracker.name)) {
+                    detected.push({ name: tracker.name, risk: tracker.risk });
+                }
+                break;
+            }
+        }
+    }
+
+    return detected;
+}
 
 // P0 Security: Check security headers from response
 function checkSecurityHeaders(headers: Headers): SecurityHeaders {
@@ -731,6 +800,8 @@ export async function POST(request: NextRequest) {
                 exposedEmails,
                 // External Resources
                 externalResources,
+                // Social Trackers
+                socialTrackers: detectSocialTrackers(combinedHtml),
             },
             regulations,
             scoreBreakdown,
