@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getVendorRisk, getRiskLabel, VendorRisk } from '@/lib/vendor-risk';
 
 interface Cookie {
     name: string;
@@ -73,6 +74,17 @@ interface AuditResult {
         socialTrackers: { name: string; risk: 'high' | 'medium' | 'low' }[];
         // Data Breaches
         dataBreaches: { name: string; date: string; count: number }[];
+        // Vendor Risk Assessment
+        vendorRisks: {
+            name: string;
+            category: string;
+            riskScore: number;
+            riskLevel: 'low' | 'medium' | 'high' | 'critical';
+            jurisdiction: string;
+            dataTransfer: string;
+            concerns: string[];
+            gdprCompliant: boolean;
+        }[];
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -808,6 +820,63 @@ export async function POST(request: NextRequest) {
         // External Resources
         const externalResources = extractExternalResources(combinedHtml, domain);
 
+        // Vendor Risk Assessment
+        const vendorRisksMap = new Map<string, ReturnType<typeof getVendorRisk>>();
+
+        // Check all external scripts for vendor risks
+        externalResources.scripts.forEach(script => {
+            const risk = getVendorRisk(script.src);
+            if (risk && !vendorRisksMap.has(risk.name)) {
+                vendorRisksMap.set(risk.name, risk);
+            }
+        });
+
+        // Check all trackers for vendor risks
+        allTrackers.forEach(tracker => {
+            const risk = getVendorRisk(tracker);
+            if (risk && !vendorRisksMap.has(risk.name)) {
+                vendorRisksMap.set(risk.name, risk);
+            }
+        });
+
+        // Check iframes for vendor risks
+        externalResources.iframes.forEach(iframe => {
+            const risk = getVendorRisk(iframe.src);
+            if (risk && !vendorRisksMap.has(risk.name)) {
+                vendorRisksMap.set(risk.name, risk);
+            }
+        });
+
+        // Check fonts for vendor risks
+        externalResources.fonts.forEach(font => {
+            const risk = getVendorRisk(font.src);
+            if (risk && !vendorRisksMap.has(risk.name)) {
+                vendorRisksMap.set(risk.name, risk);
+            }
+        });
+
+        const vendorRisks = Array.from(vendorRisksMap.values())
+            .filter((r): r is NonNullable<typeof r> => r !== null)
+            .map(risk => ({
+                name: risk.name,
+                category: risk.category,
+                riskScore: risk.riskScore,
+                riskLevel: getRiskLabel(risk.riskScore),
+                jurisdiction: risk.jurisdiction,
+                dataTransfer: risk.dataTransfer,
+                concerns: risk.concerns,
+                gdprCompliant: risk.gdprCompliant,
+            }))
+            .sort((a, b) => b.riskScore - a.riskScore);
+
+        // Vendor risk penalty (high-risk vendors)
+        const highRiskVendors = vendorRisks.filter(v => v.riskScore >= 8);
+        if (highRiskVendors.length > 0) {
+            const vendorPenalty = Math.min(highRiskVendors.length * 3, 10);
+            scoreBreakdown.push({ item: `High-Risk Vendors (${highRiskVendors.length})`, points: -vendorPenalty, passed: false });
+            score -= vendorPenalty;
+        }
+
         // Data Breaches check
         const dataBreaches = await checkDataBreaches(domain);
         if (dataBreaches.length > 0) {
@@ -852,6 +921,8 @@ export async function POST(request: NextRequest) {
                 socialTrackers: detectSocialTrackers(combinedHtml),
                 // Data Breaches
                 dataBreaches,
+                // Vendor Risk Assessment
+                vendorRisks,
             },
             regulations,
             scoreBreakdown,
