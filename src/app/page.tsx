@@ -1011,28 +1011,44 @@ export default function Home() {
 
         {/* How It Works */}
         <section className="py-20">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">How it works</h2>
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">How it works</h2>
+          <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">A complete privacy audit of your website in under 60 seconds</p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center p-8 bg-gray-50 rounded-2xl border border-gray-100">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl text-blue-600 font-bold">1</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Enter your URL</h3>
-              <p className="text-gray-600">We scan your website and analyze cookies, trackers, and privacy elements.</p>
+            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+              <div className="text-4xl font-bold text-blue-600 mb-4">1</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Enter your website URL</h3>
+              <p className="text-gray-600 text-sm mb-3">We crawl up to 100 pages and analyze:</p>
+              <ul className="text-gray-600 text-sm space-y-1">
+                <li>• All cookies (first and third-party)</li>
+                <li>• Third-party trackers detected</li>
+                <li>• Consent banner presence</li>
+                <li>• Privacy policy and legal pages</li>
+                <li>• HTTPS, DPO contact, data deletion</li>
+              </ul>
             </div>
-            <div className="text-center p-8 bg-gray-50 rounded-2xl border border-gray-100">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl text-blue-600 font-bold">2</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Get your score</h3>
-              <p className="text-gray-600">See your privacy score and the list of issues detected on your site.</p>
+            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+              <div className="text-4xl font-bold text-blue-600 mb-4">2</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Get your compliance score</h3>
+              <p className="text-gray-600 text-sm mb-3">We check 11+ criteria and give you a score:</p>
+              <ul className="text-gray-600 text-sm space-y-1">
+                <li>• <strong>0-49%</strong> — Critical issues</li>
+                <li>• <strong>50-79%</strong> — Needs improvement</li>
+                <li>• <strong>80-100%</strong> — Compliant</li>
+              </ul>
+              <p className="text-gray-600 text-sm mt-3">We also show which regulations apply (GDPR, CCPA, LGPD, etc.)</p>
             </div>
-            <div className="text-center p-8 bg-gray-50 rounded-2xl border border-gray-100">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl text-blue-600 font-bold">3</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Fix issues</h3>
-              <p className="text-gray-600">Upgrade to Pro for step-by-step fixes, Cookie Banner Widget, and Google Consent Mode v2.</p>
+            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+              <div className="text-4xl font-bold text-blue-600 mb-4">3</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Fix issues and stay compliant</h3>
+              <p className="text-gray-600 text-sm mb-3">Pro users get everything to fix and maintain compliance:</p>
+              <ul className="text-gray-600 text-sm space-y-1">
+                <li>• Step-by-step fix guides</li>
+                <li>• PDF compliance report</li>
+                <li>• Cookie Banner Widget</li>
+                <li>• Google Consent Mode v2</li>
+                <li>• Monthly/weekly auto-rescans</li>
+                <li>• Email alerts if score drops</li>
+              </ul>
             </div>
           </div>
         </section>
@@ -1228,8 +1244,16 @@ export default function Home() {
               <p className="text-gray-600">We check compliance against GDPR (Europe), CCPA (California), LGPD (Brazil), and 50+ other global privacy regulations. Your results show which laws apply to your site based on its content.</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">What's included in Pro?</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">What&apos;s included in Pro?</h3>
               <p className="text-gray-600">Pro includes everything in Free, plus: detailed step-by-step fix recommendations, downloadable PDF compliance reports, email alerts if your score drops, automatic monthly re-scans, a ready-to-use Cookie Banner Widget, and Google Consent Mode v2 integration.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">What is the Cookie Banner Widget?</h3>
+              <p className="text-gray-600">It&apos;s a customizable cookie consent banner you can embed on your site with one line of code. It handles consent for Analytics, Marketing, and Functional cookies, and integrates with Google Consent Mode v2 to ensure your Google Analytics and Ads respect user choices.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Can I cancel my subscription anytime?</h3>
+              <p className="text-gray-600">Yes, you can cancel at any time from your Dashboard or by emailing support@privacychecker.pro. Your access continues until the end of your billing period. There are no cancellation fees.</p>
             </div>
           </div>
         </section>
