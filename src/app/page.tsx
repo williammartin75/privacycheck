@@ -88,6 +88,22 @@ interface AuditResult {
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
+  // Risk Prediction - GDPR Fine Estimation
+  riskPrediction?: {
+    minFine: number;
+    maxFine: number;
+    avgFine: number;
+    riskLevel: 'low' | 'medium' | 'high' | 'critical';
+    probability: number;
+    factors: {
+      issue: string;
+      severity: 'low' | 'medium' | 'high' | 'critical';
+      fineContribution: number;
+      gdprArticle?: string;
+      description: string;
+    }[];
+    recommendation: string;
+  };
 }
 
 export default function Home() {
@@ -602,6 +618,104 @@ export default function Home() {
                       <span className="text-gray-600 font-medium">Final Score</span>
                       <span className={`text-2xl font-bold ${getScoreColor(result.score)}`}>{result.score}/100</span>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* AI Risk Predictor - GDPR Fine Estimation */}
+              {result.riskPrediction && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">⚠️ AI Risk Predictor - GDPR Fine Estimation</h3>
+                  <div className={`rounded-xl p-6 border-2 ${result.riskPrediction.riskLevel === 'critical' ? 'bg-gradient-to-br from-red-50 to-red-100 border-red-300' :
+                      result.riskPrediction.riskLevel === 'high' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
+                        result.riskPrediction.riskLevel === 'medium' ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-300' :
+                          'bg-gradient-to-br from-green-50 to-green-100 border-green-300'
+                    }`}>
+                    {/* Fine Estimation Header */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                      <div>
+                        <p className="text-sm font-medium text-gray-500 mb-1">Potential GDPR Fine Range</p>
+                        <p className={`text-3xl font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-700' :
+                            result.riskPrediction.riskLevel === 'high' ? 'text-orange-700' :
+                              result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
+                                'text-green-700'
+                          }`}>
+                          €{result.riskPrediction.minFine >= 1000 ? (result.riskPrediction.minFine / 1000).toFixed(0) + 'k' : result.riskPrediction.minFine}
+                          {' - '}
+                          €{result.riskPrediction.maxFine >= 1000000 ? (result.riskPrediction.maxFine / 1000000).toFixed(1) + 'M' : result.riskPrediction.maxFine >= 1000 ? (result.riskPrediction.maxFine / 1000).toFixed(0) + 'k' : result.riskPrediction.maxFine}
+                        </p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm font-medium text-gray-500 mb-1">Risk Level</p>
+                        <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'bg-red-600 text-white' :
+                            result.riskPrediction.riskLevel === 'high' ? 'bg-orange-500 text-white' :
+                              result.riskPrediction.riskLevel === 'medium' ? 'bg-yellow-500 text-white' :
+                                'bg-green-500 text-white'
+                          }`}>
+                          {result.riskPrediction.riskLevel.toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm font-medium text-gray-500 mb-1">Enforcement Probability</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full ${result.riskPrediction.probability >= 70 ? 'bg-red-500' :
+                                  result.riskPrediction.probability >= 40 ? 'bg-orange-500' :
+                                    result.riskPrediction.probability >= 20 ? 'bg-yellow-500' :
+                                      'bg-green-500'
+                                }`}
+                              style={{ width: `${result.riskPrediction.probability}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-lg font-bold text-gray-700">{result.riskPrediction.probability}%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Risk Factors */}
+                    {result.riskPrediction.factors.length > 0 && (
+                      <div className="mb-4">
+                        <p className="text-sm font-semibold text-gray-600 mb-2">Risk Factors Identified:</p>
+                        <div className="space-y-2">
+                          {result.riskPrediction.factors.slice(0, 5).map((factor, i) => (
+                            <div key={i} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
+                              <div className="flex items-center gap-3">
+                                <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-500' :
+                                    factor.severity === 'high' ? 'bg-orange-500' :
+                                      factor.severity === 'medium' ? 'bg-yellow-500' :
+                                        'bg-green-500'
+                                  }`}></span>
+                                <div>
+                                  <p className="font-medium text-gray-800">{factor.issue}</p>
+                                  {factor.gdprArticle && (
+                                    <p className="text-xs text-gray-500">GDPR {factor.gdprArticle}</p>
+                                  )}
+                                </div>
+                              </div>
+                              <span className="text-red-600 font-semibold">
+                                +€{factor.fineContribution >= 1000 ? (factor.fineContribution / 1000).toFixed(0) + 'k' : factor.fineContribution}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Recommendation */}
+                    <div className={`mt-4 p-4 rounded-lg ${result.riskPrediction.riskLevel === 'critical' ? 'bg-red-200' :
+                        result.riskPrediction.riskLevel === 'high' ? 'bg-orange-200' :
+                          result.riskPrediction.riskLevel === 'medium' ? 'bg-yellow-200' :
+                            'bg-green-200'
+                      }`}>
+                      <p className="text-sm font-medium">
+                        💡 <strong>Recommendation:</strong> {result.riskPrediction.recommendation}
+                      </p>
+                    </div>
+
+                    <p className="text-xs text-gray-400 mt-3">
+                      * Estimates based on GDPR enforcement patterns and detected violations. Actual fines depend on DPA discretion, company size, and specifics of the case.
+                    </p>
                   </div>
                 </div>
               )}

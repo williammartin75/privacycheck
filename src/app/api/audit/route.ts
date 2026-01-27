@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getVendorRisk, getRiskLabel, VendorRisk } from '@/lib/vendor-risk';
+import { calculateRiskPrediction, RiskPrediction } from '@/lib/risk-predictor';
 
 interface Cookie {
     name: string;
@@ -88,6 +89,22 @@ interface AuditResult {
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
+    // Risk Prediction - GDPR Fine Estimation
+    riskPrediction?: {
+        minFine: number;
+        maxFine: number;
+        avgFine: number;
+        riskLevel: 'low' | 'medium' | 'high' | 'critical';
+        probability: number;
+        factors: {
+            issue: string;
+            severity: 'low' | 'medium' | 'high' | 'critical';
+            fineContribution: number;
+            gdprArticle?: string;
+            description: string;
+        }[];
+        recommendation: string;
+    };
 }
 
 // Known cookies database
@@ -927,6 +944,34 @@ export async function POST(request: NextRequest) {
             regulations,
             scoreBreakdown,
         };
+
+        // Calculate Risk Prediction (GDPR Fine Estimation)
+        const riskPrediction = calculateRiskPrediction({
+            score: result.score,
+            issues: {
+                consentBanner: hasConsentBanner,
+                privacyPolicy: hasPrivacyPolicy,
+                https: isHttps,
+                cookies: {
+                    count: allCookies.length,
+                    undeclared: undeclaredCookies,
+                },
+                trackers: allTrackers,
+                legalMentions: hasLegalMentions,
+                dpoContact: hasDpoContact,
+                dataDeleteLink: hasDataDeleteLink,
+                securityHeaders,
+                vendorRisks: vendorRisks.map(v => ({ riskScore: v.riskScore, gdprCompliant: v.gdprCompliant })),
+                dataBreaches: dataBreaches.map(b => ({ count: b.count })),
+                exposedEmails,
+            },
+            companyIndicators: {
+                hasEcommerce: combinedHtml.includes('cart') || combinedHtml.includes('checkout') || combinedHtml.includes('shop'),
+                trafficEstimate: 'medium', // Default estimate
+            },
+        });
+
+        result.riskPrediction = riskPrediction;
 
         return NextResponse.json(result);
     } catch (error) {
