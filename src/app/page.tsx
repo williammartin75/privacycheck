@@ -168,7 +168,7 @@ export default function Home() {
     setResult(null);
 
     // Initialize progress - page limits by tier
-    const maxPages = isProPlus ? 100 : (isPro ? 20 : 5);
+    const maxPages = isProPlus ? 200 : (isPro ? 50 : 10);
     setScanProgress({ current: 0, total: maxPages, status: 'Connecting...' });
 
     // Simulate progress during scan
@@ -1109,7 +1109,7 @@ export default function Home() {
                   <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <strong>20 pages</strong> scanned
+                  <strong>50 pages</strong> scanned
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1171,7 +1171,7 @@ export default function Home() {
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <strong>100 pages</strong> scanned
+                  <strong>200 pages</strong> scanned
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
