@@ -118,6 +118,9 @@ export default function DashboardPage() {
                             <Link href="/" className="text-blue-600 hover:underline text-sm">
                                 New Scan
                             </Link>
+                            <Link href="/dashboard/widget" className="text-green-600 hover:underline text-sm">
+                                🍪 Cookie Widget
+                            </Link>
                         </div>
                     </nav>
                 </div>
