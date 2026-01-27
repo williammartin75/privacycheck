@@ -1040,7 +1040,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">Simple pricing</h2>
           <p className="text-gray-600 text-center mb-12">Free to scan. Upgrade to unlock recommendations.</p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100 flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Free</h3>
               <p className="text-4xl font-bold text-gray-900 mb-6">€0</p>
               <ul className="space-y-3 mb-8">
@@ -1075,12 +1075,12 @@ export default function Home() {
                   How to fix? Upgrade to Pro
                 </li>
               </ul>
-              <a href="/signup" className="block w-full py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition font-semibold text-center">
+              <a href="/signup" className="block w-full py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition font-semibold text-center mt-auto">
                 Start Free Audit
               </a>
             </div>
 
-            <div className="p-8 bg-gradient-to-b from-blue-600 to-cyan-600 rounded-2xl border border-blue-400 relative shadow-xl">
+            <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-2xl border border-blue-400 relative shadow-xl flex flex-col">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 rounded-full text-sm font-medium text-gray-900">
                 🔥 Most Popular
               </div>
@@ -1136,21 +1136,21 @@ export default function Home() {
                   <strong>Google Consent Mode v2</strong>
                 </li>
               </ul>
-              <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition text-center">
+              <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition text-center mt-auto">
                 Start 7-Day Free Trial
               </button>
             </div>
 
             {/* Pro+ */}
-            <div className="p-8 bg-gradient-to-b from-green-500 to-emerald-600 rounded-2xl border border-green-400 relative shadow-xl">
+            <div className="p-8 bg-gradient-to-b from-cyan-500 to-teal-600 rounded-2xl border border-cyan-400 relative shadow-xl flex flex-col">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-400 rounded-full text-sm font-medium text-gray-900">
                 ⭐ Best Value
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">Pro+</h3>
-              <p className="text-4xl font-bold text-white mb-6">€29<span className="text-lg text-green-100">/month</span></p>
+              <p className="text-4xl font-bold text-white mb-6">€29<span className="text-lg text-cyan-100">/month</span></p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Everything in Pro
@@ -1174,31 +1174,31 @@ export default function Home() {
                   <strong>Data Breach Detection</strong> (HIBP)
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Social Trackers (FB, TikTok, LinkedIn...)
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Security Headers Analysis
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Email Security (SPF/DKIM/DMARC)
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Exposed Emails Detection
                 </li>
               </ul>
-              <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-green-600 font-semibold rounded-xl hover:bg-green-50 transition text-center">
+              <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-xl hover:bg-teal-50 transition text-center mt-auto">
                 Start 7-Day Free Trial
               </button>
             </div>
