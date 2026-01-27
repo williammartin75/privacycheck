@@ -243,10 +243,12 @@ export default function Home() {
         }
         setIsScheduled(false);
       } else {
+        // Pro+ gets weekly scans, Pro gets monthly
+        const frequency = isProPlus ? 'weekly' : 'monthly';
         await fetch('/api/schedules', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ domain: result.domain, frequency: 'weekly' }),
+          body: JSON.stringify({ domain: result.domain, frequency }),
         });
         setIsScheduled(true);
       }
@@ -554,14 +556,14 @@ export default function Home() {
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                         </svg>
-                        Scheduled Weekly
+                        Scheduled {isProPlus ? 'Weekly' : 'Monthly'}
                       </>
                     ) : (
                       <>
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        Schedule Weekly Scan
+                        Schedule {isProPlus ? 'Weekly' : 'Monthly'} Scan
                       </>
                     )}
                   </button>
