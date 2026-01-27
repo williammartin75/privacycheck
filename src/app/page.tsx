@@ -74,6 +74,17 @@ interface AuditResult {
     socialTrackers?: { name: string; risk: 'high' | 'medium' | 'low' }[];
     // Data Breaches
     dataBreaches?: { name: string; date: string; count: number }[];
+    // Vendor Risk Assessment
+    vendorRisks?: {
+      name: string;
+      category: string;
+      riskScore: number;
+      riskLevel: 'low' | 'medium' | 'high' | 'critical';
+      jurisdiction: string;
+      dataTransfer: string;
+      concerns: string[];
+      gdprCompliant: boolean;
+    }[];
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -847,6 +858,79 @@ export default function Home() {
                       <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span> High Risk</span>
                       <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-orange-500"></span> Medium</span>
                       <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-yellow-500"></span> Low</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Vendor Risk Assessment */}
+              {result.issues.vendorRisks && result.issues.vendorRisks.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">🛡️ Vendor Risk Assessment</h3>
+                  <div className="bg-gradient-to-br from-slate-50 to-gray-100 border border-gray-200 rounded-xl p-4">
+                    <p className="text-gray-600 text-sm mb-4">
+                      Privacy risk evaluation of third-party vendors detected on your site. Higher scores indicate greater privacy concerns.
+                    </p>
+                    <div className="space-y-3">
+                      {result.issues.vendorRisks.map((vendor, i) => (
+                        <div key={i} className={`bg-white border rounded-lg p-4 ${vendor.riskScore >= 8 ? 'border-red-300' :
+                          vendor.riskScore >= 6 ? 'border-orange-300' :
+                            vendor.riskScore >= 4 ? 'border-yellow-300' :
+                              'border-green-300'
+                          }`}>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-3">
+                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white ${vendor.riskScore >= 8 ? 'bg-red-500' :
+                                vendor.riskScore >= 6 ? 'bg-orange-500' :
+                                  vendor.riskScore >= 4 ? 'bg-yellow-500' :
+                                    'bg-green-500'
+                                }`}>
+                                {vendor.riskScore}
+                              </div>
+                              <div>
+                                <h4 className="font-semibold text-gray-900">{vendor.name}</h4>
+                                <p className="text-xs text-gray-500 capitalize">{vendor.category} • {vendor.jurisdiction}</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${vendor.riskLevel === 'critical' ? 'bg-red-100 text-red-700' :
+                                vendor.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' :
+                                  vendor.riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                                    'bg-green-100 text-green-700'
+                                }`}>
+                                {vendor.riskLevel.toUpperCase()}
+                              </span>
+                              {vendor.gdprCompliant ? (
+                                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">GDPR ✓</span>
+                              ) : (
+                                <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">GDPR ✗</span>
+                              )}
+                            </div>
+                          </div>
+                          {vendor.concerns.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-2">
+                              {vendor.concerns.map((concern, j) => (
+                                <span key={j} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
+                                  {concern}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          <div className="mt-2 text-xs text-gray-400">
+                            Data transfer: <span className={`font-medium ${vendor.dataTransfer === 'EU' ? 'text-green-600' : vendor.dataTransfer === 'CN' ? 'text-red-600' : 'text-orange-600'}`}>
+                              {vendor.dataTransfer === 'EU' ? '🇪🇺 EU (adequate)' : vendor.dataTransfer === 'US' ? '🇺🇸 USA' : vendor.dataTransfer === 'CN' ? '🇨🇳 China' : '🌍 Other'}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-gray-200">
+                      <div className="flex gap-4 text-xs text-gray-500">
+                        <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-500"></span> 8-10: Critical</span>
+                        <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-orange-500"></span> 6-7: High</span>
+                        <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-yellow-500"></span> 4-5: Medium</span>
+                        <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-green-500"></span> 1-3: Low</span>
+                      </div>
                     </div>
                   </div>
                 </div>
