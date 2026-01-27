@@ -109,6 +109,123 @@ export async function GET(request: NextRequest) {
   
   if (localStorage.getItem(STORAGE_KEY)) return;
   
+  // ============================================
+  // SCRIPT BLOCKING - Block trackers until consent
+  // ============================================
+  
+  // Patterns for scripts to block (analytics/marketing)
+  var BLOCK_PATTERNS = [
+    /google-analytics\.com/i,
+    /googletagmanager\.com/i,
+    /googlesyndication\.com/i,
+    /googleadservices\.com/i,
+    /doubleclick\.net/i,
+    /connect\.facebook\.net/i,
+    /facebook\.com\/tr/i,
+    /analytics\.tiktok\.com/i,
+    /tiktok\.com\/i18n\/pixel/i,
+    /snap\.licdn\.com/i,
+    /linkedin\.com\/px/i,
+    /ads-twitter\.com/i,
+    /t\.co\/i\/adsct/i,
+    /hotjar\.com/i,
+    /mixpanel\.com/i,
+    /amplitude\.com/i,
+    /segment\.com/i,
+    /clarity\.ms/i,
+    /criteo\.com/i,
+    /outbrain\.com/i,
+    /taboola\.com/i,
+    /hubspot\.com/i,
+    /intercom\.io/i,
+    /fullstory\.com/i,
+    /logrocket\.io/i
+  ];
+  
+  // Store blocked scripts to execute after consent
+  var blockedScripts = [];
+  
+  // Check if URL should be blocked
+  function shouldBlock(url) {
+    if (!url) return false;
+    for (var i = 0; i < BLOCK_PATTERNS.length; i++) {
+      if (BLOCK_PATTERNS[i].test(url)) return true;
+    }
+    return false;
+  }
+  
+  // Block script execution if consent mode is opt-in
+  function blockScripts() {
+    // Override document.createElement to intercept script tags
+    var originalCreateElement = document.createElement.bind(document);
+    document.createElement = function(tagName) {
+      var element = originalCreateElement(tagName);
+      
+      if (tagName.toLowerCase() === 'script') {
+        var originalSetAttribute = element.setAttribute.bind(element);
+        element.setAttribute = function(name, value) {
+          if (name === 'src' && shouldBlock(value)) {
+            // Store for later and block
+            blockedScripts.push({ src: value, element: element });
+            console.log('[PrivacyChecker] Blocked:', value);
+            return; // Don't set src, effectively blocking
+          }
+          return originalSetAttribute(name, value);
+        };
+        
+        // Also intercept direct src assignment
+        Object.defineProperty(element, 'src', {
+          set: function(value) {
+            if (shouldBlock(value)) {
+              blockedScripts.push({ src: value, element: element });
+              console.log('[PrivacyChecker] Blocked:', value);
+              return;
+            }
+            originalSetAttribute('src', value);
+          },
+          get: function() {
+            return element.getAttribute('src');
+          }
+        });
+      }
+      
+      return element;
+    };
+    
+    // Block inline scripts that match patterns (data-src approach)
+    document.querySelectorAll('script[type="text/plain"][data-cookiecategory]').forEach(function(script) {
+      blockedScripts.push({ 
+        inline: script.textContent, 
+        category: script.getAttribute('data-cookiecategory') 
+      });
+    });
+  }
+  
+  // Unblock and execute scripts after consent
+  function unblockScripts(categories) {
+    blockedScripts.forEach(function(blocked) {
+      if (blocked.src) {
+        var script = document.createElement('script');
+        // Temporarily disable blocking for this script
+        script.setAttribute('data-unblocked', 'true');
+        script.src = blocked.src;
+        document.head.appendChild(script);
+        console.log('[PrivacyChecker] Unblocked:', blocked.src);
+      } else if (blocked.inline && categories[blocked.category]) {
+        var script = document.createElement('script');
+        script.textContent = blocked.inline;
+        document.head.appendChild(script);
+      }
+    });
+    blockedScripts = [];
+  }
+  
+  // Initialize blocking if consent mode requires it
+  var shouldBlockInitially = GEO.consentMode === 'opt-in' || GEO.blockByDefault;
+  if (shouldBlockInitially) {
+    blockScripts();
+  }
+
   // Fetch geo data and then show banner
   function initBanner(geoData) {
     if (geoData) {
@@ -358,6 +475,11 @@ export async function GET(request: NextRequest) {
           'personalization_storage': categories.preferences ? 'granted' : 'denied',
           'security_storage': 'granted'
         });
+      }
+      
+      // Unblock scripts if user accepted analytics or marketing
+      if (categories.analytics || categories.marketing) {
+        unblockScripts(categories);
       }
       
       // Save locally
