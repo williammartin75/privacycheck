@@ -994,6 +994,16 @@ export async function POST(request: NextRequest) {
             console.error('Attack surface scan error:', attackError);
         }
 
+        // Add debug info to response (temporary)
+        (result as unknown as Record<string, unknown>)._debug = {
+            receivedTier: tier,
+            isPro,
+            isProPlus,
+            maxExtraPages: isProPlus ? 199 : (isPro ? 49 : 9),
+            pagesScanned: pages.length,
+            internalLinksFound: allInternalLinks?.length || 0
+        };
+
         return NextResponse.json(result);
     } catch (error) {
         console.error('Audit error:', error);
