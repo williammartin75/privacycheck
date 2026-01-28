@@ -566,7 +566,7 @@ export default function Home() {
                     <circle cx="64" cy="64" r="56" stroke="#e2e8f0" strokeWidth="8" fill="none" />
                     <circle
                       cx="64" cy="64" r="56"
-                      stroke={result.score >= 70 ? '#16a34a' : result.score >= 40 ? '#f59e0b' : '#dc2626'}
+                      stroke={result.score >= 70 ? '#16a34a' : result.score >= 40 ? '#FFD700' : '#dc2626'}
                       strokeWidth="8"
                       fill="none"
                       strokeLinecap="round"
