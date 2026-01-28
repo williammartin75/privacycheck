@@ -147,6 +147,7 @@ export default function Home() {
   const [showComplianceDrift, setShowComplianceDrift] = useState(false);
   const [showRiskAssessment, setShowRiskAssessment] = useState(false);
   const [showEmailExposure, setShowEmailExposure] = useState(false);
+  const [showTrackers, setShowTrackers] = useState(false);
 
   const supabase = createClient();
 
@@ -1511,30 +1512,33 @@ export default function Home() {
 
               {/* Trackers */}
               {result.issues.trackers.length > 0 && (
-                <div className="mb-6 p-4 bg-amber-50 border border-amber-300 rounded-xl">
-                  <div className="flex items-start gap-3 mb-3">
-                    <svg className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowTrackers(!showTrackers)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span>Third-Party Trackers Detected</span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showTrackers ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                    <div className="flex-1">
-                      <p className="text-amber-800 font-semibold">
-                        {result.issues.trackers.length} Third-Party Tracker{result.issues.trackers.length > 1 ? 's' : ''} Detected
+                  </button>
+                  {showTrackers && (
+                    <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                      <p className="text-slate-600 text-sm mb-3">
+                        {result.issues.trackers.length} tracker{result.issues.trackers.length > 1 ? 's' : ''} collecting user data - explicit consent required under GDPR.
                       </p>
-                      <p className="text-amber-700 text-sm mt-1">
-                        These scripts collect user data and require explicit consent under GDPR.
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {result.issues.trackers.map((tracker, i) => (
+                          <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm font-medium">
+                            {tracker}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-slate-500 text-xs">
+                        Tip: Use our Cookie Banner to block these trackers until user consent is given.
                       </p>
                     </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {result.issues.trackers.map((tracker, i) => (
-                      <span key={i} className="px-3 py-1 bg-amber-100 border border-amber-200 rounded-full text-amber-800 text-sm font-medium">
-                        {tracker}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-amber-600 text-xs">
-                    Tip: Use our Cookie Banner to block these trackers until user consent is given.
-                  </p>
+                  )}
                 </div>
               )}
 
