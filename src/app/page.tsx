@@ -146,6 +146,7 @@ export default function Home() {
   const [showSecurityExposure, setShowSecurityExposure] = useState(false);
   const [showComplianceDrift, setShowComplianceDrift] = useState(false);
   const [showRiskAssessment, setShowRiskAssessment] = useState(false);
+  const [showEmailExposure, setShowEmailExposure] = useState(false);
 
   const supabase = createClient();
 
@@ -1158,28 +1159,41 @@ export default function Home() {
 
               {/* Email Exposure Warning */}
               {result.issues.exposedEmails && result.issues.exposedEmails.length > 0 && (
-                <div className="mb-6 p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 bg-slate-200 rounded-lg flex items-center justify-center">
-                      <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                      </svg>
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowEmailExposure(!showEmailExposure)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span>Email Exposure Warning</span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showEmailExposure ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showEmailExposure && (
+                    <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 bg-slate-200 rounded-lg flex items-center justify-center">
+                          <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-slate-800">{result.issues.exposedEmails.length} Email{result.issues.exposedEmails.length > 1 ? 's' : ''} Exposed</h3>
+                          <p className="text-slate-600 text-xs">Email addresses visible in page source may be harvested by spammers.</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {result.issues.exposedEmails.map((email, i) => (
+                          <span key={i} className="px-2 py-1 bg-white border border-slate-300 rounded text-slate-700 text-xs font-mono">
+                            {email}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="mt-3 text-slate-500 text-xs">
+                        <strong>Recommendation:</strong> Use contact forms or obfuscate emails to prevent harvesting.
+                      </p>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-slate-800">{result.issues.exposedEmails.length} Email{result.issues.exposedEmails.length > 1 ? 's' : ''} Exposed</h3>
-                      <p className="text-slate-600 text-xs">Email addresses visible in page source may be harvested by spammers.</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {result.issues.exposedEmails.map((email, i) => (
-                      <span key={i} className="px-2 py-1 bg-white border border-slate-300 rounded text-slate-700 text-xs font-mono">
-                        {email}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="mt-3 text-slate-500 text-xs">
-                    <strong>Recommendation:</strong> Use contact forms or obfuscate emails to prevent harvesting.
-                  </p>
+                  )}
                 </div>
               )}
 
