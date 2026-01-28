@@ -1062,7 +1062,7 @@ export default function Home() {
                         <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                           <div className="flex items-center gap-2 mb-3">
                             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-                              <svg className={`w-4 h-4 ${result.issues.ssl.valid ? 'text-emerald-600' : 'text-slate-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                               </svg>
                             </div>
@@ -1077,8 +1077,8 @@ export default function Home() {
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">HSTS</span>
-                              <span className={result.issues.ssl.hsts ? 'text-green-600 font-medium' : 'text-yellow-600 font-medium'}>
-                                {result.issues.ssl.hsts ? '✓ Enabled' : '○ Missing'}
+                              <span className={result.issues.ssl.hsts ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                {result.issues.ssl.hsts ? '✓ Enabled' : '✗ Missing'}
                               </span>
                             </div>
                           </div>
@@ -1090,7 +1090,7 @@ export default function Home() {
                         <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                           <div className="flex items-center gap-2 mb-3">
                             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-                              <svg className={`w-4 h-4 ${result.issues.emailSecurity.spf && result.issues.emailSecurity.dmarc ? 'text-green-600' : 'text-yellow-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                               </svg>
                             </div>
@@ -1118,7 +1118,7 @@ export default function Home() {
                         <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                           <div className="flex items-center gap-2 mb-3">
                             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-                              <svg className={`w-4 h-4 ${Object.values(result.issues.securityHeaders).filter(Boolean).length >= 4 ? 'text-green-600' : 'text-yellow-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                               </svg>
                             </div>
@@ -1127,26 +1127,26 @@ export default function Home() {
                           <div className="space-y-1 text-sm">
                             <div className="flex justify-between">
                               <span className="text-gray-600">CSP</span>
-                              <span className={result.issues.securityHeaders.csp ? 'text-green-600' : 'text-gray-400'}>
-                                {result.issues.securityHeaders.csp ? '✓' : '○'}
+                              <span className={result.issues.securityHeaders.csp ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                {result.issues.securityHeaders.csp ? '✓' : '✗ Missing'}
                               </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">X-Frame-Options</span>
-                              <span className={result.issues.securityHeaders.xFrameOptions ? 'text-green-600' : 'text-gray-400'}>
-                                {result.issues.securityHeaders.xFrameOptions ? '✓' : '○'}
+                              <span className={result.issues.securityHeaders.xFrameOptions ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                {result.issues.securityHeaders.xFrameOptions ? '✓' : '✗ Missing'}
                               </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">X-Content-Type</span>
-                              <span className={result.issues.securityHeaders.xContentType ? 'text-green-600' : 'text-gray-400'}>
-                                {result.issues.securityHeaders.xContentType ? '✓' : '○'}
+                              <span className={result.issues.securityHeaders.xContentType ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                {result.issues.securityHeaders.xContentType ? '✓' : '✗ Missing'}
                               </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">Referrer-Policy</span>
-                              <span className={result.issues.securityHeaders.referrerPolicy ? 'text-green-600' : 'text-gray-400'}>
-                                {result.issues.securityHeaders.referrerPolicy ? '✓' : '○'}
+                              <span className={result.issues.securityHeaders.referrerPolicy ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                {result.issues.securityHeaders.referrerPolicy ? '✓' : '✗ Missing'}
                               </span>
                             </div>
                           </div>
