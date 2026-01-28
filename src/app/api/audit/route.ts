@@ -756,10 +756,17 @@ export async function POST(request: NextRequest) {
 
         // Crawl in batches of 5 concurrent requests
         const batchSize = 5;
-        let linksToProcess = allInternalLinks.slice(0, maxExtraPages);
+        const maxPages = isProPlus ? 200 : (isPro ? 50 : 10);
+        let linkIndex = 0;
 
-        for (let i = 0; i < linksToProcess.length && pages.length < (isProPlus ? 200 : (isPro ? 50 : 10)); i += batchSize) {
-            const batch = linksToProcess.slice(i, i + batchSize);
+        // Process links as they are discovered (allInternalLinks grows during crawl)
+        while (linkIndex < allInternalLinks.length && pages.length < maxPages) {
+            const remainingSlots = maxPages - pages.length;
+            const batch = allInternalLinks.slice(linkIndex, linkIndex + Math.min(batchSize, remainingSlots));
+            linkIndex += batch.length;
+
+            if (batch.length === 0) break;
+
             const results = await crawlBatch(batch);
             processPageResults(results);
         }
