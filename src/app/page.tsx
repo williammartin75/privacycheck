@@ -687,7 +687,7 @@ export default function Home() {
 
               {/* Passed Checks List - Always visible */}
               {result && (
-                <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
+                <div className="mb-6 p-4 bg-white rounded-lg border border-black">
                   <h4 className="text-sm font-semibold text-blue-600 mb-3">Checks Passed</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                     {result.issues.https && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>HTTPS Enabled</span>}
@@ -708,7 +708,7 @@ export default function Home() {
 
               {/* Key Issues Summary */}
               {Object.values(result.issues).filter(v => !v).length > 0 && (
-                <div className="mb-6">
+                <div className="mb-6 p-4 rounded-lg border border-black">
                   <h4 className="text-sm font-semibold text-red-600 mb-3">Issues Found</h4>
                   <div className="flex flex-wrap gap-2">
                     {!result.issues.consentBanner && <span className="px-2 py-1 text-xs text-red-600">Cookie Consent Banner</span>}
@@ -1778,19 +1778,19 @@ export default function Home() {
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <strong>AI Risk Predictor</strong> (€ Fine Estimation)
+                  <strong>AI Risk Predictor</strong>
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <strong>Vendor Risk Score</strong> (80+ third-parties)
+                  <strong>Vendor Risk Score</strong>
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <strong>Attack Surface Scanner</strong> (.git, .env, S3)
+                  <strong>Attack Surface Scanner</strong>
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
