@@ -350,9 +350,9 @@ export default function Home() {
   };
 
   const getScoreLabel = (score: number) => {
-    if (score >= 80) return { label: 'Compliant', sublabel: 'Low Risk', bg: 'bg-emerald-50 border border-emerald-200', text: 'text-emerald-800' };
-    if (score >= 50) return { label: 'Improvements Required', sublabel: 'Medium Risk', bg: 'bg-amber-50 border border-amber-200', text: 'text-amber-800' };
-    return { label: 'Non-Compliant', sublabel: 'High Risk', bg: 'bg-slate-100 border border-slate-300', text: 'text-slate-800' };
+    if (score >= 80) return { label: 'Compliant', sublabel: 'Low Risk', bg: 'border border-slate-300', text: 'text-slate-700' };
+    if (score >= 50) return { label: 'Improvements Required', sublabel: 'Medium Risk', bg: 'border border-slate-300', text: 'text-slate-700' };
+    return { label: 'Non-Compliant', sublabel: 'High Risk', bg: 'border border-slate-300', text: 'text-slate-700' };
   };
 
   const getCategoryColor = (category: string) => {
@@ -584,13 +584,13 @@ export default function Home() {
                 <div className="flex-shrink-0">
                   <p className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Executive Summary</p>
                   <div className="grid grid-cols-1 gap-2 min-w-[220px]">
-                    {/* Issues Found - Dark slate indicator */}
-                    <div className="flex items-center justify-between px-3 py-2 bg-slate-100 rounded border border-slate-300">
+                    {/* Issues Found - Red indicator */}
+                    <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-slate-700"></span>
-                        <span className="text-xs text-slate-700">Issues Found</span>
+                        <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                        <span className="text-xs text-red-600">Issues Found</span>
                       </div>
-                      <span className="font-bold text-slate-800">{Object.values(result.issues).filter(v => !v).length}</span>
+                      <span className="font-bold text-red-600">{Object.values(result.issues).filter(v => !v).length}</span>
                     </div>
                     {/* Checks Passed - Blue indicator with expandable */}
                     <button
@@ -623,7 +623,7 @@ export default function Home() {
               {/* Expandable Passed Checks List */}
               {showPassedChecks && (
                 <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
-                  <h4 className="text-sm font-semibold text-slate-800 mb-3">Passed Compliance Checks</h4>
+                  <h4 className="text-sm font-semibold text-blue-600 mb-3">Checks Passed</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                     {result.issues.https && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>HTTPS Enabled</span>}
                     {result.issues.privacyPolicy && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Privacy Policy</span>}
@@ -644,7 +644,7 @@ export default function Home() {
               {/* Key Issues Summary */}
               {Object.values(result.issues).filter(v => !v).length > 0 && (
                 <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
-                  <h4 className="text-sm font-semibold text-slate-800 mb-3">Issues Requiring Attention</h4>
+                  <h4 className="text-sm font-semibold text-red-600 mb-3">Issues Found</h4>
                   <div className="flex flex-wrap gap-2">
                     {!result.issues.consentBanner && <span className="px-2 py-1 bg-slate-50 border border-slate-300 rounded text-xs text-slate-700">Cookie Consent Banner</span>}
                     {!result.issues.cookiePolicy && <span className="px-2 py-1 bg-slate-50 border border-slate-300 rounded text-xs text-slate-700">Cookie Policy</span>}
@@ -759,10 +759,10 @@ export default function Home() {
                       </div>
                       <div className="text-center">
                         <p className="text-sm font-medium text-gray-500 mb-1">Risk Level</p>
-                        <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'bg-red-600 text-white' :
-                          result.riskPrediction.riskLevel === 'high' ? 'bg-orange-500 text-white' :
-                            result.riskPrediction.riskLevel === 'medium' ? 'bg-yellow-500 text-white' :
-                              'bg-green-500 text-white'
+                        <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-600' :
+                          result.riskPrediction.riskLevel === 'high' ? 'text-orange-600' :
+                            result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
+                              'text-green-600'
                           }`}>
                           {result.riskPrediction.riskLevel.toUpperCase()}
                         </span>
