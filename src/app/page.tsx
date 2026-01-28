@@ -579,39 +579,56 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Quick Stats */}
-                <div className="grid grid-cols-3 md:grid-cols-1 gap-3">
-                  <div className="text-center px-4 py-3 bg-slate-50 rounded-lg border border-slate-200">
-                    <p className="text-xl font-bold text-slate-700">{Object.values(result.issues).filter(v => !v).length}</p>
-                    <p className="text-xs text-slate-500 font-medium">Issues Found</p>
-                  </div>
-                  <div className="text-center px-4 py-3 bg-slate-50 rounded-lg border border-slate-200">
-                    <p className="text-xl font-bold text-emerald-600">{Object.values(result.issues).filter(v => v).length}</p>
-                    <p className="text-xs text-slate-500 font-medium">Checks Passed</p>
-                  </div>
-                  <div className="text-center px-4 py-3 bg-slate-50 rounded-lg border border-slate-200">
-                    <p className="text-xl font-bold text-slate-700">{result.pagesScanned}</p>
-                    <p className="text-xs text-slate-500 font-medium">Pages Scanned</p>
+                {/* Executive Summary */}
+                <div className="flex-shrink-0">
+                  <div className="grid grid-cols-1 gap-2 min-w-[200px]">
+                    <div className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded border border-slate-200">
+                      <span className="text-xs text-slate-500">Issues Found</span>
+                      <span className="font-bold text-slate-700">{Object.values(result.issues).filter(v => !v).length}</span>
+                    </div>
+                    <div className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded border border-slate-200">
+                      <span className="text-xs text-slate-500">Checks Passed</span>
+                      <span className="font-bold text-emerald-600">{Object.values(result.issues).filter(v => v).length}</span>
+                    </div>
+                    <div className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded border border-slate-200">
+                      <span className="text-xs text-slate-500">Pages Scanned</span>
+                      <span className="font-bold text-slate-700">{result.pagesScanned}</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
+              {/* Key Issues Summary */}
+              {Object.values(result.issues).filter(v => !v).length > 0 && (
+                <div className="mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                  <h4 className="text-sm font-semibold text-slate-700 mb-3">Key Issues Identified</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {!result.issues.consentBanner && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Cookie Consent Banner</span>}
+                    {!result.issues.cookiePolicy && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Cookie Policy</span>}
+                    {!result.issues.dpoContact && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">DPO Contact</span>}
+                    {!result.issues.secureforms && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Secure Forms</span>}
+                    {!result.issues.privacyPolicy && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Privacy Policy</span>}
+                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
+                  </div>
+                </div>
+              )}
+
               {/* PDF Button */}
-              <div className="flex justify-center mb-8">
+              <div className="flex justify-center gap-3 mb-8">
                 <button
                   onClick={() => isPro ? generatePDF(result) : handleCheckout()}
-                  className={`flex items-center gap-3 px-6 py-3 rounded-xl transition font-semibold text-lg ${isPro ? 'bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'}`}
+                  className={`flex items-center gap-3 px-6 py-3 rounded-lg transition font-semibold text-sm ${isPro ? 'bg-slate-800 text-white hover:bg-slate-900' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200'}`}
                 >
                   {isPro ? (
                     <>
-                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM8.5 13h7v1h-7v-1zm0 2h7v1h-7v-1zm0 2h4v1h-4v-1z" />
                       </svg>
                       Download Full PDF Report
                     </>
                   ) : (
                     <>
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
                       Download PDF Compliance Report (Pro)
@@ -625,8 +642,8 @@ export default function Home() {
                     onClick={handleSchedule}
                     disabled={schedulingLoading}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${isScheduled
-                      ? 'bg-green-100 text-green-700 border border-green-200 hover:bg-green-200'
-                      : 'bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200'
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
+                      : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                       }`}
                   >
                     {schedulingLoading ? (
@@ -832,28 +849,28 @@ export default function Home() {
                 </div>
               )}
 
-              {/* Privacy Attack Surface Scanner */}
+              {/* Security Exposure Analysis */}
               {result.attackSurface && result.attackSurface.totalFindings > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">🔍 Privacy Attack Surface Scanner</h3>
-                  <div className={`rounded-xl p-5 border-2 ${result.attackSurface.overallRisk === 'critical' ? 'bg-gradient-to-br from-red-50 to-red-100 border-red-300' :
-                    result.attackSurface.overallRisk === 'high' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
-                      result.attackSurface.overallRisk === 'medium' ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-300' :
-                        'bg-gradient-to-br from-green-50 to-green-100 border-green-300'
-                    }`}>
+                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Security Exposure Analysis</h3>
+                  <div className="rounded-lg p-5 border border-slate-200 bg-slate-50">
                     {/* Header */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-3xl">🛡️</span>
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-slate-200">
+                          <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>
+                        </div>
                         <div>
-                          <p className="font-semibold text-gray-800">Security & Privacy Exposure Check</p>
-                          <p className="text-sm text-gray-600">{result.attackSurface.totalFindings} finding(s) detected</p>
+                          <p className="font-semibold text-slate-800">Security & Privacy Exposure Check</p>
+                          <p className="text-sm text-slate-500">{result.attackSurface.totalFindings} finding(s) detected</p>
                         </div>
                       </div>
-                      <span className={`px-4 py-2 rounded-full text-sm font-bold ${result.attackSurface.overallRisk === 'critical' ? 'bg-red-600 text-white' :
-                        result.attackSurface.overallRisk === 'high' ? 'bg-orange-500 text-white' :
-                          result.attackSurface.overallRisk === 'medium' ? 'bg-yellow-500 text-white' :
-                            'bg-green-500 text-white'
+                      <span className={`px-3 py-1.5 rounded text-xs font-semibold ${result.attackSurface.overallRisk === 'critical' ? 'bg-slate-800 text-white' :
+                        result.attackSurface.overallRisk === 'high' ? 'bg-slate-700 text-white' :
+                          result.attackSurface.overallRisk === 'medium' ? 'bg-slate-500 text-white' :
+                            'bg-slate-300 text-slate-700'
                         }`}>
                         {result.attackSurface.overallRisk.toUpperCase()} RISK
                       </span>
@@ -862,53 +879,41 @@ export default function Home() {
                     {/* Findings list */}
                     <div className="space-y-2">
                       {result.attackSurface.findings.slice(0, 6).map((finding, i) => (
-                        <div key={i} className={`bg-white rounded-lg px-4 py-3 shadow-sm border-l-4 ${finding.severity === 'critical' ? 'border-red-500' :
-                          finding.severity === 'high' ? 'border-orange-500' :
-                            finding.severity === 'medium' ? 'border-yellow-500' :
-                              finding.severity === 'low' ? 'border-blue-500' :
-                                'border-gray-300'
-                          }`}>
+                        <div key={i} className="bg-white rounded-lg px-4 py-3 border border-slate-200">
                           <div className="flex items-start justify-between gap-2">
                             <div className="flex items-start gap-3">
-                              <span className="text-lg mt-0.5">
-                                {finding.severity === 'critical' ? '🔴' :
-                                  finding.severity === 'high' ? '🟠' :
-                                    finding.severity === 'medium' ? '🟡' :
-                                      finding.severity === 'low' ? '🔵' : 'ℹ️'}
-                              </span>
+                              <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${finding.severity === 'critical' ? 'bg-slate-800' :
+                                finding.severity === 'high' ? 'bg-slate-600' :
+                                  finding.severity === 'medium' ? 'bg-slate-400' : 'bg-slate-300'
+                                }`}></span>
                               <div>
-                                <p className="font-medium text-gray-800">{finding.title}</p>
-                                <p className="text-sm text-gray-500">{finding.description}</p>
+                                <p className="font-medium text-slate-800 text-sm">{finding.title}</p>
+                                <p className="text-xs text-slate-500">{finding.description}</p>
                                 {finding.details && (
-                                  <code className="text-xs bg-gray-100 px-2 py-1 rounded mt-1 block text-gray-600 break-all">
+                                  <code className="text-xs bg-slate-100 px-2 py-1 rounded mt-1 block text-slate-600 break-all">
                                     {finding.details}
                                   </code>
                                 )}
                               </div>
                             </div>
-                            <span className={`text-xs px-2 py-1 rounded flex-shrink-0 ${finding.type === 'config' ? 'bg-purple-100 text-purple-700' :
-                              finding.type === 's3' ? 'bg-orange-100 text-orange-700' :
-                                finding.type === 'api' ? 'bg-blue-100 text-blue-700' :
-                                  finding.type === 'cloud' ? 'bg-cyan-100 text-cyan-700' :
-                                    'bg-gray-100 text-gray-600'
-                              }`}>
+                            <span className="text-xs px-2 py-0.5 rounded flex-shrink-0 bg-slate-100 text-slate-600">
                               {finding.type.toUpperCase()}
                             </span>
                           </div>
-                          <p className="text-xs text-green-700 mt-2 bg-green-50 p-2 rounded">
-                            💡 {finding.remediation}
+                          <p className="text-xs text-slate-600 mt-2 bg-slate-100 p-2 rounded">
+                            <strong>Recommendation:</strong> {finding.remediation}
                           </p>
                         </div>
                       ))}
                     </div>
 
                     {result.attackSurface.recommendations.length > 0 && (
-                      <div className="mt-4 p-3 bg-white rounded-lg border border-gray-200">
-                        <p className="text-sm font-semibold text-gray-700 mb-2">🎯 Top Recommendations:</p>
-                        <ul className="text-sm text-gray-600 space-y-1">
+                      <div className="mt-4 p-3 bg-white rounded-lg border border-slate-200">
+                        <p className="text-sm font-semibold text-slate-700 mb-2">Top Recommendations:</p>
+                        <ul className="text-sm text-slate-600 space-y-1">
                           {result.attackSurface.recommendations.map((rec, i) => (
                             <li key={i} className="flex items-start gap-2">
-                              <span className="text-gray-400">•</span>
+                              <span className="text-slate-400">•</span>
                               {rec}
                             </li>
                           ))}
@@ -924,15 +929,10 @@ export default function Home() {
               )}
 
               {/* Compliance Checks */}
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Compliance Checklist</h3>
-              <div className="flex items-center gap-2 mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <svg className="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p className="text-blue-700 text-sm">
-                  <strong>Pro Tip:</strong> Click on any failed item (red) to see <strong>step-by-step fix instructions</strong>
-                </p>
-              </div>
+              <h3 className="text-lg font-semibold text-slate-800 mb-3">Compliance Checklist</h3>
+              <p className="text-xs text-slate-500 mb-4">
+                Click on any failed item to view detailed fix instructions
+              </p>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
                 <CheckItem passed={result.issues.https} label="HTTPS Enabled" recKey="https" />
                 <CheckItem passed={result.issues.consentBanner} label="Cookie Consent Banner" recKey="consentBanner" />
@@ -949,17 +949,17 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Security Checks - P0 Modules */}
+              {/* Security Checks */}
               {(result.issues.ssl || result.issues.securityHeaders || result.issues.emailSecurity) && (
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Security Checks</h3>
+                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Security Checks</h3>
                   <div className="grid md:grid-cols-3 gap-4">
                     {/* SSL/TLS */}
                     {result.issues.ssl && (
-                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                      <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                         <div className="flex items-center gap-2 mb-3">
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${result.issues.ssl.valid ? 'bg-green-100' : 'bg-red-100'}`}>
-                            <svg className={`w-4 h-4 ${result.issues.ssl.valid ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${result.issues.ssl.valid ? 'bg-emerald-100' : 'bg-slate-200'}`}>
+                            <svg className={`w-4 h-4 ${result.issues.ssl.valid ? 'text-emerald-600' : 'text-slate-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                           </div>
@@ -1055,53 +1055,53 @@ export default function Home() {
 
               {/* Email Exposure Warning */}
               {result.issues.exposedEmails && result.issues.exposedEmails.length > 0 && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                <div className="mb-6 p-4 bg-slate-50 border border-slate-200 rounded-lg">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-8 h-8 bg-slate-200 rounded-lg flex items-center justify-center">
+                      <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-bold text-red-700">{result.issues.exposedEmails.length} Email{result.issues.exposedEmails.length > 1 ? 's' : ''} Exposed</h3>
-                      <p className="text-red-600 text-sm">These email addresses are visible in your page source and can be harvested by spammers.</p>
+                      <h3 className="font-semibold text-slate-800">{result.issues.exposedEmails.length} Email{result.issues.exposedEmails.length > 1 ? 's' : ''} Exposed</h3>
+                      <p className="text-slate-600 text-xs">Email addresses visible in page source may be harvested by spammers.</p>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {result.issues.exposedEmails.map((email, i) => (
-                      <span key={i} className="px-3 py-1 bg-white border border-red-200 rounded-full text-red-700 text-sm font-mono">
+                      <span key={i} className="px-2 py-1 bg-white border border-slate-300 rounded text-slate-700 text-xs font-mono">
                         {email}
                       </span>
                     ))}
                   </div>
-                  <p className="mt-3 text-red-600 text-xs">
-                    <strong>Tip:</strong> Use contact forms or obfuscate emails (e.g., contact[at]domain.com) to prevent harvesting.
+                  <p className="mt-3 text-slate-500 text-xs">
+                    <strong>Recommendation:</strong> Use contact forms or obfuscate emails to prevent harvesting.
                   </p>
                 </div>
               )}
 
               {/* External Resources */}
-              {result.issues.externalResources && (
+              {result.issues.externalResources &&
                 (result.issues.externalResources.scripts.length > 0 ||
                   result.issues.externalResources.fonts.length > 0 ||
                   result.issues.externalResources.iframes.length > 0) && (
                   <div className="mb-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">External Resources</h3>
-                    <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
-                      <p className="text-orange-700 text-sm mb-4">
-                        These third-party resources can track your visitors, impact performance, and create privacy/security risks.
+                    <h3 className="text-lg font-semibold text-slate-800 mb-3">External Resources</h3>
+                    <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                      <p className="text-slate-600 text-xs mb-4">
+                        Third-party resources may track visitors and impact performance.
                       </p>
 
                       {/* Scripts */}
                       {result.issues.externalResources.scripts.length > 0 && (
                         <div className="mb-4">
-                          <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                            <span className="px-2 py-1 bg-orange-200 rounded text-xs">{result.issues.externalResources.scripts.length}</span>
+                          <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
+                            <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.scripts.length}</span>
                             External Scripts
                           </h4>
                           <div className="flex flex-wrap gap-2">
                             {[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].map((provider, i) => (
-                              <span key={i} className="px-3 py-1 bg-white border border-orange-200 rounded-full text-orange-700 text-sm">
+                              <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
                                 {provider}
                               </span>
                             ))}
@@ -1118,7 +1118,7 @@ export default function Home() {
                           </h4>
                           <div className="flex flex-wrap gap-2">
                             {[...new Set(result.issues.externalResources.fonts.map(f => f.provider))].map((provider, i) => (
-                              <span key={i} className="px-3 py-1 bg-white border border-orange-200 rounded-full text-orange-700 text-sm">
+                              <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
                                 {provider}
                               </span>
                             ))}
@@ -1129,13 +1129,13 @@ export default function Home() {
                       {/* Iframes */}
                       {result.issues.externalResources.iframes.length > 0 && (
                         <div>
-                          <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                            <span className="px-2 py-1 bg-red-200 rounded text-xs">{result.issues.externalResources.iframes.length}</span>
+                          <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
+                            <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.iframes.length}</span>
                             Embedded Iframes
                           </h4>
                           <div className="flex flex-wrap gap-2">
                             {[...new Set(result.issues.externalResources.iframes.map(f => f.provider))].map((provider, i) => (
-                              <span key={i} className="px-3 py-1 bg-white border border-red-200 rounded-full text-red-700 text-sm">
+                              <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
                                 {provider}
                               </span>
                             ))}
@@ -1144,37 +1144,30 @@ export default function Home() {
                       )}
                     </div>
                   </div>
-                ))}
+                )}
 
               {/* Social Trackers */}
               {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Social & Ad Trackers</h3>
-                  <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
-                    <p className="text-purple-700 text-sm mb-4">
-                      These trackers collect user data for advertising and analytics. They may require explicit consent under GDPR.
+                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Social & Ad Trackers</h3>
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <p className="text-slate-600 text-xs mb-4">
+                      These trackers collect user data and may require explicit consent under GDPR.
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {result.issues.socialTrackers.map((tracker, i) => (
                         <span
                           key={i}
-                          className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2 ${tracker.risk === 'high'
-                            ? 'bg-red-100 border border-red-200 text-red-700'
+                          className={`px-2 py-1 rounded text-xs font-medium flex items-center gap-2 ${tracker.risk === 'high'
+                            ? 'bg-slate-800 text-white'
                             : tracker.risk === 'medium'
-                              ? 'bg-orange-100 border border-orange-200 text-orange-700'
-                              : 'bg-yellow-100 border border-yellow-200 text-yellow-700'
+                              ? 'bg-slate-500 text-white'
+                              : 'bg-slate-200 text-slate-700'
                             }`}
                         >
-                          <span className={`w-2 h-2 rounded-full ${tracker.risk === 'high' ? 'bg-red-500' : tracker.risk === 'medium' ? 'bg-orange-500' : 'bg-yellow-500'
-                            }`}></span>
                           {tracker.name}
                         </span>
                       ))}
-                    </div>
-                    <div className="mt-3 pt-3 border-t border-purple-200 flex gap-4 text-xs">
-                      <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span> High Risk</span>
-                      <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-orange-500"></span> Medium</span>
-                      <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-yellow-500"></span> Low</span>
                     </div>
                   </div>
                 </div>
@@ -1183,10 +1176,10 @@ export default function Home() {
               {/* Vendor Risk Assessment */}
               {result.issues.vendorRisks && result.issues.vendorRisks.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">🛡️ Vendor Risk Assessment</h3>
-                  <div className="bg-gradient-to-br from-slate-50 to-gray-100 border border-gray-200 rounded-xl p-4">
-                    <p className="text-gray-600 text-sm mb-4">
-                      Privacy risk evaluation of third-party vendors detected on your site. Higher scores indicate greater privacy concerns.
+                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Vendor Risk Assessment</h3>
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <p className="text-slate-600 text-xs mb-4">
+                      Privacy risk evaluation of third-party vendors. Higher scores indicate greater concerns.
                     </p>
                     <div className="space-y-3">
                       {result.issues.vendorRisks.map((vendor, i) => (
