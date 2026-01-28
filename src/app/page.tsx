@@ -136,6 +136,17 @@ export default function Home() {
   const [isScheduled, setIsScheduled] = useState(false);
   const [schedulingLoading, setSchedulingLoading] = useState(false);
   const [driftReport, setDriftReport] = useState<DriftReport | null>(null);
+
+  // Collapsible sections state (all closed by default)
+  const [showVendorRisk, setShowVendorRisk] = useState(false);
+  const [showSocialTrackers, setShowSocialTrackers] = useState(false);
+  const [showExternalResources, setShowExternalResources] = useState(false);
+  const [showSecurityChecks, setShowSecurityChecks] = useState(false);
+  const [showComplianceChecklist, setShowComplianceChecklist] = useState(false);
+  const [showSecurityExposure, setShowSecurityExposure] = useState(false);
+  const [showComplianceDrift, setShowComplianceDrift] = useState(false);
+  const [showRiskAssessment, setShowRiskAssessment] = useState(false);
+
   const supabase = createClient();
 
   // Helper for tier checks
@@ -736,358 +747,412 @@ export default function Home() {
               {/* Risk Assessment */}
               {result.riskPrediction && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Risk Assessment - GDPR Fine Estimation</h3>
-                  <div className="rounded-lg p-6 border border-slate-200 bg-slate-50">
-                    {/* Fine Estimation Header */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                      <div>
-                        <p className="text-sm font-medium text-gray-500 mb-1">Potential GDPR Fine Range</p>
-                        <p className={`text-3xl font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-700' :
-                          result.riskPrediction.riskLevel === 'high' ? 'text-orange-700' :
-                            result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
-                              'text-green-700'
-                          }`}>
-                          €{result.riskPrediction.minFine >= 1000 ? (result.riskPrediction.minFine / 1000).toFixed(0) + 'k' : result.riskPrediction.minFine}
-                          {' - '}
-                          €{result.riskPrediction.maxFine >= 1000000 ? (result.riskPrediction.maxFine / 1000000).toFixed(1) + 'M' : result.riskPrediction.maxFine >= 1000 ? (result.riskPrediction.maxFine / 1000).toFixed(0) + 'k' : result.riskPrediction.maxFine}
+                  <button
+                    onClick={() => setShowRiskAssessment(!showRiskAssessment)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span>Risk Assessment - GDPR Fine Estimation</span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showRiskAssessment ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showRiskAssessment && (
+                    <div className="rounded-lg p-6 border border-slate-200 bg-slate-50">
+                      {/* Fine Estimation Header */}
+                      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                        <div>
+                          <p className="text-sm font-medium text-gray-500 mb-1">Potential GDPR Fine Range</p>
+                          <p className={`text-3xl font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-700' :
+                            result.riskPrediction.riskLevel === 'high' ? 'text-orange-700' :
+                              result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
+                                'text-green-700'
+                            }`}>
+                            €{result.riskPrediction.minFine >= 1000 ? (result.riskPrediction.minFine / 1000).toFixed(0) + 'k' : result.riskPrediction.minFine}
+                            {' - '}
+                            €{result.riskPrediction.maxFine >= 1000000 ? (result.riskPrediction.maxFine / 1000000).toFixed(1) + 'M' : result.riskPrediction.maxFine >= 1000 ? (result.riskPrediction.maxFine / 1000).toFixed(0) + 'k' : result.riskPrediction.maxFine}
+                          </p>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-sm font-medium text-gray-500 mb-1">Risk Level</p>
+                          <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-600' :
+                            result.riskPrediction.riskLevel === 'high' ? 'text-orange-600' :
+                              result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
+                                'text-green-600'
+                            }`}>
+                            {result.riskPrediction.riskLevel.toUpperCase()}
+                          </span>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-sm font-medium text-gray-500 mb-1">Enforcement Probability</p>
+                          <div className="flex items-center gap-2">
+                            <div className="w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full ${result.riskPrediction.probability >= 70 ? 'bg-red-500' :
+                                  result.riskPrediction.probability >= 40 ? 'bg-orange-500' :
+                                    result.riskPrediction.probability >= 20 ? 'bg-yellow-500' :
+                                      'bg-green-500'
+                                  }`}
+                                style={{ width: `${result.riskPrediction.probability}%` }}
+                              ></div>
+                            </div>
+                            <span className="text-lg font-bold text-gray-700">{result.riskPrediction.probability}%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Risk Factors */}
+                      {result.riskPrediction.factors.length > 0 && (
+                        <div className="mb-4">
+                          <p className="text-sm font-semibold text-gray-600 mb-2">Risk Factors Identified:</p>
+                          <div className="space-y-2">
+                            {result.riskPrediction.factors.slice(0, 5).map((factor, i) => (
+                              <div key={i} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
+                                <div className="flex items-center gap-3">
+                                  <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-500' :
+                                    factor.severity === 'high' ? 'bg-orange-500' :
+                                      factor.severity === 'medium' ? 'bg-yellow-500' :
+                                        'bg-green-500'
+                                    }`}></span>
+                                  <div>
+                                    <p className="font-medium text-gray-800">{factor.issue}</p>
+                                    {factor.gdprArticle && (
+                                      <p className="text-xs text-gray-500">GDPR {factor.gdprArticle}</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <span className="text-red-600 font-semibold">
+                                  +€{factor.fineContribution >= 1000 ? (factor.fineContribution / 1000).toFixed(0) + 'k' : factor.fineContribution}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Recommendation */}
+                      <div className="mt-4 p-4 rounded-lg bg-white border border-slate-200">
+                        <p className="text-sm font-medium text-slate-700">
+                          <strong>Recommendation:</strong> {result.riskPrediction.recommendation}
                         </p>
                       </div>
-                      <div className="text-center">
-                        <p className="text-sm font-medium text-gray-500 mb-1">Risk Level</p>
-                        <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-600' :
-                          result.riskPrediction.riskLevel === 'high' ? 'text-orange-600' :
-                            result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
-                              'text-green-600'
-                          }`}>
-                          {result.riskPrediction.riskLevel.toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-sm font-medium text-gray-500 mb-1">Enforcement Probability</p>
-                        <div className="flex items-center gap-2">
-                          <div className="w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full ${result.riskPrediction.probability >= 70 ? 'bg-red-500' :
-                                result.riskPrediction.probability >= 40 ? 'bg-orange-500' :
-                                  result.riskPrediction.probability >= 20 ? 'bg-yellow-500' :
-                                    'bg-green-500'
-                                }`}
-                              style={{ width: `${result.riskPrediction.probability}%` }}
-                            ></div>
-                          </div>
-                          <span className="text-lg font-bold text-gray-700">{result.riskPrediction.probability}%</span>
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* Risk Factors */}
-                    {result.riskPrediction.factors.length > 0 && (
-                      <div className="mb-4">
-                        <p className="text-sm font-semibold text-gray-600 mb-2">Risk Factors Identified:</p>
-                        <div className="space-y-2">
-                          {result.riskPrediction.factors.slice(0, 5).map((factor, i) => (
-                            <div key={i} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
-                              <div className="flex items-center gap-3">
-                                <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-500' :
-                                  factor.severity === 'high' ? 'bg-orange-500' :
-                                    factor.severity === 'medium' ? 'bg-yellow-500' :
-                                      'bg-green-500'
-                                  }`}></span>
-                                <div>
-                                  <p className="font-medium text-gray-800">{factor.issue}</p>
-                                  {factor.gdprArticle && (
-                                    <p className="text-xs text-gray-500">GDPR {factor.gdprArticle}</p>
-                                  )}
-                                </div>
-                              </div>
-                              <span className="text-red-600 font-semibold">
-                                +€{factor.fineContribution >= 1000 ? (factor.fineContribution / 1000).toFixed(0) + 'k' : factor.fineContribution}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Recommendation */}
-                    <div className="mt-4 p-4 rounded-lg bg-white border border-slate-200">
-                      <p className="text-sm font-medium text-slate-700">
-                        <strong>Recommendation:</strong> {result.riskPrediction.recommendation}
+                      <p className="text-xs text-slate-400 mt-3">
+                        * Estimates based on GDPR enforcement patterns and detected violations. Actual fines depend on DPA discretion, company size, and specifics of the case.
                       </p>
                     </div>
-
-                    <p className="text-xs text-slate-400 mt-3">
-                      * Estimates based on GDPR enforcement patterns and detected violations. Actual fines depend on DPA discretion, company size, and specifics of the case.
-                    </p>
-                  </div>
+                  )}
                 </div>
               )}
 
               {/* Compliance Drift Detection */}
               {driftReport && driftReport.hasChanges && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Compliance Drift Detection</h3>
-                  <div className="rounded-lg p-5 border border-slate-200 bg-slate-50">
-                    {/* Header with trend */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${driftReport.overallTrend === 'improving' ? 'bg-emerald-100' : driftReport.overallTrend === 'declining' ? 'bg-slate-200' : 'bg-slate-100'}`}>
-                          <svg className={`w-5 h-5 ${driftReport.overallTrend === 'improving' ? 'text-emerald-600' : 'text-slate-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={driftReport.overallTrend === 'improving' ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : driftReport.overallTrend === 'declining' ? 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6' : 'M5 12h14'} />
-                          </svg>
-                        </div>
-                        <div>
-                          <p className="font-semibold text-slate-800">
-                            {driftReport.overallTrend === 'improving' ? 'Privacy Improving' :
-                              driftReport.overallTrend === 'declining' ? 'Privacy Declining' : 'No Significant Change'}
-                          </p>
-                          <p className="text-sm text-slate-500">{driftReport.changes.length} change(s) detected since last scan</p>
-                        </div>
-                      </div>
-                      {driftReport.scoreDelta !== 0 && (
-                        <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
-                          <span className="text-lg font-bold">
-                            {driftReport.scoreDelta > 0 ? '+' : ''}{driftReport.scoreDelta}
-                          </span>
-                          <span className="text-xs ml-1">points</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Changes list */}
-                    <div className="space-y-2">
-                      {driftReport.changes.slice(0, 6).map((change, i) => (
-                        <div key={i} className={`flex items-center justify-between bg-white rounded-lg px-4 py-3 shadow-sm border-l-4 ${change.impact === 'negative' ? 'border-red-500' :
-                          change.impact === 'positive' ? 'border-green-500' :
-                            'border-gray-300'
-                          }`}>
-                          <div className="flex items-center gap-3">
-                            <span className="text-xl">
-                              {change.impact === 'positive' ? '✅' : change.impact === 'negative' ? '❌' : '➖'}
-                            </span>
-                            <div>
-                              <p className="font-medium text-gray-800">{change.field}</p>
-                              <p className="text-sm text-gray-500">{change.description}</p>
-                            </div>
+                  <button
+                    onClick={() => setShowComplianceDrift(!showComplianceDrift)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span>Compliance Drift Detection</span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showComplianceDrift ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showComplianceDrift && (
+                    <div className="rounded-lg p-5 border border-slate-200 bg-slate-50">
+                      {/* Header with trend */}
+                      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${driftReport.overallTrend === 'improving' ? 'bg-emerald-100' : driftReport.overallTrend === 'declining' ? 'bg-slate-200' : 'bg-slate-100'}`}>
+                            <svg className={`w-5 h-5 ${driftReport.overallTrend === 'improving' ? 'text-emerald-600' : 'text-slate-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={driftReport.overallTrend === 'improving' ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : driftReport.overallTrend === 'declining' ? 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6' : 'M5 12h14'} />
+                            </svg>
                           </div>
-                          <span className={`text-xs px-2 py-1 rounded ${change.type === 'improvement' ? 'bg-green-100 text-green-700' :
-                            change.type === 'regression' ? 'bg-red-100 text-red-700' :
-                              'bg-gray-100 text-gray-600'
-                            }`}>
-                            {change.category}
-                          </span>
+                          <div>
+                            <p className="font-semibold text-slate-800">
+                              {driftReport.overallTrend === 'improving' ? 'Privacy Improving' :
+                                driftReport.overallTrend === 'declining' ? 'Privacy Declining' : 'No Significant Change'}
+                            </p>
+                            <p className="text-sm text-slate-500">{driftReport.changes.length} change(s) detected since last scan</p>
+                          </div>
                         </div>
-                      ))}
-                    </div>
+                        {driftReport.scoreDelta !== 0 && (
+                          <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
+                            <span className="text-lg font-bold">
+                              {driftReport.scoreDelta > 0 ? '+' : ''}{driftReport.scoreDelta}
+                            </span>
+                            <span className="text-xs ml-1">points</span>
+                          </div>
+                        )}
+                      </div>
 
-                    <p className="text-xs text-gray-400 mt-3">
-                      * Changes compared to your previous scan of this domain. Scan history is stored locally in your browser.
-                    </p>
-                  </div>
+                      {/* Changes list */}
+                      <div className="space-y-2">
+                        {driftReport.changes.slice(0, 6).map((change, i) => (
+                          <div key={i} className={`flex items-center justify-between bg-white rounded-lg px-4 py-3 shadow-sm border-l-4 ${change.impact === 'negative' ? 'border-red-500' :
+                            change.impact === 'positive' ? 'border-green-500' :
+                              'border-gray-300'
+                            }`}>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xl">
+                                {change.impact === 'positive' ? '✅' : change.impact === 'negative' ? '❌' : '➖'}
+                              </span>
+                              <div>
+                                <p className="font-medium text-gray-800">{change.field}</p>
+                                <p className="text-sm text-gray-500">{change.description}</p>
+                              </div>
+                            </div>
+                            <span className={`text-xs px-2 py-1 rounded ${change.type === 'improvement' ? 'bg-green-100 text-green-700' :
+                              change.type === 'regression' ? 'bg-red-100 text-red-700' :
+                                'bg-gray-100 text-gray-600'
+                              }`}>
+                              {change.category}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Changes compared to your previous scan of this domain. Scan history is stored locally in your browser.
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
               {/* Security Exposure Analysis */}
               {result.attackSurface && result.attackSurface.totalFindings > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Security Exposure Analysis</h3>
-                  <div className="rounded-lg p-5 border border-slate-200 bg-slate-50">
-                    {/* Header */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-slate-200">
-                          <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <p className="font-semibold text-slate-800">Security & Privacy Exposure Check</p>
-                          <p className="text-sm text-slate-500">{result.attackSurface.totalFindings} finding(s) detected</p>
-                        </div>
-                      </div>
-                      <span className={`px-3 py-1.5 rounded text-xs font-semibold ${result.attackSurface.overallRisk === 'critical' ? 'bg-slate-800 text-white' :
-                        result.attackSurface.overallRisk === 'high' ? 'bg-slate-700 text-white' :
-                          result.attackSurface.overallRisk === 'medium' ? 'bg-slate-500 text-white' :
-                            'bg-slate-300 text-slate-700'
-                        }`}>
-                        {result.attackSurface.overallRisk.toUpperCase()} RISK
-                      </span>
-                    </div>
-
-                    {/* Findings list */}
-                    <div className="space-y-2">
-                      {result.attackSurface.findings.slice(0, 6).map((finding, i) => (
-                        <div key={i} className="bg-white rounded-lg px-4 py-3 border border-slate-200">
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="flex items-start gap-3">
-                              <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${finding.severity === 'critical' ? 'bg-slate-800' :
-                                finding.severity === 'high' ? 'bg-slate-600' :
-                                  finding.severity === 'medium' ? 'bg-slate-400' : 'bg-slate-300'
-                                }`}></span>
-                              <div>
-                                <p className="font-medium text-slate-800 text-sm">{finding.title}</p>
-                                <p className="text-xs text-slate-500">{finding.description}</p>
-                                {finding.details && (
-                                  <code className="text-xs bg-slate-100 px-2 py-1 rounded mt-1 block text-slate-600 break-all">
-                                    {finding.details}
-                                  </code>
-                                )}
-                              </div>
-                            </div>
-                            <span className="text-xs px-2 py-0.5 rounded flex-shrink-0 bg-slate-100 text-slate-600">
-                              {finding.type.toUpperCase()}
-                            </span>
+                  <button
+                    onClick={() => setShowSecurityExposure(!showSecurityExposure)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span>Security Exposure Analysis</span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showSecurityExposure ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showSecurityExposure && (
+                    <div className="rounded-lg p-5 border border-slate-200 bg-slate-50">
+                      {/* Header */}
+                      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-slate-200">
+                            <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
                           </div>
-                          <p className="text-xs text-slate-600 mt-2 bg-slate-100 p-2 rounded">
-                            <strong>Recommendation:</strong> {finding.remediation}
-                          </p>
+                          <div>
+                            <p className="font-semibold text-slate-800">Security & Privacy Exposure Check</p>
+                            <p className="text-sm text-slate-500">{result.attackSurface.totalFindings} finding(s) detected</p>
+                          </div>
                         </div>
-                      ))}
-                    </div>
-
-                    {result.attackSurface.recommendations.length > 0 && (
-                      <div className="mt-4 p-3 bg-white rounded-lg border border-slate-200">
-                        <p className="text-sm font-semibold text-slate-700 mb-2">Top Recommendations:</p>
-                        <ul className="text-sm text-slate-600 space-y-1">
-                          {result.attackSurface.recommendations.map((rec, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <span className="text-slate-400">•</span>
-                              {rec}
-                            </li>
-                          ))}
-                        </ul>
+                        <span className={`px-3 py-1.5 rounded text-xs font-semibold ${result.attackSurface.overallRisk === 'critical' ? 'bg-slate-800 text-white' :
+                          result.attackSurface.overallRisk === 'high' ? 'bg-slate-700 text-white' :
+                            result.attackSurface.overallRisk === 'medium' ? 'bg-slate-500 text-white' :
+                              'bg-slate-300 text-slate-700'
+                          }`}>
+                          {result.attackSurface.overallRisk.toUpperCase()} RISK
+                        </span>
                       </div>
-                    )}
 
-                    <p className="text-xs text-gray-400 mt-3">
-                      * Checks for exposed config files, cloud storage, API endpoints, and security misconfigurations.
-                    </p>
-                  </div>
+                      {/* Findings list */}
+                      <div className="space-y-2">
+                        {result.attackSurface.findings.slice(0, 6).map((finding, i) => (
+                          <div key={i} className="bg-white rounded-lg px-4 py-3 border border-slate-200">
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="flex items-start gap-3">
+                                <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${finding.severity === 'critical' ? 'bg-slate-800' :
+                                  finding.severity === 'high' ? 'bg-slate-600' :
+                                    finding.severity === 'medium' ? 'bg-slate-400' : 'bg-slate-300'
+                                  }`}></span>
+                                <div>
+                                  <p className="font-medium text-slate-800 text-sm">{finding.title}</p>
+                                  <p className="text-xs text-slate-500">{finding.description}</p>
+                                  {finding.details && (
+                                    <code className="text-xs bg-slate-100 px-2 py-1 rounded mt-1 block text-slate-600 break-all">
+                                      {finding.details}
+                                    </code>
+                                  )}
+                                </div>
+                              </div>
+                              <span className="text-xs px-2 py-0.5 rounded flex-shrink-0 bg-slate-100 text-slate-600">
+                                {finding.type.toUpperCase()}
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-600 mt-2 bg-slate-100 p-2 rounded">
+                              <strong>Recommendation:</strong> {finding.remediation}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {result.attackSurface.recommendations.length > 0 && (
+                        <div className="mt-4 p-3 bg-white rounded-lg border border-slate-200">
+                          <p className="text-sm font-semibold text-slate-700 mb-2">Top Recommendations:</p>
+                          <ul className="text-sm text-slate-600 space-y-1">
+                            {result.attackSurface.recommendations.map((rec, i) => (
+                              <li key={i} className="flex items-start gap-2">
+                                <span className="text-slate-400">•</span>
+                                {rec}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Checks for exposed config files, cloud storage, API endpoints, and security misconfigurations.
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
               {/* Compliance Checks */}
-              <h3 className="text-lg font-semibold text-slate-800 mb-3">Compliance Checklist</h3>
-              <p className="text-xs text-slate-500 mb-4">
-                Click on any failed item to view detailed fix instructions
-              </p>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-                <CheckItem passed={result.issues.https} label="HTTPS Enabled" recKey="https" />
-                <CheckItem passed={result.issues.consentBanner} label="Cookie Consent Banner" recKey="consentBanner" />
-                <CheckItem passed={result.issues.privacyPolicy} label="Privacy Policy" recKey="privacyPolicy" />
-                <CheckItem passed={result.issues.cookiePolicy} label="Cookie Policy" recKey="cookiePolicy" />
-                <CheckItem passed={result.issues.legalMentions} label="Legal Mentions / Terms" recKey="legalMentions" />
-                <CheckItem passed={result.issues.dpoContact} label="DPO / Privacy Contact" recKey="dpoContact" />
-                <CheckItem passed={result.issues.dataDeleteLink} label="Data Deletion Option" recKey="dataDeleteLink" />
-                <CheckItem passed={result.issues.optOutMechanism} label="Opt-out Mechanism" recKey="optOutMechanism" />
-                <CheckItem passed={result.issues.secureforms} label="Form Consent Checkbox" recKey="secureforms" />
-                <CheckItem passed={result.issues.cookies.undeclared === 0} label={`Cookies Declared (${result.issues.cookies.count} found)`} />
-                {result.issues.ageVerification && (
-                  <CheckItem passed={true} label="Age Verification" recKey="ageVerification" />
+              <div className="mb-6">
+                <button
+                  onClick={() => setShowComplianceChecklist(!showComplianceChecklist)}
+                  className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                >
+                  <span>Compliance Checklist</span>
+                  <svg className={`w-5 h-5 text-slate-500 transition-transform ${showComplianceChecklist ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {showComplianceChecklist && (
+                  <>
+                    <p className="text-xs text-slate-500 mb-4">
+                      Click on any failed item to view detailed fix instructions
+                    </p>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                      <CheckItem passed={result.issues.https} label="HTTPS Enabled" recKey="https" />
+                      <CheckItem passed={result.issues.consentBanner} label="Cookie Consent Banner" recKey="consentBanner" />
+                      <CheckItem passed={result.issues.privacyPolicy} label="Privacy Policy" recKey="privacyPolicy" />
+                      <CheckItem passed={result.issues.cookiePolicy} label="Cookie Policy" recKey="cookiePolicy" />
+                      <CheckItem passed={result.issues.legalMentions} label="Legal Mentions / Terms" recKey="legalMentions" />
+                      <CheckItem passed={result.issues.dpoContact} label="DPO / Privacy Contact" recKey="dpoContact" />
+                      <CheckItem passed={result.issues.dataDeleteLink} label="Data Deletion Option" recKey="dataDeleteLink" />
+                      <CheckItem passed={result.issues.optOutMechanism} label="Opt-out Mechanism" recKey="optOutMechanism" />
+                      <CheckItem passed={result.issues.secureforms} label="Form Consent Checkbox" recKey="secureforms" />
+                      <CheckItem passed={result.issues.cookies.undeclared === 0} label={`Cookies Declared (${result.issues.cookies.count} found)`} />
+                      {result.issues.ageVerification && (
+                        <CheckItem passed={true} label="Age Verification" recKey="ageVerification" />
+                      )}
+                    </div>
+                  </>
                 )}
               </div>
 
               {/* Security Checks */}
               {(result.issues.ssl || result.issues.securityHeaders || result.issues.emailSecurity) && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Security Checks</h3>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    {/* SSL/TLS */}
-                    {result.issues.ssl && (
-                      <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${result.issues.ssl.valid ? 'bg-emerald-100' : 'bg-slate-200'}`}>
-                            <svg className={`w-4 h-4 ${result.issues.ssl.valid ? 'text-emerald-600' : 'text-slate-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                            </svg>
+                  <button
+                    onClick={() => setShowSecurityChecks(!showSecurityChecks)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span>Security Checks</span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showSecurityChecks ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showSecurityChecks && (
+                    <div className="grid md:grid-cols-3 gap-4">
+                      {/* SSL/TLS */}
+                      {result.issues.ssl && (
+                        <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${result.issues.ssl.valid ? 'bg-emerald-100' : 'bg-slate-200'}`}>
+                              <svg className={`w-4 h-4 ${result.issues.ssl.valid ? 'text-emerald-600' : 'text-slate-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                              </svg>
+                            </div>
+                            <h4 className="font-semibold text-gray-900">SSL/TLS</h4>
                           </div>
-                          <h4 className="font-semibold text-gray-900">SSL/TLS</h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">HTTPS</span>
+                              <span className={result.issues.ssl.valid ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                {result.issues.ssl.valid ? '✓ Enabled' : '✗ Missing'}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">HSTS</span>
+                              <span className={result.issues.ssl.hsts ? 'text-green-600 font-medium' : 'text-yellow-600 font-medium'}>
+                                {result.issues.ssl.hsts ? '✓ Enabled' : '○ Missing'}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">HTTPS</span>
-                            <span className={result.issues.ssl.valid ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                              {result.issues.ssl.valid ? '✓ Enabled' : '✗ Missing'}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">HSTS</span>
-                            <span className={result.issues.ssl.hsts ? 'text-green-600 font-medium' : 'text-yellow-600 font-medium'}>
-                              {result.issues.ssl.hsts ? '✓ Enabled' : '○ Missing'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                      )}
 
-                    {/* Email Security */}
-                    {result.issues.emailSecurity && (
-                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${result.issues.emailSecurity.spf && result.issues.emailSecurity.dmarc ? 'bg-green-100' : 'bg-yellow-100'}`}>
-                            <svg className={`w-4 h-4 ${result.issues.emailSecurity.spf && result.issues.emailSecurity.dmarc ? 'text-green-600' : 'text-yellow-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
+                      {/* Email Security */}
+                      {result.issues.emailSecurity && (
+                        <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${result.issues.emailSecurity.spf && result.issues.emailSecurity.dmarc ? 'bg-green-100' : 'bg-yellow-100'}`}>
+                              <svg className={`w-4 h-4 ${result.issues.emailSecurity.spf && result.issues.emailSecurity.dmarc ? 'text-green-600' : 'text-yellow-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                            </div>
+                            <h4 className="font-semibold text-gray-900">Email Security</h4>
                           </div>
-                          <h4 className="font-semibold text-gray-900">Email Security</h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">SPF Record</span>
+                              <span className={result.issues.emailSecurity.spf ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                {result.issues.emailSecurity.spf ? '✓ Found' : '✗ Missing'}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">DMARC</span>
+                              <span className={result.issues.emailSecurity.dmarc ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                {result.issues.emailSecurity.dmarc ? '✓ Found' : '✗ Missing'}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">SPF Record</span>
-                            <span className={result.issues.emailSecurity.spf ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                              {result.issues.emailSecurity.spf ? '✓ Found' : '✗ Missing'}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">DMARC</span>
-                            <span className={result.issues.emailSecurity.dmarc ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                              {result.issues.emailSecurity.dmarc ? '✓ Found' : '✗ Missing'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                      )}
 
-                    {/* Security Headers */}
-                    {result.issues.securityHeaders && (
-                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${Object.values(result.issues.securityHeaders).filter(Boolean).length >= 4 ? 'bg-green-100' : 'bg-yellow-100'}`}>
-                            <svg className={`w-4 h-4 ${Object.values(result.issues.securityHeaders).filter(Boolean).length >= 4 ? 'text-green-600' : 'text-yellow-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
+                      {/* Security Headers */}
+                      {result.issues.securityHeaders && (
+                        <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${Object.values(result.issues.securityHeaders).filter(Boolean).length >= 4 ? 'bg-green-100' : 'bg-yellow-100'}`}>
+                              <svg className={`w-4 h-4 ${Object.values(result.issues.securityHeaders).filter(Boolean).length >= 4 ? 'text-green-600' : 'text-yellow-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                              </svg>
+                            </div>
+                            <h4 className="font-semibold text-gray-900">Security Headers</h4>
                           </div>
-                          <h4 className="font-semibold text-gray-900">Security Headers</h4>
+                          <div className="space-y-1 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">CSP</span>
+                              <span className={result.issues.securityHeaders.csp ? 'text-green-600' : 'text-gray-400'}>
+                                {result.issues.securityHeaders.csp ? '✓' : '○'}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">X-Frame-Options</span>
+                              <span className={result.issues.securityHeaders.xFrameOptions ? 'text-green-600' : 'text-gray-400'}>
+                                {result.issues.securityHeaders.xFrameOptions ? '✓' : '○'}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">X-Content-Type</span>
+                              <span className={result.issues.securityHeaders.xContentType ? 'text-green-600' : 'text-gray-400'}>
+                                {result.issues.securityHeaders.xContentType ? '✓' : '○'}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Referrer-Policy</span>
+                              <span className={result.issues.securityHeaders.referrerPolicy ? 'text-green-600' : 'text-gray-400'}>
+                                {result.issues.securityHeaders.referrerPolicy ? '✓' : '○'}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="space-y-1 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">CSP</span>
-                            <span className={result.issues.securityHeaders.csp ? 'text-green-600' : 'text-gray-400'}>
-                              {result.issues.securityHeaders.csp ? '✓' : '○'}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">X-Frame-Options</span>
-                            <span className={result.issues.securityHeaders.xFrameOptions ? 'text-green-600' : 'text-gray-400'}>
-                              {result.issues.securityHeaders.xFrameOptions ? '✓' : '○'}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">X-Content-Type</span>
-                            <span className={result.issues.securityHeaders.xContentType ? 'text-green-600' : 'text-gray-400'}>
-                              {result.issues.securityHeaders.xContentType ? '✓' : '○'}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Referrer-Policy</span>
-                            <span className={result.issues.securityHeaders.referrerPolicy ? 'text-green-600' : 'text-gray-400'}>
-                              {result.issues.securityHeaders.referrerPolicy ? '✓' : '○'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -1124,163 +1189,193 @@ export default function Home() {
                   result.issues.externalResources.fonts.length > 0 ||
                   result.issues.externalResources.iframes.length > 0) && (
                   <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-slate-800 mb-3">External Resources</h3>
-                    <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-                      <p className="text-slate-600 text-xs mb-4">
-                        Third-party resources may track visitors and impact performance.
-                      </p>
+                    <button
+                      onClick={() => setShowExternalResources(!showExternalResources)}
+                      className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    >
+                      <span>External Resources</span>
+                      <svg className={`w-5 h-5 text-slate-500 transition-transform ${showExternalResources ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {showExternalResources && (
+                      <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                        <p className="text-slate-600 text-xs mb-4">
+                          Third-party resources may track visitors and impact performance.
+                        </p>
 
-                      {/* Scripts */}
-                      {result.issues.externalResources.scripts.length > 0 && (
-                        <div className="mb-4">
-                          <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                            <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.scripts.length}</span>
-                            External Scripts
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].map((provider, i) => (
-                              <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                {provider}
-                              </span>
-                            ))}
+                        {/* Scripts */}
+                        {result.issues.externalResources.scripts.length > 0 && (
+                          <div className="mb-4">
+                            <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
+                              <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.scripts.length}</span>
+                              External Scripts
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].map((provider, i) => (
+                                <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
+                                  {provider}
+                                </span>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* Fonts */}
-                      {result.issues.externalResources.fonts.length > 0 && (
-                        <div className="mb-4">
-                          <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                            <span className="px-2 py-1 bg-orange-200 rounded text-xs">{result.issues.externalResources.fonts.length}</span>
-                            External Fonts
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {[...new Set(result.issues.externalResources.fonts.map(f => f.provider))].map((provider, i) => (
-                              <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                {provider}
-                              </span>
-                            ))}
+                        {/* Fonts */}
+                        {result.issues.externalResources.fonts.length > 0 && (
+                          <div className="mb-4">
+                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                              <span className="px-2 py-1 bg-orange-200 rounded text-xs">{result.issues.externalResources.fonts.length}</span>
+                              External Fonts
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {[...new Set(result.issues.externalResources.fonts.map(f => f.provider))].map((provider, i) => (
+                                <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
+                                  {provider}
+                                </span>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* Iframes */}
-                      {result.issues.externalResources.iframes.length > 0 && (
-                        <div>
-                          <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                            <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.iframes.length}</span>
-                            Embedded Iframes
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {[...new Set(result.issues.externalResources.iframes.map(f => f.provider))].map((provider, i) => (
-                              <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                {provider}
-                              </span>
-                            ))}
+                        {/* Iframes */}
+                        {result.issues.externalResources.iframes.length > 0 && (
+                          <div>
+                            <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
+                              <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.iframes.length}</span>
+                              Embedded Iframes
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {[...new Set(result.issues.externalResources.iframes.map(f => f.provider))].map((provider, i) => (
+                                <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
+                                  {provider}
+                                </span>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
 
               {/* Social Trackers */}
               {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Social & Ad Trackers</h3>
-                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-                    <p className="text-slate-600 text-xs mb-4">
-                      These trackers collect user data and may require explicit consent under GDPR.
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {result.issues.socialTrackers.map((tracker, i) => (
-                        <span
-                          key={i}
-                          className={`px-2 py-1 rounded text-xs font-medium flex items-center gap-2 ${tracker.risk === 'high'
-                            ? 'bg-slate-800 text-white'
-                            : tracker.risk === 'medium'
-                              ? 'bg-slate-500 text-white'
-                              : 'bg-slate-200 text-slate-700'
-                            }`}
-                        >
-                          {tracker.name}
-                        </span>
-                      ))}
+                  <button
+                    onClick={() => setShowSocialTrackers(!showSocialTrackers)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span>Social & Ad Trackers</span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showSocialTrackers ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showSocialTrackers && (
+                    <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                      <p className="text-slate-600 text-xs mb-4">
+                        These trackers collect user data and may require explicit consent under GDPR.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {result.issues.socialTrackers.map((tracker, i) => (
+                          <span
+                            key={i}
+                            className={`px-2 py-1 rounded text-xs font-medium flex items-center gap-2 ${tracker.risk === 'high'
+                              ? 'bg-slate-800 text-white'
+                              : tracker.risk === 'medium'
+                                ? 'bg-slate-500 text-white'
+                                : 'bg-slate-200 text-slate-700'
+                              }`}
+                          >
+                            {tracker.name}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
 
               {/* Vendor Risk Assessment */}
               {result.issues.vendorRisks && result.issues.vendorRisks.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Vendor Risk Assessment</h3>
-                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-                    <p className="text-slate-600 text-xs mb-4">
-                      Privacy risk evaluation of third-party vendors. Higher scores indicate greater concerns.
-                    </p>
-                    <div className="space-y-3">
-                      {result.issues.vendorRisks.map((vendor, i) => (
-                        <div key={i} className={`bg-white border rounded-lg p-4 ${vendor.riskScore >= 8 ? 'border-red-300' :
-                          vendor.riskScore >= 6 ? 'border-orange-300' :
-                            vendor.riskScore >= 4 ? 'border-yellow-300' :
-                              'border-green-300'
-                          }`}>
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-3">
-                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white ${vendor.riskScore >= 8 ? 'bg-red-500' :
-                                vendor.riskScore >= 6 ? 'bg-orange-500' :
-                                  vendor.riskScore >= 4 ? 'bg-yellow-500' :
-                                    'bg-green-500'
-                                }`}>
-                                {vendor.riskScore}
+                  <button
+                    onClick={() => setShowVendorRisk(!showVendorRisk)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span>Vendor Risk Assessment</span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showVendorRisk ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showVendorRisk && (
+                    <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                      <p className="text-slate-600 text-xs mb-4">
+                        Privacy risk evaluation of third-party vendors. Higher scores indicate greater concerns.
+                      </p>
+                      <div className="space-y-3">
+                        {result.issues.vendorRisks.map((vendor, i) => (
+                          <div key={i} className={`bg-white border rounded-lg p-4 ${vendor.riskScore >= 8 ? 'border-red-300' :
+                            vendor.riskScore >= 6 ? 'border-orange-300' :
+                              vendor.riskScore >= 4 ? 'border-yellow-300' :
+                                'border-green-300'
+                            }`}>
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white ${vendor.riskScore >= 8 ? 'bg-red-500' :
+                                  vendor.riskScore >= 6 ? 'bg-orange-500' :
+                                    vendor.riskScore >= 4 ? 'bg-yellow-500' :
+                                      'bg-green-500'
+                                  }`}>
+                                  {vendor.riskScore}
+                                </div>
+                                <div>
+                                  <h4 className="font-semibold text-gray-900">{vendor.name}</h4>
+                                  <p className="text-xs text-gray-500 capitalize">{vendor.category} • {vendor.jurisdiction}</p>
+                                </div>
                               </div>
-                              <div>
-                                <h4 className="font-semibold text-gray-900">{vendor.name}</h4>
-                                <p className="text-xs text-gray-500 capitalize">{vendor.category} • {vendor.jurisdiction}</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${vendor.riskLevel === 'critical' ? 'bg-red-100 text-red-700' :
-                                vendor.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' :
-                                  vendor.riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                                    'bg-green-100 text-green-700'
-                                }`}>
-                                {vendor.riskLevel.toUpperCase()}
-                              </span>
-                              {vendor.gdprCompliant ? (
-                                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">GDPR ✓</span>
-                              ) : (
-                                <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">GDPR ✗</span>
-                              )}
-                            </div>
-                          </div>
-                          {vendor.concerns.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-2">
-                              {vendor.concerns.map((concern, j) => (
-                                <span key={j} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
-                                  {concern}
+                              <div className="flex items-center gap-2">
+                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${vendor.riskLevel === 'critical' ? 'bg-red-100 text-red-700' :
+                                  vendor.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' :
+                                    vendor.riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                                      'bg-green-100 text-green-700'
+                                  }`}>
+                                  {vendor.riskLevel.toUpperCase()}
                                 </span>
-                              ))}
+                                {vendor.gdprCompliant ? (
+                                  <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">GDPR ✓</span>
+                                ) : (
+                                  <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">GDPR ✗</span>
+                                )}
+                              </div>
                             </div>
-                          )}
-                          <div className="mt-2 text-xs text-gray-400">
-                            Data transfer: <span className={`font-medium ${vendor.dataTransfer === 'EU' ? 'text-green-600' : vendor.dataTransfer === 'CN' ? 'text-red-600' : 'text-orange-600'}`}>
-                              {vendor.dataTransfer === 'EU' ? '🇪🇺 EU (adequate)' : vendor.dataTransfer === 'US' ? '🇺🇸 USA' : vendor.dataTransfer === 'CN' ? '🇨🇳 China' : '🌍 Other'}
-                            </span>
+                            {vendor.concerns.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {vendor.concerns.map((concern, j) => (
+                                  <span key={j} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
+                                    {concern}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            <div className="mt-2 text-xs text-gray-400">
+                              Data transfer: <span className={`font-medium ${vendor.dataTransfer === 'EU' ? 'text-green-600' : vendor.dataTransfer === 'CN' ? 'text-red-600' : 'text-orange-600'}`}>
+                                {vendor.dataTransfer === 'EU' ? '🇪🇺 EU (adequate)' : vendor.dataTransfer === 'US' ? '🇺🇸 USA' : vendor.dataTransfer === 'CN' ? '🇨🇳 China' : '🌍 Other'}
+                              </span>
+                            </div>
                           </div>
+                        ))}
+                      </div>
+                      <div className="mt-4 pt-3 border-t border-gray-200">
+                        <div className="flex gap-4 text-xs text-gray-500">
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-500"></span> 8-10: Critical</span>
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-orange-500"></span> 6-7: High</span>
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-yellow-500"></span> 4-5: Medium</span>
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-green-500"></span> 1-3: Low</span>
                         </div>
-                      ))}
-                    </div>
-                    <div className="mt-4 pt-3 border-t border-gray-200">
-                      <div className="flex gap-4 text-xs text-gray-500">
-                        <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-500"></span> 8-10: Critical</span>
-                        <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-orange-500"></span> 6-7: High</span>
-                        <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-yellow-500"></span> 4-5: Medium</span>
-                        <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-green-500"></span> 1-3: Low</span>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
 
