@@ -695,7 +695,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Get internal links - limit based on plan (Free: 5, Pro: 20, Pro+: 100)
-        const maxExtraPages = isProPlus ? 99 : (isPro ? 19 : 4); // +1 for main page = 5, 20, or 100
+        const maxExtraPages = isProPlus ? 199 : (isPro ? 49 : 9); // +1 for main page = 10, 50, or 200
         const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
 
         // For deeper crawl, also get links from the first batch of pages
@@ -753,7 +753,7 @@ export async function POST(request: NextRequest) {
         const batchSize = 5;
         let linksToProcess = allInternalLinks.slice(0, maxExtraPages);
 
-        for (let i = 0; i < linksToProcess.length && pages.length < (isPro ? 100 : 20); i += batchSize) {
+        for (let i = 0; i < linksToProcess.length && pages.length < (isProPlus ? 200 : (isPro ? 50 : 10)); i += batchSize) {
             const batch = linksToProcess.slice(i, i + batchSize);
             const results = await crawlBatch(batch);
             processPageResults(results);
