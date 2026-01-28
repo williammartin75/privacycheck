@@ -128,6 +128,7 @@ export default function Home() {
   const [error, setError] = useState('');
   const [showCookies, setShowCookies] = useState(false);
   const [showPages, setShowPages] = useState(false);
+  const [showPassedChecks, setShowPassedChecks] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [expandedRec, setExpandedRec] = useState<string | null>(null);
   const [tier, setTier] = useState<'free' | 'pro' | 'pro_plus'>('free');
@@ -581,34 +582,76 @@ export default function Home() {
 
                 {/* Executive Summary */}
                 <div className="flex-shrink-0">
-                  <div className="grid grid-cols-1 gap-2 min-w-[200px]">
-                    <div className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded border border-slate-200">
-                      <span className="text-xs text-slate-500">Issues Found</span>
-                      <span className="font-bold text-slate-700">{Object.values(result.issues).filter(v => !v).length}</span>
+                  <p className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Executive Summary</p>
+                  <div className="grid grid-cols-1 gap-2 min-w-[220px]">
+                    {/* Issues Found - Red indicator */}
+                    <div className="flex items-center justify-between px-3 py-2 bg-red-50 rounded border border-red-200">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                        <span className="text-xs text-red-700">Issues Found</span>
+                      </div>
+                      <span className="font-bold text-red-700">{Object.values(result.issues).filter(v => !v).length}</span>
                     </div>
-                    <div className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded border border-slate-200">
-                      <span className="text-xs text-slate-500">Checks Passed</span>
-                      <span className="font-bold text-emerald-600">{Object.values(result.issues).filter(v => v).length}</span>
-                    </div>
-                    <div className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded border border-slate-200">
-                      <span className="text-xs text-slate-500">Pages Scanned</span>
-                      <span className="font-bold text-slate-700">{result.pagesScanned}</span>
+                    {/* Checks Passed - Green indicator with expandable */}
+                    <button
+                      onClick={() => setShowPassedChecks(!showPassedChecks)}
+                      className="flex items-center justify-between px-3 py-2 bg-emerald-50 rounded border border-emerald-200 hover:bg-emerald-100 transition w-full text-left"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span className="text-xs text-emerald-700">Checks Passed</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="font-bold text-emerald-700">{Object.values(result.issues).filter(v => v).length}</span>
+                        <svg className={`w-3 h-3 text-emerald-500 transition-transform ${showPassedChecks ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </button>
+                    {/* Pages Scanned - Blue indicator */}
+                    <div className="flex items-center justify-between px-3 py-2 bg-blue-50 rounded border border-blue-200">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span className="text-xs text-blue-700">Pages Scanned</span>
+                      </div>
+                      <span className="font-bold text-blue-700">{result.pagesScanned}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
+              {/* Expandable Passed Checks List */}
+              {showPassedChecks && (
+                <div className="mb-6 p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                  <h4 className="text-sm font-semibold text-emerald-800 mb-3">Passed Compliance Checks</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    {result.issues.https && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>HTTPS Enabled</span>}
+                    {result.issues.privacyPolicy && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Privacy Policy</span>}
+                    {result.issues.cookiePolicy && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Policy</span>}
+                    {result.issues.consentBanner && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Consent</span>}
+                    {result.issues.legalMentions && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Legal Mentions</span>}
+                    {result.issues.dpoContact && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DPO Contact</span>}
+                    {result.issues.dataDeleteLink && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Data Deletion</span>}
+                    {result.issues.optOutMechanism && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Opt-out Option</span>}
+                    {result.issues.secureforms && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Secure Forms</span>}
+                    {result.issues.ssl?.valid && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SSL Certificate</span>}
+                    {result.issues.emailSecurity?.spf && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SPF Record</span>}
+                    {result.issues.emailSecurity?.dmarc && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DMARC Record</span>}
+                  </div>
+                </div>
+              )}
+
               {/* Key Issues Summary */}
               {Object.values(result.issues).filter(v => !v).length > 0 && (
-                <div className="mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-                  <h4 className="text-sm font-semibold text-slate-700 mb-3">Key Issues Identified</h4>
+                <div className="mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
+                  <h4 className="text-sm font-semibold text-red-800 mb-3">Issues Requiring Attention</h4>
                   <div className="flex flex-wrap gap-2">
-                    {!result.issues.consentBanner && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Cookie Consent Banner</span>}
-                    {!result.issues.cookiePolicy && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Cookie Policy</span>}
-                    {!result.issues.dpoContact && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">DPO Contact</span>}
-                    {!result.issues.secureforms && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Secure Forms</span>}
-                    {!result.issues.privacyPolicy && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Privacy Policy</span>}
-                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 bg-white border border-slate-300 rounded text-xs text-slate-600">Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
+                    {!result.issues.consentBanner && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Cookie Consent Banner</span>}
+                    {!result.issues.cookiePolicy && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Cookie Policy</span>}
+                    {!result.issues.dpoContact && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">DPO Contact</span>}
+                    {!result.issues.secureforms && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Secure Forms</span>}
+                    {!result.issues.privacyPolicy && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Privacy Policy</span>}
+                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
                   </div>
                 </div>
               )}
