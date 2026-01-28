@@ -619,6 +619,9 @@ export async function POST(request: NextRequest) {
         const isPro = tier === 'pro' || tier === 'pro_plus';
         const isProPlus = tier === 'pro_plus';
 
+        // Debug logging
+        console.log(`[Audit API] Received request - URL: ${url}, Tier: ${tier}, isPro: ${isPro}, isProPlus: ${isProPlus}`);
+
         if (!url) {
             return NextResponse.json({ error: 'URL is required' }, { status: 400 });
         }
@@ -697,6 +700,8 @@ export async function POST(request: NextRequest) {
         // Get internal links - limit based on plan (Free: 5, Pro: 20, Pro+: 100)
         const maxExtraPages = isProPlus ? 199 : (isPro ? 49 : 9); // +1 for main page = 10, 50, or 200
         const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
+
+        console.log(`[Audit API] maxExtraPages: ${maxExtraPages}, allInternalLinks found: ${allInternalLinks.length}`);
 
         // For deeper crawl, also get links from the first batch of pages
         const firstBatchLinks = allInternalLinks.slice(0, 5);
