@@ -563,11 +563,11 @@ export default function Home() {
                 {/* Score Circle - Corporate Navy Style */}
                 <div className="relative">
                   <svg className="w-32 h-32 transform -rotate-90">
-                    <circle cx="64" cy="64" r="56" stroke="#e2e8f0" strokeWidth="4" fill="none" />
+                    <circle cx="64" cy="64" r="56" stroke="#e2e8f0" strokeWidth="8" fill="none" />
                     <circle
                       cx="64" cy="64" r="56"
-                      stroke="#1e3a5f"
-                      strokeWidth="4"
+                      stroke={result.score >= 70 ? '#16a34a' : result.score >= 40 ? '#f59e0b' : '#dc2626'}
+                      strokeWidth="8"
                       fill="none"
                       strokeLinecap="round"
                       strokeDasharray={`${result.score * 3.52} 352`}
@@ -1061,7 +1061,7 @@ export default function Home() {
                       {result.issues.ssl && (
                         <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                           <div className="flex items-center gap-2 mb-3">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${result.issues.ssl.valid ? 'bg-emerald-100' : 'bg-slate-200'}`}>
+                            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                               <svg className={`w-4 h-4 ${result.issues.ssl.valid ? 'text-emerald-600' : 'text-slate-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                               </svg>
@@ -1089,7 +1089,7 @@ export default function Home() {
                       {result.issues.emailSecurity && (
                         <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                           <div className="flex items-center gap-2 mb-3">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${result.issues.emailSecurity.spf && result.issues.emailSecurity.dmarc ? 'bg-green-100' : 'bg-yellow-100'}`}>
+                            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                               <svg className={`w-4 h-4 ${result.issues.emailSecurity.spf && result.issues.emailSecurity.dmarc ? 'text-green-600' : 'text-yellow-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                               </svg>
@@ -1117,7 +1117,7 @@ export default function Home() {
                       {result.issues.securityHeaders && (
                         <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                           <div className="flex items-center gap-2 mb-3">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${Object.values(result.issues.securityHeaders).filter(Boolean).length >= 4 ? 'bg-green-100' : 'bg-yellow-100'}`}>
+                            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                               <svg className={`w-4 h-4 ${Object.values(result.issues.securityHeaders).filter(Boolean).length >= 4 ? 'text-green-600' : 'text-yellow-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                               </svg>
