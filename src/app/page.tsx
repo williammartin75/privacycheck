@@ -155,7 +155,7 @@ export default function Home() {
           .eq('user_id', user.id)
           .maybeSingle();
 
-        if (!error && subscription?.status === 'active') {
+        if (!error && subscription && subscription.status === 'active') {
           setTier(subscription.tier || 'pro');
         }
       }
