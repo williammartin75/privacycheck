@@ -388,7 +388,7 @@ export default function Home() {
     return (
       <div className={`rounded-lg ${passed ? 'bg-white border border-slate-200' : 'bg-white border border-slate-300'}`}>
         <div
-          className={`p-4 flex items-center gap-3 ${!passed && rec ? 'cursor-pointer hover:bg-slate-50' : ''}`}
+          className={`p-4 flex items-center gap-3 ${!passed && rec ? 'cursor-pointer hover:bg-white' : ''}`}
           onClick={() => !passed && rec && setExpandedRec(isExpanded ? null : recKey!)}
         >
           {passed ? (
@@ -492,7 +492,7 @@ export default function Home() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="Enter your website URL (e.g., https://example.com)"
-                className="flex-1 px-6 py-4 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
+                className="flex-1 px-6 py-4 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
                 required
               />
               <button
@@ -725,7 +725,7 @@ export default function Home() {
               {result.scoreBreakdown && result.scoreBreakdown.length > 0 && (
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-slate-800 mb-3">Score Breakdown</h3>
-                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                  <div className="bg-white rounded-lg p-4 border border-slate-200">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {result.scoreBreakdown.filter(b => b.points !== 0 || !b.passed).map((item, i) => (
                         <div key={i} className={`flex items-center justify-between px-3 py-2 rounded border ${item.passed ? 'bg-white border-slate-200' : 'bg-white border-slate-300'}`}>
@@ -759,7 +759,7 @@ export default function Home() {
                     </svg>
                   </button>
                   {showRiskAssessment && (
-                    <div className="rounded-lg p-6 border border-slate-200 bg-slate-50">
+                    <div className="rounded-lg p-6 border border-slate-200 bg-white">
                       {/* Fine Estimation Header */}
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <div>
@@ -858,7 +858,7 @@ export default function Home() {
                     </svg>
                   </button>
                   {showComplianceDrift && (
-                    <div className="rounded-lg p-5 border border-slate-200 bg-slate-50">
+                    <div className="rounded-lg p-5 border border-slate-200 bg-white">
                       {/* Header with trend */}
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div className="flex items-center gap-3">
@@ -932,7 +932,7 @@ export default function Home() {
                     </svg>
                   </button>
                   {showSecurityExposure && (
-                    <div className="rounded-lg p-5 border border-slate-200 bg-slate-50">
+                    <div className="rounded-lg p-5 border border-slate-200 bg-white">
                       {/* Header */}
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div className="flex items-center gap-3">
@@ -1059,7 +1059,7 @@ export default function Home() {
                     <div className="grid md:grid-cols-3 gap-4">
                       {/* SSL/TLS */}
                       {result.issues.ssl && (
-                        <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                        <div className="bg-white rounded-lg p-4 border border-slate-200">
                           <div className="flex items-center gap-2 mb-3">
                             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                               <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1087,7 +1087,7 @@ export default function Home() {
 
                       {/* Email Security */}
                       {result.issues.emailSecurity && (
-                        <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                        <div className="bg-white rounded-xl p-4 border border-gray-200">
                           <div className="flex items-center gap-2 mb-3">
                             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                               <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1115,7 +1115,7 @@ export default function Home() {
 
                       {/* Security Headers */}
                       {result.issues.securityHeaders && (
-                        <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                        <div className="bg-white rounded-xl p-4 border border-gray-200">
                           <div className="flex items-center gap-2 mb-3">
                             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                               <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1170,7 +1170,7 @@ export default function Home() {
                     </svg>
                   </button>
                   {showEmailExposure && (
-                    <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                    <div className="p-4 bg-white border border-slate-200 rounded-lg">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-8 h-8 bg-slate-200 rounded-lg flex items-center justify-center">
                           <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1213,7 +1213,7 @@ export default function Home() {
                       </svg>
                     </button>
                     {showExternalResources && (
-                      <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                      <div className="bg-white border border-slate-200 rounded-lg p-4">
                         <p className="text-slate-600 text-xs mb-4">
                           Third-party resources may track visitors and impact performance.
                         </p>
@@ -1286,7 +1286,7 @@ export default function Home() {
                     </svg>
                   </button>
                   {showSocialTrackers && (
-                    <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
                       <p className="text-slate-600 text-xs mb-4">
                         These trackers collect user data and may require explicit consent under GDPR.
                       </p>
@@ -1297,7 +1297,7 @@ export default function Home() {
                             className={`px-2 py-1 rounded text-xs font-medium flex items-center gap-2 ${tracker.risk === 'high'
                               ? 'bg-slate-800 text-white'
                               : tracker.risk === 'medium'
-                                ? 'bg-slate-500 text-white'
+                                ? 'bg-white0 text-white'
                                 : 'bg-slate-200 text-slate-700'
                               }`}
                           >
@@ -1323,7 +1323,7 @@ export default function Home() {
                     </svg>
                   </button>
                   {showVendorRisk && (
-                    <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
                       <p className="text-slate-600 text-xs mb-4">
                         Privacy risk evaluation of third-party vendors. Higher scores indicate greater concerns.
                       </p>
@@ -1439,7 +1439,7 @@ export default function Home() {
                   Cookies Detected ({result.issues.cookies.count})
                 </button>
                 {showCookies && result.issues.cookies.list.length > 0 && (
-                  <div className="bg-gray-50 rounded-xl p-4 overflow-x-auto">
+                  <div className="bg-white rounded-xl p-4 overflow-x-auto">
                     {/* Category Legend */}
                     <div className="flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-200">
                       <span className="text-xs text-gray-500 font-medium">Categories:</span>
@@ -1488,7 +1488,7 @@ export default function Home() {
                   Pages Scanned ({result.pagesScanned})
                 </button>
                 {showPages && (
-                  <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+                  <div className="bg-white rounded-xl p-4 space-y-3">
                     {result.pages.map((page, i) => (
                       <div key={i} className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-100">
                         <div className="truncate flex-1 mr-4">
@@ -1522,7 +1522,7 @@ export default function Home() {
                     </svg>
                   </button>
                   {showTrackers && (
-                    <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                    <div className="p-4 bg-white border border-slate-200 rounded-lg">
                       <p className="text-slate-600 text-sm mb-3">
                         {result.issues.trackers.length} tracker{result.issues.trackers.length > 1 ? 's' : ''} collecting user data - explicit consent required under GDPR.
                       </p>
@@ -1558,7 +1558,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">How it works</h2>
           <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">A complete privacy audit of your website in under 60 seconds</p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+            <div className="p-8 bg-white rounded-2xl border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">1</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Enter your website URL</h3>
               <p className="text-gray-600 text-sm mb-4">We crawl up to 1,000 pages and run a comprehensive analysis.</p>
@@ -1575,7 +1575,7 @@ export default function Home() {
                 <li>• DNS security (SPF, DKIM, DMARC)</li>
               </ul>
             </div>
-            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+            <div className="p-8 bg-white rounded-2xl border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">2</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Get your compliance score</h3>
               <p className="text-gray-600 text-sm mb-4">We check 20+ compliance criteria and calculate your privacy score from 0 to 100%.</p>
@@ -1592,7 +1592,7 @@ export default function Home() {
                 <li>• Attack surface vulnerabilities</li>
               </ul>
             </div>
-            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+            <div className="p-8 bg-white rounded-2xl border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">3</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Fix issues and stay compliant</h3>
               <p className="text-gray-600 text-sm mb-4">Pro users get everything to fix and maintain compliance over time.</p>
@@ -1617,7 +1617,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">Simple pricing</h2>
           <p className="text-gray-600 text-center mb-12">Free to scan. Upgrade to unlock recommendations.</p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100 flex flex-col">
+            <div className="p-8 bg-white rounded-2xl border border-gray-100 flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Free</h3>
               <p className="text-4xl font-bold text-gray-900 mb-6">€0</p>
               <ul className="space-y-3 mb-8">
@@ -1861,7 +1861,7 @@ export default function Home() {
       </main >
 
       {/* Footer */}
-      < footer className="border-t border-gray-200 py-12 bg-gray-50" >
+      < footer className="border-t border-gray-200 py-12 bg-white" >
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-1">
