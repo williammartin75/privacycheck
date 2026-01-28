@@ -790,14 +790,13 @@ export default function Home() {
                             <div className="w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
                               <div
                                 className={`h-full ${result.riskPrediction.probability >= 70 ? 'bg-red-500' :
-                                  result.riskPrediction.probability >= 40 ? 'bg-orange-500' :
-                                    result.riskPrediction.probability >= 20 ? 'bg-yellow-500' :
-                                      'bg-green-500'
+                                  result.riskPrediction.probability >= 40 ? 'bg-yellow-500' :
+                                    'bg-green-500'
                                   }`}
                                 style={{ width: `${result.riskPrediction.probability}%` }}
                               ></div>
                             </div>
-                            <span className="text-lg font-bold text-gray-700">{result.riskPrediction.probability}%</span>
+                            <span style={{ color: result.riskPrediction.probability >= 70 ? '#dc2626' : result.riskPrediction.probability >= 40 ? '#FFD700' : '#16a34a' }} className="text-lg font-bold">{result.riskPrediction.probability}%</span>
                           </div>
                         </div>
                       </div>
