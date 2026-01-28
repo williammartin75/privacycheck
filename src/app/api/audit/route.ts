@@ -569,13 +569,18 @@ function extractCookies(html: string, setCookieHeader: string | null): Cookie[] 
         }
     }
 
-    // Detect cookies from known tracker patterns
+    // Detect cookies from known tracker patterns - only for names >= 4 chars to avoid false positives
+    // Short names like 'fr' would match too many false positives in HTML
     for (const [cookieName, cookieInfo] of Object.entries(KNOWN_COOKIES)) {
+        // Skip short cookie names - they cause false positives (e.g., 'fr' matches 'from', 'french', etc.)
+        if (cookieName.length < 4) continue;
+
         if (!foundNames.has(cookieName) && html.toLowerCase().includes(cookieName.toLowerCase())) {
             foundNames.add(cookieName);
             cookies.push(cookieInfo);
         }
     }
+
 
     return cookies;
 }
