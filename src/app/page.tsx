@@ -148,15 +148,15 @@ export default function Home() {
       setUser(user);
 
       if (user) {
-        // Check subscription status and tier
-        const { data: subscription, error } = await supabase
-          .from('subscriptions')
-          .select('status, tier')
-          .eq('user_id', user.id)
-          .maybeSingle();
-
-        if (!error && subscription && subscription.status === 'active') {
-          setTier(subscription.tier || 'pro');
+        // Check subscription status and tier via API (uses service role to bypass RLS)
+        try {
+          const tierResponse = await fetch('/api/subscription');
+          const tierData = await tierResponse.json();
+          if (tierData.tier && tierData.tier !== 'free') {
+            setTier(tierData.tier);
+          }
+        } catch (err) {
+          console.error('Failed to fetch tier:', err);
         }
       }
     };
