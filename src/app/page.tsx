@@ -357,10 +357,10 @@ export default function Home() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'necessary': return 'bg-green-100 text-green-700';
-      case 'analytics': return 'bg-blue-100 text-blue-700';
-      case 'marketing': return 'bg-purple-100 text-purple-700';
-      case 'preferences': return 'bg-orange-100 text-orange-700';
+      case 'necessary': return 'bg-slate-200 text-slate-700';
+      case 'analytics': return 'bg-blue-600 text-white';
+      case 'marketing': return 'bg-sky-200 text-sky-800';
+      case 'preferences': return 'bg-amber-400 text-amber-900';
       default: return 'bg-gray-100 text-gray-700';
     }
   };
@@ -584,26 +584,26 @@ export default function Home() {
                 <div className="flex-shrink-0">
                   <p className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Executive Summary</p>
                   <div className="grid grid-cols-1 gap-2 min-w-[220px]">
-                    {/* Issues Found - Red indicator */}
-                    <div className="flex items-center justify-between px-3 py-2 bg-red-50 rounded border border-red-200">
+                    {/* Issues Found - Dark slate indicator */}
+                    <div className="flex items-center justify-between px-3 py-2 bg-slate-100 rounded border border-slate-300">
                       <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-red-500"></span>
-                        <span className="text-xs text-red-700">Issues Found</span>
+                        <span className="w-2 h-2 rounded-full bg-slate-700"></span>
+                        <span className="text-xs text-slate-700">Issues Found</span>
                       </div>
-                      <span className="font-bold text-red-700">{Object.values(result.issues).filter(v => !v).length}</span>
+                      <span className="font-bold text-slate-800">{Object.values(result.issues).filter(v => !v).length}</span>
                     </div>
-                    {/* Checks Passed - Green indicator with expandable */}
+                    {/* Checks Passed - Blue indicator with expandable */}
                     <button
                       onClick={() => setShowPassedChecks(!showPassedChecks)}
-                      className="flex items-center justify-between px-3 py-2 bg-emerald-50 rounded border border-emerald-200 hover:bg-emerald-100 transition w-full text-left"
+                      className="flex items-center justify-between px-3 py-2 bg-blue-50 rounded border border-blue-200 hover:bg-blue-100 transition w-full text-left"
                     >
                       <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        <span className="text-xs text-emerald-700">Checks Passed</span>
+                        <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                        <span className="text-xs text-blue-700">Checks Passed</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <span className="font-bold text-emerald-700">{Object.values(result.issues).filter(v => v).length}</span>
-                        <svg className={`w-3 h-3 text-emerald-500 transition-transform ${showPassedChecks ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span className="font-bold text-blue-700">{Object.values(result.issues).filter(v => v).length}</span>
+                        <svg className={`w-3 h-3 text-blue-500 transition-transform ${showPassedChecks ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </div>
@@ -622,36 +622,36 @@ export default function Home() {
 
               {/* Expandable Passed Checks List */}
               {showPassedChecks && (
-                <div className="mb-6 p-4 bg-emerald-50 rounded-lg border border-emerald-200">
-                  <h4 className="text-sm font-semibold text-emerald-800 mb-3">Passed Compliance Checks</h4>
+                <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h4 className="text-sm font-semibold text-blue-800 mb-3">Passed Compliance Checks</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {result.issues.https && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>HTTPS Enabled</span>}
-                    {result.issues.privacyPolicy && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Privacy Policy</span>}
-                    {result.issues.cookiePolicy && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Policy</span>}
-                    {result.issues.consentBanner && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Consent</span>}
-                    {result.issues.legalMentions && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Legal Mentions</span>}
-                    {result.issues.dpoContact && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DPO Contact</span>}
-                    {result.issues.dataDeleteLink && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Data Deletion</span>}
-                    {result.issues.optOutMechanism && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Opt-out Option</span>}
-                    {result.issues.secureforms && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Secure Forms</span>}
-                    {result.issues.ssl?.valid && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SSL Certificate</span>}
-                    {result.issues.emailSecurity?.spf && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SPF Record</span>}
-                    {result.issues.emailSecurity?.dmarc && <span className="flex items-center gap-2 text-xs text-emerald-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DMARC Record</span>}
+                    {result.issues.https && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>HTTPS Enabled</span>}
+                    {result.issues.privacyPolicy && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Privacy Policy</span>}
+                    {result.issues.cookiePolicy && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Policy</span>}
+                    {result.issues.consentBanner && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Consent</span>}
+                    {result.issues.legalMentions && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Legal Mentions</span>}
+                    {result.issues.dpoContact && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DPO Contact</span>}
+                    {result.issues.dataDeleteLink && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Data Deletion</span>}
+                    {result.issues.optOutMechanism && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Opt-out Option</span>}
+                    {result.issues.secureforms && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Secure Forms</span>}
+                    {result.issues.ssl?.valid && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SSL Certificate</span>}
+                    {result.issues.emailSecurity?.spf && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SPF Record</span>}
+                    {result.issues.emailSecurity?.dmarc && <span className="flex items-center gap-2 text-xs text-blue-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DMARC Record</span>}
                   </div>
                 </div>
               )}
 
               {/* Key Issues Summary */}
               {Object.values(result.issues).filter(v => !v).length > 0 && (
-                <div className="mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
-                  <h4 className="text-sm font-semibold text-red-800 mb-3">Issues Requiring Attention</h4>
+                <div className="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-300">
+                  <h4 className="text-sm font-semibold text-amber-800 mb-3">Issues Requiring Attention</h4>
                   <div className="flex flex-wrap gap-2">
-                    {!result.issues.consentBanner && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Cookie Consent Banner</span>}
-                    {!result.issues.cookiePolicy && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Cookie Policy</span>}
-                    {!result.issues.dpoContact && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">DPO Contact</span>}
-                    {!result.issues.secureforms && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Secure Forms</span>}
-                    {!result.issues.privacyPolicy && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Privacy Policy</span>}
-                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 bg-white border border-red-300 rounded text-xs text-red-700">Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
+                    {!result.issues.consentBanner && <span className="px-2 py-1 bg-white border border-amber-300 rounded text-xs text-amber-800">Cookie Consent Banner</span>}
+                    {!result.issues.cookiePolicy && <span className="px-2 py-1 bg-white border border-amber-300 rounded text-xs text-amber-800">Cookie Policy</span>}
+                    {!result.issues.dpoContact && <span className="px-2 py-1 bg-white border border-amber-300 rounded text-xs text-amber-800">DPO Contact</span>}
+                    {!result.issues.secureforms && <span className="px-2 py-1 bg-white border border-amber-300 rounded text-xs text-amber-800">Secure Forms</span>}
+                    {!result.issues.privacyPolicy && <span className="px-2 py-1 bg-white border border-amber-300 rounded text-xs text-amber-800">Privacy Policy</span>}
+                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 bg-white border border-amber-300 rounded text-xs text-amber-800">Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
                   </div>
                 </div>
               )}
@@ -1339,10 +1339,10 @@ export default function Home() {
                     {/* Category Legend */}
                     <div className="flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-200">
                       <span className="text-xs text-gray-500 font-medium">Categories:</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">necessary</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">analytics</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">marketing</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-700">preferences</span>
+                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-700">necessary</span>
+                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-600 text-white">analytics</span>
+                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-sky-200 text-sky-800">marketing</span>
+                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-400 text-amber-900">preferences</span>
                     </div>
                     <table className="w-full text-sm">
                       <thead>
