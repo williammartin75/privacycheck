@@ -538,7 +538,7 @@ export default function Home() {
           )}
 
           {error && (
-            <div className="max-w-2xl mx-auto mb-8 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600">
+            <div className="max-w-2xl mx-auto mb-8 p-4 text-red-600 text-center">
               {error}
             </div>
           )}
