@@ -1,29 +1,38 @@
-import { createClient } from '@supabase/supabase-js';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 export async function GET() {
     try {
         const cookieStore = await cookies();
-        const authToken = cookieStore.get('sb-access-token')?.value;
 
-        if (!authToken) {
-            return NextResponse.json({ tier: 'free' });
-        }
+        // Create a proper Supabase server client that reads cookies correctly
+        const supabase = createServerClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            {
+                cookies: {
+                    getAll() {
+                        return cookieStore.getAll();
+                    },
+                },
+            }
+        );
 
-        // Get user from token
-        const { data: { user }, error: authError } = await supabase.auth.getUser(authToken);
+        // Get authenticated user
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
         if (authError || !user) {
             return NextResponse.json({ tier: 'free' });
         }
 
-        // Get subscription
-        const { data: subscription } = await supabase
+        // Get subscription using service role for database access
+        const { createClient } = await import('@supabase/supabase-js');
+        const adminSupabase = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.SUPABASE_SERVICE_ROLE_KEY!
+        );
+
+        const { data: subscription } = await adminSupabase
             .from('subscriptions')
             .select('tier, status')
             .eq('user_id', user.id)
