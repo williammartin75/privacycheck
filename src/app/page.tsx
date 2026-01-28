@@ -1481,7 +1481,7 @@ export default function Home() {
               <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Pro+ insights</p>
               <ul className="text-gray-600 text-sm space-y-1">
                 <li>• AI Risk Predictor with fine estimation</li>
-                <li>• Vendor risk scores (45+ third-parties)</li>
+                <li>• Vendor risk scores (80+ third-parties)</li>
                 <li>• Attack surface vulnerabilities</li>
               </ul>
             </div>
@@ -1677,7 +1677,7 @@ export default function Home() {
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <strong>Vendor Risk Score</strong> (45+ third-parties)
+                  <strong>Vendor Risk Score</strong> (80+ third-parties)
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1705,7 +1705,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto space-y-6">
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What does PrivacyChecker scan?</h3>
-              <p className="text-gray-600">We check 14+ compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, and security headers. Plus: third-party vendor risk scores (45+ trackers), exposed files (.git, .env, backups), DNS security (SPF/DMARC), and AI-powered GDPR fine estimation.</p>
+              <p className="text-gray-600">We check 14+ compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, and security headers. Plus: third-party vendor risk scores (80+ trackers), exposed files (.git, .env, backups), DNS security (SPF/DMARC), and AI-powered GDPR fine estimation.</p>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Is the audit really free?</h3>
