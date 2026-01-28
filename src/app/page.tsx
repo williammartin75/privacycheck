@@ -214,7 +214,7 @@ export default function Home() {
     setResult(null);
 
     // Initialize progress - page limits by tier
-    const maxPages = isProPlus ? 200 : (isPro ? 50 : 10);
+    const maxPages = isProPlus ? 1000 : (isPro ? 200 : 20);
     setScanProgress({ current: 0, total: maxPages, status: 'Connecting...' });
 
     // Simulate progress during scan
@@ -531,7 +531,7 @@ export default function Home() {
                   />
                 </div>
                 <p className="mt-2 text-xs text-gray-400 text-center">
-                  {isPro ? 'Pro scan: up to 100 pages' : 'Free scan: up to 20 pages'}
+                  {isProPlus ? 'Pro+ scan: up to 1,000 pages' : (isPro ? 'Pro scan: up to 200 pages' : 'Free scan: up to 20 pages')}
                 </p>
               </div>
             </div>
@@ -1457,7 +1457,7 @@ export default function Home() {
             <div className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">1</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Enter your website URL</h3>
-              <p className="text-gray-600 text-sm mb-4">We crawl up to 200 pages and run a comprehensive analysis.</p>
+              <p className="text-gray-600 text-sm mb-4">We crawl up to 1,000 pages and run a comprehensive analysis.</p>
               <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Compliance checks</p>
               <ul className="text-gray-600 text-sm space-y-1 mb-4">
                 <li>• Cookies, consent banner, privacy policy</li>
@@ -1570,7 +1570,7 @@ export default function Home() {
                   <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <strong>50 pages</strong> scanned
+                  <strong>200 pages</strong> scanned
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1632,7 +1632,7 @@ export default function Home() {
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <strong>200 pages</strong> scanned
+                  <strong>1,000 pages</strong> scanned
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

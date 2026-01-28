@@ -698,7 +698,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Get internal links - limit based on plan (Free: 5, Pro: 20, Pro+: 100)
-        const maxExtraPages = isProPlus ? 199 : (isPro ? 49 : 9); // +1 for main page = 10, 50, or 200
+        const maxExtraPages = isProPlus ? 999 : (isPro ? 199 : 19); // +1 for main page = 20, 200, or 1000
         const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
 
         console.log(`[Audit API] maxExtraPages: ${maxExtraPages}, allInternalLinks found: ${allInternalLinks.length}`);
@@ -756,7 +756,7 @@ export async function POST(request: NextRequest) {
 
         // Crawl in batches of 5 concurrent requests
         const batchSize = 5;
-        const maxPages = isProPlus ? 200 : (isPro ? 50 : 10);
+        const maxPages = isProPlus ? 1000 : (isPro ? 200 : 20);
         let linkIndex = 0;
 
         // Process links as they are discovered (allInternalLinks grows during crawl)
@@ -1006,7 +1006,7 @@ export async function POST(request: NextRequest) {
             receivedTier: tier,
             isPro,
             isProPlus,
-            maxExtraPages: isProPlus ? 199 : (isPro ? 49 : 9),
+            maxExtraPages: isProPlus ? 999 : (isPro ? 199 : 19),
             pagesScanned: pages.length,
             internalLinksFound: allInternalLinks?.length || 0
         };
