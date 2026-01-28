@@ -343,15 +343,15 @@ export default function Home() {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 50) return 'text-yellow-600';
-    return 'text-red-600';
+    if (score >= 80) return 'text-emerald-700';
+    if (score >= 50) return 'text-slate-600';
+    return 'text-slate-800';
   };
 
   const getScoreLabel = (score: number) => {
-    if (score >= 80) return { label: 'Compliant', sublabel: 'Low Risk', bg: 'bg-green-100', text: 'text-green-700' };
-    if (score >= 50) return { label: 'Improvements Needed', sublabel: 'Medium Risk', bg: 'bg-yellow-100', text: 'text-yellow-700' };
-    return { label: 'Non-Compliant', sublabel: 'High Risk', bg: 'bg-red-100', text: 'text-red-700' };
+    if (score >= 80) return { label: 'Compliant', sublabel: 'Low Risk', bg: 'bg-emerald-50 border border-emerald-200', text: 'text-emerald-800' };
+    if (score >= 50) return { label: 'Improvements Required', sublabel: 'Medium Risk', bg: 'bg-amber-50 border border-amber-200', text: 'text-amber-800' };
+    return { label: 'Non-Compliant', sublabel: 'High Risk', bg: 'bg-slate-100 border border-slate-300', text: 'text-slate-800' };
   };
 
   const getCategoryColor = (category: string) => {
@@ -369,23 +369,23 @@ export default function Home() {
     const isExpanded = expandedRec === recKey;
 
     return (
-      <div className={`rounded-xl ${passed ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+      <div className={`rounded-lg ${passed ? 'bg-white border border-slate-200' : 'bg-white border border-slate-300'}`}>
         <div
-          className={`p-4 flex items-center gap-3 ${!passed && rec ? 'cursor-pointer' : ''}`}
+          className={`p-4 flex items-center gap-3 ${!passed && rec ? 'cursor-pointer hover:bg-slate-50' : ''}`}
           onClick={() => !passed && rec && setExpandedRec(isExpanded ? null : recKey!)}
         >
           {passed ? (
-            <svg className="w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           ) : (
-            <svg className="w-6 h-6 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           )}
-          <span className="text-gray-900 font-medium flex-1">{label}</span>
+          <span className="text-slate-800 font-medium flex-1 text-sm">{label}</span>
           {!passed && rec && (
-            <svg className={`w-5 h-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className={`w-4 h-4 text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           )}
@@ -541,38 +541,38 @@ export default function Home() {
 
           {/* Results */}
           {result && (
-            <div className="max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl p-8 shadow-xl text-left">
+            <div className="max-w-4xl mx-auto bg-white border border-slate-200 rounded-lg p-8 shadow-sm text-left">
               {/* Header with Score Gauge */}
-              <div className="flex flex-col md:flex-row items-center gap-8 mb-8 pb-8 border-b border-gray-100">
-                {/* Score Circle */}
+              <div className="flex flex-col md:flex-row items-center gap-8 mb-8 pb-8 border-b border-slate-100">
+                {/* Score Circle - Corporate Navy Style */}
                 <div className="relative">
-                  <svg className="w-36 h-36 transform -rotate-90">
-                    <circle cx="72" cy="72" r="64" stroke="#e5e7eb" strokeWidth="12" fill="none" />
+                  <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="#e2e8f0" strokeWidth="4" fill="none" />
                     <circle
-                      cx="72" cy="72" r="64"
-                      stroke={result.score >= 70 ? '#22c55e' : result.score >= 40 ? '#f59e0b' : '#ef4444'}
-                      strokeWidth="12"
+                      cx="64" cy="64" r="56"
+                      stroke="#1e3a5f"
+                      strokeWidth="4"
                       fill="none"
                       strokeLinecap="round"
-                      strokeDasharray={`${result.score * 4.02} 402`}
+                      strokeDasharray={`${result.score * 3.52} 352`}
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className={`text-4xl font-bold ${getScoreColor(result.score)}`}>{result.score}</span>
-                    <span className="text-gray-500 text-sm">/100</span>
+                    <span className="text-3xl font-bold text-slate-800">{result.score}</span>
+                    <span className="text-slate-400 text-xs font-medium">/100</span>
                   </div>
                 </div>
 
                 {/* Site Info */}
                 <div className="flex-1 text-center md:text-left">
-                  <p className="text-gray-500 text-sm mb-1">Privacy Compliance Report</p>
-                  <p className="text-gray-900 text-2xl font-bold mb-3">{result.domain}</p>
-                  <div className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${getScoreLabel(result.score).bg} ${getScoreLabel(result.score).text}`}>
+                  <p className="text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Privacy Audit Report</p>
+                  <p className="text-slate-800 text-2xl font-semibold mb-3">{result.domain}</p>
+                  <div className={`inline-block px-3 py-1.5 rounded text-xs font-semibold ${getScoreLabel(result.score).bg} ${getScoreLabel(result.score).text}`}>
                     {getScoreLabel(result.score).label} • {getScoreLabel(result.score).sublabel}
                   </div>
                   <div className="flex gap-2 mt-3 flex-wrap justify-center md:justify-start">
                     {result.regulations?.map((reg, i) => (
-                      <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-full font-medium border border-blue-200">
+                      <span key={i} className="px-2 py-0.5 bg-slate-100 text-slate-600 text-xs rounded font-medium">
                         {reg}
                       </span>
                     ))}
@@ -580,18 +580,18 @@ export default function Home() {
                 </div>
 
                 {/* Quick Stats */}
-                <div className="flex md:flex-col gap-4">
-                  <div className="text-center px-4 py-3 bg-red-50 rounded-xl border border-red-100">
-                    <p className="text-2xl font-bold text-red-600">{Object.values(result.issues).filter(v => !v).length}</p>
-                    <p className="text-xs text-red-600 font-medium">Issues Found</p>
+                <div className="grid grid-cols-3 md:grid-cols-1 gap-3">
+                  <div className="text-center px-4 py-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <p className="text-xl font-bold text-slate-700">{Object.values(result.issues).filter(v => !v).length}</p>
+                    <p className="text-xs text-slate-500 font-medium">Issues Found</p>
                   </div>
-                  <div className="text-center px-4 py-3 bg-green-50 rounded-xl border border-green-100">
-                    <p className="text-2xl font-bold text-green-600">{Object.values(result.issues).filter(v => v).length}</p>
-                    <p className="text-xs text-green-600 font-medium">Checks Passed</p>
+                  <div className="text-center px-4 py-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <p className="text-xl font-bold text-emerald-600">{Object.values(result.issues).filter(v => v).length}</p>
+                    <p className="text-xs text-slate-500 font-medium">Checks Passed</p>
                   </div>
-                  <div className="text-center px-4 py-3 bg-gray-50 rounded-xl border border-gray-100">
-                    <p className="text-2xl font-bold text-gray-700">{result.pagesScanned}</p>
-                    <p className="text-xs text-gray-600 font-medium">Pages Scanned</p>
+                  <div className="text-center px-4 py-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <p className="text-xl font-bold text-slate-700">{result.pagesScanned}</p>
+                    <p className="text-xs text-slate-500 font-medium">Pages Scanned</p>
                   </div>
                 </div>
               </div>
@@ -656,37 +656,33 @@ export default function Home() {
               {/* Score Breakdown */}
               {result.scoreBreakdown && result.scoreBreakdown.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Score Breakdown</h3>
-                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Score Breakdown</h3>
+                  <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {result.scoreBreakdown.filter(b => b.points !== 0 || !b.passed).map((item, i) => (
-                        <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-lg ${item.passed ? 'bg-green-50 border border-green-100' : 'bg-red-50 border border-red-100'}`}>
-                          <span className={`text-sm ${item.passed ? 'text-green-700' : 'text-red-700'}`}>
+                        <div key={i} className={`flex items-center justify-between px-3 py-2 rounded border ${item.passed ? 'bg-white border-slate-200' : 'bg-white border-slate-300'}`}>
+                          <span className={`text-sm ${item.passed ? 'text-emerald-700' : 'text-slate-600'}`}>
                             {item.passed ? '✓' : '✗'} {item.item}
                           </span>
-                          <span className={`text-sm font-bold ${item.passed ? 'text-green-600' : 'text-red-600'}`}>
+                          <span className={`text-sm font-semibold ${item.passed ? 'text-emerald-600' : 'text-slate-500'}`}>
                             {item.points > 0 ? '+' : ''}{item.points}
                           </span>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
-                      <span className="text-gray-600 font-medium">Final Score</span>
-                      <span className={`text-2xl font-bold ${getScoreColor(result.score)}`}>{result.score}/100</span>
+                    <div className="mt-3 pt-3 border-t border-slate-200 flex justify-between items-center">
+                      <span className="text-slate-600 font-medium text-sm">Final Score</span>
+                      <span className="text-xl font-bold text-slate-800">{result.score}/100</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* AI Risk Predictor - GDPR Fine Estimation */}
+              {/* Risk Assessment */}
               {result.riskPrediction && (
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">⚠️ AI Risk Predictor - GDPR Fine Estimation</h3>
-                  <div className={`rounded-xl p-6 border-2 ${result.riskPrediction.riskLevel === 'critical' ? 'bg-gradient-to-br from-red-50 to-red-100 border-red-300' :
-                    result.riskPrediction.riskLevel === 'high' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
-                      result.riskPrediction.riskLevel === 'medium' ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-300' :
-                        'bg-gradient-to-br from-green-50 to-green-100 border-green-300'
-                    }`}>
+                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Risk Assessment - GDPR Fine Estimation</h3>
+                  <div className="rounded-lg p-6 border border-slate-200 bg-slate-50">
                     {/* Fine Estimation Header */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                       <div>
@@ -759,17 +755,13 @@ export default function Home() {
                     )}
 
                     {/* Recommendation */}
-                    <div className={`mt-4 p-4 rounded-lg ${result.riskPrediction.riskLevel === 'critical' ? 'bg-red-200' :
-                      result.riskPrediction.riskLevel === 'high' ? 'bg-orange-200' :
-                        result.riskPrediction.riskLevel === 'medium' ? 'bg-yellow-200' :
-                          'bg-green-200'
-                      }`}>
-                      <p className="text-sm font-medium">
-                        💡 <strong>Recommendation:</strong> {result.riskPrediction.recommendation}
+                    <div className="mt-4 p-4 rounded-lg bg-white border border-slate-200">
+                      <p className="text-sm font-medium text-slate-700">
+                        <strong>Recommendation:</strong> {result.riskPrediction.recommendation}
                       </p>
                     </div>
 
-                    <p className="text-xs text-gray-400 mt-3">
+                    <p className="text-xs text-slate-400 mt-3">
                       * Estimates based on GDPR enforcement patterns and detected violations. Actual fines depend on DPA discretion, company size, and specifics of the case.
                     </p>
                   </div>
@@ -779,32 +771,30 @@ export default function Home() {
               {/* Compliance Drift Detection */}
               {driftReport && driftReport.hasChanges && (
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">📊 Compliance Drift Detection</h3>
-                  <div className={`rounded-xl p-5 border-2 ${driftReport.alertLevel === 'critical' ? 'bg-gradient-to-br from-red-50 to-red-100 border-red-300' :
-                    driftReport.alertLevel === 'warning' ? 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-300' :
-                      driftReport.alertLevel === 'info' ? 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300' :
-                        'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200'
-                    }`}>
+                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Compliance Drift Detection</h3>
+                  <div className="rounded-lg p-5 border border-slate-200 bg-slate-50">
                     {/* Header with trend */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-3xl">
-                          {driftReport.overallTrend === 'improving' ? '📈' : driftReport.overallTrend === 'declining' ? '📉' : '➡️'}
-                        </span>
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${driftReport.overallTrend === 'improving' ? 'bg-emerald-100' : driftReport.overallTrend === 'declining' ? 'bg-slate-200' : 'bg-slate-100'}`}>
+                          <svg className={`w-5 h-5 ${driftReport.overallTrend === 'improving' ? 'text-emerald-600' : 'text-slate-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={driftReport.overallTrend === 'improving' ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : driftReport.overallTrend === 'declining' ? 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6' : 'M5 12h14'} />
+                          </svg>
+                        </div>
                         <div>
-                          <p className="font-semibold text-gray-800">
+                          <p className="font-semibold text-slate-800">
                             {driftReport.overallTrend === 'improving' ? 'Privacy Improving' :
                               driftReport.overallTrend === 'declining' ? 'Privacy Declining' : 'No Significant Change'}
                           </p>
-                          <p className="text-sm text-gray-600">{driftReport.changes.length} change(s) detected since last scan</p>
+                          <p className="text-sm text-slate-500">{driftReport.changes.length} change(s) detected since last scan</p>
                         </div>
                       </div>
                       {driftReport.scoreDelta !== 0 && (
-                        <div className={`px-4 py-2 rounded-lg ${driftReport.scoreDelta > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                          <span className="text-2xl font-bold">
+                        <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
+                          <span className="text-lg font-bold">
                             {driftReport.scoreDelta > 0 ? '+' : ''}{driftReport.scoreDelta}
                           </span>
-                          <span className="text-sm ml-1">points</span>
+                          <span className="text-xs ml-1">points</span>
                         </div>
                       )}
                     </div>
@@ -1725,10 +1715,10 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </main>
+      </main >
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 py-12 bg-gray-50">
+      < footer className="border-t border-gray-200 py-12 bg-gray-50" >
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-1">
@@ -1748,7 +1738,7 @@ export default function Home() {
             We encourage you to consult with a lawyer licensed in your jurisdiction before taking actions based on our reports.
           </p>
         </div>
-      </footer>
-    </div>
+      </footer >
+    </div >
   );
 }
