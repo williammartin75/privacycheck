@@ -574,9 +574,9 @@ export default function Home() {
                       strokeDasharray={`${result.score * 3.52} 352`}
                     />
                   </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className={`text-3xl font-bold ${result.score >= 70 ? 'text-green-600' : result.score >= 40 ? 'text-amber-500' : 'text-red-600'}`}>{result.score}</span>
-                    <span className="text-slate-400 text-xs font-medium">/100</span>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span style={{ color: result.score >= 70 ? '#16a34a' : result.score >= 40 ? '#FFD700' : '#dc2626' }} className="text-3xl font-bold">{result.score}</span>
+                    <span style={{ color: result.score >= 70 ? '#16a34a' : result.score >= 40 ? '#FFD700' : '#dc2626' }} className="text-xl font-bold">%</span>
                   </div>
                 </div>
 
