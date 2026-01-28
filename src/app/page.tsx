@@ -152,7 +152,9 @@ export default function Home() {
         try {
           const tierResponse = await fetch('/api/subscription');
           const tierData = await tierResponse.json();
+          console.log('[PrivacyChecker] Subscription API response:', tierData);
           if (tierData.tier && tierData.tier !== 'free') {
+            console.log('[PrivacyChecker] Setting tier to:', tierData.tier);
             setTier(tierData.tier);
           }
         } catch (err) {
@@ -240,6 +242,7 @@ export default function Home() {
     }
 
     try {
+      console.log('[PrivacyChecker] Calling audit API with tier:', tier);
       const response = await fetch('/api/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
