@@ -562,7 +562,7 @@ export default function Home() {
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-3xl font-bold text-slate-800">{result.score}</span>
+                    <span className={`text-3xl font-bold ${result.score >= 70 ? 'text-green-600' : result.score >= 40 ? 'text-amber-500' : 'text-red-600'}`}>{result.score}</span>
                     <span className="text-slate-400 text-xs font-medium">/100</span>
                   </div>
                 </div>
@@ -595,22 +595,14 @@ export default function Home() {
                       </div>
                       <span className="font-bold text-red-600">{Object.values(result.issues).filter(v => !v).length}</span>
                     </div>
-                    {/* Checks Passed - Blue indicator with expandable */}
-                    <button
-                      onClick={() => setShowPassedChecks(!showPassedChecks)}
-                      className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300 hover:bg-slate-50 transition w-full text-left"
-                    >
+                    {/* Checks Passed - Blue indicator */}
+                    <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-blue-600"></span>
                         <span className="text-xs text-slate-700">Checks Passed</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <span className="font-bold text-slate-800">{Object.values(result.issues).filter(v => v).length}</span>
-                        <svg className={`w-3 h-3 text-slate-500 transition-transform ${showPassedChecks ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </button>
+                      <span className="font-bold text-slate-800">{Object.values(result.issues).filter(v => v).length}</span>
+                    </div>
                     {/* Pages Scanned - Blue indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <div className="flex items-center gap-2">
@@ -623,8 +615,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Expandable Passed Checks List */}
-              {showPassedChecks && (
+              {/* Passed Checks List - Always visible */}
+              {result && (
                 <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
                   <h4 className="text-sm font-semibold text-blue-600 mb-3">Checks Passed</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
