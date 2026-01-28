@@ -708,15 +708,15 @@ export default function Home() {
 
               {/* Key Issues Summary */}
               {Object.values(result.issues).filter(v => !v).length > 0 && (
-                <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
+                <div className="mb-6">
                   <h4 className="text-sm font-semibold text-red-600 mb-3">Issues Found</h4>
                   <div className="flex flex-wrap gap-2">
-                    {!result.issues.consentBanner && <span className="px-2 py-1 bg-slate-50 border border-slate-300 rounded text-xs text-slate-700">Cookie Consent Banner</span>}
-                    {!result.issues.cookiePolicy && <span className="px-2 py-1 bg-slate-50 border border-slate-300 rounded text-xs text-slate-700">Cookie Policy</span>}
-                    {!result.issues.dpoContact && <span className="px-2 py-1 bg-slate-50 border border-slate-300 rounded text-xs text-slate-700">DPO Contact</span>}
-                    {!result.issues.secureforms && <span className="px-2 py-1 bg-slate-50 border border-slate-300 rounded text-xs text-slate-700">Secure Forms</span>}
-                    {!result.issues.privacyPolicy && <span className="px-2 py-1 bg-slate-50 border border-slate-300 rounded text-xs text-slate-700">Privacy Policy</span>}
-                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 bg-slate-50 border border-slate-300 rounded text-xs text-slate-700">Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
+                    {!result.issues.consentBanner && <span className="px-2 py-1 text-xs text-red-600">Cookie Consent Banner</span>}
+                    {!result.issues.cookiePolicy && <span className="px-2 py-1 text-xs text-red-600">Cookie Policy</span>}
+                    {!result.issues.dpoContact && <span className="px-2 py-1 text-xs text-red-600">DPO Contact</span>}
+                    {!result.issues.secureforms && <span className="px-2 py-1 text-xs text-red-600">Secure Forms</span>}
+                    {!result.issues.privacyPolicy && <span className="px-2 py-1 text-xs text-red-600">Privacy Policy</span>}
+                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 text-xs text-red-600">Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
                   </div>
                 </div>
               )}
