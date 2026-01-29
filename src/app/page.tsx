@@ -733,7 +733,7 @@ export default function Home() {
                       {result.scoreBreakdown.filter(b => b.points !== 0 || !b.passed).map((item, i) => (
                         <div key={i} className={`flex items-center justify-between px-3 py-2 rounded border ${item.passed ? 'bg-white border-slate-200' : 'bg-white border-slate-300'}`}>
                           <span className={`text-sm ${item.passed ? 'text-emerald-700' : 'text-slate-600'}`}>
-                            {item.passed ? '✓' : '✗'} {item.item}
+                            {item.passed ? '✓' : '✕'} {item.item}
                           </span>
                           <span className={`text-sm font-semibold ${item.passed ? 'text-emerald-600' : 'text-slate-500'}`}>
                             {item.points > 0 ? '+' : ''}{item.points}
