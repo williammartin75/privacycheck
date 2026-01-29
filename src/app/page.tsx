@@ -664,9 +664,9 @@ export default function Home() {
   };
 
   const getScoreLabel = (score: number) => {
-    if (score >= 80) return { label: 'Compliant', sublabel: 'Low Risk', bg: 'border border-slate-300', text: 'text-slate-700' };
-    if (score >= 50) return { label: 'Improvements Required', sublabel: 'Medium Risk', bg: 'border border-slate-300', text: 'text-slate-700' };
-    return { label: 'Non-Compliant', sublabel: 'High Risk', bg: 'border border-slate-300', text: 'text-slate-700' };
+    if (score >= 80) return { label: 'Compliant', sublabel: 'Low Risk', bg: 'border border-blue-600', text: 'text-blue-600' };
+    if (score >= 50) return { label: 'Improvements Required', sublabel: 'Medium Risk', bg: 'border border-amber-600', text: 'text-amber-600' };
+    return { label: 'Non-Compliant', sublabel: 'High Risk', bg: 'border border-red-600', text: 'text-red-600' };
   };
 
   const getCategoryColor = (category: string) => {
@@ -877,7 +877,7 @@ export default function Home() {
                     <circle cx="64" cy="64" r="56" stroke="#e2e8f0" strokeWidth="8" fill="none" />
                     <circle
                       cx="64" cy="64" r="56"
-                      stroke={result.score >= 70 ? '#16a34a' : result.score >= 40 ? '#FFD700' : '#dc2626'}
+                      stroke={result.score >= 70 ? '#2563eb' : result.score >= 40 ? '#d97706' : '#dc2626'}
                       strokeWidth="8"
                       fill="none"
                       strokeLinecap="round"
@@ -885,8 +885,8 @@ export default function Home() {
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span style={{ color: result.score >= 70 ? '#16a34a' : result.score >= 40 ? '#FFD700' : '#dc2626' }} className="text-3xl font-bold">{result.score}</span>
-                    <span style={{ color: result.score >= 70 ? '#16a34a' : result.score >= 40 ? '#FFD700' : '#dc2626' }} className="text-xl font-bold">%</span>
+                    <span style={{ color: result.score >= 70 ? '#2563eb' : result.score >= 40 ? '#d97706' : '#dc2626' }} className="text-3xl font-bold">{result.score}</span>
+                    <span style={{ color: result.score >= 70 ? '#2563eb' : result.score >= 40 ? '#d97706' : '#dc2626' }} className="text-xl font-bold">%</span>
                   </div>
                 </div>
 
