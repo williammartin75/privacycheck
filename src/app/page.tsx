@@ -2005,19 +2005,14 @@ export default function Home() {
               <h4 className="font-semibold text-gray-900 mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>
-                  <a href="mailto:support@privacychecker.pro" className="hover:text-gray-900">
-                    📧 support@privacychecker.pro
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto:dpo@privacychecker.pro" className="hover:text-gray-900">
-                    🛡️ DPO: dpo@privacychecker.pro
-                  </a>
-                </li>
-                <li>
                   <a href="mailto:privacy@privacychecker.pro" className="hover:text-gray-900">
-                    🔒 privacy@privacychecker.pro
+                    🛡️ Privacy & DPO Contact
                   </a>
+                </li>
+                <li>
+                  <span className="text-gray-500">
+                    📧 General: see Privacy Policy
+                  </span>
                 </li>
               </ul>
             </div>
@@ -2036,40 +2031,43 @@ export default function Home() {
       </footer>
 
       {/* Cookie Consent Banner - detected by patterns: cookie-consent, cookie-banner, accept cookies, manage cookies */}
-      {showCookieConsent && (
-        <div id="cookie-consent" className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg p-4 z-50" role="dialog" aria-label="Cookie consent">
-          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-600">
-              <p>
-                We use cookies to enhance your experience. By continuing, you agree to our{' '}
-                <Link href="/legal/cookies" className="text-blue-600 hover:underline">Cookie Policy</Link>.
-                You can <Link href="/legal/cookies" className="text-blue-600 hover:underline">manage cookies</Link> or{' '}
-                <Link href="/legal/cookies" className="text-blue-600 hover:underline">manage preferences</Link> at any time.
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  localStorage.setItem('cookieConsent', 'essential');
-                  setShowCookieConsent(false);
-                }}
-                className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-              >
-                Essential Only
-              </button>
-              <button
-                onClick={() => {
-                  localStorage.setItem('cookieConsent', 'all');
-                  setShowCookieConsent(false);
-                }}
-                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-              >
-                Accept All Cookies
-              </button>
-            </div>
+      <div
+        id="cookie-consent"
+        className={`fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg p-4 z-50 ${showCookieConsent ? '' : 'hidden'}`}
+        role="dialog"
+        aria-label="Cookie consent"
+      >
+        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-sm text-gray-600">
+            <p>
+              We use cookies to enhance your experience. By continuing, you agree to our{' '}
+              <Link href="/legal/cookies" className="text-blue-600 hover:underline">Cookie Policy</Link>.
+              You can <Link href="/legal/cookies" className="text-blue-600 hover:underline">manage cookies</Link> or{' '}
+              <Link href="/legal/cookies" className="text-blue-600 hover:underline">manage preferences</Link> at any time.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={() => {
+                localStorage.setItem('cookieConsent', 'essential');
+                setShowCookieConsent(false);
+              }}
+              className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+            >
+              Essential Only
+            </button>
+            <button
+              onClick={() => {
+                localStorage.setItem('cookieConsent', 'all');
+                setShowCookieConsent(false);
+              }}
+              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Accept All Cookies
+            </button>
           </div>
         </div>
-      )}
+      </div>
     </div >
   );
 }

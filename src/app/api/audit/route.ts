@@ -349,15 +349,20 @@ async function checkEmailSecurity(domain: string): Promise<EmailSecurity> {
     return { spf, dmarc, domain: rootDomain };
 }
 
-// Email Exposure: Extract email addresses from HTML
-function extractExposedEmails(html: string): string[] {
+// Email Exposure: Extract email addresses from HTML (excludes same-domain emails)
+function extractExposedEmails(html: string, scannedDomain?: string): string[] {
     const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
     const matches = html.match(emailRegex) || [];
+
+    // Normalize domain for comparison
+    const domainBase = scannedDomain?.replace(/^www\./, '').toLowerCase();
 
     // Filter out common false positives and duplicates
     const filtered = [...new Set(matches)]
         .filter(email => {
             const lower = email.toLowerCase();
+            // Skip same-domain emails (legitimate contact emails)
+            if (domainBase && lower.endsWith(`@${domainBase}`)) return false;
             // Skip common non-personal/placeholder emails
             if (lower.includes('example.com') || lower.includes('test.com')) return false;
             if (lower.includes('placeholder') || lower.includes('email@')) return false;
@@ -846,8 +851,8 @@ export async function POST(request: NextRequest) {
         deduct(emailSecurity.spf, 'SPF Record', 3);
         deduct(emailSecurity.dmarc, 'DMARC Record', 3);
 
-        // Email Exposure
-        const exposedEmails = extractExposedEmails(combinedHtml);
+        // Email Exposure (excludes same-domain contact emails)
+        const exposedEmails = extractExposedEmails(combinedHtml, domain);
         if (exposedEmails.length > 0) {
             const emailPenalty = Math.min(exposedEmails.length * 2, 10);
             scoreBreakdown.push({ item: `Exposed Emails (${exposedEmails.length})`, points: -emailPenalty, passed: false });
