@@ -491,29 +491,34 @@ export default function Home() {
       return;
     }
 
-    // Check scan limit for free users (10 scans per month)
-    if (tier === 'free') {
-      const scanCountKey = 'freeScanCount';
-      const scanMonthKey = 'freeScanMonth';
-      const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
-      const storedMonth = localStorage.getItem(scanMonthKey);
-      let scanCount = parseInt(localStorage.getItem(scanCountKey) || '0', 10);
+    // Check scan limit for all tiers (Free: 10, Pro: 50, Pro+: 200 per month)
+    const scanLimits = { free: 10, pro: 50, pro_plus: 200 };
+    const scanLimit = scanLimits[tier];
+    const scanCountKey = `${tier}ScanCount`;
+    const scanMonthKey = `${tier}ScanMonth`;
+    const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+    const storedMonth = localStorage.getItem(scanMonthKey);
+    let scanCount = parseInt(localStorage.getItem(scanCountKey) || '0', 10);
 
-      // Reset counter if new month
-      if (storedMonth !== currentMonth) {
-        scanCount = 0;
-        localStorage.setItem(scanMonthKey, currentMonth);
-        localStorage.setItem(scanCountKey, '0');
-      }
-
-      if (scanCount >= 10) {
-        setError('You have reached your 10 free scans this month. Upgrade to Pro for unlimited scans!');
-        return;
-      }
-
-      // Increment scan count
-      localStorage.setItem(scanCountKey, (scanCount + 1).toString());
+    // Reset counter if new month
+    if (storedMonth !== currentMonth) {
+      scanCount = 0;
+      localStorage.setItem(scanMonthKey, currentMonth);
+      localStorage.setItem(scanCountKey, '0');
     }
+
+    if (scanCount >= scanLimit) {
+      const upgradeMsg = tier === 'free'
+        ? 'Upgrade to Pro for 50 scans/month!'
+        : tier === 'pro'
+          ? 'Upgrade to Pro+ for 200 scans/month!'
+          : 'Contact us for enterprise plans.';
+      setError(`You have reached your ${scanLimit} scans this month. ${upgradeMsg}`);
+      return;
+    }
+
+    // Increment scan count
+    localStorage.setItem(scanCountKey, (scanCount + 1).toString());
 
     setLoading(true);
     setError('');
@@ -3239,6 +3244,12 @@ export default function Home() {
                   <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
+                  <strong>50 scans</strong>/month
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
                   <strong>200 pages</strong> scanned
                 </li>
                 <li className="flex items-center gap-2 text-white">
@@ -3296,6 +3307,12 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Everything in Pro
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <strong>200 scans</strong>/month
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
