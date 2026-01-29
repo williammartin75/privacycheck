@@ -34,14 +34,21 @@ export function LanguageSelector() {
         if (match && match[1]) {
             setSelectedLang(match[1]);
         } else {
-            // Detect browser language
-            const browserLang = navigator.language?.substring(0, 2).toLowerCase();
-            const supported = LANGUAGES.find(l => l.code === browserLang);
-            if (supported && supported.code !== 'en') {
-                // Auto-translate to browser language
-                setTimeout(() => {
-                    handleLanguageSelect(supported.code, true);
-                }, 500);
+            // Check if user explicitly chose English (stored in localStorage)
+            const userChoseEnglish = localStorage.getItem('userChoseEnglish');
+            if (userChoseEnglish === 'true') {
+                // User explicitly chose English, don't auto-translate
+                setSelectedLang('en');
+            } else {
+                // First visit - detect browser language
+                const browserLang = navigator.language?.substring(0, 2).toLowerCase();
+                const supported = LANGUAGES.find(l => l.code === browserLang);
+                if (supported && supported.code !== 'en') {
+                    // Auto-translate to browser language
+                    setTimeout(() => {
+                        handleLanguageSelect(supported.code, true);
+                    }, 500);
+                }
             }
         }
     }, []);
@@ -68,10 +75,16 @@ export function LanguageSelector() {
             // Clear translation - remove cookies
             document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
             document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${domain}`;
+            // Remember that user explicitly chose English (to prevent auto-translation)
+            if (!auto) {
+                localStorage.setItem('userChoseEnglish', 'true');
+            }
         } else {
             // Set translation cookie
             document.cookie = `googtrans=/en/${langCode}; path=/;`;
             document.cookie = `googtrans=/en/${langCode}; path=/; domain=.${domain}`;
+            // Clear the English preference since user chose another language
+            localStorage.removeItem('userChoseEnglish');
         }
 
         // Force full page reload by reassigning href
