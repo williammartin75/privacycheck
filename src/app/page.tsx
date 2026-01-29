@@ -7,8 +7,6 @@ import Link from 'next/link';
 import { recommendations } from '@/lib/recommendations';
 import { generatePDF } from '@/lib/pdf-generator';
 import { detectComplianceDrift, DriftReport } from '@/lib/drift-detection';
-import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext';
-import { LanguageSelector } from '@/components/LanguageSelector';
 
 interface Cookie {
   name: string;
@@ -469,7 +467,7 @@ export default function Home() {
                 Sign In
               </Link>
             )}
-            <LanguageSelector />
+            <div id="google_translate_element"></div>
           </div>
         </nav>
       </header>
