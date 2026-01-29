@@ -990,13 +990,20 @@ export default function Home() {
 
               {/* Risk Assessment */}
               {result.riskPrediction && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowRiskAssessment(!showRiskAssessment)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
-                    <span>Risk Assessment - GDPR Fine Estimation</span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showRiskAssessment ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className="flex items-center gap-2">
+                      <span className="section-btn-title">GDPR Fine Estimation</span>
+                      <span className={result.riskPrediction.riskLevel === 'critical' || result.riskPrediction.riskLevel === 'high' ? 'badge-failed' :
+                        result.riskPrediction.riskLevel === 'medium' ? 'badge-warning' : 'badge-passed'
+                      }>
+                        {result.riskPrediction.riskLevel.toUpperCase()}
+                      </span>
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showRiskAssessment ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -1089,13 +1096,18 @@ export default function Home() {
 
               {/* Compliance Drift Detection */}
               {driftReport && driftReport.hasChanges && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowComplianceDrift(!showComplianceDrift)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
-                    <span>Compliance Drift Detection</span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showComplianceDrift ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className="flex items-center gap-2">
+                      <span className="section-btn-title">Compliance Drift Detection</span>
+                      <span className={driftReport.overallTrend === 'declining' ? 'badge-warning' : 'badge-passed'}>
+                        {driftReport.changes.length} change{driftReport.changes.length > 1 ? 's' : ''}
+                      </span>
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showComplianceDrift ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -1135,8 +1147,8 @@ export default function Home() {
                               'border-gray-300'
                             }`}>
                             <div className="flex items-center gap-3">
-                              <span className="text-xl">
-                                {change.impact === 'positive' ? '✅' : change.impact === 'negative' ? '❌' : '➖'}
+                              <span className={`font-bold ${change.impact === 'positive' ? 'text-green-600' : change.impact === 'negative' ? 'text-red-600' : 'text-gray-500'}`}>
+                                {change.impact === 'positive' ? '✓' : change.impact === 'negative' ? '✕' : '–'}
                               </span>
                               <div>
                                 <p className="font-medium text-gray-800">{change.field}</p>
@@ -2722,7 +2734,7 @@ export default function Home() {
                             )}
                             <div className="mt-2 text-xs text-gray-400">
                               Data transfer: <span className={`font-medium ${vendor.dataTransfer === 'EU' ? 'text-green-600' : vendor.dataTransfer === 'CN' ? 'text-red-600' : 'text-orange-600'}`}>
-                                {vendor.dataTransfer === 'EU' ? '🇪🇺 EU (adequate)' : vendor.dataTransfer === 'US' ? '🇺🇸 USA' : vendor.dataTransfer === 'CN' ? '🇨🇳 China' : '🌍 Other'}
+                                {vendor.dataTransfer === 'EU' ? 'EU (adequate)' : vendor.dataTransfer === 'US' ? 'USA' : vendor.dataTransfer === 'CN' ? 'China' : 'Other'}
                               </span>
                             </div>
                           </div>
@@ -2752,25 +2764,22 @@ export default function Home() {
                   !v.gdprCompliant
                 );
                 return (
-                  <div className="mb-6">
+                  <div className="mb-4">
                     <button
                       onClick={() => setShowDataTransfers(!showDataTransfers)}
-                      className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                      className="section-btn"
                     >
                       <span className="flex items-center gap-2">
-                        <span className="text-xl">🌍</span>
-                        Data Transfers Outside EU
+                        <span className="section-btn-title">Data Transfers Outside EU</span>
                         {nonEuTransfers.length > 0 ? (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                          <span className="badge-warning">
                             {nonEuTransfers.length} vendor{nonEuTransfers.length > 1 ? 's' : ''}
                           </span>
                         ) : (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
-                            EU Only
-                          </span>
+                          <span className="badge-passed">EU Only</span>
                         )}
                       </span>
-                      <svg className={`w-5 h-5 text-slate-500 transition-transform ${showDataTransfers ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className={`w-5 h-5 text-slate-400 transition-transform ${showDataTransfers ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
@@ -2799,7 +2808,7 @@ export default function Home() {
                                         vendor.jurisdiction === 'EU' ? 'bg-green-100 text-green-700' :
                                           'bg-gray-100 text-gray-700'
                                         }`}>
-                                        📍 {vendor.jurisdiction}
+                                        {vendor.jurisdiction}
                                       </span>
                                     </div>
                                   </div>
@@ -2819,7 +2828,7 @@ export default function Home() {
                             </div>
                             {isPro && (
                               <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                                <p className="text-sm text-blue-800 font-medium mb-2">📋 Compliance Requirements:</p>
+                                <p className="text-sm text-blue-800 font-medium mb-2">Compliance Requirements:</p>
                                 <ul className="text-xs text-blue-700 list-disc list-inside space-y-1">
                                   <li>Ensure Standard Contractual Clauses (SCCs) are in place</li>
                                   <li>Document Transfer Impact Assessments (TIAs)</li>
@@ -2831,7 +2840,7 @@ export default function Home() {
                           </>
                         ) : (
                           <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
-                            <span className="text-2xl">✅</span>
+                            <span className="text-green-600 font-bold text-lg">✓</span>
                             <div>
                               <p className="font-semibold text-green-800">All Data Stays in EU</p>
                               <p className="text-sm text-green-600">
@@ -2850,25 +2859,22 @@ export default function Home() {
               })()}
 
               {/* Data Breaches */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <button
                   onClick={() => setShowDataBreaches(!showDataBreaches)}
-                  className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  className="section-btn"
                 >
                   <span className="flex items-center gap-2">
-                    <span className="text-xl">🔓</span>
-                    Data Breach Check
+                    <span className="section-btn-title">Data Breach Check</span>
                     {result.issues.dataBreaches && result.issues.dataBreaches.length > 0 ? (
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                      <span className="badge-failed">
                         {result.issues.dataBreaches.length} breach{result.issues.dataBreaches.length > 1 ? 'es' : ''}
                       </span>
                     ) : (
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
-                        Clean
-                      </span>
+                      <span className="badge-passed">Clean</span>
                     )}
                   </span>
-                  <svg className={`w-5 h-5 text-slate-500 transition-transform ${showDataBreaches ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`w-5 h-5 text-slate-400 transition-transform ${showDataBreaches ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
@@ -2878,7 +2884,7 @@ export default function Home() {
                       <>
                         <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
                           <p className="text-red-700 text-sm">
-                            ⚠️ This domain has been involved in known data breaches. Users should be informed and passwords changed.
+                            <strong>Warning:</strong> This domain has been involved in known data breaches. Users should be informed and passwords changed.
                           </p>
                         </div>
                         <div className="space-y-3">
@@ -2906,7 +2912,7 @@ export default function Home() {
                       </>
                     ) : (
                       <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
-                        <span className="text-2xl">✅</span>
+                        <span className="text-green-600 font-bold text-lg">✓</span>
                         <div>
                           <p className="font-semibold text-green-800">No Data Breaches Found</p>
                           <p className="text-sm text-green-600">
