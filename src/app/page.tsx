@@ -1855,7 +1855,7 @@ export default function Home() {
         </section>
 
         {/* Trust Badges - Professional Shield Style */}
-        <section className="py-10 bg-gradient-to-b from-gray-50 to-white">
+        <section className="py-10">
           <div className="container mx-auto px-6">
             <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
 
