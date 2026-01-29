@@ -226,6 +226,7 @@ export default function Home() {
   const [showConsentBehavior, setShowConsentBehavior] = useState(false);
   const [showPolicyAnalysis, setShowPolicyAnalysis] = useState(false);
   const [showDarkPatterns, setShowDarkPatterns] = useState(false);
+  const [showDataBreaches, setShowDataBreaches] = useState(false);
 
   // Cookie consent banner state
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -2065,38 +2066,77 @@ export default function Home() {
               )}
 
               {/* Data Breaches */}
-              {result.issues.dataBreaches && result.issues.dataBreaches.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">⚠️ Data Breaches Detected</h3>
-                  <div className="bg-red-50 border border-red-200 rounded-xl p-4">
-                    <p className="text-red-700 text-sm mb-4">
-                      This domain has been involved in known data breaches. Users should be informed and passwords changed.
-                    </p>
-                    <div className="space-y-3">
-                      {result.issues.dataBreaches.map((breach, i) => (
-                        <div key={i} className="bg-white border border-red-100 rounded-lg p-3 flex justify-between items-center">
-                          <div>
-                            <p className="font-semibold text-red-800">{breach.name}</p>
-                            <p className="text-xs text-red-600">Breach date: {breach.date}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-lg font-bold text-red-700">{breach.count.toLocaleString()}</p>
-                            <p className="text-xs text-red-500">accounts affected</p>
-                          </div>
+              <div className="mb-6">
+                <button
+                  onClick={() => setShowDataBreaches(!showDataBreaches)}
+                  className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="text-xl">🔓</span>
+                    Data Breach Check
+                    {result.issues.dataBreaches && result.issues.dataBreaches.length > 0 ? (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                        {result.issues.dataBreaches.length} breach{result.issues.dataBreaches.length > 1 ? 'es' : ''}
+                      </span>
+                    ) : (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                        Clean
+                      </span>
+                    )}
+                  </span>
+                  <svg className={`w-5 h-5 text-slate-500 transition-transform ${showDataBreaches ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {showDataBreaches && (
+                  <div className="bg-white border border-slate-200 rounded-lg p-4">
+                    {result.issues.dataBreaches && result.issues.dataBreaches.length > 0 ? (
+                      <>
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                          <p className="text-red-700 text-sm">
+                            ⚠️ This domain has been involved in known data breaches. Users should be informed and passwords changed.
+                          </p>
                         </div>
-                      ))}
-                    </div>
-                    <a
-                      href={`https://haveibeenpwned.com/DomainSearch?domain=${result.domain}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 mt-4 text-sm text-red-700 hover:text-red-900"
-                    >
-                      View full details on HaveIBeenPwned →
-                    </a>
+                        <div className="space-y-3">
+                          {result.issues.dataBreaches.map((breach, i) => (
+                            <div key={i} className="bg-red-50 border border-red-100 rounded-lg p-3 flex justify-between items-center">
+                              <div>
+                                <p className="font-semibold text-red-800">{breach.name}</p>
+                                <p className="text-xs text-red-600">Breach date: {breach.date}</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-lg font-bold text-red-700">{breach.count.toLocaleString()}</p>
+                                <p className="text-xs text-red-500">accounts affected</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <a
+                          href={`https://haveibeenpwned.com/DomainSearch?domain=${result.domain}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 mt-4 text-sm text-red-700 hover:text-red-900"
+                        >
+                          View full details on HaveIBeenPwned →
+                        </a>
+                      </>
+                    ) : (
+                      <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                        <span className="text-2xl">✅</span>
+                        <div>
+                          <p className="font-semibold text-green-800">No Data Breaches Found</p>
+                          <p className="text-sm text-green-600">
+                            This domain has not been found in any known data breaches.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    <p className="text-xs text-gray-400 mt-3">
+                      * Checked against HaveIBeenPwned database of known breaches.
+                    </p>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
 
               {/* Cookies Section */}
               <div className="mb-6">
