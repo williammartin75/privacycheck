@@ -1,0 +1,147 @@
+'use client';
+
+import React, { useState, useRef, useEffect } from 'react';
+
+// Language data with names
+const LANGUAGES = [
+    { code: 'en', name: 'English' },
+    { code: 'fr', name: 'Français' },
+    { code: 'de', name: 'Deutsch' },
+    { code: 'es', name: 'Español' },
+    { code: 'it', name: 'Italiano' },
+    { code: 'pt', name: 'Português' },
+    { code: 'nl', name: 'Nederlands' },
+    { code: 'pl', name: 'Polski' },
+    { code: 'ro', name: 'Română' },
+    { code: 'cs', name: 'Čeština' },
+    { code: 'hu', name: 'Magyar' },
+    { code: 'el', name: 'Ελληνικά' },
+    { code: 'sv', name: 'Svenska' },
+    { code: 'da', name: 'Dansk' },
+    { code: 'fi', name: 'Suomi' },
+    { code: 'no', name: 'Norsk' },
+];
+
+export function LanguageSelector() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedLang, setSelectedLang] = useState('en');
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Detect browser language on mount
+    useEffect(() => {
+        const browserLang = navigator.language?.substring(0, 2).toLowerCase();
+        const supported = LANGUAGES.find(l => l.code === browserLang);
+        if (supported && supported.code !== 'en') {
+            setSelectedLang(supported.code);
+            // Auto-translate after a short delay to let Google Translate initialize
+            setTimeout(() => {
+                triggerGoogleTranslate(supported.code);
+            }, 1500);
+        }
+    }, []);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const triggerGoogleTranslate = (langCode: string) => {
+        // Find and trigger the Google Translate select element
+        const frame = document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement;
+        if (frame) {
+            const frameDoc = frame.contentDocument || frame.contentWindow?.document;
+            if (frameDoc) {
+                const items = frameDoc.querySelectorAll('.goog-te-menu2-item span.text');
+                items.forEach((item) => {
+                    const text = item.textContent?.toLowerCase() || '';
+                    const targetLang = LANGUAGES.find(l => l.code === langCode);
+                    if (targetLang && text.includes(targetLang.name.toLowerCase().substring(0, 4))) {
+                        (item as HTMLElement).click();
+                    }
+                });
+            }
+        }
+
+        // Alternative: Use the select element directly
+        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+        if (select) {
+            select.value = langCode;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    };
+
+    const handleLanguageSelect = (langCode: string) => {
+        setSelectedLang(langCode);
+        setIsOpen(false);
+
+        if (langCode === 'en') {
+            // Reset to original - reload page without translation
+            const hostname = window.location.hostname;
+            document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${hostname}`;
+            document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            window.location.reload();
+        } else {
+            triggerGoogleTranslate(langCode);
+        }
+    };
+
+    const currentLang = LANGUAGES.find(l => l.code === selectedLang) || LANGUAGES[0];
+
+    return (
+        <div className="relative" ref={dropdownRef}>
+            {/* Hidden Google Translate element */}
+            <div id="google_translate_element" style={{ display: 'none' }}></div>
+
+            {/* Custom dropdown button */}
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700 border border-gray-200"
+                aria-label="Select language"
+            >
+                <span>{currentLang.name}</span>
+                <svg
+                    className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            {/* Dropdown menu */}
+            {isOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 max-h-80 overflow-y-auto">
+                    {LANGUAGES.map((lang) => {
+                        const isActive = lang.code === selectedLang;
+                        return (
+                            <button
+                                key={lang.code}
+                                onClick={() => handleLanguageSelect(lang.code)}
+                                className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${isActive
+                                        ? 'bg-blue-50 text-blue-700'
+                                        : 'hover:bg-gray-50 text-gray-700'
+                                    }`}
+                            >
+                                <span className="flex-1 font-medium">{lang.name}</span>
+                                {isActive && (
+                                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default LanguageSelector;
