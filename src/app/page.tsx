@@ -1163,13 +1163,20 @@ export default function Home() {
 
               {/* Security Exposure Analysis */}
               {result.attackSurface && result.attackSurface.totalFindings > 0 && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowSecurityExposure(!showSecurityExposure)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
-                    <span>Security Exposure Analysis</span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showSecurityExposure ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className="flex items-center gap-2">
+                      <span className="section-btn-title">Security Exposure Analysis</span>
+                      <span className={result.attackSurface.overallRisk === 'critical' || result.attackSurface.overallRisk === 'high' ? 'badge-failed' :
+                        result.attackSurface.overallRisk === 'medium' ? 'badge-warning' : 'badge-passed'
+                      }>
+                        {result.attackSurface.totalFindings} finding{result.attackSurface.totalFindings > 1 ? 's' : ''}
+                      </span>
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showSecurityExposure ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -1252,19 +1259,19 @@ export default function Home() {
 
               {/* Consent Behavior Test */}
               {result.issues.consentBehavior && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowConsentBehavior(!showConsentBehavior)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      Consent Behavior Test
-                      <span className={`text-xs px-2 py-0.5 rounded ${result.issues.consentBehavior.score >= 80 ? 'bg-green-100 text-green-700' :
-                        result.issues.consentBehavior.score >= 50 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
+                      <span className="section-btn-title">Consent Behavior Test</span>
+                      <span className={result.issues.consentBehavior.score >= 80 ? 'badge-passed' :
+                        result.issues.consentBehavior.score >= 50 ? 'badge-warning' : 'badge-failed'}>
                         {result.issues.consentBehavior.score >= 80 ? 'PASSED' : result.issues.consentBehavior.score >= 50 ? 'WARNING' : 'FAILED'}
                       </span>
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showConsentBehavior ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showConsentBehavior ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -1482,23 +1489,22 @@ export default function Home() {
 
               {/* Privacy Policy AI Analysis */}
               {result.issues.policyAnalysis && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowPolicyAnalysis(!showPolicyAnalysis)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">📜</span>
-                      Privacy Policy AI Analysis
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-green-100 text-green-700' :
-                        result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-100 text-yellow-700' :
-                          result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-100 text-gray-700' :
-                            'bg-red-100 text-red-700'
-                        }`}>
+                      <span className="section-btn-title">Privacy Policy Analysis</span>
+                      <span className={result.issues.policyAnalysis.overallStatus === 'compliant' ? 'badge-passed' :
+                        result.issues.policyAnalysis.overallStatus === 'partial' ? 'badge-warning' :
+                          result.issues.policyAnalysis.overallStatus === 'not-found' ? 'badge-info' :
+                            'badge-failed'
+                      }>
                         {result.issues.policyAnalysis.overallScore}%
                       </span>
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showPolicyAnalysis ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showPolicyAnalysis ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -1659,25 +1665,24 @@ export default function Home() {
 
               {/* Dark Patterns Detection */}
               {result.issues.darkPatterns && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowDarkPatterns(!showDarkPatterns)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">🎭</span>
-                      Dark Patterns Detection
+                      <span className="section-btn-title">Dark Patterns Detection</span>
                       {result.issues.darkPatterns.detected ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                        <span className="badge-failed">
                           {result.issues.darkPatterns.totalCount} found
                         </span>
                       ) : (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                        <span className="badge-passed">
                           Clean
                         </span>
                       )}
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showDarkPatterns ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showDarkPatterns ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -1833,25 +1838,22 @@ export default function Home() {
 
               {/* Opt-in Forms Analysis */}
               {result.issues.optInForms && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowOptInForms(!showOptInForms)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">☑️</span>
-                      Opt-in Forms Analysis
+                      <span className="section-btn-title">Opt-in Forms Analysis</span>
                       {result.issues.optInForms.compliant ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
-                          Compliant
-                        </span>
+                        <span className="badge-passed">Compliant</span>
                       ) : (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                        <span className="badge-failed">
                           {result.issues.optInForms.totalIssues} issue{result.issues.optInForms.totalIssues > 1 ? 's' : ''}
                         </span>
                       )}
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showOptInForms ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showOptInForms ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -1952,25 +1954,22 @@ export default function Home() {
 
               {/* Cookie Lifespan Analysis */}
               {result.issues.cookieLifespan && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowCookieLifespan(!showCookieLifespan)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">⏱️</span>
-                      Cookie Lifespan Analysis
+                      <span className="section-btn-title">Cookie Lifespan Analysis</span>
                       {result.issues.cookieLifespan.compliant ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
-                          Compliant
-                        </span>
+                        <span className="badge-passed">Compliant</span>
                       ) : (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                        <span className="badge-warning">
                           {result.issues.cookieLifespan.issuesCount} issue{result.issues.cookieLifespan.issuesCount > 1 ? 's' : ''}
                         </span>
                       )}
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showCookieLifespan ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showCookieLifespan ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -2037,26 +2036,25 @@ export default function Home() {
 
               {/* Fingerprinting Detection */}
               {result.issues.fingerprinting && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowFingerprinting(!showFingerprinting)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">🔍</span>
-                      Fingerprinting Detection
+                      <span className="section-btn-title">Fingerprinting Detection</span>
                       {result.issues.fingerprinting.riskLevel === 'none' ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Clean</span>
+                        <span className="badge-passed">Clean</span>
                       ) : (
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${result.issues.fingerprinting.riskLevel === 'critical' ? 'bg-red-100 text-red-700' :
-                          result.issues.fingerprinting.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' :
-                            'bg-yellow-100 text-yellow-700'
-                          }`}>
+                        <span className={result.issues.fingerprinting.riskLevel === 'critical' ? 'badge-failed' :
+                          result.issues.fingerprinting.riskLevel === 'high' ? 'badge-failed' :
+                            'badge-warning'
+                        }>
                           {result.issues.fingerprinting.riskLevel.toUpperCase()} RISK
                         </span>
                       )}
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showFingerprinting ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showFingerprinting ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -2122,23 +2120,22 @@ export default function Home() {
 
               {/* Security Headers Extended */}
               {result.issues.securityHeadersExtended && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowSecurityHeadersExt(!showSecurityHeadersExt)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">🛡️</span>
-                      Security Headers
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-green-100 text-green-700' :
-                        result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
-                          result.issues.securityHeadersExtended.grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
-                            'bg-red-100 text-red-700'
-                        }`}>
+                      <span className="section-btn-title">Security Headers</span>
+                      <span className={result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'badge-passed' :
+                        result.issues.securityHeadersExtended.grade === 'B' ? 'badge-info' :
+                          result.issues.securityHeadersExtended.grade === 'C' ? 'badge-warning' :
+                            'badge-failed'
+                      }>
                         Grade {result.issues.securityHeadersExtended.grade}
                       </span>
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showSecurityHeadersExt ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showSecurityHeadersExt ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -2206,23 +2203,22 @@ export default function Home() {
 
               {/* Storage Audit */}
               {result.issues.storageAudit && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowStorageAudit(!showStorageAudit)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">💾</span>
-                      Storage Audit
+                      <span className="section-btn-title">Client Storage Audit</span>
                       {result.issues.storageAudit.compliant ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Clean</span>
+                        <span className="badge-passed">Clean</span>
                       ) : (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                        <span className="badge-warning">
                           {result.issues.storageAudit.issues.length} risk{result.issues.storageAudit.issues.length > 1 ? 's' : ''}
                         </span>
                       )}
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showStorageAudit ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showStorageAudit ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -2243,8 +2239,8 @@ export default function Home() {
                         <div className="space-y-2 max-h-48 overflow-y-auto">
                           {result.issues.storageAudit.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
                             <div key={i} className={`p-3 rounded-lg border ${issue.risk === 'critical' ? 'bg-red-50 border-red-200' :
-                                issue.risk === 'high' ? 'bg-orange-50 border-orange-200' :
-                                  'bg-yellow-50 border-yellow-200'
+                              issue.risk === 'high' ? 'bg-orange-50 border-orange-200' :
+                                'bg-yellow-50 border-yellow-200'
                               }`}>
                               <div className="flex justify-between items-start">
                                 <div>
@@ -2277,23 +2273,22 @@ export default function Home() {
 
               {/* Mixed Content */}
               {result.issues.mixedContent && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowMixedContent(!showMixedContent)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">🔓</span>
-                      Mixed Content Check
+                      <span className="section-btn-title">Mixed Content Security</span>
                       {result.issues.mixedContent.detected ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                        <span className="badge-failed">
                           {result.issues.mixedContent.totalIssues} issue{result.issues.mixedContent.totalIssues > 1 ? 's' : ''}
                         </span>
                       ) : (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Secure</span>
+                        <span className="badge-passed">Secure</span>
                       )}
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showMixedContent ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showMixedContent ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -2352,29 +2347,28 @@ export default function Home() {
 
               {/* Form Security */}
               {result.issues.formSecurity && result.issues.formSecurity.totalForms > 0 && (
-                <div className="mb-6">
+                <div className="mb-4">
                   <button
                     onClick={() => setShowFormSecurity(!showFormSecurity)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-xl">📝</span>
-                      Form Security
+                      <span className="section-btn-title">Form Security Analysis</span>
                       {result.issues.formSecurity.compliant ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Secure</span>
+                        <span className="badge-passed">Secure</span>
                       ) : (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                        <span className="badge-warning">
                           {result.issues.formSecurity.issuesCount} issue{result.issues.formSecurity.issuesCount > 1 ? 's' : ''}
                         </span>
                       )}
                       {result.issues.formSecurity.hasLoginForm && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">Login</span>
+                        <span className="badge-info">Login</span>
                       )}
                       {result.issues.formSecurity.hasPaymentForm && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">Payment</span>
+                        <span className="badge-info">Payment</span>
                       )}
                     </span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showFormSecurity ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showFormSecurity ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
@@ -2397,8 +2391,8 @@ export default function Home() {
                         <div className="space-y-2 max-h-48 overflow-y-auto">
                           {result.issues.formSecurity.issues.slice(0, isPro ? 8 : 2).map((issue, i) => (
                             <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
-                                issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
-                                  'bg-yellow-50 border-yellow-200'
+                              issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
+                                'bg-yellow-50 border-yellow-200'
                               }`}>
                               <div className="flex items-center gap-2 mb-1">
                                 <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type.replace(/-/g, ' ')}</span>
