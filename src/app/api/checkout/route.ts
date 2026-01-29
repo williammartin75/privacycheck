@@ -21,9 +21,6 @@ export async function POST(request: NextRequest) {
                 },
             ],
             mode: 'subscription',
-            subscription_data: {
-                trial_period_days: 7,
-            },
             success_url: `${request.headers.get('origin')}/?success=true`,
             cancel_url: `${request.headers.get('origin')}/?canceled=true`,
             customer_email: email,

@@ -1559,7 +1559,7 @@ export default function Home() {
                 <h4 className="text-xl font-bold text-white mb-2">Get the Full Audit Report</h4>
                 <p className="text-blue-100 mb-4">Detailed recommendations, PDF export, and continuous monitoring</p>
                 <button onClick={() => handleCheckout()} className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition">
-                  Start Free 7-Day Trial
+                  Get Pro Now
                 </button>
               </div>
             </div>
@@ -1727,7 +1727,7 @@ export default function Home() {
                 </li>
               </ul>
               <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition text-center mt-auto">
-                Start 7-Day Free Trial
+                Get Pro Now
               </button>
             </div>
 
@@ -1813,7 +1813,7 @@ export default function Home() {
                 </li>
               </ul>
               <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-xl hover:bg-teal-50 transition text-center mt-auto">
-                Start 7-Day Free Trial
+                Get Pro+ Now
               </button>
             </div>
           </div>

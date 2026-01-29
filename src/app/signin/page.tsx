@@ -99,7 +99,7 @@ export default function SignIn() {
                         <p className="text-gray-500">
                             Don&apos;t have an account?{' '}
                             <a href="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
-                                Start free trial
+                                Sign up
                             </a>
                         </p>
                     </div>
