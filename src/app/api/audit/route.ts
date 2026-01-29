@@ -789,10 +789,11 @@ export async function POST(request: NextRequest) {
         const hasAgeVerification = AGE_PATTERNS.some(p => htmlLower.includes(p.toLowerCase()));
         const hasCookiePolicy = COOKIE_POLICY_PATTERNS.some(p => htmlLower.includes(p.toLowerCase()));
 
-        // Count undeclared cookies
+        // Count undeclared cookies (exclude 'necessary' cookies which are GDPR-exempt)
+        const nonEssentialCookies = allCookies.filter(c => c.category !== 'necessary');
         const undeclaredCookies = hasConsentBanner ?
-            allCookies.filter(c => c.category === 'unknown').length :
-            allCookies.length;
+            nonEssentialCookies.filter(c => c.category === 'unknown').length :
+            nonEssentialCookies.length;
 
         // Determine regulations
         const regulations: string[] = ['GDPR'];
