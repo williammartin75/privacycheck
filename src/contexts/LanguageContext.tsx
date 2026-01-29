@@ -13,7 +13,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const LANGUAGE_KEY = 'pc_language';
 
-const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['en', 'fr', 'de', 'es', 'it', 'pt', 'nl', 'pl', 'ro', 'cs', 'hu', 'el', 'sv', 'da', 'fi', 'no'];
+const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['en', 'fr', 'de', 'es', 'it', 'pt', 'nl', 'pl', 'ro', 'cs', 'hu', 'el', 'sv', 'da', 'fi', 'no', 'bg', 'sk', 'hr', 'sl', 'lt', 'lv', 'et', 'uk', 'ru', 'tr'];
 
 function detectBrowserLanguage(): SupportedLanguage {
     if (typeof navigator === 'undefined') return 'en';

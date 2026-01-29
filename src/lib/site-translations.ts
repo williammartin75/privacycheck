@@ -1,7 +1,7 @@
 // Site-wide translations for PrivacyChecker.pro
 // 8 languages: EN, FR, DE, ES, IT, PT, NL, PL
 
-export type SupportedLanguage = 'en' | 'fr' | 'de' | 'es' | 'it' | 'pt' | 'nl' | 'pl' | 'ro' | 'cs' | 'hu' | 'el' | 'sv' | 'da' | 'fi' | 'no';
+export type SupportedLanguage = 'en' | 'fr' | 'de' | 'es' | 'it' | 'pt' | 'nl' | 'pl' | 'ro' | 'cs' | 'hu' | 'el' | 'sv' | 'da' | 'fi' | 'no' | 'bg' | 'sk' | 'hr' | 'sl' | 'lt' | 'lv' | 'et' | 'uk' | 'ru' | 'tr';
 
 export interface SiteTranslation {
     // Header
