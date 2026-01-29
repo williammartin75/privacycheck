@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 
-// Language data
+// Language data - 30 languages
 const LANGUAGES = [
     { code: 'en', name: 'English' },
     { code: 'fr', name: 'Français' },
@@ -20,6 +20,20 @@ const LANGUAGES = [
     { code: 'da', name: 'Dansk' },
     { code: 'fi', name: 'Suomi' },
     { code: 'no', name: 'Norsk' },
+    { code: 'bg', name: 'Български' },
+    { code: 'sk', name: 'Slovenčina' },
+    { code: 'hr', name: 'Hrvatski' },
+    { code: 'sl', name: 'Slovenščina' },
+    { code: 'lt', name: 'Lietuvių' },
+    { code: 'lv', name: 'Latviešu' },
+    { code: 'et', name: 'Eesti' },
+    { code: 'uk', name: 'Українська' },
+    { code: 'ru', name: 'Русский' },
+    { code: 'tr', name: 'Türkçe' },
+    { code: 'ja', name: '日本語' },
+    { code: 'ko', name: '한국어' },
+    { code: 'zh-CN', name: '中文' },
+    { code: 'th', name: 'ไทย' },
 ];
 
 export function LanguageSelector() {
