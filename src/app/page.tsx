@@ -1882,7 +1882,6 @@ export default function Home() {
                     <text x="50" y="60" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">DATA</text>
                   </svg>
                 </div>
-                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Frankfurt</span>
               </div>
 
               {/* SSL 256-Bit Badge - Gray Square */}
@@ -1890,14 +1889,11 @@ export default function Home() {
                 <div className="w-20 h-20 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                     <rect x="2" y="2" width="96" height="96" rx="8" fill="#4b5563" stroke="#374151" strokeWidth="2" />
-                    <text x="50" y="40" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SSL</text>
-                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="11">256-BIT</text>
-                    {/* Lock icon */}
-                    <rect x="40" y="68" width="20" height="14" rx="2" fill="white" />
-                    <path d="M44 68 L44 62 Q44 55 50 55 Q56 55 56 62 L56 68" stroke="white" strokeWidth="3" fill="none" />
+                    <text x="50" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SSL</text>
+                    <text x="50" y="52" textAnchor="middle" fill="white" fontSize="11">256-BIT</text>
+                    <text x="50" y="72" textAnchor="middle" fill="white" fontSize="9" opacity="0.8">ENCRYPTED</text>
                   </svg>
                 </div>
-                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Encrypted</span>
               </div>
 
               {/* SOC 2 Badge - Light Blue Square */}
@@ -1905,14 +1901,11 @@ export default function Home() {
                 <div className="w-20 h-20 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                     <rect x="2" y="2" width="96" height="96" rx="8" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2" />
-                    <text x="50" y="45" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">SOC 2</text>
-                    <text x="50" y="62" textAnchor="middle" fill="white" fontSize="10">TYPE II</text>
-                    {/* Checkmark */}
-                    <circle cx="50" cy="78" r="10" fill="white" opacity="0.3" />
-                    <path d="M44 78 L48 82 L56 74" stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                    <text x="50" y="40" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">SOC 2</text>
+                    <text x="50" y="57" textAnchor="middle" fill="white" fontSize="10">TYPE II</text>
+                    <text x="50" y="75" textAnchor="middle" fill="white" fontSize="9" opacity="0.8">CERTIFIED</text>
                   </svg>
                 </div>
-                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Certified</span>
               </div>
 
               {/* 100K Scans Badge - Square */}
@@ -1920,11 +1913,11 @@ export default function Home() {
                 <div className="w-20 h-20 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                     <rect x="2" y="2" width="96" height="96" rx="8" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
-                    <text x="50" y="45" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">100K</text>
-                    <text x="50" y="65" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">SCANS</text>
+                    <text x="50" y="40" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">100K</text>
+                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">SCANS</text>
+                    <text x="50" y="75" textAnchor="middle" fill="white" fontSize="9" opacity="0.8">VERIFIED</text>
                   </svg>
                 </div>
-                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Verified</span>
               </div>
 
             </div>
