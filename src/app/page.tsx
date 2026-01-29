@@ -109,6 +109,27 @@ interface AuditResult {
       score: number;
       issues: string[];
     };
+    // Privacy Policy AI Analysis
+    policyAnalysis?: {
+      found: boolean;
+      policyUrl: string | null;
+      lastUpdated: string | null;
+      overallScore: number;
+      overallStatus: 'compliant' | 'partial' | 'non-compliant' | 'not-found';
+      sections: {
+        legalBasis: { found: boolean; score: number; status: string; details: string[]; issues: string[] };
+        dataRetention: { found: boolean; score: number; status: string; details: string[]; issues: string[] };
+        userRights: { found: boolean; score: number; status: string; details: string[]; issues: string[] };
+        thirdPartySharing: { found: boolean; score: number; status: string; details: string[]; issues: string[] };
+        internationalTransfers: { found: boolean; score: number; status: string; details: string[]; issues: string[] };
+        contactInfo: { found: boolean; score: number; status: string; details: string[]; issues: string[] };
+        cookiePolicy: { found: boolean; score: number; status: string; details: string[]; issues: string[] };
+        childrenPrivacy: { found: boolean; score: number; status: string; details: string[]; issues: string[] };
+      };
+      missingElements: string[];
+      recommendations: string[];
+      gdprArticles: { article: string; status: 'compliant' | 'partial' | 'missing' }[];
+    };
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -172,6 +193,7 @@ export default function Home() {
   const [showEmailExposure, setShowEmailExposure] = useState(false);
   const [showTrackers, setShowTrackers] = useState(false);
   const [showConsentBehavior, setShowConsentBehavior] = useState(false);
+  const [showPolicyAnalysis, setShowPolicyAnalysis] = useState(false);
 
   // Cookie consent banner state
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -1268,6 +1290,183 @@ export default function Home() {
 
                       <p className="text-xs text-gray-400 mt-3">
                         * Checks consent banner implementation, presence of dark patterns, and whether tracking scripts await user consent.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Privacy Policy AI Analysis */}
+              {result.issues.policyAnalysis && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowPolicyAnalysis(!showPolicyAnalysis)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">📜</span>
+                      Privacy Policy AI Analysis
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-green-100 text-green-700' :
+                          result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-100 text-yellow-700' :
+                            result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-100 text-gray-700' :
+                              'bg-red-100 text-red-700'
+                        }`}>
+                        {result.issues.policyAnalysis.overallScore}%
+                      </span>
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showPolicyAnalysis ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showPolicyAnalysis && (
+                    <div className="bg-white rounded-lg border border-slate-200 p-4">
+                      {/* Overall Status */}
+                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-green-50' :
+                          result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-50' :
+                            result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-50' :
+                              'bg-red-50'
+                        }`}>
+                        <span className="text-2xl">
+                          {result.issues.policyAnalysis.overallStatus === 'compliant' ? '✅' :
+                            result.issues.policyAnalysis.overallStatus === 'partial' ? '⚠️' :
+                              result.issues.policyAnalysis.overallStatus === 'not-found' ? '❓' : '❌'}
+                        </span>
+                        <div>
+                          <p className="font-semibold text-slate-800">
+                            {result.issues.policyAnalysis.overallStatus === 'compliant' ? 'Privacy Policy is GDPR Compliant' :
+                              result.issues.policyAnalysis.overallStatus === 'partial' ? 'Privacy Policy Needs Improvement' :
+                                result.issues.policyAnalysis.overallStatus === 'not-found' ? 'No Privacy Policy Found' :
+                                  'Privacy Policy is Non-Compliant'}
+                          </p>
+                          <p className="text-sm text-slate-600">
+                            Score: {result.issues.policyAnalysis.overallScore}/100
+                            {result.issues.policyAnalysis.lastUpdated && ` • Last Updated: ${result.issues.policyAnalysis.lastUpdated}`}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* GDPR Articles Compliance */}
+                      <div className="mb-4">
+                        <p className="text-sm font-semibold text-slate-700 mb-2">GDPR Article Compliance:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {result.issues.policyAnalysis.gdprArticles.map((article, i) => (
+                            <span
+                              key={i}
+                              className={`text-xs px-3 py-1.5 rounded-full ${article.status === 'compliant' ? 'bg-green-100 text-green-700' :
+                                  article.status === 'partial' ? 'bg-yellow-100 text-yellow-700' :
+                                    'bg-red-100 text-red-700'
+                                }`}
+                            >
+                              {article.status === 'compliant' ? '✓' : article.status === 'partial' ? '~' : '✗'} {article.article}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Policy Sections Grid */}
+                      <div className="grid md:grid-cols-2 gap-3 mb-4">
+                        {Object.entries(result.issues.policyAnalysis.sections).map(([key, section]) => {
+                          const sectionNames: Record<string, string> = {
+                            legalBasis: 'Legal Basis',
+                            dataRetention: 'Data Retention',
+                            userRights: 'User Rights',
+                            thirdPartySharing: 'Third-Party Sharing',
+                            internationalTransfers: 'International Transfers',
+                            contactInfo: 'Contact Information',
+                            cookiePolicy: 'Cookie Policy',
+                            childrenPrivacy: 'Children Privacy',
+                          };
+                          return (
+                            <div
+                              key={key}
+                              className={`p-3 rounded-lg border ${section.status === 'compliant' ? 'bg-green-50 border-green-200' :
+                                  section.status === 'partial' ? 'bg-yellow-50 border-yellow-200' :
+                                    'bg-red-50 border-red-200'
+                                }`}
+                            >
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-sm font-medium text-slate-700">{sectionNames[key] || key}</span>
+                                <span className={`text-xs px-2 py-0.5 rounded ${section.status === 'compliant' ? 'bg-green-200 text-green-800' :
+                                    section.status === 'partial' ? 'bg-yellow-200 text-yellow-800' :
+                                      'bg-red-200 text-red-800'
+                                  }`}>
+                                  {section.score}%
+                                </span>
+                              </div>
+                              {section.details.length > 0 && (
+                                <p className="text-xs text-slate-600 truncate">{section.details[0]}</p>
+                              )}
+                              {section.issues.length > 0 && (
+                                <p className="text-xs text-red-600 truncate mt-1">⚠️ {section.issues[0]}</p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Missing Elements */}
+                      {result.issues.policyAnalysis.missingElements.length > 0 && (
+                        <div className="mb-4">
+                          <p className="text-sm font-semibold text-red-700 mb-2">Missing Elements:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {result.issues.policyAnalysis.missingElements.map((element, i) => (
+                              <span key={i} className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">
+                                {element}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Recommendations for Pro Users */}
+                      {result.issues.policyAnalysis.recommendations.length > 0 && (
+                        <div className="mb-4">
+                          <p className="text-sm font-semibold text-slate-700 mb-2">
+                            {isPro ? 'Recommendations:' : 'Recommendations (Pro):'}
+                          </p>
+                          {isPro ? (
+                            <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                              <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
+                                {result.issues.policyAnalysis.recommendations.map((rec, i) => (
+                                  <li key={i}>{rec}</li>
+                                ))}
+                              </ol>
+                            </div>
+                          ) : (
+                            <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 text-center">
+                              <p className="text-slate-600 text-sm mb-3">
+                                Upgrade to Pro to see detailed recommendations for improving your privacy policy
+                              </p>
+                              <button
+                                onClick={() => handleCheckout()}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+                              >
+                                Upgrade to Pro - €19/mo
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Policy Link */}
+                      {result.issues.policyAnalysis.policyUrl && (
+                        <div className="pt-3 border-t border-slate-200">
+                          <a
+                            href={result.issues.policyAnalysis.policyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                          >
+                            View Privacy Policy
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                          </a>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Analyzes privacy policy content for GDPR compliance including legal basis, user rights, data retention, and contact information.
                       </p>
                     </div>
                   )}

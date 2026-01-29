@@ -3,6 +3,7 @@ import { getVendorRisk, getRiskLabel, VendorRisk } from '@/lib/vendor-risk';
 import { calculateRiskPrediction, RiskPrediction } from '@/lib/risk-predictor';
 import { scanAttackSurface, AttackSurfaceResult } from '@/lib/attack-surface';
 import { analyzeConsentBanner, ConsentBannerAnalysis } from '@/lib/consent-analysis';
+import { analyzePrivacyPolicy, fetchAndAnalyzePolicy, PolicyAnalysisResult } from '@/lib/policy-analysis';
 
 interface Cookie {
     name: string;
@@ -90,6 +91,8 @@ interface AuditResult {
         }[];
         // Consent Behavior Analysis
         consentBehavior?: ConsentBannerAnalysis;
+        // Privacy Policy AI Analysis
+        policyAnalysis?: PolicyAnalysisResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -809,6 +812,10 @@ export async function POST(request: NextRequest) {
         // Consent Behavior Analysis
         const consentBehavior = analyzeConsentBanner(combinedHtml, mainPage.cookies);
 
+        // Privacy Policy AI Analysis
+        const policyBaseUrl = new URL(url);
+        const policyAnalysis = analyzePrivacyPolicy(combinedHtml, null, policyBaseUrl);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -841,6 +848,20 @@ export async function POST(request: NextRequest) {
             score -= consentBehaviorPenalty;
         } else {
             scoreBreakdown.push({ item: 'Consent Behavior', points: 0, passed: true });
+        }
+
+        // Privacy Policy Analysis (new) - up to 8 points penalty
+        const policyAnalysisPassed = policyAnalysis.overallScore >= 70;
+        const policyAnalysisPenalty = policyAnalysisPassed ? 0 : Math.min(Math.floor((70 - policyAnalysis.overallScore) / 10), 8);
+        if (policyAnalysisPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Privacy Policy Quality (${policyAnalysis.missingElements.length} missing)`,
+                points: -policyAnalysisPenalty,
+                passed: false
+            });
+            score -= policyAnalysisPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Privacy Policy Quality', points: 0, passed: true });
         }
 
         // Trackers penalty
@@ -989,6 +1010,8 @@ export async function POST(request: NextRequest) {
                 vendorRisks,
                 // Consent Behavior Analysis
                 consentBehavior,
+                // Privacy Policy AI Analysis
+                policyAnalysis,
             },
             regulations,
             scoreBreakdown,

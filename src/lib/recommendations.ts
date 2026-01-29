@@ -200,6 +200,86 @@ export const recommendations: Record<string, Recommendation> = {
         ],
         priority: 'high',
     },
+    // Privacy Policy AI Analysis recommendations
+    policyLegalBasis: {
+        title: 'Specify Legal Basis for Data Processing',
+        description: 'Your privacy policy does not clearly specify the legal basis for processing personal data under GDPR Article 6.',
+        steps: [
+            'Identify all types of personal data you collect',
+            'For each data type, specify one of the six legal bases: consent, contract, legal obligation, vital interests, public interest, or legitimate interest',
+            'Explain why you rely on each legal basis',
+            'If using legitimate interest, document your balancing test',
+            'Add a section titled "Legal Basis for Processing" to your privacy policy',
+            'Reference GDPR Article 6 explicitly for transparency',
+        ],
+        priority: 'high',
+    },
+    policyDataRetention: {
+        title: 'Add Data Retention Policy',
+        description: 'Your privacy policy lacks clear information about how long you retain personal data.',
+        steps: [
+            'Audit all data categories you store',
+            'Define retention periods for each category (e.g., "account data: until account deletion + 30 days")',
+            'Add a "Data Retention" section to your privacy policy',
+            'Specify what happens when the retention period expires (deletion, anonymization)',
+            'Include retention periods required by law (e.g., financial records, tax documents)',
+            'Explain the criteria used to determine retention periods',
+        ],
+        priority: 'high',
+    },
+    policyUserRights: {
+        title: 'Document All User Rights',
+        description: 'Your privacy policy does not fully explain all GDPR user rights (Articles 15-22).',
+        steps: [
+            'Add a "Your Rights" section to your privacy policy',
+            'Include: Right of Access (Art. 15) - users can request a copy of their data',
+            'Include: Right to Rectification (Art. 16) - users can correct inaccurate data',
+            'Include: Right to Erasure (Art. 17) - the "right to be forgotten"',
+            'Include: Right to Data Portability (Art. 20) - users can receive data in machine-readable format',
+            'Include: Right to Object (Art. 21) - users can object to processing',
+            'Explain how users can exercise each right (email, form, etc.)',
+        ],
+        priority: 'high',
+    },
+    policyContactInfo: {
+        title: 'Add Privacy Contact Information',
+        description: 'Your privacy policy lacks adequate contact information for privacy inquiries.',
+        steps: [
+            'Designate a Data Protection Officer (DPO) or privacy contact person',
+            'Add a dedicated privacy email address (e.g., privacy@yoursite.com)',
+            'Include your company\'s physical address',
+            'Mention the relevant supervisory authority (e.g., CNIL, ICO)',
+            'Explain users\' right to lodge a complaint with the supervisory authority',
+            'Ensure someone monitors and responds to privacy inquiries within 30 days',
+        ],
+        priority: 'medium',
+    },
+    policyThirdParty: {
+        title: 'Disclose Third-Party Data Sharing',
+        description: 'Your privacy policy does not adequately disclose who you share data with.',
+        steps: [
+            'List all categories of third parties who receive user data',
+            'Name specific providers where possible (Google Analytics, Stripe, etc.)',
+            'Explain the purpose of each data sharing relationship',
+            'Indicate whether third parties are processors or controllers',
+            'Link to third-party privacy policies where appropriate',
+            'Explain how users can opt out of third-party data sharing where applicable',
+        ],
+        priority: 'high',
+    },
+    policyInternationalTransfers: {
+        title: 'Document International Data Transfers',
+        description: 'Your privacy policy does not explain international data transfers and safeguards.',
+        steps: [
+            'Identify if data is transferred outside the EU/EEA',
+            'List the countries where data is transferred',
+            'Specify the legal mechanism used (SCCs, adequacy decision, BCRs)',
+            'If using US providers, mention the EU-US Data Privacy Framework if applicable',
+            'Add an "International Transfers" section to your privacy policy',
+            'Explain how users can obtain a copy of the transfer safeguards',
+        ],
+        priority: 'medium',
+    },
 };
 
 export const getRecommendation = (issueKey: string): Recommendation | null => {
