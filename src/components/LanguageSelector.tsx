@@ -68,19 +68,16 @@ export function LanguageSelector() {
             // Clear translation - remove cookies
             document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
             document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${domain}`;
-            // Small delay to ensure cookie is written before reload
-            setTimeout(() => {
-                window.location.reload();
-            }, 100);
         } else {
             // Set translation cookie
             document.cookie = `googtrans=/en/${langCode}; path=/;`;
             document.cookie = `googtrans=/en/${langCode}; path=/; domain=.${domain}`;
-            // Small delay to ensure cookie is written before reload
-            setTimeout(() => {
-                window.location.reload();
-            }, 100);
         }
+
+        // Force full page reload by reassigning href
+        setTimeout(() => {
+            window.location.href = window.location.href;
+        }, 100);
     };
 
     const currentLang = LANGUAGES.find(l => l.code === selectedLang) || LANGUAGES[0];
