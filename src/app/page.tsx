@@ -1854,80 +1854,98 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trust Badges - Professional Shield Style */}
-        <section className="py-10">
+        {/* Trust Badges - Shield Crest Style */}
+        <section className="py-12">
           <div className="container mx-auto px-6">
-            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
+            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
 
               {/* GDPR Compliant Badge */}
-              <div className="flex flex-col items-center p-4 group">
-                <div className="relative">
-                  <div className="w-20 h-24 bg-gradient-to-b from-blue-600 to-blue-700 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
-                    <svg className="w-8 h-8 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                    <span className="text-[10px] font-bold text-white uppercase tracking-tight">GDPR</span>
-                  </div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-blue-600 rounded-full px-3 py-0.5">
-                    <span className="text-[9px] font-bold text-blue-600 uppercase">Compliant</span>
-                  </div>
+              <div className="flex flex-col items-center group">
+                <div className="w-16 h-20 relative">
+                  {/* Shield shape */}
+                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    <defs>
+                      <linearGradient id="gdprGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#2563eb" />
+                        <stop offset="100%" stopColor="#1d4ed8" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#gdprGrad)" stroke="#1e40af" strokeWidth="2" />
+                    <path d="M35 55 L45 65 L65 45" stroke="white" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </div>
+                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">GDPR</span>
               </div>
 
               {/* EU Data Badge */}
-              <div className="flex flex-col items-center p-4 group">
-                <div className="relative">
-                  <div className="w-20 h-24 bg-gradient-to-b from-emerald-600 to-emerald-700 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
-                    <span className="text-3xl mb-1">🇪🇺</span>
-                    <span className="text-[10px] font-bold text-white uppercase tracking-tight">EU DATA</span>
-                  </div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-emerald-600 rounded-full px-3 py-0.5">
-                    <span className="text-[9px] font-bold text-emerald-600 uppercase">Frankfurt</span>
-                  </div>
+              <div className="flex flex-col items-center group">
+                <div className="w-16 h-20 relative">
+                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    <defs>
+                      <linearGradient id="euGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#059669" />
+                        <stop offset="100%" stopColor="#047857" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#euGrad)" stroke="#065f46" strokeWidth="2" />
+                    <text x="50" y="70" textAnchor="middle" fill="white" fontSize="36">🇪🇺</text>
+                  </svg>
                 </div>
+                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">EU DATA</span>
               </div>
 
-              {/* SSL Encrypted Badge */}
-              <div className="flex flex-col items-center p-4 group">
-                <div className="relative">
-                  <div className="w-20 h-24 bg-gradient-to-b from-amber-500 to-amber-600 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
-                    <svg className="w-8 h-8 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    <span className="text-[10px] font-bold text-white uppercase tracking-tight">SSL</span>
-                  </div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-amber-500 rounded-full px-3 py-0.5">
-                    <span className="text-[9px] font-bold text-amber-600 uppercase">256-bit</span>
-                  </div>
+              {/* SSL Badge */}
+              <div className="flex flex-col items-center group">
+                <div className="w-16 h-20 relative">
+                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    <defs>
+                      <linearGradient id="sslGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#f59e0b" />
+                        <stop offset="100%" stopColor="#d97706" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#sslGrad)" stroke="#b45309" strokeWidth="2" />
+                    <rect x="35" y="50" width="30" height="25" rx="3" fill="white" />
+                    <path d="M40 50 L40 42 Q40 32 50 32 Q60 32 60 42 L60 50" stroke="white" strokeWidth="5" fill="none" />
+                  </svg>
                 </div>
+                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">SSL 256-BIT</span>
               </div>
 
               {/* SOC 2 Badge */}
-              <div className="flex flex-col items-center p-4 group">
-                <div className="relative">
-                  <div className="w-20 h-24 bg-gradient-to-b from-purple-600 to-purple-700 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
-                    <svg className="w-8 h-8 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                    </svg>
-                    <span className="text-[10px] font-bold text-white uppercase tracking-tight">SOC 2</span>
-                  </div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-purple-600 rounded-full px-3 py-0.5">
-                    <span className="text-[9px] font-bold text-purple-600 uppercase">Infra</span>
-                  </div>
+              <div className="flex flex-col items-center group">
+                <div className="w-16 h-20 relative">
+                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    <defs>
+                      <linearGradient id="socGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#9333ea" />
+                        <stop offset="100%" stopColor="#7c3aed" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#socGrad)" stroke="#6b21a8" strokeWidth="2" />
+                    <circle cx="50" cy="55" r="20" stroke="white" strokeWidth="4" fill="none" />
+                    <path d="M40 55 L47 62 L62 47" stroke="white" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </div>
+                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">SOC 2</span>
               </div>
 
-              {/* 100k+ Scans Badge */}
-              <div className="flex flex-col items-center p-4 group">
-                <div className="relative">
-                  <div className="w-20 h-24 bg-gradient-to-b from-slate-700 to-slate-800 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
-                    <span className="text-xl font-black text-white">100K</span>
-                    <span className="text-[10px] font-bold text-white/80 uppercase tracking-tight">Scans</span>
-                  </div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-slate-700 rounded-full px-3 py-0.5">
-                    <span className="text-[9px] font-bold text-slate-700 uppercase">Verified</span>
-                  </div>
+              {/* 100K Badge */}
+              <div className="flex flex-col items-center group">
+                <div className="w-16 h-20 relative">
+                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    <defs>
+                      <linearGradient id="scanGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#475569" />
+                        <stop offset="100%" stopColor="#334155" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#scanGrad)" stroke="#1e293b" strokeWidth="2" />
+                    <text x="50" y="60" textAnchor="middle" fill="white" fontSize="22" fontWeight="bold">100K</text>
+                    <text x="50" y="78" textAnchor="middle" fill="white" fontSize="10" opacity="0.8">SCANS</text>
+                  </svg>
                 </div>
+                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Verified</span>
               </div>
 
             </div>
@@ -1938,12 +1956,12 @@ export default function Home() {
         <section className="py-16">
           <div className="container mx-auto px-6">
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
-            <p className="text-gray-600 text-center mb-2">Comprehensive coverage for global privacy compliance</p>
-            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '120px' }}>
+            <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
+            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '160px' }}>
               <img
                 src="/badges.png"
                 alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                className="object-cover h-[280px] sm:h-[360px] -my-[80px] sm:-my-[108px]"
+                className="object-cover h-[360px] sm:h-[440px] -my-[100px] sm:-my-[130px]"
                 style={{
                   filter: 'brightness(1.08) contrast(1.1)'
                 }}
