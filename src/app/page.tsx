@@ -1876,12 +1876,12 @@ export default function Home() {
               />
             </div>
 
-            {/* Trust Badges - moved here after regulations */}
-            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-4">
+            {/* Trust Badges - integrated with regulations above */}
+            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-2">
 
               {/* EU Data Badge - Circle with stars */}
               <div className="flex flex-col items-center group">
-                <div className="w-20 h-20 relative">
+                <div className="w-16 h-16 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                     {/* EU Blue circle */}
                     <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
@@ -1904,38 +1904,38 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* SSL 256-Bit Badge - Gray Square */}
+              {/* SSL 256-Bit Badge - Gray Circle */}
               <div className="flex flex-col items-center group">
-                <div className="w-20 h-20 relative">
+                <div className="w-16 h-16 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <rect x="2" y="2" width="96" height="96" rx="8" fill="#4b5563" stroke="#374151" strokeWidth="2" />
-                    <text x="50" y="35" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SSL</text>
-                    <text x="50" y="52" textAnchor="middle" fill="white" fontSize="11">256-BIT</text>
-                    <text x="50" y="72" textAnchor="middle" fill="white" fontSize="9" opacity="0.8">ENCRYPTED</text>
+                    <circle cx="50" cy="50" r="48" fill="#4b5563" stroke="#374151" strokeWidth="2" />
+                    <text x="50" y="38" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SSL</text>
+                    <text x="50" y="54" textAnchor="middle" fill="white" fontSize="10">256-BIT</text>
+                    <text x="50" y="70" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">ENCRYPTED</text>
                   </svg>
                 </div>
               </div>
 
-              {/* SOC 2 Badge - Light Blue Square */}
+              {/* SOC 2 Badge - Light Blue Circle */}
               <div className="flex flex-col items-center group">
-                <div className="w-20 h-20 relative">
+                <div className="w-16 h-16 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <rect x="2" y="2" width="96" height="96" rx="8" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2" />
-                    <text x="50" y="40" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">SOC 2</text>
-                    <text x="50" y="57" textAnchor="middle" fill="white" fontSize="10">TYPE II</text>
-                    <text x="50" y="75" textAnchor="middle" fill="white" fontSize="9" opacity="0.8">CERTIFIED</text>
+                    <circle cx="50" cy="50" r="48" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2" />
+                    <text x="50" y="42" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SOC 2</text>
+                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="10">TYPE II</text>
+                    <text x="50" y="74" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">CERTIFIED</text>
                   </svg>
                 </div>
               </div>
 
-              {/* 100K Scans Badge - Square */}
+              {/* 100K Scans Badge - Dark Circle */}
               <div className="flex flex-col items-center group">
-                <div className="w-20 h-20 relative">
+                <div className="w-16 h-16 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <rect x="2" y="2" width="96" height="96" rx="8" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
-                    <text x="50" y="40" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">100K</text>
-                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">SCANS</text>
-                    <text x="50" y="75" textAnchor="middle" fill="white" fontSize="9" opacity="0.8">VERIFIED</text>
+                    <circle cx="50" cy="50" r="48" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
+                    <text x="50" y="42" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold">100K</text>
+                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">SCANS</text>
+                    <text x="50" y="74" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">VERIFIED</text>
                   </svg>
                 </div>
               </div>
@@ -1943,7 +1943,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </main >
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-gray-200 py-12 bg-white">
@@ -2067,6 +2067,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
