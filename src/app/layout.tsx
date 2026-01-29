@@ -48,18 +48,19 @@ export default function RootLayout({
           __html: `
             .goog-te-banner-frame { display: none !important; }
             body { top: 0 !important; }
-            .goog-te-gadget { font-family: inherit !important; }
+            .goog-te-gadget { font-family: inherit !important; font-size: 0 !important; }
             .goog-te-gadget-simple { 
               background-color: white !important; 
               border: 1px solid #e5e7eb !important;
               border-radius: 8px !important;
               padding: 8px 12px !important;
               font-size: 14px !important;
+              cursor: pointer;
             }
-            .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; }
+            .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; font-size: 14px !important; }
             .goog-te-gadget-icon { display: none !important; }
-            .skiptranslate { display: none !important; }
-            body { top: 0 !important; }
+            #google_translate_element { display: inline-block; }
+            .VIpgJd-ZVi9od-ORHb-OEVmcd { display: none !important; }
           `
         }} />
       </head>
