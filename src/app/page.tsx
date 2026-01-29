@@ -711,12 +711,12 @@ export default function Home() {
                 <div className="mb-6 p-4 rounded-lg border border-slate-300">
                   <h4 className="text-sm font-semibold text-red-600 mb-3">Issues Found</h4>
                   <div className="flex flex-wrap gap-2">
-                    {!result.issues.consentBanner && <span className="px-2 py-1 text-xs text-red-600">✗ Cookie Consent Banner</span>}
-                    {!result.issues.cookiePolicy && <span className="px-2 py-1 text-xs text-red-600">✗ Cookie Policy</span>}
-                    {!result.issues.dpoContact && <span className="px-2 py-1 text-xs text-red-600">✗ DPO Contact</span>}
-                    {!result.issues.secureforms && <span className="px-2 py-1 text-xs text-red-600">✗ Secure Forms</span>}
-                    {!result.issues.privacyPolicy && <span className="px-2 py-1 text-xs text-red-600">✗ Privacy Policy</span>}
-                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 text-xs text-red-600">✗ Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
+                    {!result.issues.consentBanner && <span className="px-2 py-1 text-xs text-red-600">✕ Cookie Consent Banner</span>}
+                    {!result.issues.cookiePolicy && <span className="px-2 py-1 text-xs text-red-600">✕ Cookie Policy</span>}
+                    {!result.issues.dpoContact && <span className="px-2 py-1 text-xs text-red-600">✕ DPO Contact</span>}
+                    {!result.issues.secureforms && <span className="px-2 py-1 text-xs text-red-600">✕ Secure Forms</span>}
+                    {!result.issues.privacyPolicy && <span className="px-2 py-1 text-xs text-red-600">✕ Privacy Policy</span>}
+                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 text-xs text-red-600">✕ Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
                   </div>
                 </div>
               )}
