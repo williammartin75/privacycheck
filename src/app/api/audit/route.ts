@@ -5,6 +5,7 @@ import { scanAttackSurface, AttackSurfaceResult } from '@/lib/attack-surface';
 import { analyzeConsentBanner, ConsentBannerAnalysis } from '@/lib/consent-analysis';
 import { analyzePrivacyPolicy, fetchAndAnalyzePolicy, PolicyAnalysisResult } from '@/lib/policy-analysis';
 import { detectDarkPatterns, DarkPatternsResult } from '@/lib/dark-patterns';
+import { analyzeOptInForms, OptInFormsResult } from '@/lib/optin-forms';
 
 interface Cookie {
     name: string;
@@ -96,6 +97,8 @@ interface AuditResult {
         policyAnalysis?: PolicyAnalysisResult;
         // Site-wide Dark Patterns Detection
         darkPatterns?: DarkPatternsResult;
+        // Opt-in Forms Analysis
+        optInForms?: OptInFormsResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -822,6 +825,9 @@ export async function POST(request: NextRequest) {
         // Site-wide Dark Patterns Detection
         const darkPatterns = detectDarkPatterns(combinedHtml);
 
+        // Opt-in Forms Analysis
+        const optInForms = analyzeOptInForms(combinedHtml);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -889,6 +895,21 @@ export async function POST(request: NextRequest) {
             score -= darkPatternsPenalty;
         } else {
             scoreBreakdown.push({ item: 'No Dark Patterns', points: 0, passed: true });
+        }
+
+        // Opt-in Forms penalty (new) - up to 10 points
+        const optInPenalty = optInForms.totalIssues > 0
+            ? Math.min(optInForms.preCheckedCount * 5 + optInForms.hiddenConsentCount * 3 + optInForms.bundledConsentCount * 2, 10)
+            : 0;
+        if (optInPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Opt-in Issues (${optInForms.totalIssues} found)`,
+                points: -optInPenalty,
+                passed: false
+            });
+            score -= optInPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Opt-in Forms Compliant', points: 0, passed: true });
         }
 
         // Trackers penalty
@@ -1041,6 +1062,8 @@ export async function POST(request: NextRequest) {
                 policyAnalysis,
                 // Site-wide Dark Patterns
                 darkPatterns,
+                // Opt-in Forms Analysis
+                optInForms,
             },
             regulations,
             scoreBreakdown,

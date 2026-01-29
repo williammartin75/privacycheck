@@ -161,6 +161,25 @@ interface AuditResult {
       }[];
       recommendations: string[];
     };
+    // Opt-in Forms Analysis
+    optInForms?: {
+      formsAnalyzed: number;
+      totalIssues: number;
+      score: number;
+      issues: {
+        type: 'pre-checked' | 'hidden-consent' | 'bundled-consent' | 'unclear-label' | 'forced-consent';
+        description: string;
+        severity: 'low' | 'medium' | 'high' | 'critical';
+        element?: string;
+        recommendation: string;
+        gdprArticle?: string;
+      }[];
+      preCheckedCount: number;
+      hiddenConsentCount: number;
+      bundledConsentCount: number;
+      compliant: boolean;
+      recommendations: string[];
+    };
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -227,6 +246,8 @@ export default function Home() {
   const [showPolicyAnalysis, setShowPolicyAnalysis] = useState(false);
   const [showDarkPatterns, setShowDarkPatterns] = useState(false);
   const [showDataBreaches, setShowDataBreaches] = useState(false);
+  const [showDataTransfers, setShowDataTransfers] = useState(false);
+  const [showOptInForms, setShowOptInForms] = useState(false);
 
   // Cookie consent banner state
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -1680,6 +1701,125 @@ export default function Home() {
                 </div>
               )}
 
+              {/* Opt-in Forms Analysis */}
+              {result.issues.optInForms && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowOptInForms(!showOptInForms)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">☑️</span>
+                      Opt-in Forms Analysis
+                      {result.issues.optInForms.compliant ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                          Compliant
+                        </span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                          {result.issues.optInForms.totalIssues} issue{result.issues.optInForms.totalIssues > 1 ? 's' : ''}
+                        </span>
+                      )}
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showOptInForms ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showOptInForms && (
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
+                      {/* Summary */}
+                      <div className="grid grid-cols-3 gap-3 mb-4">
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.preCheckedCount > 0 ? 'bg-red-50' : 'bg-green-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.optInForms.preCheckedCount > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                            {result.issues.optInForms.preCheckedCount}
+                          </p>
+                          <p className="text-xs text-slate-600">Pre-checked</p>
+                        </div>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.hiddenConsentCount > 0 ? 'bg-orange-50' : 'bg-green-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.optInForms.hiddenConsentCount > 0 ? 'text-orange-600' : 'text-green-600'}`}>
+                            {result.issues.optInForms.hiddenConsentCount}
+                          </p>
+                          <p className="text-xs text-slate-600">Hidden consent</p>
+                        </div>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.bundledConsentCount > 0 ? 'bg-yellow-50' : 'bg-green-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.optInForms.bundledConsentCount > 0 ? 'text-yellow-600' : 'text-green-600'}`}>
+                            {result.issues.optInForms.bundledConsentCount}
+                          </p>
+                          <p className="text-xs text-slate-600">Bundled consent</p>
+                        </div>
+                      </div>
+
+                      {result.issues.optInForms.compliant ? (
+                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                          <span className="text-2xl">✅</span>
+                          <div>
+                            <p className="font-semibold text-green-800">All Forms Are Compliant</p>
+                            <p className="text-sm text-green-600">
+                              No pre-checked consent boxes or hidden consent inputs found.
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <p className="text-red-800 text-sm">
+                              <strong>GDPR Article 7:</strong> Consent must be freely given. Pre-checked boxes do not constitute valid consent.
+                            </p>
+                          </div>
+                          <div className="space-y-2 max-h-64 overflow-y-auto">
+                            {result.issues.optInForms.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
+                              <div
+                                key={i}
+                                className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
+                                    issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
+                                      'bg-yellow-50 border-yellow-200'
+                                  }`}
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-red-200 text-red-800' :
+                                      issue.severity === 'high' ? 'bg-orange-200 text-orange-800' :
+                                        'bg-yellow-200 text-yellow-800'
+                                    }`}>
+                                    {issue.severity.toUpperCase()}
+                                  </span>
+                                  <span className="text-xs text-slate-500">{issue.type.replace(/-/g, ' ')}</span>
+                                  {issue.gdprArticle && (
+                                    <span className="text-xs bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">
+                                      {issue.gdprArticle.split(' - ')[0]}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-sm text-slate-700">{issue.description}</p>
+                                {isPro && (
+                                  <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
+                                )}
+                              </div>
+                            ))}
+                            {!isPro && result.issues.optInForms.issues.length > 2 && (
+                              <div className="text-center p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                <p className="text-slate-600 text-sm mb-2">
+                                  +{result.issues.optInForms.issues.length - 2} more issues (Pro)
+                                </p>
+                                <button
+                                  onClick={() => handleCheckout()}
+                                  className="px-3 py-1 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700 transition"
+                                >
+                                  Upgrade to Pro
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Scans form checkboxes for pre-selection, hidden consent fields, and bundled consent.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Compliance Checks */}
               <div className="mb-6">
                 <button
@@ -2064,6 +2204,114 @@ export default function Home() {
                   )}
                 </div>
               )}
+
+              {/* Data Transfers Outside EU */}
+              {result.issues.vendorRisks && (() => {
+                const nonEuTransfers = result.issues.vendorRisks.filter(v =>
+                  v.dataTransfer === 'International' ||
+                  v.jurisdiction === 'USA' ||
+                  v.jurisdiction === 'China' ||
+                  v.jurisdiction === 'Russia' ||
+                  v.jurisdiction === 'India' ||
+                  !v.gdprCompliant
+                );
+                return (
+                  <div className="mb-6">
+                    <button
+                      onClick={() => setShowDataTransfers(!showDataTransfers)}
+                      className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-xl">🌍</span>
+                        Data Transfers Outside EU
+                        {nonEuTransfers.length > 0 ? (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                            {nonEuTransfers.length} vendor{nonEuTransfers.length > 1 ? 's' : ''}
+                          </span>
+                        ) : (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                            EU Only
+                          </span>
+                        )}
+                      </span>
+                      <svg className={`w-5 h-5 text-slate-500 transition-transform ${showDataTransfers ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {showDataTransfers && (
+                      <div className="bg-white border border-slate-200 rounded-lg p-4">
+                        {nonEuTransfers.length > 0 ? (
+                          <>
+                            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
+                              <p className="text-orange-800 text-sm">
+                                <strong>GDPR Article 44-49:</strong> Transfers to non-EU countries require adequate safeguards (SCCs, BCRs) or user consent.
+                              </p>
+                            </div>
+                            <div className="space-y-3">
+                              {nonEuTransfers.map((vendor, i) => (
+                                <div key={i} className={`p-3 rounded-lg border ${!vendor.gdprCompliant ? 'bg-red-50 border-red-200' :
+                                  vendor.jurisdiction === 'USA' ? 'bg-orange-50 border-orange-200' :
+                                    'bg-yellow-50 border-yellow-200'
+                                  }`}>
+                                  <div className="flex justify-between items-start">
+                                    <div>
+                                      <p className="font-semibold text-slate-800">{vendor.name}</p>
+                                      <p className="text-xs text-slate-500">{vendor.category}</p>
+                                    </div>
+                                    <div className="text-right">
+                                      <span className={`text-xs px-2 py-1 rounded ${vendor.jurisdiction === 'USA' ? 'bg-blue-100 text-blue-700' :
+                                        vendor.jurisdiction === 'EU' ? 'bg-green-100 text-green-700' :
+                                          'bg-gray-100 text-gray-700'
+                                        }`}>
+                                        📍 {vendor.jurisdiction}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="mt-2 flex items-center gap-2">
+                                    {vendor.gdprCompliant ? (
+                                      <span className="text-xs text-green-600 flex items-center gap-1">
+                                        ✓ GDPR compliant (uses SCCs)
+                                      </span>
+                                    ) : (
+                                      <span className="text-xs text-red-600 flex items-center gap-1">
+                                        ⚠ No GDPR adequacy decision
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            {isPro && (
+                              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                <p className="text-sm text-blue-800 font-medium mb-2">📋 Compliance Requirements:</p>
+                                <ul className="text-xs text-blue-700 list-disc list-inside space-y-1">
+                                  <li>Ensure Standard Contractual Clauses (SCCs) are in place</li>
+                                  <li>Document Transfer Impact Assessments (TIAs)</li>
+                                  <li>Disclose international transfers in your privacy policy</li>
+                                  <li>Consider EU-based alternatives for non-compliant vendors</li>
+                                </ul>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                            <span className="text-2xl">✅</span>
+                            <div>
+                              <p className="font-semibold text-green-800">All Data Stays in EU</p>
+                              <p className="text-sm text-green-600">
+                                No third-party vendors transfer data outside the European Union.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                        <p className="text-xs text-gray-400 mt-3">
+                          * Based on vendor headquarters and known data processing locations.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
 
               {/* Data Breaches */}
               <div className="mb-6">
