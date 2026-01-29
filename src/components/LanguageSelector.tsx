@@ -13,6 +13,14 @@ const LANGUAGE_DATA: Record<SupportedLanguage, { flag: string; name: string }> =
     pt: { flag: '🇵🇹', name: 'Português' },
     nl: { flag: '🇳🇱', name: 'Nederlands' },
     pl: { flag: '🇵🇱', name: 'Polski' },
+    ro: { flag: '🇷🇴', name: 'Română' },
+    cs: { flag: '🇨🇿', name: 'Čeština' },
+    hu: { flag: '🇭🇺', name: 'Magyar' },
+    el: { flag: '🇬🇷', name: 'Ελληνικά' },
+    sv: { flag: '🇸🇪', name: 'Svenska' },
+    da: { flag: '🇩🇰', name: 'Dansk' },
+    fi: { flag: '🇫🇮', name: 'Suomi' },
+    no: { flag: '🇳🇴', name: 'Norsk' },
 };
 
 export function LanguageSelector() {
@@ -69,8 +77,8 @@ export function LanguageSelector() {
                                     setIsOpen(false);
                                 }}
                                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${isActive
-                                        ? 'bg-blue-50 text-blue-700'
-                                        : 'hover:bg-gray-50 text-gray-700'
+                                    ? 'bg-blue-50 text-blue-700'
+                                    : 'hover:bg-gray-50 text-gray-700'
                                     }`}
                             >
                                 <span className="text-xl">{langData.flag}</span>
