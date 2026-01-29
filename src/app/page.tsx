@@ -1854,75 +1854,82 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trust Badges */}
-        <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
+        {/* Trust Badges - Professional Shield Style */}
+        <section className="py-10 bg-gradient-to-b from-gray-50 to-white">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-8">
-              <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">Trusted by privacy-conscious businesses</p>
-            </div>
-            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
-              {/* GDPR Compliant */}
-              <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">GDPR Compliant</p>
-                  <p className="text-xs text-gray-500">Privacy by design</p>
+            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
+
+              {/* GDPR Compliant Badge */}
+              <div className="flex flex-col items-center p-4 group">
+                <div className="relative">
+                  <div className="w-20 h-24 bg-gradient-to-b from-blue-600 to-blue-700 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
+                    <svg className="w-8 h-8 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <span className="text-[10px] font-bold text-white uppercase tracking-tight">GDPR</span>
+                  </div>
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-blue-600 rounded-full px-3 py-0.5">
+                    <span className="text-[9px] font-bold text-blue-600 uppercase">Compliant</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Data in EU */}
-              <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-xl">🇪🇺</span>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">Data Stored in EU</p>
-                  <p className="text-xs text-gray-500">Frankfurt servers</p>
-                </div>
-              </div>
-
-              {/* SSL Encrypted */}
-              <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition">
-                <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">SSL/TLS Encrypted</p>
-                  <p className="text-xs text-gray-500">256-bit encryption</p>
+              {/* EU Data Badge */}
+              <div className="flex flex-col items-center p-4 group">
+                <div className="relative">
+                  <div className="w-20 h-24 bg-gradient-to-b from-emerald-600 to-emerald-700 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
+                    <span className="text-3xl mb-1">🇪🇺</span>
+                    <span className="text-[10px] font-bold text-white uppercase tracking-tight">EU DATA</span>
+                  </div>
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-emerald-600 rounded-full px-3 py-0.5">
+                    <span className="text-[9px] font-bold text-emerald-600 uppercase">Frankfurt</span>
+                  </div>
                 </div>
               </div>
 
-              {/* SOC 2 Infrastructure */}
-              <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition">
-                <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">SOC 2 Infrastructure</p>
-                  <p className="text-xs text-gray-500">via Supabase & Render</p>
+              {/* SSL Encrypted Badge */}
+              <div className="flex flex-col items-center p-4 group">
+                <div className="relative">
+                  <div className="w-20 h-24 bg-gradient-to-b from-amber-500 to-amber-600 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
+                    <svg className="w-8 h-8 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <span className="text-[10px] font-bold text-white uppercase tracking-tight">SSL</span>
+                  </div>
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-amber-500 rounded-full px-3 py-0.5">
+                    <span className="text-[9px] font-bold text-amber-600 uppercase">256-bit</span>
+                  </div>
                 </div>
               </div>
 
-              {/* 100k+ Sites Scanned */}
-              <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition">
-                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">100,000+ Scans</p>
-                  <p className="text-xs text-gray-500">Websites analyzed</p>
+              {/* SOC 2 Badge */}
+              <div className="flex flex-col items-center p-4 group">
+                <div className="relative">
+                  <div className="w-20 h-24 bg-gradient-to-b from-purple-600 to-purple-700 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
+                    <svg className="w-8 h-8 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                    <span className="text-[10px] font-bold text-white uppercase tracking-tight">SOC 2</span>
+                  </div>
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-purple-600 rounded-full px-3 py-0.5">
+                    <span className="text-[9px] font-bold text-purple-600 uppercase">Infra</span>
+                  </div>
                 </div>
               </div>
+
+              {/* 100k+ Scans Badge */}
+              <div className="flex flex-col items-center p-4 group">
+                <div className="relative">
+                  <div className="w-20 h-24 bg-gradient-to-b from-slate-700 to-slate-800 rounded-t-full rounded-b-lg flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition transform group-hover:-translate-y-1">
+                    <span className="text-xl font-black text-white">100K</span>
+                    <span className="text-[10px] font-bold text-white/80 uppercase tracking-tight">Scans</span>
+                  </div>
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-white border-2 border-slate-700 rounded-full px-3 py-0.5">
+                    <span className="text-[9px] font-bold text-slate-700 uppercase">Verified</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
