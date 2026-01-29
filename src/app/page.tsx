@@ -397,13 +397,8 @@ export default function Home() {
       const cachedUrl = localStorage.getItem('lastScanUrl');
       if (cachedResult && cachedUrl) {
         const parsed = JSON.parse(cachedResult);
-        // Check if cache is less than 1 hour old
-        const cacheTime = localStorage.getItem('lastScanTime');
-        const isValid = cacheTime && (Date.now() - parseInt(cacheTime)) < 3600000; // 1 hour
-        if (isValid) {
-          setResult(parsed);
-          setUrl(cachedUrl);
-        }
+        setResult(parsed);
+        setUrl(cachedUrl);
       }
     } catch (e) {
       console.error('Failed to load cached scan result:', e);
