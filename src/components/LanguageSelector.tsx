@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 
-// Language data with names
+// Language data
 const LANGUAGES = [
     { code: 'en', name: 'English' },
     { code: 'fr', name: 'Français' },
@@ -27,16 +27,22 @@ export function LanguageSelector() {
     const [selectedLang, setSelectedLang] = useState('en');
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Detect browser language on mount
+    // Get current language from cookie on mount
     useEffect(() => {
-        const browserLang = navigator.language?.substring(0, 2).toLowerCase();
-        const supported = LANGUAGES.find(l => l.code === browserLang);
-        if (supported && supported.code !== 'en') {
-            setSelectedLang(supported.code);
-            // Auto-translate after a short delay to let Google Translate initialize
-            setTimeout(() => {
-                triggerGoogleTranslate(supported.code);
-            }, 1500);
+        // Check googtrans cookie
+        const match = document.cookie.match(/googtrans=\/en\/([a-z]{2})/);
+        if (match && match[1]) {
+            setSelectedLang(match[1]);
+        } else {
+            // Detect browser language
+            const browserLang = navigator.language?.substring(0, 2).toLowerCase();
+            const supported = LANGUAGES.find(l => l.code === browserLang);
+            if (supported && supported.code !== 'en') {
+                // Auto-translate to browser language
+                setTimeout(() => {
+                    handleLanguageSelect(supported.code, true);
+                }, 500);
+            }
         }
     }, []);
 
@@ -51,43 +57,23 @@ export function LanguageSelector() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const triggerGoogleTranslate = (langCode: string) => {
-        // Find and trigger the Google Translate select element
-        const frame = document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement;
-        if (frame) {
-            const frameDoc = frame.contentDocument || frame.contentWindow?.document;
-            if (frameDoc) {
-                const items = frameDoc.querySelectorAll('.goog-te-menu2-item span.text');
-                items.forEach((item) => {
-                    const text = item.textContent?.toLowerCase() || '';
-                    const targetLang = LANGUAGES.find(l => l.code === langCode);
-                    if (targetLang && text.includes(targetLang.name.toLowerCase().substring(0, 4))) {
-                        (item as HTMLElement).click();
-                    }
-                });
-            }
-        }
-
-        // Alternative: Use the select element directly
-        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-        if (select) {
-            select.value = langCode;
-            select.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-    };
-
-    const handleLanguageSelect = (langCode: string) => {
+    const handleLanguageSelect = (langCode: string, auto = false) => {
         setSelectedLang(langCode);
-        setIsOpen(false);
+        if (!auto) setIsOpen(false);
+
+        // Set Google Translate cookie and reload
+        const domain = window.location.hostname;
 
         if (langCode === 'en') {
-            // Reset to original - reload page without translation
-            const hostname = window.location.hostname;
-            document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${hostname}`;
+            // Clear translation - remove cookies
             document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-            window.location.reload();
+            document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${domain}`;
+            if (!auto) window.location.reload();
         } else {
-            triggerGoogleTranslate(langCode);
+            // Set translation cookie
+            document.cookie = `googtrans=/en/${langCode}; path=/;`;
+            document.cookie = `googtrans=/en/${langCode}; path=/; domain=.${domain}`;
+            window.location.reload();
         }
     };
 
@@ -95,8 +81,8 @@ export function LanguageSelector() {
 
     return (
         <div className="relative" ref={dropdownRef}>
-            {/* Hidden Google Translate element */}
-            <div id="google_translate_element" style={{ display: 'none' }}></div>
+            {/* Hidden Google Translate element for initialization */}
+            <div id="google_translate_element" style={{ position: 'absolute', visibility: 'hidden', height: 0, overflow: 'hidden' }}></div>
 
             {/* Custom dropdown button */}
             <button
