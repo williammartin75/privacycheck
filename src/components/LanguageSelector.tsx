@@ -68,12 +68,18 @@ export function LanguageSelector() {
             // Clear translation - remove cookies
             document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
             document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${domain}`;
-            if (!auto) window.location.reload();
+            // Small delay to ensure cookie is written before reload
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
         } else {
             // Set translation cookie
             document.cookie = `googtrans=/en/${langCode}; path=/;`;
             document.cookie = `googtrans=/en/${langCode}; path=/; domain=.${domain}`;
-            window.location.reload();
+            // Small delay to ensure cookie is written before reload
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
         }
     };
 
@@ -111,8 +117,8 @@ export function LanguageSelector() {
                                 key={lang.code}
                                 onClick={() => handleLanguageSelect(lang.code)}
                                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${isActive
-                                        ? 'bg-blue-50 text-blue-700'
-                                        : 'hover:bg-gray-50 text-gray-700'
+                                    ? 'bg-blue-50 text-blue-700'
+                                    : 'hover:bg-gray-50 text-gray-700'
                                     }`}
                             >
                                 <span className="flex-1 font-medium">{lang.name}</span>
