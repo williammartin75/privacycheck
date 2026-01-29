@@ -138,7 +138,7 @@ export default function LegalHubPage() {
                             <span className="text-sm font-medium text-gray-700">SOC 2 Type II*</span>
                         </div>
                     </div>
-                    <p className="text-xs text-gray-400 mt-4">*Via our infrastructure partners (Supabase, Vercel)</p>
+                    <p className="text-xs text-gray-400 mt-4">*Via our infrastructure partners (Supabase, Render)</p>
                 </div>
 
                 {/* Contact Section */}

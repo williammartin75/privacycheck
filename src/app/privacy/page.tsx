@@ -141,7 +141,7 @@ export default function PrivacyPolicyPage() {
                                         <td className="py-2 px-4">EU/US (SCCs)</td>
                                     </tr>
                                     <tr className="border-b border-gray-200">
-                                        <td className="py-2 px-4">Vercel</td>
+                                        <td className="py-2 px-4">Render</td>
                                         <td className="py-2 px-4">Hosting & CDN</td>
                                         <td className="py-2 px-4">EU/US (SCCs)</td>
                                     </tr>

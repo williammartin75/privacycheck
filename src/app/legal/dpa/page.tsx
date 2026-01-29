@@ -113,7 +113,7 @@ export default function DPAPage() {
                                         <td className="py-2">EU/US (SCCs)</td>
                                     </tr>
                                     <tr className="border-b border-gray-200">
-                                        <td className="py-2">Vercel Inc.</td>
+                                        <td className="py-2">Render</td>
                                         <td className="py-2">Hosting & CDN</td>
                                         <td className="py-2">EU/US (SCCs)</td>
                                     </tr>
