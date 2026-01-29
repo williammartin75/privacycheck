@@ -6,6 +6,9 @@ import { analyzeConsentBanner, ConsentBannerAnalysis } from '@/lib/consent-analy
 import { analyzePrivacyPolicy, fetchAndAnalyzePolicy, PolicyAnalysisResult } from '@/lib/policy-analysis';
 import { detectDarkPatterns, DarkPatternsResult } from '@/lib/dark-patterns';
 import { analyzeOptInForms, OptInFormsResult } from '@/lib/optin-forms';
+import { analyzeCookieLifespans, CookieLifespanResult } from '@/lib/cookie-lifespan';
+import { detectFingerprinting, FingerprintingResult } from '@/lib/fingerprinting';
+import { analyzeSecurityHeaders, SecurityHeadersResult } from '@/lib/security-headers';
 
 interface Cookie {
     name: string;
@@ -99,6 +102,12 @@ interface AuditResult {
         darkPatterns?: DarkPatternsResult;
         // Opt-in Forms Analysis
         optInForms?: OptInFormsResult;
+        // Cookie Lifespan Analysis
+        cookieLifespan?: CookieLifespanResult;
+        // Fingerprinting Detection
+        fingerprinting?: FingerprintingResult;
+        // Security Headers (Extended)
+        securityHeadersExtended?: SecurityHeadersResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -828,6 +837,17 @@ export async function POST(request: NextRequest) {
         // Opt-in Forms Analysis
         const optInForms = analyzeOptInForms(combinedHtml);
 
+        // Cookie Lifespan Analysis
+        const cookieLifespan = analyzeCookieLifespans(allCookies);
+
+        // Fingerprinting Detection
+        const fingerprinting = detectFingerprinting(combinedHtml);
+
+        // Security Headers Extended Analysis
+        const responseHeaders: Record<string, string | undefined> = {};
+        // We'll use the headers from the initial fetch if available
+        const securityHeadersExtended = analyzeSecurityHeaders(responseHeaders);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -910,6 +930,49 @@ export async function POST(request: NextRequest) {
             score -= optInPenalty;
         } else {
             scoreBreakdown.push({ item: 'Opt-in Forms Compliant', points: 0, passed: true });
+        }
+
+        // Cookie Lifespan penalty - up to 8 points
+        const cookieLifespanPenalty = Math.min(cookieLifespan.issuesCount * 3, 8);
+        if (cookieLifespanPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Cookie Lifespan Issues (${cookieLifespan.issuesCount})`,
+                points: -cookieLifespanPenalty,
+                passed: false
+            });
+            score -= cookieLifespanPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Cookie Lifespans Compliant', points: 0, passed: true });
+        }
+
+        // Fingerprinting penalty - up to 12 points (very serious)
+        const fingerprintPenalty = fingerprinting.detected
+            ? Math.min(fingerprinting.issues.filter(i => i.severity === 'critical').length * 5 +
+                fingerprinting.issues.filter(i => i.severity === 'high').length * 3 +
+                fingerprinting.issues.filter(i => i.severity === 'medium').length * 2, 12)
+            : 0;
+        if (fingerprintPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Fingerprinting Detected (${fingerprinting.riskLevel} risk)`,
+                points: -fingerprintPenalty,
+                passed: false
+            });
+            score -= fingerprintPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'No Fingerprinting', points: 0, passed: true });
+        }
+
+        // Security Headers Extended penalty - up to 10 points
+        const secHeadersPenalty = Math.max(0, Math.min((100 - securityHeadersExtended.score) / 10, 10));
+        if (secHeadersPenalty > 2) {
+            scoreBreakdown.push({
+                item: `Security Headers (Grade ${securityHeadersExtended.grade})`,
+                points: -Math.round(secHeadersPenalty),
+                passed: false
+            });
+            score -= Math.round(secHeadersPenalty);
+        } else {
+            scoreBreakdown.push({ item: `Security Headers (Grade ${securityHeadersExtended.grade})`, points: 0, passed: true });
         }
 
         // Trackers penalty
@@ -1064,6 +1127,12 @@ export async function POST(request: NextRequest) {
                 darkPatterns,
                 // Opt-in Forms Analysis
                 optInForms,
+                // Cookie Lifespan Analysis
+                cookieLifespan,
+                // Fingerprinting Detection
+                fingerprinting,
+                // Security Headers Extended
+                securityHeadersExtended,
             },
             regulations,
             scoreBreakdown,

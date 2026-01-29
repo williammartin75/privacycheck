@@ -180,6 +180,67 @@ interface AuditResult {
       compliant: boolean;
       recommendations: string[];
     };
+    // Cookie Lifespan Analysis
+    cookieLifespan?: {
+      totalCookiesAnalyzed: number;
+      compliantCount: number;
+      issuesCount: number;
+      score: number;
+      issues: {
+        name: string;
+        currentLifespan: number;
+        recommendedLifespan: number;
+        severity: 'low' | 'medium' | 'high' | 'critical';
+        category: string;
+        recommendation: string;
+      }[];
+      longestCookie: { name: string; days: number } | null;
+      averageLifespan: number;
+      compliant: boolean;
+      recommendations: string[];
+    };
+    // Fingerprinting Detection
+    fingerprinting?: {
+      detected: boolean;
+      totalTechniques: number;
+      score: number;
+      issues: {
+        type: string;
+        description: string;
+        severity: 'low' | 'medium' | 'high' | 'critical';
+        evidence?: string;
+        gdprImpact: string;
+        recommendation: string;
+      }[];
+      byType: {
+        canvas: number;
+        webgl: number;
+        audio: number;
+        font: number;
+        device: number;
+        other: number;
+      };
+      riskLevel: 'none' | 'low' | 'medium' | 'high' | 'critical';
+      recommendations: string[];
+    };
+    // Security Headers Extended
+    securityHeadersExtended?: {
+      score: number;
+      totalHeaders: number;
+      presentCount: number;
+      missingCount: number;
+      issues: {
+        header: string;
+        status: 'missing' | 'weak' | 'misconfigured' | 'present';
+        severity: 'low' | 'medium' | 'high' | 'critical';
+        currentValue?: string;
+        recommendation: string;
+        privacyImpact: string;
+      }[];
+      grade: 'A+' | 'A' | 'B' | 'C' | 'D' | 'F';
+      headers: Record<string, { present: boolean; value?: string }>;
+      recommendations: string[];
+    };
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -248,6 +309,9 @@ export default function Home() {
   const [showDataBreaches, setShowDataBreaches] = useState(false);
   const [showDataTransfers, setShowDataTransfers] = useState(false);
   const [showOptInForms, setShowOptInForms] = useState(false);
+  const [showCookieLifespan, setShowCookieLifespan] = useState(false);
+  const [showFingerprinting, setShowFingerprinting] = useState(false);
+  const [showSecurityHeadersExt, setShowSecurityHeadersExt] = useState(false);
 
   // Cookie consent banner state
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -1771,14 +1835,14 @@ export default function Home() {
                               <div
                                 key={i}
                                 className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
-                                    issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
-                                      'bg-yellow-50 border-yellow-200'
+                                  issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
+                                    'bg-yellow-50 border-yellow-200'
                                   }`}
                               >
                                 <div className="flex items-center gap-2 mb-1">
                                   <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-red-200 text-red-800' :
-                                      issue.severity === 'high' ? 'bg-orange-200 text-orange-800' :
-                                        'bg-yellow-200 text-yellow-800'
+                                    issue.severity === 'high' ? 'bg-orange-200 text-orange-800' :
+                                      'bg-yellow-200 text-yellow-800'
                                     }`}>
                                     {issue.severity.toUpperCase()}
                                   </span>
@@ -1814,6 +1878,260 @@ export default function Home() {
 
                       <p className="text-xs text-gray-400 mt-3">
                         * Scans form checkboxes for pre-selection, hidden consent fields, and bundled consent.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Cookie Lifespan Analysis */}
+              {result.issues.cookieLifespan && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowCookieLifespan(!showCookieLifespan)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">⏱️</span>
+                      Cookie Lifespan Analysis
+                      {result.issues.cookieLifespan.compliant ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                          Compliant
+                        </span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                          {result.issues.cookieLifespan.issuesCount} issue{result.issues.cookieLifespan.issuesCount > 1 ? 's' : ''}
+                        </span>
+                      )}
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showCookieLifespan ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showCookieLifespan && (
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
+                      {/* Summary stats */}
+                      <div className="grid grid-cols-3 gap-3 mb-4">
+                        <div className="p-3 rounded-lg text-center bg-slate-50">
+                          <p className="text-2xl font-bold text-slate-700">{result.issues.cookieLifespan.totalCookiesAnalyzed}</p>
+                          <p className="text-xs text-slate-500">Analyzed</p>
+                        </div>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.cookieLifespan.issuesCount > 0 ? 'bg-orange-50' : 'bg-green-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.cookieLifespan.issuesCount > 0 ? 'text-orange-600' : 'text-green-600'}`}>
+                            {result.issues.cookieLifespan.issuesCount}
+                          </p>
+                          <p className="text-xs text-slate-500">Excessive</p>
+                        </div>
+                        <div className="p-3 rounded-lg text-center bg-blue-50">
+                          <p className="text-2xl font-bold text-blue-600">
+                            {result.issues.cookieLifespan.averageLifespan}d
+                          </p>
+                          <p className="text-xs text-slate-500">Avg lifespan</p>
+                        </div>
+                      </div>
+
+                      {result.issues.cookieLifespan.longestCookie && (
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                          <p className="text-yellow-800 text-sm">
+                            <strong>Longest cookie:</strong> "{result.issues.cookieLifespan.longestCookie.name}" - {result.issues.cookieLifespan.longestCookie.days} days
+                            {result.issues.cookieLifespan.longestCookie.days > 390 && ' (exceeds 13 months)'}
+                          </p>
+                        </div>
+                      )}
+
+                      {result.issues.cookieLifespan.issues.length > 0 && (
+                        <div className="space-y-2 max-h-48 overflow-y-auto">
+                          {result.issues.cookieLifespan.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
+                            <div key={i} className="p-3 bg-orange-50 rounded-lg border border-orange-100">
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <p className="font-medium text-slate-800">{issue.name}</p>
+                                  <p className="text-xs text-orange-600">{issue.currentLifespan} days → {issue.recommendedLifespan} days max</p>
+                                </div>
+                                <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-red-200 text-red-800' :
+                                    issue.severity === 'high' ? 'bg-orange-200 text-orange-800' :
+                                      'bg-yellow-200 text-yellow-800'
+                                  }`}>{issue.severity}</span>
+                              </div>
+                              {isPro && (
+                                <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * CNIL recommends max 13 months for consent and analytics cookies.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Fingerprinting Detection */}
+              {result.issues.fingerprinting && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowFingerprinting(!showFingerprinting)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">🔍</span>
+                      Fingerprinting Detection
+                      {result.issues.fingerprinting.riskLevel === 'none' ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Clean</span>
+                      ) : (
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${result.issues.fingerprinting.riskLevel === 'critical' ? 'bg-red-100 text-red-700' :
+                            result.issues.fingerprinting.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' :
+                              'bg-yellow-100 text-yellow-700'
+                          }`}>
+                          {result.issues.fingerprinting.riskLevel.toUpperCase()} RISK
+                        </span>
+                      )}
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showFingerprinting ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showFingerprinting && (
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
+                      {result.issues.fingerprinting.detected ? (
+                        <>
+                          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <p className="text-red-800 text-sm">
+                              <strong>⚠️ Privacy Alert:</strong> Browser fingerprinting techniques detected. These track users without cookies and require explicit GDPR consent.
+                            </p>
+                          </div>
+
+                          {/* Breakdown by type */}
+                          <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-4">
+                            {Object.entries(result.issues.fingerprinting.byType).map(([type, count]) => (
+                              <div key={type} className={`p-2 rounded text-center ${count > 0 ? 'bg-red-50' : 'bg-green-50'}`}>
+                                <p className={`text-lg font-bold ${count > 0 ? 'text-red-600' : 'text-green-600'}`}>{count}</p>
+                                <p className="text-xs text-slate-500 capitalize">{type}</p>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="space-y-2 max-h-48 overflow-y-auto">
+                            {result.issues.fingerprinting.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
+                              <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
+                                  issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
+                                    'bg-yellow-50 border-yellow-200'
+                                }`}>
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type}</span>
+                                  <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-red-200 text-red-800' : 'bg-orange-200 text-orange-800'
+                                    }`}>{issue.severity}</span>
+                                </div>
+                                <p className="text-sm text-slate-700">{issue.description}</p>
+                                <p className="text-xs text-red-600 mt-1">{issue.gdprImpact}</p>
+                                {isPro && (
+                                  <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                          <span className="text-2xl">✅</span>
+                          <div>
+                            <p className="font-semibold text-green-800">No Fingerprinting Detected</p>
+                            <p className="text-sm text-green-600">
+                              No canvas, WebGL, audio, or device fingerprinting techniques found.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Fingerprinting creates unique device identifiers that persist even when cookies are cleared.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Security Headers Extended */}
+              {result.issues.securityHeadersExtended && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowSecurityHeadersExt(!showSecurityHeadersExt)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">🛡️</span>
+                      Security Headers
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-green-100 text-green-700' :
+                          result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
+                            result.issues.securityHeadersExtended.grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-red-100 text-red-700'
+                        }`}>
+                        Grade {result.issues.securityHeadersExtended.grade}
+                      </span>
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showSecurityHeadersExt ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showSecurityHeadersExt && (
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
+                      {/* Summary */}
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-green-100 text-green-700' :
+                            result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
+                              result.issues.securityHeadersExtended.grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
+                                'bg-red-100 text-red-700'
+                          }`}>
+                          {result.issues.securityHeadersExtended.grade}
+                        </div>
+                        <div>
+                          <p className="text-slate-700">
+                            <strong>{result.issues.securityHeadersExtended.presentCount}</strong> of {result.issues.securityHeadersExtended.totalHeaders} headers present
+                          </p>
+                          <p className="text-sm text-slate-500">
+                            Score: {result.issues.securityHeadersExtended.score}/100
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Headers list */}
+                      <div className="grid grid-cols-2 gap-2 mb-4">
+                        {Object.entries(result.issues.securityHeadersExtended.headers).slice(0, isPro ? 10 : 6).map(([header, info]) => (
+                          <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+                            <div className="flex items-center gap-2">
+                              {info.present ? (
+                                <span className="text-green-600">✓</span>
+                              ) : (
+                                <span className="text-red-600">✗</span>
+                              )}
+                              <span className={`font-medium ${info.present ? 'text-green-800' : 'text-red-800'}`}>
+                                {header.replace('Cross-Origin-', 'CO-')}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Pro recommendations */}
+                      {isPro && result.issues.securityHeadersExtended.issues.length > 0 && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+                          <p className="text-sm text-blue-800 font-medium mb-2">📋 Recommendations:</p>
+                          <div className="space-y-2">
+                            {result.issues.securityHeadersExtended.issues.slice(0, 3).map((issue, i) => (
+                              <div key={i} className="text-xs text-blue-700">
+                                <p><strong>{issue.header}:</strong> {issue.recommendation}</p>
+                                <p className="text-blue-500 mt-0.5">→ {issue.privacyImpact}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Security headers protect against XSS, clickjacking, and data leakage.
                       </p>
                     </div>
                   )}
@@ -2811,11 +3129,11 @@ export default function Home() {
           <div className="container mx-auto px-6">
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
             <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
-            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '120px' }}>
+            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '95px' }}>
               <img
                 src="/badges.png"
                 alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                className="object-cover h-[360px] sm:h-[440px] -my-[120px] sm:-my-[160px]"
+                className="object-cover h-[360px] sm:h-[440px] -my-[132px] sm:-my-[172px]"
                 style={{
                   filter: 'brightness(1.08) contrast(1.1)'
                 }}
