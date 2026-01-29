@@ -390,6 +390,39 @@ export default function Home() {
     }
   }, []);
 
+  // Load cached scan result on mount (prevents re-scan on refresh)
+  useEffect(() => {
+    try {
+      const cachedResult = localStorage.getItem('lastScanResult');
+      const cachedUrl = localStorage.getItem('lastScanUrl');
+      if (cachedResult && cachedUrl) {
+        const parsed = JSON.parse(cachedResult);
+        // Check if cache is less than 1 hour old
+        const cacheTime = localStorage.getItem('lastScanTime');
+        const isValid = cacheTime && (Date.now() - parseInt(cacheTime)) < 3600000; // 1 hour
+        if (isValid) {
+          setResult(parsed);
+          setUrl(cachedUrl);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load cached scan result:', e);
+    }
+  }, []);
+
+  // Save scan result to localStorage when it changes
+  useEffect(() => {
+    if (result && url) {
+      try {
+        localStorage.setItem('lastScanResult', JSON.stringify(result));
+        localStorage.setItem('lastScanUrl', url);
+        localStorage.setItem('lastScanTime', Date.now().toString());
+      } catch (e) {
+        console.error('Failed to cache scan result:', e);
+      }
+    }
+  }, [result, url]);
+
   const supabase = createClient();
 
   // Helper for tier checks
@@ -601,7 +634,7 @@ export default function Home() {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-emerald-700';
+    if (score >= 80) return 'text-blue-700';
     if (score >= 50) return 'text-slate-600';
     return 'text-slate-800';
   };
@@ -633,7 +666,7 @@ export default function Home() {
           onClick={() => !passed && rec && setExpandedRec(isExpanded ? null : recKey!)}
         >
           {passed ? (
-            <svg className="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           ) : (
@@ -899,7 +932,7 @@ export default function Home() {
                     onClick={handleSchedule}
                     disabled={schedulingLoading}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${isScheduled
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
+                      ? 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
                       : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                       }`}
                   >
@@ -971,10 +1004,10 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {result.scoreBreakdown.filter(b => b.points !== 0 || !b.passed).map((item, i) => (
                         <div key={i} className={`flex items-center justify-between px-3 py-2 rounded border ${item.passed ? 'bg-white border-slate-200' : 'bg-white border-slate-300'}`}>
-                          <span className={`text-sm ${item.passed ? 'text-emerald-700' : 'text-slate-600'}`}>
+                          <span className={`text-sm ${item.passed ? 'text-blue-700' : 'text-slate-600'}`}>
                             {item.passed ? '✓' : '✕'} {item.item}
                           </span>
-                          <span className={`text-sm font-semibold ${item.passed ? 'text-emerald-600' : 'text-slate-500'}`}>
+                          <span className={`text-sm font-semibold ${item.passed ? 'text-blue-600' : 'text-slate-500'}`}>
                             {item.points > 0 ? '+' : ''}{item.points}
                           </span>
                         </div>
@@ -1016,7 +1049,7 @@ export default function Home() {
                           <p className={`text-3xl font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-700' :
                             result.riskPrediction.riskLevel === 'high' ? 'text-orange-700' :
                               result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
-                                'text-green-700'
+                                'text-blue-700'
                             }`}>
                             €{result.riskPrediction.minFine >= 1000 ? (result.riskPrediction.minFine / 1000).toFixed(0) + 'k' : result.riskPrediction.minFine}
                             {' - '}
@@ -1028,7 +1061,7 @@ export default function Home() {
                           <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-600' :
                             result.riskPrediction.riskLevel === 'high' ? 'text-orange-600' :
                               result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
-                                'text-green-600'
+                                'text-blue-600'
                             }`}>
                             {result.riskPrediction.riskLevel.toUpperCase()}
                           </span>
@@ -1061,7 +1094,7 @@ export default function Home() {
                                   <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-500' :
                                     factor.severity === 'high' ? 'bg-orange-500' :
                                       factor.severity === 'medium' ? 'bg-yellow-500' :
-                                        'bg-green-500'
+                                        'bg-blue-500'
                                     }`}></span>
                                   <div>
                                     <p className="font-medium text-gray-800">{factor.issue}</p>
@@ -1116,8 +1149,8 @@ export default function Home() {
                       {/* Header with trend */}
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${driftReport.overallTrend === 'improving' ? 'bg-emerald-100' : driftReport.overallTrend === 'declining' ? 'bg-slate-200' : 'bg-slate-100'}`}>
-                            <svg className={`w-5 h-5 ${driftReport.overallTrend === 'improving' ? 'text-emerald-600' : 'text-slate-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${driftReport.overallTrend === 'improving' ? 'bg-blue-100' : driftReport.overallTrend === 'declining' ? 'bg-slate-200' : 'bg-slate-100'}`}>
+                            <svg className={`w-5 h-5 ${driftReport.overallTrend === 'improving' ? 'text-blue-600' : 'text-slate-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={driftReport.overallTrend === 'improving' ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : driftReport.overallTrend === 'declining' ? 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6' : 'M5 12h14'} />
                             </svg>
                           </div>
@@ -1130,7 +1163,7 @@ export default function Home() {
                           </div>
                         </div>
                         {driftReport.scoreDelta !== 0 && (
-                          <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
+                          <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
                             <span className="text-lg font-bold">
                               {driftReport.scoreDelta > 0 ? '+' : ''}{driftReport.scoreDelta}
                             </span>
@@ -1143,11 +1176,11 @@ export default function Home() {
                       <div className="space-y-2">
                         {driftReport.changes.slice(0, 6).map((change, i) => (
                           <div key={i} className={`flex items-center justify-between bg-white rounded-lg px-4 py-3 shadow-sm border-l-4 ${change.impact === 'negative' ? 'border-red-500' :
-                            change.impact === 'positive' ? 'border-green-500' :
+                            change.impact === 'positive' ? 'border-blue-500' :
                               'border-gray-300'
                             }`}>
                             <div className="flex items-center gap-3">
-                              <span className={`font-bold ${change.impact === 'positive' ? 'text-green-600' : change.impact === 'negative' ? 'text-red-600' : 'text-gray-500'}`}>
+                              <span className={`font-bold ${change.impact === 'positive' ? 'text-blue-600' : change.impact === 'negative' ? 'text-red-600' : 'text-gray-500'}`}>
                                 {change.impact === 'positive' ? '✓' : change.impact === 'negative' ? '✕' : '–'}
                               </span>
                               <div>
@@ -1155,7 +1188,7 @@ export default function Home() {
                                 <p className="text-sm text-gray-500">{change.description}</p>
                               </div>
                             </div>
-                            <span className={`text-xs px-2 py-1 rounded ${change.type === 'improvement' ? 'bg-green-100 text-green-700' :
+                            <span className={`text-xs px-2 py-1 rounded ${change.type === 'improvement' ? 'bg-blue-100 text-blue-700' :
                               change.type === 'regression' ? 'bg-red-100 text-red-700' :
                                 'bg-gray-100 text-gray-600'
                               }`}>
@@ -1210,7 +1243,7 @@ export default function Home() {
                         <span className={`text-sm font-semibold ${result.attackSurface.overallRisk === 'critical' ? 'text-red-600' :
                           result.attackSurface.overallRisk === 'high' ? 'text-red-600' :
                             result.attackSurface.overallRisk === 'medium' ? 'text-yellow-500' :
-                              'text-green-600'
+                              'text-blue-600'
                           }`}>
                           {result.attackSurface.overallRisk.charAt(0).toUpperCase() + result.attackSurface.overallRisk.slice(1)} Risk
                         </span>
@@ -1292,8 +1325,8 @@ export default function Home() {
                       {/* Header */}
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${result.issues.consentBehavior.score >= 80 ? 'bg-green-100' : 'bg-red-100'}`}>
-                            <svg className={`w-5 h-5 ${result.issues.consentBehavior.score >= 80 ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${result.issues.consentBehavior.score >= 80 ? 'bg-blue-100' : 'bg-red-100'}`}>
+                            <svg className={`w-5 h-5 ${result.issues.consentBehavior.score >= 80 ? 'text-blue-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.score >= 80 ? 'M5 13l4 4L19 7' : 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'} />
                             </svg>
                           </div>
@@ -1304,7 +1337,7 @@ export default function Home() {
                             </p>
                           </div>
                         </div>
-                        <span className={`text-2xl font-bold ${result.issues.consentBehavior.score >= 80 ? 'text-green-600' :
+                        <span className={`text-2xl font-bold ${result.issues.consentBehavior.score >= 80 ? 'text-blue-600' :
                           result.issues.consentBehavior.score >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
                           {result.issues.consentBehavior.score}/100
                         </span>
@@ -1312,25 +1345,25 @@ export default function Home() {
 
                       {/* Quick checks */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.detected ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.detected ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.detected ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
                           </svg>
                           <span className="text-xs font-medium">Banner Present</span>
                         </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.hasRejectButton ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.hasRejectButton ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.hasRejectButton ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
                           </svg>
                           <span className="text-xs font-medium">Reject Button</span>
                         </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.darkPatterns.length === 0 ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.darkPatterns.length === 0 ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.darkPatterns.length === 0 ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
                           </svg>
                           <span className="text-xs font-medium">No Dark Patterns</span>
                         </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
                           </svg>
@@ -1523,7 +1556,7 @@ export default function Home() {
                   {showPolicyAnalysis && (
                     <div className="bg-white rounded-lg border border-slate-200 p-4">
                       {/* Overall Status */}
-                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-green-50' :
+                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-blue-50' :
                         result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-50' :
                           result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-50' :
                             'bg-red-50'
@@ -1554,7 +1587,7 @@ export default function Home() {
                           {result.issues.policyAnalysis.gdprArticles.map((article, i) => (
                             <span
                               key={i}
-                              className={`text-xs px-3 py-1.5 rounded-full ${article.status === 'compliant' ? 'bg-green-100 text-green-700' :
+                              className={`text-xs px-3 py-1.5 rounded-full ${article.status === 'compliant' ? 'bg-blue-100 text-blue-700' :
                                 article.status === 'partial' ? 'bg-yellow-100 text-yellow-700' :
                                   'bg-red-100 text-red-700'
                                 }`}
@@ -1581,14 +1614,14 @@ export default function Home() {
                           return (
                             <div
                               key={key}
-                              className={`p-3 rounded-lg border ${section.status === 'compliant' ? 'bg-green-50 border-green-200' :
+                              className={`p-3 rounded-lg border ${section.status === 'compliant' ? 'bg-blue-50 border-blue-200' :
                                 section.status === 'partial' ? 'bg-yellow-50 border-yellow-200' :
                                   'bg-red-50 border-red-200'
                                 }`}
                             >
                               <div className="flex items-center justify-between mb-1">
                                 <span className="text-sm font-medium text-slate-700">{sectionNames[key] || key}</span>
-                                <span className={`text-xs px-2 py-0.5 rounded ${section.status === 'compliant' ? 'bg-green-200 text-green-800' :
+                                <span className={`text-xs px-2 py-0.5 rounded ${section.status === 'compliant' ? 'bg-blue-200 text-blue-800' :
                                   section.status === 'partial' ? 'bg-yellow-200 text-yellow-800' :
                                     'bg-red-200 text-red-800'
                                   }`}>
@@ -1701,7 +1734,7 @@ export default function Home() {
                   {showDarkPatterns && (
                     <div className="bg-white rounded-lg border border-slate-200 p-4">
                       {/* Overall Status */}
-                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${!result.issues.darkPatterns.detected ? 'bg-green-50' :
+                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${!result.issues.darkPatterns.detected ? 'bg-blue-50' :
                         result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-red-50' :
                           result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-orange-50' :
                             'bg-yellow-50'
@@ -1873,20 +1906,20 @@ export default function Home() {
                     <div className="bg-white border border-slate-200 rounded-lg p-4">
                       {/* Summary */}
                       <div className="grid grid-cols-3 gap-3 mb-4">
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.preCheckedCount > 0 ? 'bg-red-50' : 'bg-green-50'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.optInForms.preCheckedCount > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.preCheckedCount > 0 ? 'bg-red-50' : 'bg-blue-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.optInForms.preCheckedCount > 0 ? 'text-red-600' : 'text-blue-600'}`}>
                             {result.issues.optInForms.preCheckedCount}
                           </p>
                           <p className="text-xs text-slate-600">Pre-checked</p>
                         </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.hiddenConsentCount > 0 ? 'bg-orange-50' : 'bg-green-50'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.optInForms.hiddenConsentCount > 0 ? 'text-orange-600' : 'text-green-600'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.hiddenConsentCount > 0 ? 'bg-orange-50' : 'bg-blue-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.optInForms.hiddenConsentCount > 0 ? 'text-orange-600' : 'text-blue-600'}`}>
                             {result.issues.optInForms.hiddenConsentCount}
                           </p>
                           <p className="text-xs text-slate-600">Hidden consent</p>
                         </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.bundledConsentCount > 0 ? 'bg-yellow-50' : 'bg-green-50'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.optInForms.bundledConsentCount > 0 ? 'text-yellow-600' : 'text-green-600'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.bundledConsentCount > 0 ? 'bg-yellow-50' : 'bg-blue-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.optInForms.bundledConsentCount > 0 ? 'text-yellow-600' : 'text-blue-600'}`}>
                             {result.issues.optInForms.bundledConsentCount}
                           </p>
                           <p className="text-xs text-slate-600">Bundled consent</p>
@@ -1894,11 +1927,11 @@ export default function Home() {
                       </div>
 
                       {result.issues.optInForms.compliant ? (
-                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
                           <span className="text-2xl">✅</span>
                           <div>
-                            <p className="font-semibold text-green-800">All Forms Are Compliant</p>
-                            <p className="text-sm text-green-600">
+                            <p className="font-semibold text-blue-800">All Forms Are Compliant</p>
+                            <p className="text-sm text-blue-600">
                               No pre-checked consent boxes or hidden consent inputs found.
                             </p>
                           </div>
@@ -1993,8 +2026,8 @@ export default function Home() {
                           <p className="text-2xl font-bold text-slate-700">{result.issues.cookieLifespan.totalCookiesAnalyzed}</p>
                           <p className="text-xs text-slate-500">Analyzed</p>
                         </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.cookieLifespan.issuesCount > 0 ? 'bg-orange-50' : 'bg-green-50'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.cookieLifespan.issuesCount > 0 ? 'text-orange-600' : 'text-green-600'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.cookieLifespan.issuesCount > 0 ? 'bg-orange-50' : 'bg-blue-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.cookieLifespan.issuesCount > 0 ? 'text-orange-600' : 'text-blue-600'}`}>
                             {result.issues.cookieLifespan.issuesCount}
                           </p>
                           <p className="text-xs text-slate-500">Excessive</p>
@@ -2083,8 +2116,8 @@ export default function Home() {
                           {/* Breakdown by type */}
                           <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-4">
                             {Object.entries(result.issues.fingerprinting.byType).map(([type, count]) => (
-                              <div key={type} className={`p-2 rounded text-center ${count > 0 ? 'bg-red-50' : 'bg-green-50'}`}>
-                                <p className={`text-lg font-bold ${count > 0 ? 'text-red-600' : 'text-green-600'}`}>{count}</p>
+                              <div key={type} className={`p-2 rounded text-center ${count > 0 ? 'bg-red-50' : 'bg-blue-50'}`}>
+                                <p className={`text-lg font-bold ${count > 0 ? 'text-red-600' : 'text-blue-600'}`}>{count}</p>
                                 <p className="text-xs text-slate-500 capitalize">{type}</p>
                               </div>
                             ))}
@@ -2111,11 +2144,11 @@ export default function Home() {
                           </div>
                         </>
                       ) : (
-                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
                           <span className="text-2xl">✅</span>
                           <div>
-                            <p className="font-semibold text-green-800">No Fingerprinting Detected</p>
-                            <p className="text-sm text-green-600">
+                            <p className="font-semibold text-blue-800">No Fingerprinting Detected</p>
+                            <p className="text-sm text-blue-600">
                               No canvas, WebGL, audio, or device fingerprinting techniques found.
                             </p>
                           </div>
@@ -2155,7 +2188,7 @@ export default function Home() {
                     <div className="bg-white border border-slate-200 rounded-lg p-4">
                       {/* Grade Summary */}
                       <div className="flex items-center gap-4 mb-4">
-                        <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-green-100 text-green-700' :
+                        <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-blue-100 text-blue-700' :
                           result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
                             result.issues.securityHeadersExtended.grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
                               'bg-red-100 text-red-700'
@@ -2181,13 +2214,13 @@ export default function Home() {
                             <div className="space-y-1 text-sm">
                               <div className="flex justify-between">
                                 <span className="text-slate-600">HTTPS</span>
-                                <span className={result.issues.ssl.valid ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                <span className={result.issues.ssl.valid ? 'text-blue-600 font-medium' : 'text-red-600 font-medium'}>
                                   {result.issues.ssl.valid ? '✓' : '✕'}
                                 </span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-slate-600">HSTS</span>
-                                <span className={result.issues.ssl.hsts ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                <span className={result.issues.ssl.hsts ? 'text-blue-600 font-medium' : 'text-red-600 font-medium'}>
                                   {result.issues.ssl.hsts ? '✓' : '✕'}
                                 </span>
                               </div>
@@ -2202,13 +2235,13 @@ export default function Home() {
                             <div className="space-y-1 text-sm">
                               <div className="flex justify-between">
                                 <span className="text-slate-600">SPF Record</span>
-                                <span className={result.issues.emailSecurity.spf ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                <span className={result.issues.emailSecurity.spf ? 'text-blue-600 font-medium' : 'text-red-600 font-medium'}>
                                   {result.issues.emailSecurity.spf ? '✓' : '✕'}
                                 </span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-slate-600">DMARC</span>
-                                <span className={result.issues.emailSecurity.dmarc ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                <span className={result.issues.emailSecurity.dmarc ? 'text-blue-600 font-medium' : 'text-red-600 font-medium'}>
                                   {result.issues.emailSecurity.dmarc ? '✓' : '✕'}
                                 </span>
                               </div>
@@ -2221,14 +2254,14 @@ export default function Home() {
                       <h4 className="font-medium text-slate-700 text-sm mb-2">Security Headers</h4>
                       <div className="grid grid-cols-2 gap-2 mb-4">
                         {Object.entries(result.issues.securityHeadersExtended.headers).slice(0, isPro ? 10 : 6).map(([header, info]) => (
-                          <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+                          <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-blue-50 border border-blue-200' : 'bg-red-50 border border-red-200'}`}>
                             <div className="flex items-center gap-2">
                               {info.present ? (
-                                <span className="text-green-600">✓</span>
+                                <span className="text-blue-600">✓</span>
                               ) : (
                                 <span className="text-red-600">✗</span>
                               )}
-                              <span className={`font-medium ${info.present ? 'text-green-800' : 'text-red-800'}`}>
+                              <span className={`font-medium ${info.present ? 'text-blue-800' : 'text-red-800'}`}>
                                 {header.replace('Cross-Origin-', 'CO-')}
                               </span>
                             </div>
@@ -2315,9 +2348,9 @@ export default function Home() {
                           ))}
                         </div>
                       ) : (
-                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
                           <span className="text-2xl">✅</span>
-                          <p className="font-semibold text-green-800">No risky storage detected</p>
+                          <p className="font-semibold text-blue-800">No risky storage detected</p>
                         </div>
                       )}
 
@@ -2386,11 +2419,11 @@ export default function Home() {
                           </div>
                         </>
                       ) : (
-                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
                           <span className="text-2xl">✅</span>
                           <div>
-                            <p className="font-semibold text-green-800">All Secure</p>
-                            <p className="text-sm text-green-600">No HTTP resources on HTTPS page.</p>
+                            <p className="font-semibold text-blue-800">All Secure</p>
+                            <p className="text-sm text-blue-600">No HTTP resources on HTTPS page.</p>
                           </div>
                         </div>
                       )}
@@ -2437,8 +2470,8 @@ export default function Home() {
                           <p className="text-2xl font-bold text-slate-700">{result.issues.formSecurity.totalForms}</p>
                           <p className="text-xs text-slate-500">Forms</p>
                         </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'bg-green-50' : 'bg-orange-50'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'text-green-600' : 'text-orange-600'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'bg-blue-50' : 'bg-orange-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'text-blue-600' : 'text-orange-600'}`}>
                             {result.issues.formSecurity.secureCount}/{result.issues.formSecurity.totalForms}
                           </p>
                           <p className="text-xs text-slate-500">Secure</p>
@@ -2466,9 +2499,9 @@ export default function Home() {
                           ))}
                         </div>
                       ) : (
-                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
                           <span className="text-2xl">✅</span>
-                          <p className="font-semibold text-green-800">All forms follow security best practices</p>
+                          <p className="font-semibold text-blue-800">All forms follow security best practices</p>
                         </div>
                       )}
 
@@ -2692,14 +2725,14 @@ export default function Home() {
                           <div key={i} className={`bg-white border rounded-lg p-4 ${vendor.riskScore >= 8 ? 'border-red-300' :
                             vendor.riskScore >= 6 ? 'border-orange-300' :
                               vendor.riskScore >= 4 ? 'border-yellow-300' :
-                                'border-green-300'
+                                'border-blue-300'
                             }`}>
                             <div className="flex items-center justify-between mb-2">
                               <div className="flex items-center gap-3">
                                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white ${vendor.riskScore >= 8 ? 'bg-red-500' :
                                   vendor.riskScore >= 6 ? 'bg-orange-500' :
                                     vendor.riskScore >= 4 ? 'bg-yellow-500' :
-                                      'bg-green-500'
+                                      'bg-blue-500'
                                   }`}>
                                   {vendor.riskScore}
                                 </div>
@@ -2712,7 +2745,7 @@ export default function Home() {
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${vendor.riskLevel === 'critical' ? 'bg-red-100 text-red-700' :
                                   vendor.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' :
                                     vendor.riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                                      'bg-green-100 text-green-700'
+                                      'bg-blue-100 text-blue-700'
                                   }`}>
                                   {vendor.riskLevel.toUpperCase()}
                                 </span>
@@ -2733,7 +2766,7 @@ export default function Home() {
                               </div>
                             )}
                             <div className="mt-2 text-xs text-gray-400">
-                              Data transfer: <span className={`font-medium ${vendor.dataTransfer === 'EU' ? 'text-green-600' : vendor.dataTransfer === 'CN' ? 'text-red-600' : 'text-orange-600'}`}>
+                              Data transfer: <span className={`font-medium ${vendor.dataTransfer === 'EU' ? 'text-blue-600' : vendor.dataTransfer === 'CN' ? 'text-red-600' : 'text-orange-600'}`}>
                                 {vendor.dataTransfer === 'EU' ? 'EU (adequate)' : vendor.dataTransfer === 'US' ? 'USA' : vendor.dataTransfer === 'CN' ? 'China' : 'Other'}
                               </span>
                             </div>
@@ -2745,7 +2778,7 @@ export default function Home() {
                           <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-500"></span> 8-10: Critical</span>
                           <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-orange-500"></span> 6-7: High</span>
                           <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-yellow-500"></span> 4-5: Medium</span>
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-green-500"></span> 1-3: Low</span>
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-blue-500"></span> 1-3: Low</span>
                         </div>
                       </div>
                     </div>
@@ -2805,7 +2838,7 @@ export default function Home() {
                                     </div>
                                     <div className="text-right">
                                       <span className={`text-xs px-2 py-1 rounded ${vendor.jurisdiction === 'USA' ? 'bg-blue-100 text-blue-700' :
-                                        vendor.jurisdiction === 'EU' ? 'bg-green-100 text-green-700' :
+                                        vendor.jurisdiction === 'EU' ? 'bg-blue-100 text-blue-700' :
                                           'bg-gray-100 text-gray-700'
                                         }`}>
                                         {vendor.jurisdiction}
@@ -2814,7 +2847,7 @@ export default function Home() {
                                   </div>
                                   <div className="mt-2 flex items-center gap-2">
                                     {vendor.gdprCompliant ? (
-                                      <span className="text-xs text-green-600 flex items-center gap-1">
+                                      <span className="text-xs text-blue-600 flex items-center gap-1">
                                         ✓ GDPR compliant (uses SCCs)
                                       </span>
                                     ) : (
@@ -2839,11 +2872,11 @@ export default function Home() {
                             )}
                           </>
                         ) : (
-                          <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
-                            <span className="text-green-600 font-bold text-lg">✓</span>
+                          <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                            <span className="text-blue-600 font-bold text-lg">✓</span>
                             <div>
-                              <p className="font-semibold text-green-800">All Data Stays in EU</p>
-                              <p className="text-sm text-green-600">
+                              <p className="font-semibold text-blue-800">All Data Stays in EU</p>
+                              <p className="text-sm text-blue-600">
                                 No third-party vendors transfer data outside the European Union.
                               </p>
                             </div>
@@ -2911,11 +2944,11 @@ export default function Home() {
                         </a>
                       </>
                     ) : (
-                      <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
-                        <span className="text-green-600 font-bold text-lg">✓</span>
+                      <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                        <span className="text-blue-600 font-bold text-lg">✓</span>
                         <div>
-                          <p className="font-semibold text-green-800">No Data Breaches Found</p>
-                          <p className="text-sm text-green-600">
+                          <p className="font-semibold text-blue-800">No Data Breaches Found</p>
+                          <p className="text-sm text-blue-600">
                             This domain has not been found in any known data breaches.
                           </p>
                         </div>
@@ -3558,3 +3591,4 @@ export default function Home() {
     </div>
   );
 }
+
