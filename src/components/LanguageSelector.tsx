@@ -51,7 +51,6 @@ export function LanguageSelector() {
                 aria-label="Select language"
             >
                 <span className="text-lg">{currentLang.flag}</span>
-                <span className="hidden sm:inline">{language.toUpperCase()}</span>
                 <svg
                     className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
                     fill="none"
