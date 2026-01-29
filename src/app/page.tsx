@@ -8,6 +8,8 @@ import { recommendations } from '@/lib/recommendations';
 import { generatePDF } from '@/lib/pdf-generator';
 import { detectComplianceDrift, DriftReport } from '@/lib/drift-detection';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import { MaskedText, MaskedEmail } from '@/components/ProGate';
+import { UpgradeCTA } from '@/components/UpgradeCTA';
 
 interface Cookie {
   name: string;
@@ -1494,9 +1496,7 @@ export default function Home() {
                             </div>
                             <div className="flex flex-wrap gap-2">
                               {result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).map((cookie, i) => (
-                                <span key={i} className="text-xs bg-white text-red-700 px-2 py-1 rounded-full">
-                                  {cookie.name} ({cookie.category})
-                                </span>
+                                <MaskedText text={`${cookie.name} (${cookie.category})`} show={isPro} />
                               ))}
                             </div>
                           </div>
@@ -2611,12 +2611,20 @@ export default function Home() {
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {result.issues.exposedEmails.map((email, i) => (
+                        {result.issues.exposedEmails.slice(0, isPro ? undefined : 2).map((email, i) => (
                           <span key={i} className="px-2 py-1 bg-white border border-slate-300 rounded text-slate-700 text-xs font-mono">
-                            {email}
+                            <MaskedEmail email={email} show={isPro} />
                           </span>
                         ))}
+                        {!isPro && result.issues.exposedEmails.length > 2 && (
+                          <span className="px-2 py-1 bg-slate-50 border border-slate-200 rounded text-slate-500 text-xs">
+                            +{result.issues.exposedEmails.length - 2} more
+                          </span>
+                        )}
                       </div>
+                      {!isPro && (
+                        <UpgradeCTA feature="email addresses" hiddenCount={result.issues.exposedEmails.length} onUpgrade={() => handleCheckout()} />
+                      )}
                       <p className="mt-3 text-slate-500 text-xs">
                         <strong>Recommendation:</strong> Use contact forms or obfuscate emails to prevent harvesting.
                       </p>
@@ -2672,10 +2680,13 @@ export default function Home() {
                                       : 'bg-white text-slate-700 border border-slate-200'
                                     }`}
                                 >
-                                  {tracker.name}
+                                  <MaskedText text={tracker.name} show={isPro} /> ({tracker.risk})
                                 </span>
                               ))}
                             </div>
+                            {!isPro && (
+                              <UpgradeCTA feature="tracker details" hiddenCount={result.issues.socialTrackers.length} onUpgrade={() => handleCheckout()} />
+                            )}
                           </div>
                         )}
 
@@ -2687,11 +2698,16 @@ export default function Home() {
                               External Scripts
                             </h4>
                             <div className="flex flex-wrap gap-2">
-                              {[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].map((provider, i) => (
+                              {[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].slice(0, isPro ? undefined : 3).map((provider, i) => (
                                 <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                  {provider}
+                                  <MaskedText text={provider} show={isPro} />
                                 </span>
                               ))}
+                              {!isPro && [...new Set(result.issues.externalResources.scripts.map(s => s.provider))].length > 3 && (
+                                <span className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-slate-500 text-sm">
+                                  +{[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].length - 3} more
+                                </span>
+                              )}
                             </div>
                           </div>
                         )}
@@ -2772,8 +2788,8 @@ export default function Home() {
                                   {vendor.riskScore}
                                 </div>
                                 <div>
-                                  <h4 className="font-semibold text-gray-900">{vendor.name}</h4>
-                                  <p className="text-xs text-gray-500 capitalize">{vendor.category} • {vendor.jurisdiction}</p>
+                                  <h4 className="font-semibold text-gray-900"><MaskedText text={vendor.name} show={isPro} /></h4>
+                                  <p className="text-xs text-gray-500 capitalize">{vendor.category} • <MaskedText text={vendor.jurisdiction} show={isPro} /></p>
                                 </div>
                               </div>
                               <div className="flex items-center gap-2">
@@ -3029,14 +3045,14 @@ export default function Home() {
                       <tbody>
                         {result.issues.cookies.list.map((cookie, i) => (
                           <tr key={i} className="border-b border-gray-100 last:border-0">
-                            <td className="py-2 pr-4 font-mono text-gray-900">{cookie.name}</td>
+                            <td className="py-2 pr-4 font-mono text-gray-900"><MaskedText text={cookie.name} show={isPro} /></td>
                             <td className="py-2 pr-4">
                               <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(cookie.category)}`}>
                                 {cookie.category}
                               </span>
                             </td>
-                            <td className="py-2 pr-4 text-gray-600">{cookie.provider}</td>
-                            <td className="py-2 text-gray-600">{cookie.description}</td>
+                            <td className="py-2 pr-4 text-gray-600"><MaskedText text={cookie.provider} show={isPro} /></td>
+                            <td className="py-2 text-gray-600"><MaskedText text={cookie.description} show={isPro} /></td>
                           </tr>
                         ))}
                       </tbody>
@@ -3096,13 +3112,21 @@ export default function Home() {
                         {result.issues.trackers.length} tracker{result.issues.trackers.length > 1 ? 's' : ''} collecting user data - explicit consent required under GDPR.
                       </p>
                       <div className="flex flex-wrap gap-2 mb-3">
-                        {result.issues.trackers.map((tracker, i) => (
+                        {result.issues.trackers.slice(0, isPro ? undefined : 2).map((tracker, i) => (
                           <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm font-medium">
-                            {tracker}
+                            <MaskedText text={tracker} show={isPro} />
                           </span>
                         ))}
+                        {!isPro && result.issues.trackers.length > 2 && (
+                          <span className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-slate-500 text-sm">
+                            +{result.issues.trackers.length - 2} more
+                          </span>
+                        )}
                       </div>
-                      <p className="text-slate-500 text-xs">
+                      {!isPro && (
+                        <UpgradeCTA feature="tracker names" hiddenCount={result.issues.trackers.length} onUpgrade={() => handleCheckout()} />
+                      )}
+                      <p className="text-slate-500 text-xs mt-3">
                         Tip: Use our Cookie Banner to block these trackers until user consent is given.
                       </p>
                     </div>
