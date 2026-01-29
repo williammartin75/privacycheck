@@ -1533,9 +1533,9 @@ export default function Home() {
                     <div className="bg-white rounded-lg border border-slate-200 p-4">
                       {/* Overall Status */}
                       <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${!result.issues.darkPatterns.detected ? 'bg-green-50' :
-                          result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-red-50' :
-                            result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-orange-50' :
-                              'bg-yellow-50'
+                        result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-red-50' :
+                          result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-orange-50' :
+                            'bg-yellow-50'
                         }`}>
                         <span className="text-2xl">
                           {!result.issues.darkPatterns.detected ? '🎉' :
@@ -1594,18 +1594,18 @@ export default function Home() {
                               <div
                                 key={i}
                                 className={`p-3 rounded-lg border ${pattern.severity === 'critical' ? 'bg-red-50 border-red-200' :
-                                    pattern.severity === 'high' ? 'bg-orange-50 border-orange-200' :
-                                      pattern.severity === 'medium' ? 'bg-yellow-50 border-yellow-200' :
-                                        'bg-blue-50 border-blue-200'
+                                  pattern.severity === 'high' ? 'bg-orange-50 border-orange-200' :
+                                    pattern.severity === 'medium' ? 'bg-yellow-50 border-yellow-200' :
+                                      'bg-blue-50 border-blue-200'
                                   }`}
                               >
                                 <div className="flex items-start justify-between gap-2">
                                   <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1">
                                       <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'critical' ? 'bg-red-200 text-red-800' :
-                                          pattern.severity === 'high' ? 'bg-orange-200 text-orange-800' :
-                                            pattern.severity === 'medium' ? 'bg-yellow-200 text-yellow-800' :
-                                              'bg-blue-200 text-blue-800'
+                                        pattern.severity === 'high' ? 'bg-orange-200 text-orange-800' :
+                                          pattern.severity === 'medium' ? 'bg-yellow-200 text-yellow-800' :
+                                            'bg-blue-200 text-blue-800'
                                         }`}>
                                         {pattern.severity.toUpperCase()}
                                       </span>
@@ -2523,11 +2523,11 @@ export default function Home() {
           <div className="container mx-auto px-6">
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
             <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
-            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '160px' }}>
+            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '120px' }}>
               <img
                 src="/badges.png"
                 alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                className="object-cover h-[360px] sm:h-[440px] -my-[100px] sm:-my-[130px]"
+                className="object-cover h-[360px] sm:h-[440px] -my-[120px] sm:-my-[160px]"
                 style={{
                   filter: 'brightness(1.08) contrast(1.1)'
                 }}
