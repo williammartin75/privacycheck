@@ -671,7 +671,7 @@ export default function Home() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'necessary': return 'bg-slate-200 text-slate-700';
+      case 'necessary': return 'bg-white text-slate-700';
       case 'analytics': return 'bg-blue-600 text-white';
       case 'marketing': return 'bg-sky-200 text-sky-800';
       case 'preferences': return 'bg-amber-400 text-amber-900';
@@ -899,7 +899,7 @@ export default function Home() {
                   </div>
                   <div className="flex gap-2 mt-3 flex-wrap justify-center md:justify-start">
                     {result.regulations?.map((reg, i) => (
-                      <span key={i} className="px-2 py-0.5 bg-slate-100 text-slate-600 text-xs rounded font-medium">
+                      <span key={i} className="px-2 py-0.5 bg-white text-slate-600 text-xs rounded font-medium">
                         {reg}
                       </span>
                     ))}
@@ -942,7 +942,7 @@ export default function Home() {
               <div className="flex justify-center gap-3 mb-8">
                 <button
                   onClick={() => isPro ? generatePDF(result) : handleCheckout()}
-                  className={`flex items-center gap-3 px-6 py-3 rounded-lg transition font-semibold text-sm ${isPro ? 'bg-slate-800 text-white hover:bg-slate-900' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200'}`}
+                  className={`flex items-center gap-3 px-6 py-3 rounded-lg transition font-semibold text-sm ${isPro ? 'bg-slate-800 text-white hover:bg-slate-900' : 'bg-white text-slate-600 hover:bg-white border border-slate-200'}`}
                 >
                   {isPro ? (
                     <>
@@ -968,7 +968,7 @@ export default function Home() {
                     disabled={schedulingLoading}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${isScheduled
                       ? 'bg-white text-blue-700 border border-blue-200 hover:bg-white'
-                      : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
+                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-white'
                       }`}
                   >
                     {schedulingLoading ? (
@@ -1184,7 +1184,7 @@ export default function Home() {
                       {/* Header with trend */}
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${driftReport.overallTrend === 'improving' ? 'bg-white' : driftReport.overallTrend === 'declining' ? 'bg-slate-200' : 'bg-slate-100'}`}>
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${driftReport.overallTrend === 'improving' ? 'bg-white' : driftReport.overallTrend === 'declining' ? 'bg-white' : 'bg-white'}`}>
                             <svg className={`w-5 h-5 ${driftReport.overallTrend === 'improving' ? 'text-blue-600' : 'text-slate-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={driftReport.overallTrend === 'improving' ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : driftReport.overallTrend === 'declining' ? 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6' : 'M5 12h14'} />
                             </svg>
@@ -1198,7 +1198,7 @@ export default function Home() {
                           </div>
                         </div>
                         {driftReport.scoreDelta !== 0 && (
-                          <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-white text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
+                          <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-white text-blue-700 border border-blue-200' : 'bg-white text-slate-700 border border-slate-200'}`}>
                             <span className="text-lg font-bold">
                               {driftReport.scoreDelta > 0 ? '+' : ''}{driftReport.scoreDelta}
                             </span>
@@ -1298,17 +1298,17 @@ export default function Home() {
                                   <p className="font-medium text-slate-800 text-sm">{finding.title}</p>
                                   <p className="text-xs text-slate-500">{finding.description}</p>
                                   {finding.details && (
-                                    <code className="text-xs bg-slate-100 px-2 py-1 rounded mt-1 block text-slate-600 break-all">
+                                    <code className="text-xs bg-white px-2 py-1 rounded mt-1 block text-slate-600 break-all">
                                       {finding.details}
                                     </code>
                                   )}
                                 </div>
                               </div>
-                              <span className="text-xs px-2 py-0.5 rounded flex-shrink-0 bg-slate-100 text-slate-600">
+                              <span className="text-xs px-2 py-0.5 rounded flex-shrink-0 bg-white text-slate-600">
                                 {finding.type.toUpperCase()}
                               </span>
                             </div>
-                            <p className="text-xs text-slate-600 mt-2 bg-slate-100 p-2 rounded">
+                            <p className="text-xs text-slate-600 mt-2 bg-white p-2 rounded">
                               <strong>Recommendation:</strong> {finding.remediation}
                             </p>
                           </div>
@@ -1656,9 +1656,9 @@ export default function Home() {
                             >
                               <div className="flex items-center justify-between mb-1">
                                 <span className="text-sm font-medium text-slate-700">{sectionNames[key] || key}</span>
-                                <span className={`text-xs px-2 py-0.5 rounded ${section.status === 'compliant' ? 'bg-slate-200 text-blue-800' :
-                                  section.status === 'partial' ? 'bg-slate-200 text-yellow-800' :
-                                    'bg-slate-200 text-red-800'
+                                <span className={`text-xs px-2 py-0.5 rounded ${section.status === 'compliant' ? 'bg-white text-blue-800' :
+                                  section.status === 'partial' ? 'bg-white text-yellow-800' :
+                                    'bg-white text-red-800'
                                   }`}>
                                   {section.score}%
                                 </span>
@@ -1839,10 +1839,10 @@ export default function Home() {
                                 <div className="flex items-start justify-between gap-2">
                                   <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1">
-                                      <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'critical' ? 'bg-slate-200 text-red-800' :
-                                        pattern.severity === 'high' ? 'bg-slate-200 text-orange-800' :
-                                          pattern.severity === 'medium' ? 'bg-slate-200 text-yellow-800' :
-                                            'bg-slate-200 text-blue-800'
+                                      <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'critical' ? 'bg-white text-red-800' :
+                                        pattern.severity === 'high' ? 'bg-white text-orange-800' :
+                                          pattern.severity === 'medium' ? 'bg-white text-yellow-800' :
+                                            'bg-white text-blue-800'
                                         }`}>
                                         {pattern.severity.toUpperCase()}
                                       </span>
@@ -1853,7 +1853,7 @@ export default function Home() {
                                     </div>
                                     <p className="text-sm text-slate-700">{pattern.description}</p>
                                     {isPro && pattern.element && (
-                                      <p className="text-xs text-slate-500 mt-1 font-mono bg-slate-100 px-2 py-1 rounded truncate">
+                                      <p className="text-xs text-slate-500 mt-1 font-mono bg-white px-2 py-1 rounded truncate">
                                         {pattern.element.slice(0, 100)}...
                                       </p>
                                     )}
@@ -1988,9 +1988,9 @@ export default function Home() {
                                   }`}
                               >
                                 <div className="flex items-center gap-2 mb-1">
-                                  <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-slate-200 text-red-800' :
-                                    issue.severity === 'high' ? 'bg-slate-200 text-orange-800' :
-                                      'bg-slate-200 text-yellow-800'
+                                  <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-white text-red-800' :
+                                    issue.severity === 'high' ? 'bg-white text-orange-800' :
+                                      'bg-white text-yellow-800'
                                     }`}>
                                     {issue.severity.toUpperCase()}
                                   </span>
@@ -2093,9 +2093,9 @@ export default function Home() {
                                   <p className="font-medium text-slate-800">{issue.name}</p>
                                   <p className="text-xs text-orange-600">{issue.currentLifespan} days → {issue.recommendedLifespan} days max</p>
                                 </div>
-                                <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-slate-200 text-red-800' :
-                                  issue.severity === 'high' ? 'bg-slate-200 text-orange-800' :
-                                    'bg-slate-200 text-yellow-800'
+                                <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-white text-red-800' :
+                                  issue.severity === 'high' ? 'bg-white text-orange-800' :
+                                    'bg-white text-yellow-800'
                                   }`}>{issue.severity}</span>
                               </div>
                               {isPro && (
@@ -2166,7 +2166,7 @@ export default function Home() {
                                 }`}>
                                 <div className="flex items-center gap-2 mb-1">
                                   <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type}</span>
-                                  <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-slate-200 text-red-800' : 'bg-slate-200 text-orange-800'
+                                  <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-white text-red-800' : 'bg-white text-orange-800'
                                     }`}>{issue.severity}</span>
                                 </div>
                                 <p className="text-sm text-slate-700">{issue.description}</p>
@@ -2373,7 +2373,7 @@ export default function Home() {
                                   <p className="font-mono text-sm text-slate-800">{issue.key}</p>
                                   <p className="text-xs text-slate-500">{issue.type} · {issue.category}</p>
                                 </div>
-                                <span className={`text-xs px-2 py-0.5 rounded ${issue.risk === 'critical' ? 'bg-slate-200 text-red-800' : 'bg-slate-200 text-orange-800'
+                                <span className={`text-xs px-2 py-0.5 rounded ${issue.risk === 'critical' ? 'bg-white text-red-800' : 'bg-white text-orange-800'
                                   }`}>{issue.risk}</span>
                               </div>
                               {isPro && (
@@ -2443,7 +2443,7 @@ export default function Home() {
                               <div key={i} className="p-2 bg-white rounded-lg border border-red-100 text-xs">
                                 <div className="flex items-center gap-2">
                                   <span className="font-semibold text-slate-700 uppercase">{issue.type}</span>
-                                  {issue.blocked && <span className="px-1 bg-slate-200 text-red-800 rounded">BLOCKED</span>}
+                                  {issue.blocked && <span className="px-1 bg-white text-red-800 rounded">BLOCKED</span>}
                                 </div>
                                 <p className="text-slate-600 truncate">{issue.url}</p>
                                 {isPro && (
@@ -2522,7 +2522,7 @@ export default function Home() {
                               }`}>
                               <div className="flex items-center gap-2 mb-1">
                                 <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type.replace(/-/g, ' ')}</span>
-                                <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-slate-200 text-red-800' : 'bg-slate-200 text-orange-800'
+                                <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-white text-red-800' : 'bg-white text-orange-800'
                                   }`}>{issue.severity}</span>
                               </div>
                               <p className="text-sm text-slate-700">{issue.description}</p>
@@ -2669,7 +2669,7 @@ export default function Home() {
                                     ? 'bg-white text-red-700 border border-red-200'
                                     : tracker.risk === 'medium'
                                       ? 'bg-white text-amber-700 border border-amber-200'
-                                      : 'bg-slate-100 text-slate-700 border border-slate-200'
+                                      : 'bg-white text-slate-700 border border-slate-200'
                                     }`}
                                 >
                                   {tracker.name}
@@ -2683,7 +2683,7 @@ export default function Home() {
                         {result.issues.externalResources && result.issues.externalResources.scripts.length > 0 && (
                           <div className="mb-4">
                             <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.scripts.length}</span>
+                              <span className="px-1.5 py-0.5 bg-white rounded text-xs">{result.issues.externalResources.scripts.length}</span>
                               External Scripts
                             </h4>
                             <div className="flex flex-wrap gap-2">
@@ -2700,7 +2700,7 @@ export default function Home() {
                         {result.issues.externalResources && result.issues.externalResources.fonts.length > 0 && (
                           <div className="mb-4">
                             <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.fonts.length}</span>
+                              <span className="px-1.5 py-0.5 bg-white rounded text-xs">{result.issues.externalResources.fonts.length}</span>
                               External Fonts
                             </h4>
                             <div className="flex flex-wrap gap-2">
@@ -2717,7 +2717,7 @@ export default function Home() {
                         {result.issues.externalResources && result.issues.externalResources.iframes.length > 0 && (
                           <div>
                             <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.iframes.length}</span>
+                              <span className="px-1.5 py-0.5 bg-white rounded text-xs">{result.issues.externalResources.iframes.length}</span>
                               Embedded Iframes
                             </h4>
                             <div className="flex flex-wrap gap-2">
@@ -3012,7 +3012,7 @@ export default function Home() {
                     {/* Category Legend */}
                     <div className="flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-200">
                       <span className="text-xs text-gray-500 font-medium">Categories:</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-700">necessary</span>
+                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-white text-slate-700">necessary</span>
                       <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-600 text-white">analytics</span>
                       <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-sky-200 text-sky-800">marketing</span>
                       <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-400 text-amber-900">preferences</span>
@@ -3068,7 +3068,7 @@ export default function Home() {
                           <span className="px-2 py-1 bg-white text-blue-700 text-xs rounded-full">
                             {page.cookiesFound} cookies
                           </span>
-                          <span className="px-2 py-1 bg-slate-100 text-black text-xs rounded-full">
+                          <span className="px-2 py-1 bg-white text-black text-xs rounded-full">
                             {page.trackersFound.length} trackers
                           </span>
                         </div>
@@ -3114,7 +3114,7 @@ export default function Home() {
               <div className="mt-8 p-6 bg-slate-800 border border-slate-700 rounded-md text-center">
                 <h4 className="text-lg font-semibold text-white mb-2 uppercase tracking-wider">Get the Full Audit Report</h4>
                 <p className="text-slate-300 text-sm mb-4">Detailed recommendations, PDF export, and continuous monitoring</p>
-                <button onClick={() => handleCheckout()} className="px-6 py-2.5 bg-white text-slate-800 font-semibold rounded-md hover:bg-slate-100 transition text-sm">
+                <button onClick={() => handleCheckout()} className="px-6 py-2.5 bg-white text-slate-800 font-semibold rounded-md hover:bg-white transition text-sm">
                   Upgrade to Pro
                 </button>
               </div>
@@ -3654,6 +3654,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
