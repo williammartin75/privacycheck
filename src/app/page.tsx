@@ -1881,7 +1881,7 @@ export default function Home() {
 
               {/* EU Data Badge - Circle with stars */}
               <div className="flex flex-col items-center group">
-                <div className="w-16 h-16 relative">
+                <div className="w-20 h-20 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                     {/* EU Blue circle */}
                     <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
@@ -1906,7 +1906,7 @@ export default function Home() {
 
               {/* SSL 256-Bit Badge - Gray Circle */}
               <div className="flex flex-col items-center group">
-                <div className="w-16 h-16 relative">
+                <div className="w-20 h-20 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                     <circle cx="50" cy="50" r="48" fill="#4b5563" stroke="#374151" strokeWidth="2" />
                     <text x="50" y="38" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SSL</text>
@@ -1918,7 +1918,7 @@ export default function Home() {
 
               {/* SOC 2 Badge - Light Blue Circle */}
               <div className="flex flex-col items-center group">
-                <div className="w-16 h-16 relative">
+                <div className="w-20 h-20 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                     <circle cx="50" cy="50" r="48" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2" />
                     <text x="50" y="42" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SOC 2</text>
@@ -1930,7 +1930,7 @@ export default function Home() {
 
               {/* 100K Scans Badge - Dark Circle */}
               <div className="flex flex-col items-center group">
-                <div className="w-16 h-16 relative">
+                <div className="w-20 h-20 relative">
                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                     <circle cx="50" cy="50" r="48" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
                     <text x="50" y="42" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold">100K</text>
