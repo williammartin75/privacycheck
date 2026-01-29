@@ -913,7 +913,7 @@ export default function Home() {
                     {/* Issues Found - Red indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                        <span className="w-2 h-2 rounded-full bg-white0"></span>
                         <span className="text-xs text-red-600">Issues Found</span>
                       </div>
                       <span className="font-bold text-red-600">{Object.values(result.issues).filter(v => !v).length}</span>
@@ -929,7 +929,7 @@ export default function Home() {
                     {/* Pages Scanned - Blue indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span className="w-2 h-2 rounded-full bg-white0"></span>
                         <span className="text-xs text-slate-700">Pages Scanned</span>
                       </div>
                       <span className="font-bold text-slate-800">{result.pagesScanned}</span>
@@ -967,7 +967,7 @@ export default function Home() {
                     onClick={handleSchedule}
                     disabled={schedulingLoading}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${isScheduled
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
+                      ? 'bg-white text-blue-700 border border-blue-200 hover:bg-blue-100'
                       : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                       }`}
                   >
@@ -1126,10 +1126,10 @@ export default function Home() {
                             {result.riskPrediction.factors.slice(0, 5).map((factor, i) => (
                               <div key={i} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
                                 <div className="flex items-center gap-3">
-                                  <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-500' :
-                                    factor.severity === 'high' ? 'bg-orange-500' :
-                                      factor.severity === 'medium' ? 'bg-yellow-500' :
-                                        'bg-blue-500'
+                                  <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-white0' :
+                                    factor.severity === 'high' ? 'bg-white0' :
+                                      factor.severity === 'medium' ? 'bg-white0' :
+                                        'bg-white0'
                                     }`}></span>
                                   <div>
                                     <p className="font-medium text-gray-800">{factor.issue}</p>
@@ -1198,7 +1198,7 @@ export default function Home() {
                           </div>
                         </div>
                         {driftReport.scoreDelta !== 0 && (
-                          <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
+                          <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-white text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}>
                             <span className="text-lg font-bold">
                               {driftReport.scoreDelta > 0 ? '+' : ''}{driftReport.scoreDelta}
                             </span>
@@ -1380,25 +1380,25 @@ export default function Home() {
 
                       {/* Quick checks */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.detected ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.detected ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.detected ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
                           </svg>
                           <span className="text-xs font-medium">Banner Present</span>
                         </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.hasRejectButton ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.hasRejectButton ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.hasRejectButton ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
                           </svg>
                           <span className="text-xs font-medium">Reject Button</span>
                         </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.darkPatterns.length === 0 ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.darkPatterns.length === 0 ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.darkPatterns.length === 0 ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
                           </svg>
                           <span className="text-xs font-medium">No Dark Patterns</span>
                         </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
                           </svg>
@@ -1412,8 +1412,8 @@ export default function Home() {
                           <p className="text-sm font-semibold text-slate-700 mb-2">Issues Detected:</p>
                           <div className="space-y-2">
                             {result.issues.consentBehavior.issues.slice(0, 5).map((issue, i) => (
-                              <div key={i} className="flex items-center gap-2 bg-red-50 px-3 py-2 rounded-lg">
-                                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                              <div key={i} className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg">
+                                <span className="w-2 h-2 rounded-full bg-white0"></span>
                                 <span className="text-sm text-red-700">{issue}</span>
                               </div>
                             ))}
@@ -1429,7 +1429,7 @@ export default function Home() {
                             {result.issues.consentBehavior.darkPatterns.map((pattern, i) => (
                               <div
                                 key={i}
-                                className={`bg-orange-50 rounded-lg border border-orange-200 overflow-hidden ${isPro ? 'cursor-pointer hover:bg-orange-100' : ''}`}
+                                className={`bg-white rounded-lg border border-orange-200 overflow-hidden ${isPro ? 'cursor-pointer hover:bg-orange-100' : ''}`}
                                 onClick={() => isPro && setExpandedRec(expandedRec === `darkPattern-${i}` ? null : `darkPattern-${i}`)}
                               >
                                 <div className="flex items-center justify-between px-3 py-2">
@@ -1527,7 +1527,7 @@ export default function Home() {
                       {!result.issues.consentBehavior.hasRejectButton && result.issues.consentBehavior.detected && (
                         <div className="mb-4">
                           <div
-                            className={`bg-red-50 rounded-lg border border-red-200 overflow-hidden ${isPro ? 'cursor-pointer hover:bg-red-100' : ''}`}
+                            className={`bg-white rounded-lg border border-red-200 overflow-hidden ${isPro ? 'cursor-pointer hover:bg-red-100' : ''}`}
                             onClick={() => isPro && setExpandedRec(expandedRec === 'missingRejectButton' ? null : 'missingRejectButton')}
                           >
                             <div className="flex items-center justify-between px-3 py-2">
@@ -1591,10 +1591,10 @@ export default function Home() {
                   {showPolicyAnalysis && (
                     <div className="bg-white rounded-lg border border-slate-200 p-4">
                       {/* Overall Status */}
-                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-blue-50' :
-                        result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-50' :
+                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-white' :
+                        result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-white' :
                           result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-50' :
-                            'bg-red-50'
+                            'bg-white'
                         }`}>
                         <span className="text-2xl">
                           {result.issues.policyAnalysis.overallStatus === 'compliant' ? '✅' :
@@ -1649,9 +1649,9 @@ export default function Home() {
                           return (
                             <div
                               key={key}
-                              className={`p-3 rounded-lg border ${section.status === 'compliant' ? 'bg-blue-50 border-blue-200' :
-                                section.status === 'partial' ? 'bg-yellow-50 border-yellow-200' :
-                                  'bg-red-50 border-red-200'
+                              className={`p-3 rounded-lg border ${section.status === 'compliant' ? 'bg-white border-blue-200' :
+                                section.status === 'partial' ? 'bg-white border-yellow-200' :
+                                  'bg-white border-red-200'
                                 }`}
                             >
                               <div className="flex items-center justify-between mb-1">
@@ -1695,7 +1695,7 @@ export default function Home() {
                             {isPro ? 'Recommendations:' : 'Recommendations (Pro):'}
                           </p>
                           {isPro ? (
-                            <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                            <div className="bg-white rounded-lg p-4 border border-blue-200">
                               <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
                                 {result.issues.policyAnalysis.recommendations.map((rec, i) => (
                                   <li key={i}>{rec}</li>
@@ -1769,10 +1769,10 @@ export default function Home() {
                   {showDarkPatterns && (
                     <div className="bg-white rounded-lg border border-slate-200 p-4">
                       {/* Overall Status */}
-                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${!result.issues.darkPatterns.detected ? 'bg-blue-50' :
-                        result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-red-50' :
-                          result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-orange-50' :
-                            'bg-yellow-50'
+                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${!result.issues.darkPatterns.detected ? 'bg-white' :
+                        result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-white' :
+                          result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-white' :
+                            'bg-white'
                         }`}>
                         <span className="text-2xl">
                           {!result.issues.darkPatterns.detected ? '🎉' :
@@ -1830,10 +1830,10 @@ export default function Home() {
                             {result.issues.darkPatterns.patterns.slice(0, isPro ? 20 : 3).map((pattern, i) => (
                               <div
                                 key={i}
-                                className={`p-3 rounded-lg border ${pattern.severity === 'critical' ? 'bg-red-50 border-red-200' :
-                                  pattern.severity === 'high' ? 'bg-orange-50 border-orange-200' :
-                                    pattern.severity === 'medium' ? 'bg-yellow-50 border-yellow-200' :
-                                      'bg-blue-50 border-blue-200'
+                                className={`p-3 rounded-lg border ${pattern.severity === 'critical' ? 'bg-white border-red-200' :
+                                  pattern.severity === 'high' ? 'bg-white border-orange-200' :
+                                    pattern.severity === 'medium' ? 'bg-white border-yellow-200' :
+                                      'bg-white border-blue-200'
                                   }`}
                               >
                                 <div className="flex items-start justify-between gap-2">
@@ -1885,7 +1885,7 @@ export default function Home() {
                             {isPro ? 'How to Fix:' : 'Recommendations (Pro):'}
                           </p>
                           {isPro ? (
-                            <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                            <div className="bg-white rounded-lg p-4 border border-blue-200">
                               <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
                                 {result.issues.darkPatterns.recommendations.map((rec, i) => (
                                   <li key={i}>{rec}</li>
@@ -1941,19 +1941,19 @@ export default function Home() {
                     <div className="bg-white border border-slate-200 rounded-lg p-4">
                       {/* Summary */}
                       <div className="grid grid-cols-3 gap-3 mb-4">
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.preCheckedCount > 0 ? 'bg-red-50' : 'bg-blue-50'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.preCheckedCount > 0 ? 'bg-white' : 'bg-white'}`}>
                           <p className={`text-2xl font-bold ${result.issues.optInForms.preCheckedCount > 0 ? 'text-red-600' : 'text-blue-600'}`}>
                             {result.issues.optInForms.preCheckedCount}
                           </p>
                           <p className="text-xs text-slate-600">Pre-checked</p>
                         </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.hiddenConsentCount > 0 ? 'bg-orange-50' : 'bg-blue-50'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.hiddenConsentCount > 0 ? 'bg-white' : 'bg-white'}`}>
                           <p className={`text-2xl font-bold ${result.issues.optInForms.hiddenConsentCount > 0 ? 'text-orange-600' : 'text-blue-600'}`}>
                             {result.issues.optInForms.hiddenConsentCount}
                           </p>
                           <p className="text-xs text-slate-600">Hidden consent</p>
                         </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.bundledConsentCount > 0 ? 'bg-yellow-50' : 'bg-blue-50'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.bundledConsentCount > 0 ? 'bg-white' : 'bg-white'}`}>
                           <p className={`text-2xl font-bold ${result.issues.optInForms.bundledConsentCount > 0 ? 'text-yellow-600' : 'text-blue-600'}`}>
                             {result.issues.optInForms.bundledConsentCount}
                           </p>
@@ -1962,7 +1962,7 @@ export default function Home() {
                       </div>
 
                       {result.issues.optInForms.compliant ? (
-                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
                           <span className="text-2xl">✅</span>
                           <div>
                             <p className="font-semibold text-blue-800">All Forms Are Compliant</p>
@@ -1973,7 +1973,7 @@ export default function Home() {
                         </div>
                       ) : (
                         <>
-                          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                          <div className="bg-white border border-red-200 rounded-lg p-4 mb-4">
                             <p className="text-red-800 text-sm">
                               <strong>GDPR Article 7:</strong> Consent must be freely given. Pre-checked boxes do not constitute valid consent.
                             </p>
@@ -1982,9 +1982,9 @@ export default function Home() {
                             {result.issues.optInForms.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
                               <div
                                 key={i}
-                                className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
-                                  issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
-                                    'bg-yellow-50 border-yellow-200'
+                                className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-white border-red-200' :
+                                  issue.severity === 'high' ? 'bg-white border-orange-200' :
+                                    'bg-white border-yellow-200'
                                   }`}
                               >
                                 <div className="flex items-center gap-2 mb-1">
@@ -2061,13 +2061,13 @@ export default function Home() {
                           <p className="text-2xl font-bold text-slate-700">{result.issues.cookieLifespan.totalCookiesAnalyzed}</p>
                           <p className="text-xs text-slate-500">Analyzed</p>
                         </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.cookieLifespan.issuesCount > 0 ? 'bg-orange-50' : 'bg-blue-50'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.cookieLifespan.issuesCount > 0 ? 'bg-white' : 'bg-white'}`}>
                           <p className={`text-2xl font-bold ${result.issues.cookieLifespan.issuesCount > 0 ? 'text-orange-600' : 'text-blue-600'}`}>
                             {result.issues.cookieLifespan.issuesCount}
                           </p>
                           <p className="text-xs text-slate-500">Excessive</p>
                         </div>
-                        <div className="p-3 rounded-lg text-center bg-blue-50">
+                        <div className="p-3 rounded-lg text-center bg-white">
                           <p className="text-2xl font-bold text-blue-600">
                             {result.issues.cookieLifespan.averageLifespan}d
                           </p>
@@ -2076,7 +2076,7 @@ export default function Home() {
                       </div>
 
                       {result.issues.cookieLifespan.longestCookie && (
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                        <div className="bg-white border border-yellow-200 rounded-lg p-3 mb-4">
                           <p className="text-yellow-800 text-sm">
                             <strong>Longest cookie:</strong> "{result.issues.cookieLifespan.longestCookie.name}" - {result.issues.cookieLifespan.longestCookie.days} days
                             {result.issues.cookieLifespan.longestCookie.days > 390 && ' (exceeds 13 months)'}
@@ -2087,7 +2087,7 @@ export default function Home() {
                       {result.issues.cookieLifespan.issues.length > 0 && (
                         <div className="space-y-2 max-h-48 overflow-y-auto">
                           {result.issues.cookieLifespan.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
-                            <div key={i} className="p-3 bg-orange-50 rounded-lg border border-orange-100">
+                            <div key={i} className="p-3 bg-white rounded-lg border border-orange-100">
                               <div className="flex justify-between items-start">
                                 <div>
                                   <p className="font-medium text-slate-800">{issue.name}</p>
@@ -2142,7 +2142,7 @@ export default function Home() {
                     <div className="bg-white border border-slate-200 rounded-lg p-4">
                       {result.issues.fingerprinting.detected ? (
                         <>
-                          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                          <div className="bg-white border border-red-200 rounded-lg p-4 mb-4">
                             <p className="text-red-800 text-sm">
                               <strong>⚠️ Privacy Alert:</strong> Browser fingerprinting techniques detected. These track users without cookies and require explicit GDPR consent.
                             </p>
@@ -2151,7 +2151,7 @@ export default function Home() {
                           {/* Breakdown by type */}
                           <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-4">
                             {Object.entries(result.issues.fingerprinting.byType).map(([type, count]) => (
-                              <div key={type} className={`p-2 rounded text-center ${count > 0 ? 'bg-red-50' : 'bg-blue-50'}`}>
+                              <div key={type} className={`p-2 rounded text-center ${count > 0 ? 'bg-white' : 'bg-white'}`}>
                                 <p className={`text-lg font-bold ${count > 0 ? 'text-red-600' : 'text-blue-600'}`}>{count}</p>
                                 <p className="text-xs text-slate-500 capitalize">{type}</p>
                               </div>
@@ -2160,9 +2160,9 @@ export default function Home() {
 
                           <div className="space-y-2 max-h-48 overflow-y-auto">
                             {result.issues.fingerprinting.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
-                              <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
-                                issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
-                                  'bg-yellow-50 border-yellow-200'
+                              <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-white border-red-200' :
+                                issue.severity === 'high' ? 'bg-white border-orange-200' :
+                                  'bg-white border-yellow-200'
                                 }`}>
                                 <div className="flex items-center gap-2 mb-1">
                                   <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type}</span>
@@ -2179,7 +2179,7 @@ export default function Home() {
                           </div>
                         </>
                       ) : (
-                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
                           <span className="text-2xl">✅</span>
                           <div>
                             <p className="font-semibold text-blue-800">No Fingerprinting Detected</p>
@@ -2289,7 +2289,7 @@ export default function Home() {
                       <h4 className="font-medium text-slate-700 text-sm mb-2">Security Headers</h4>
                       <div className="grid grid-cols-2 gap-2 mb-4">
                         {Object.entries(result.issues.securityHeadersExtended.headers).slice(0, isPro ? 10 : 6).map(([header, info]) => (
-                          <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-blue-50 border border-blue-200' : 'bg-red-50 border border-red-200'}`}>
+                          <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-white border border-blue-200' : 'bg-white border border-red-200'}`}>
                             <div className="flex items-center gap-2">
                               {info.present ? (
                                 <span className="text-blue-600">✓</span>
@@ -2306,7 +2306,7 @@ export default function Home() {
 
                       {/* Pro recommendations */}
                       {isPro && result.issues.securityHeadersExtended.issues.length > 0 && (
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+                        <div className="bg-white border border-blue-200 rounded-lg p-3 mt-4">
                           <p className="text-sm text-blue-800 font-medium mb-2">Recommendations:</p>
                           <div className="space-y-2">
                             {result.issues.securityHeadersExtended.issues.slice(0, 3).map((issue, i) => (
@@ -2351,11 +2351,11 @@ export default function Home() {
                   {showStorageAudit && (
                     <div className="bg-white border border-slate-200 rounded-lg p-4">
                       <div className="grid grid-cols-2 gap-3 mb-4">
-                        <div className="p-3 rounded-lg bg-purple-50 text-center">
+                        <div className="p-3 rounded-lg bg-white text-center">
                           <p className="text-2xl font-bold text-purple-700">{result.issues.storageAudit.localStorage.count}</p>
                           <p className="text-xs text-slate-500">localStorage</p>
                         </div>
-                        <div className="p-3 rounded-lg bg-blue-50 text-center">
+                        <div className="p-3 rounded-lg bg-white text-center">
                           <p className="text-2xl font-bold text-blue-700">{result.issues.storageAudit.sessionStorage.count}</p>
                           <p className="text-xs text-slate-500">sessionStorage</p>
                         </div>
@@ -2364,9 +2364,9 @@ export default function Home() {
                       {result.issues.storageAudit.issues.length > 0 ? (
                         <div className="space-y-2 max-h-48 overflow-y-auto">
                           {result.issues.storageAudit.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
-                            <div key={i} className={`p-3 rounded-lg border ${issue.risk === 'critical' ? 'bg-red-50 border-red-200' :
-                              issue.risk === 'high' ? 'bg-orange-50 border-orange-200' :
-                                'bg-yellow-50 border-yellow-200'
+                            <div key={i} className={`p-3 rounded-lg border ${issue.risk === 'critical' ? 'bg-white border-red-200' :
+                              issue.risk === 'high' ? 'bg-white border-orange-200' :
+                                'bg-white border-yellow-200'
                               }`}>
                               <div className="flex justify-between items-start">
                                 <div>
@@ -2383,7 +2383,7 @@ export default function Home() {
                           ))}
                         </div>
                       ) : (
-                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
                           <span className="text-2xl">✅</span>
                           <p className="font-semibold text-blue-800">No risky storage detected</p>
                         </div>
@@ -2422,7 +2422,7 @@ export default function Home() {
                     <div className="bg-white border border-slate-200 rounded-lg p-4">
                       {result.issues.mixedContent.detected ? (
                         <>
-                          <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                          <div className="bg-white border border-red-200 rounded-lg p-3 mb-4">
                             <p className="text-red-800 text-sm">
                               <strong>⚠️ Security Risk:</strong> HTTP resources on HTTPS page.
                               {result.issues.mixedContent.blockedCount > 0 && ` ${result.issues.mixedContent.blockedCount} blocked by browser.`}
@@ -2431,7 +2431,7 @@ export default function Home() {
 
                           <div className="grid grid-cols-4 gap-2 mb-4 text-xs">
                             {Object.entries(result.issues.mixedContent.byType).filter(([, v]) => v > 0).map(([type, count]) => (
-                              <div key={type} className="p-2 rounded bg-red-50 text-center">
+                              <div key={type} className="p-2 rounded bg-white text-center">
                                 <p className="font-bold text-red-600">{count}</p>
                                 <p className="text-slate-500">{type}</p>
                               </div>
@@ -2440,7 +2440,7 @@ export default function Home() {
 
                           <div className="space-y-2 max-h-40 overflow-y-auto">
                             {result.issues.mixedContent.issues.slice(0, isPro ? 8 : 2).map((issue, i) => (
-                              <div key={i} className="p-2 bg-red-50 rounded-lg border border-red-100 text-xs">
+                              <div key={i} className="p-2 bg-white rounded-lg border border-red-100 text-xs">
                                 <div className="flex items-center gap-2">
                                   <span className="font-semibold text-slate-700 uppercase">{issue.type}</span>
                                   {issue.blocked && <span className="px-1 bg-red-200 text-red-800 rounded">BLOCKED</span>}
@@ -2454,7 +2454,7 @@ export default function Home() {
                           </div>
                         </>
                       ) : (
-                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
                           <span className="text-2xl">✅</span>
                           <div>
                             <p className="font-semibold text-blue-800">All Secure</p>
@@ -2505,7 +2505,7 @@ export default function Home() {
                           <p className="text-2xl font-bold text-slate-700">{result.issues.formSecurity.totalForms}</p>
                           <p className="text-xs text-slate-500">Forms</p>
                         </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'bg-blue-50' : 'bg-orange-50'}`}>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'bg-white' : 'bg-white'}`}>
                           <p className={`text-2xl font-bold ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'text-blue-600' : 'text-orange-600'}`}>
                             {result.issues.formSecurity.secureCount}/{result.issues.formSecurity.totalForms}
                           </p>
@@ -2516,9 +2516,9 @@ export default function Home() {
                       {result.issues.formSecurity.issues.length > 0 ? (
                         <div className="space-y-2 max-h-48 overflow-y-auto">
                           {result.issues.formSecurity.issues.slice(0, isPro ? 8 : 2).map((issue, i) => (
-                            <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
-                              issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
-                                'bg-yellow-50 border-yellow-200'
+                            <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-white border-red-200' :
+                              issue.severity === 'high' ? 'bg-white border-orange-200' :
+                                'bg-white border-yellow-200'
                               }`}>
                               <div className="flex items-center gap-2 mb-1">
                                 <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type.replace(/-/g, ' ')}</span>
@@ -2534,7 +2534,7 @@ export default function Home() {
                           ))}
                         </div>
                       ) : (
-                        <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
                           <span className="text-2xl">✅</span>
                           <p className="font-semibold text-blue-800">All forms follow security best practices</p>
                         </div>
@@ -2764,10 +2764,10 @@ export default function Home() {
                             }`}>
                             <div className="flex items-center justify-between mb-2">
                               <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white ${vendor.riskScore >= 8 ? 'bg-red-500' :
-                                  vendor.riskScore >= 6 ? 'bg-orange-500' :
-                                    vendor.riskScore >= 4 ? 'bg-yellow-500' :
-                                      'bg-blue-500'
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white ${vendor.riskScore >= 8 ? 'bg-white0' :
+                                  vendor.riskScore >= 6 ? 'bg-white0' :
+                                    vendor.riskScore >= 4 ? 'bg-white0' :
+                                      'bg-white0'
                                   }`}>
                                   {vendor.riskScore}
                                 </div>
@@ -2810,10 +2810,10 @@ export default function Home() {
                       </div>
                       <div className="mt-4 pt-3 border-t border-gray-200">
                         <div className="flex gap-4 text-xs text-gray-500">
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-500"></span> 8-10: Critical</span>
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-orange-500"></span> 6-7: High</span>
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-yellow-500"></span> 4-5: Medium</span>
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-blue-500"></span> 1-3: Low</span>
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white0"></span> 8-10: Critical</span>
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white0"></span> 6-7: High</span>
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white0"></span> 4-5: Medium</span>
+                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white0"></span> 1-3: Low</span>
                         </div>
                       </div>
                     </div>
@@ -2855,16 +2855,16 @@ export default function Home() {
                       <div className="bg-white border border-slate-200 rounded-lg p-4">
                         {nonEuTransfers.length > 0 ? (
                           <>
-                            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
+                            <div className="bg-white border border-orange-200 rounded-lg p-4 mb-4">
                               <p className="text-orange-800 text-sm">
                                 <strong>GDPR Article 44-49:</strong> Transfers to non-EU countries require adequate safeguards (SCCs, BCRs) or user consent.
                               </p>
                             </div>
                             <div className="space-y-3">
                               {nonEuTransfers.map((vendor, i) => (
-                                <div key={i} className={`p-3 rounded-lg border ${!vendor.gdprCompliant ? 'bg-red-50 border-red-200' :
-                                  vendor.jurisdiction === 'USA' ? 'bg-orange-50 border-orange-200' :
-                                    'bg-yellow-50 border-yellow-200'
+                                <div key={i} className={`p-3 rounded-lg border ${!vendor.gdprCompliant ? 'bg-white border-red-200' :
+                                  vendor.jurisdiction === 'USA' ? 'bg-white border-orange-200' :
+                                    'bg-white border-yellow-200'
                                   }`}>
                                   <div className="flex justify-between items-start">
                                     <div>
@@ -2895,7 +2895,7 @@ export default function Home() {
                               ))}
                             </div>
                             {isPro && (
-                              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                              <div className="mt-4 p-3 bg-white border border-blue-200 rounded-lg">
                                 <p className="text-sm text-blue-800 font-medium mb-2">Compliance Requirements:</p>
                                 <ul className="text-xs text-blue-700 list-disc list-inside space-y-1">
                                   <li>Ensure Standard Contractual Clauses (SCCs) are in place</li>
@@ -2907,7 +2907,7 @@ export default function Home() {
                             )}
                           </>
                         ) : (
-                          <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                          <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
                             <span className="text-blue-600 font-bold text-lg">✓</span>
                             <div>
                               <p className="font-semibold text-blue-800">All Data Stays in EU</p>
@@ -2950,14 +2950,14 @@ export default function Home() {
                   <div className="bg-white border border-slate-200 rounded-lg p-4">
                     {result.issues.dataBreaches && result.issues.dataBreaches.length > 0 ? (
                       <>
-                        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                        <div className="bg-white border border-red-200 rounded-lg p-4 mb-4">
                           <p className="text-red-700 text-sm">
                             <strong>Warning:</strong> This domain has been involved in known data breaches. Users should be informed and passwords changed.
                           </p>
                         </div>
                         <div className="space-y-3">
                           {result.issues.dataBreaches.map((breach, i) => (
-                            <div key={i} className="bg-red-50 border border-red-100 rounded-lg p-3 flex justify-between items-center">
+                            <div key={i} className="bg-white border border-red-100 rounded-lg p-3 flex justify-between items-center">
                               <div>
                                 <p className="font-semibold text-red-800">{breach.name}</p>
                                 <p className="text-xs text-red-600">Breach date: {breach.date}</p>
@@ -2979,7 +2979,7 @@ export default function Home() {
                         </a>
                       </>
                     ) : (
-                      <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
+                      <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
                         <span className="text-blue-600 font-bold text-lg">✓</span>
                         <div>
                           <p className="font-semibold text-blue-800">No Data Breaches Found</p>
@@ -3310,7 +3310,7 @@ export default function Home() {
                   <strong>Google Consent Mode v2</strong>
                 </li>
               </ul>
-              <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-center mt-auto">
+              <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-white transition text-center mt-auto">
                 Get Pro Now
               </button>
             </div>
@@ -3654,6 +3654,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
