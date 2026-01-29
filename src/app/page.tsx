@@ -1128,37 +1128,140 @@ export default function Home() {
                         </div>
                       )}
 
-                      {/* Dark patterns detail */}
+                      {/* Dark patterns detail with recommendations */}
                       {result.issues.consentBehavior.darkPatterns.length > 0 && (
                         <div className="mb-4">
                           <p className="text-sm font-semibold text-slate-700 mb-2">Dark Patterns Found:</p>
                           <div className="space-y-2">
                             {result.issues.consentBehavior.darkPatterns.map((pattern, i) => (
-                              <div key={i} className="flex items-center justify-between bg-orange-50 px-3 py-2 rounded-lg border border-orange-200">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-orange-500">⚠️</span>
-                                  <span className="text-sm text-orange-800">{pattern.description}</span>
+                              <div
+                                key={i}
+                                className={`bg-orange-50 rounded-lg border border-orange-200 overflow-hidden ${isPro ? 'cursor-pointer hover:bg-orange-100' : ''}`}
+                                onClick={() => isPro && setExpandedRec(expandedRec === `darkPattern-${i}` ? null : `darkPattern-${i}`)}
+                              >
+                                <div className="flex items-center justify-between px-3 py-2">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-orange-500">⚠️</span>
+                                    <span className="text-sm text-orange-800">{pattern.description}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'high' ? 'bg-red-100 text-red-700' :
+                                      pattern.severity === 'medium' ? 'bg-orange-100 text-orange-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                      {pattern.severity.toUpperCase()}
+                                    </span>
+                                    {isPro && (
+                                      <svg className={`w-4 h-4 text-orange-400 transition-transform ${expandedRec === `darkPattern-${i}` ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                      </svg>
+                                    )}
+                                  </div>
                                 </div>
-                                <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'high' ? 'bg-red-100 text-red-700' :
-                                  pattern.severity === 'medium' ? 'bg-orange-100 text-orange-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                                  {pattern.severity.toUpperCase()}
-                                </span>
+                                {expandedRec === `darkPattern-${i}` && isPro && (
+                                  <div className="px-3 pb-3">
+                                    <div className="bg-white rounded-lg p-4 border border-orange-200">
+                                      <h4 className="font-semibold text-gray-900 mb-2">{recommendations.darkPatterns?.title || 'Fix Dark Pattern'}</h4>
+                                      <p className="text-gray-600 text-sm mb-3">{recommendations.darkPatterns?.description}</p>
+                                      <h5 className="font-medium text-gray-900 mb-2 text-sm">How to fix:</h5>
+                                      <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
+                                        {recommendations.darkPatterns?.steps.map((step, si) => (
+                                          <li key={si}>{step}</li>
+                                        ))}
+                                      </ol>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
+                          {!isPro && (
+                            <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
+                              <p className="text-slate-600 text-xs mb-2">Upgrade to Pro for step-by-step fix instructions</p>
+                              <button onClick={() => handleCheckout()} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 transition">
+                                Upgrade - €19/mo
+                              </button>
+                            </div>
+                          )}
                         </div>
                       )}
 
-                      {/* Pre-consent cookies */}
+                      {/* Pre-consent cookies with recommendations */}
                       {result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length > 0 && (
                         <div className="mb-4">
-                          <p className="text-sm font-semibold text-slate-700 mb-2">Cookies Loaded Before Consent:</p>
-                          <div className="flex flex-wrap gap-2">
-                            {result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).map((cookie, i) => (
-                              <span key={i} className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">
-                                {cookie.name} ({cookie.category})
-                              </span>
-                            ))}
+                          <div
+                            className={`${isPro ? 'cursor-pointer' : ''}`}
+                            onClick={() => isPro && setExpandedRec(expandedRec === 'preConsentCookies' ? null : 'preConsentCookies')}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-sm font-semibold text-slate-700">Cookies Loaded Before Consent:</p>
+                              {isPro && (
+                                <svg className={`w-4 h-4 text-slate-400 transition-transform ${expandedRec === 'preConsentCookies' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                              )}
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              {result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).map((cookie, i) => (
+                                <span key={i} className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">
+                                  {cookie.name} ({cookie.category})
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          {expandedRec === 'preConsentCookies' && isPro && (
+                            <div className="mt-3 bg-white rounded-lg p-4 border border-red-100">
+                              <h4 className="font-semibold text-gray-900 mb-2">{recommendations.preConsentCookies?.title || 'Fix Pre-Consent Cookies'}</h4>
+                              <p className="text-gray-600 text-sm mb-3">{recommendations.preConsentCookies?.description}</p>
+                              <h5 className="font-medium text-gray-900 mb-2 text-sm">How to fix:</h5>
+                              <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
+                                {recommendations.preConsentCookies?.steps.map((step, si) => (
+                                  <li key={si}>{step}</li>
+                                ))}
+                              </ol>
+                            </div>
+                          )}
+                          {!isPro && (
+                            <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
+                              <p className="text-slate-600 text-xs mb-2">Upgrade to Pro for step-by-step fix instructions</p>
+                              <button onClick={() => handleCheckout()} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 transition">
+                                Upgrade - €19/mo
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Missing reject button recommendation */}
+                      {!result.issues.consentBehavior.hasRejectButton && result.issues.consentBehavior.detected && (
+                        <div className="mb-4">
+                          <div
+                            className={`bg-red-50 rounded-lg border border-red-200 overflow-hidden ${isPro ? 'cursor-pointer hover:bg-red-100' : ''}`}
+                            onClick={() => isPro && setExpandedRec(expandedRec === 'missingRejectButton' ? null : 'missingRejectButton')}
+                          >
+                            <div className="flex items-center justify-between px-3 py-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-red-500">❌</span>
+                                <span className="text-sm text-red-800">Missing clear reject button</span>
+                              </div>
+                              {isPro && (
+                                <svg className={`w-4 h-4 text-red-400 transition-transform ${expandedRec === 'missingRejectButton' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                              )}
+                            </div>
+                            {expandedRec === 'missingRejectButton' && isPro && (
+                              <div className="px-3 pb-3">
+                                <div className="bg-white rounded-lg p-4 border border-red-200">
+                                  <h4 className="font-semibold text-gray-900 mb-2">{recommendations.missingRejectButton?.title || 'Add Reject Button'}</h4>
+                                  <p className="text-gray-600 text-sm mb-3">{recommendations.missingRejectButton?.description}</p>
+                                  <h5 className="font-medium text-gray-900 mb-2 text-sm">How to fix:</h5>
+                                  <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
+                                    {recommendations.missingRejectButton?.steps.map((step, si) => (
+                                      <li key={si}>{step}</li>
+                                    ))}
+                                  </ol>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                       )}
