@@ -1877,7 +1877,7 @@ export default function Home() {
             </div>
 
             {/* Trust Badges - integrated with regulations above */}
-            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-2">
+            <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-0">
 
               {/* EU Data Badge - Circle with stars */}
               <div className="flex flex-col items-center group">
