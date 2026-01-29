@@ -1986,22 +1986,22 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>
                   <a href="mailto:privacy@privacychecker.pro?subject=Data%20Deletion%20Request" className="hover:text-gray-900">
-                    🗑️ Delete My Data
+                    Delete My Data
                   </a>
                 </li>
                 <li>
                   <a href="mailto:privacy@privacychecker.pro?subject=Data%20Access%20Request" className="hover:text-gray-900">
-                    📦 Data Export Request
+                    Data Export Request
                   </a>
                 </li>
                 <li>
                   <a href="mailto:privacy@privacychecker.pro?subject=Opt-Out%20Request" className="hover:text-gray-900">
-                    🚫 Opt-Out of Communications
+                    Opt-Out of Communications
                   </a>
                 </li>
                 <li>
                   <a href="mailto:privacy@privacychecker.pro?subject=Unsubscribe" className="hover:text-gray-900">
-                    ✉️ Unsubscribe
+                    Unsubscribe
                   </a>
                 </li>
               </ul>
@@ -2013,12 +2013,12 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>
                   <a href="mailto:privacy@privacychecker.pro" className="hover:text-gray-900">
-                    🛡️ Privacy & DPO Contact
+                    Privacy & DPO Contact
                   </a>
                 </li>
                 <li>
                   <span className="text-gray-500">
-                    📧 General: see Privacy Policy
+                    General: see Privacy Policy
                   </span>
                 </li>
               </ul>
