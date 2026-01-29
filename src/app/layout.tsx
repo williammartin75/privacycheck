@@ -61,6 +61,16 @@ export default function RootLayout({
             .goog-te-gadget-icon { display: none !important; }
             #google_translate_element { display: inline-block; }
             .VIpgJd-ZVi9od-ORHb-OEVmcd { display: none !important; }
+            /* Hide Google Translate feedback popup/tooltip on hover */
+            .goog-tooltip { display: none !important; }
+            .goog-tooltip:hover { display: none !important; }
+            .goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
+            #goog-gt-tt { display: none !important; }
+            .goog-te-balloon-frame { display: none !important; }
+            .goog-te-menu-frame { display: none !important; }
+            .goog-te-spinner-pos { display: none !important; }
+            div[id^="goog-gt-"] { display: none !important; }
+            .VIpgJd-yAWNEb-VIpgJd-fmcmS-sn54Q { display: none !important; }
           `
         }} />
       </head>
