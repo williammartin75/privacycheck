@@ -1072,13 +1072,13 @@ export default function Home() {
                             <div className="flex justify-between">
                               <span className="text-gray-600">HTTPS</span>
                               <span className={result.issues.ssl.valid ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.ssl.valid ? '✓ Enabled' : '✗ Missing'}
+                                {result.issues.ssl.valid ? '✓' : '✗'}
                               </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">HSTS</span>
                               <span className={result.issues.ssl.hsts ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.ssl.hsts ? '✓ Enabled' : '✗ Missing'}
+                                {result.issues.ssl.hsts ? '✓' : '✗'}
                               </span>
                             </div>
                           </div>
@@ -1100,13 +1100,13 @@ export default function Home() {
                             <div className="flex justify-between">
                               <span className="text-gray-600">SPF Record</span>
                               <span className={result.issues.emailSecurity.spf ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.emailSecurity.spf ? '✓ Found' : '✗ Missing'}
+                                {result.issues.emailSecurity.spf ? '✓' : '✗'}
                               </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">DMARC</span>
                               <span className={result.issues.emailSecurity.dmarc ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.emailSecurity.dmarc ? '✓ Found' : '✗ Missing'}
+                                {result.issues.emailSecurity.dmarc ? '✓' : '✗'}
                               </span>
                             </div>
                           </div>
@@ -1128,25 +1128,25 @@ export default function Home() {
                             <div className="flex justify-between">
                               <span className="text-gray-600">CSP</span>
                               <span className={result.issues.securityHeaders.csp ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.securityHeaders.csp ? '✓' : '✗ Missing'}
+                                {result.issues.securityHeaders.csp ? '✓' : '✗'}
                               </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">X-Frame-Options</span>
                               <span className={result.issues.securityHeaders.xFrameOptions ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.securityHeaders.xFrameOptions ? '✓' : '✗ Missing'}
+                                {result.issues.securityHeaders.xFrameOptions ? '✓' : '✗'}
                               </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">X-Content-Type</span>
                               <span className={result.issues.securityHeaders.xContentType ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.securityHeaders.xContentType ? '✓' : '✗ Missing'}
+                                {result.issues.securityHeaders.xContentType ? '✓' : '✗'}
                               </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-600">Referrer-Policy</span>
                               <span className={result.issues.securityHeaders.referrerPolicy ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.securityHeaders.referrerPolicy ? '✓' : '✗ Missing'}
+                                {result.issues.securityHeaders.referrerPolicy ? '✓' : '✗'}
                               </span>
                             </div>
                           </div>
