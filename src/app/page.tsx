@@ -1860,10 +1860,24 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trust Badges */}
-        <section className="py-12">
+        {/* Regulations Covered */}
+        <section className="py-16">
           <div className="container mx-auto px-6">
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+            <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
+            <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
+            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '160px' }}>
+              <img
+                src="/badges.png"
+                alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
+                className="object-cover h-[360px] sm:h-[440px] -my-[100px] sm:-my-[130px]"
+                style={{
+                  filter: 'brightness(1.08) contrast(1.1)'
+                }}
+              />
+            </div>
+
+            {/* Trust Badges - moved here after regulations */}
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 mt-12">
 
               {/* EU Data Badge - Circle with stars */}
               <div className="flex flex-col items-center group">
@@ -1926,24 +1940,6 @@ export default function Home() {
                 </div>
               </div>
 
-            </div>
-          </div>
-        </section>
-
-        {/* Regulations Covered */}
-        <section className="py-16">
-          <div className="container mx-auto px-6">
-            <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
-            <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
-            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '160px' }}>
-              <img
-                src="/badges.png"
-                alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                className="object-cover h-[360px] sm:h-[440px] -my-[100px] sm:-my-[130px]"
-                style={{
-                  filter: 'brightness(1.08) contrast(1.1)'
-                }}
-              />
             </div>
           </div>
         </section>
