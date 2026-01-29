@@ -150,6 +150,17 @@ export default function Home() {
   const [showEmailExposure, setShowEmailExposure] = useState(false);
   const [showTrackers, setShowTrackers] = useState(false);
 
+  // Cookie consent banner state
+  const [showCookieConsent, setShowCookieConsent] = useState(false);
+
+  // Check cookie consent on mount
+  useEffect(() => {
+    const hasConsent = localStorage.getItem('cookieConsent');
+    if (!hasConsent) {
+      setShowCookieConsent(true);
+    }
+  }, []);
+
   const supabase = createClient();
 
   // Helper for tier checks
@@ -1936,30 +1947,129 @@ export default function Home() {
       </main >
 
       {/* Footer */}
-      < footer className="border-t border-gray-200 py-12 bg-white" >
+      <footer className="border-t border-gray-200 py-12 bg-white">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-1">
-              <img src="/logo.png" alt="PrivacyChecker" className="w-10 h-10 scale-150" />
-              <span className="text-xl font-bold text-gray-900">PrivacyChecker</span>
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            {/* Company Info */}
+            <div>
+              <div className="flex items-center gap-1 mb-4">
+                <img src="/logo.png" alt="PrivacyChecker" className="w-10 h-10 scale-150" />
+                <span className="text-xl font-bold text-gray-900">PrivacyChecker</span>
+              </div>
+              <p className="text-gray-500 text-sm">
+                Privacy compliance made simple. Audit your website for GDPR, CCPA and 50+ regulations.
+              </p>
             </div>
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-gray-600 text-sm">
-              <Link href="/privacy" className="hover:text-gray-900 transition">Privacy Policy</Link>
-              <Link href="/terms" className="hover:text-gray-900 transition">Terms of Service</Link>
-              <Link href="/legal/dpa" className="hover:text-gray-900 transition">DPA</Link>
-              <Link href="/legal/cookies" className="hover:text-gray-900 transition">Cookie Policy</Link>
-              <Link href="/legal" className="hover:text-gray-900 transition">Legal</Link>
-              <a href="mailto:support@privacychecker.pro" className="hover:text-gray-900 transition">Contact</a>
+
+            {/* Legal Links */}
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li><Link href="/privacy" className="hover:text-gray-900">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="hover:text-gray-900">Terms of Service</Link></li>
+                <li><Link href="/legal/dpa" className="hover:text-gray-900">Data Processing Agreement</Link></li>
+                <li><Link href="/legal/cookies" className="hover:text-gray-900">Cookie Policy</Link></li>
+                <li><Link href="/legal" className="hover:text-gray-900">Legal Hub</Link></li>
+              </ul>
             </div>
-            <p className="text-gray-500 text-sm">© 2026 PrivacyChecker. All rights reserved.</p>
+
+            {/* Your Rights */}
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-4">Your Privacy Rights</h4>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="mailto:privacy@privacychecker.pro?subject=Data%20Deletion%20Request" className="hover:text-gray-900">
+                    🗑️ Delete My Data
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:privacy@privacychecker.pro?subject=Data%20Access%20Request" className="hover:text-gray-900">
+                    📦 Data Export Request
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:privacy@privacychecker.pro?subject=Opt-Out%20Request" className="hover:text-gray-900">
+                    🚫 Opt-Out of Communications
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:privacy@privacychecker.pro?subject=Unsubscribe" className="hover:text-gray-900">
+                    ✉️ Unsubscribe
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="mailto:support@privacychecker.pro" className="hover:text-gray-900">
+                    📧 support@privacychecker.pro
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:dpo@privacychecker.pro" className="hover:text-gray-900">
+                    🛡️ DPO: dpo@privacychecker.pro
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:privacy@privacychecker.pro" className="hover:text-gray-900">
+                    🔒 privacy@privacychecker.pro
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <p className="text-gray-400 text-xs text-center mt-6 max-w-3xl mx-auto">
-            Content available on PrivacyChecker.pro is intended for general information purposes only — it is not legal advice.
-            Reports generated using our Service are generated automatically and do not constitute legal advice.
-            We encourage you to consult with a lawyer licensed in your jurisdiction before taking actions based on our reports.
-          </p>
+
+          {/* Bottom bar */}
+          <div className="border-t border-gray-200 pt-6">
+            <p className="text-gray-500 text-sm text-center">© 2026 PrivacyChecker. All rights reserved.</p>
+            <p className="text-gray-400 text-xs text-center mt-4 max-w-3xl mx-auto">
+              Content available on PrivacyChecker.pro is intended for general information purposes only — it is not legal advice.
+              Reports generated using our Service are generated automatically and do not constitute legal advice.
+              We encourage you to consult with a lawyer licensed in your jurisdiction before taking actions based on our reports.
+            </p>
+          </div>
         </div>
-      </footer >
+      </footer>
+
+      {/* Cookie Consent Banner - detected by patterns: cookie-consent, cookie-banner, accept cookies, manage cookies */}
+      {showCookieConsent && (
+        <div id="cookie-consent" className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg p-4 z-50" role="dialog" aria-label="Cookie consent">
+          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              <p>
+                We use cookies to enhance your experience. By continuing, you agree to our{' '}
+                <Link href="/legal/cookies" className="text-blue-600 hover:underline">Cookie Policy</Link>.
+                You can <Link href="/legal/cookies" className="text-blue-600 hover:underline">manage cookies</Link> or{' '}
+                <Link href="/legal/cookies" className="text-blue-600 hover:underline">manage preferences</Link> at any time.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  localStorage.setItem('cookieConsent', 'essential');
+                  setShowCookieConsent(false);
+                }}
+                className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+              >
+                Essential Only
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.setItem('cookieConsent', 'all');
+                  setShowCookieConsent(false);
+                }}
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              >
+                Accept All Cookies
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div >
   );
 }
