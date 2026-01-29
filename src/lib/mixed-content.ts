@@ -81,7 +81,7 @@ export function detectMixedContent(html: string, pageUrl?: string): MixedContent
 
     // Detect HTTP scripts
     const scriptPattern = /<script[^>]+src\s*=\s*["']?(http:\/\/[^"'\s>]+)/gi;
-    let match;
+    let match: RegExpExecArray | null;
     while ((match = scriptPattern.exec(html)) !== null) {
         issues.push(createMixedContentItem('script', match[1]));
         byType.scripts++;
@@ -95,8 +95,9 @@ export function detectMixedContent(html: string, pageUrl?: string): MixedContent
         byType.styles++;
     }
     while ((match = stylePattern2.exec(html)) !== null) {
-        if (!issues.some(i => i.url === match[1])) {
-            issues.push(createMixedContentItem('style', match[1]));
+        const matchUrl = match[1];
+        if (!issues.some(i => i.url === matchUrl)) {
+            issues.push(createMixedContentItem('style', matchUrl));
             byType.styles++;
         }
     }

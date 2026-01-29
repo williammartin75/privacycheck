@@ -9,6 +9,9 @@ import { analyzeOptInForms, OptInFormsResult } from '@/lib/optin-forms';
 import { analyzeCookieLifespans, CookieLifespanResult } from '@/lib/cookie-lifespan';
 import { detectFingerprinting, FingerprintingResult } from '@/lib/fingerprinting';
 import { analyzeSecurityHeaders, SecurityHeadersResult } from '@/lib/security-headers';
+import { analyzeStorageUsage, StorageAuditResult } from '@/lib/storage-audit';
+import { detectMixedContent, MixedContentResult } from '@/lib/mixed-content';
+import { analyzeFormSecurity, FormSecurityResult } from '@/lib/form-security';
 
 interface Cookie {
     name: string;
@@ -108,6 +111,12 @@ interface AuditResult {
         fingerprinting?: FingerprintingResult;
         // Security Headers (Extended)
         securityHeadersExtended?: SecurityHeadersResult;
+        // Storage Audit (localStorage/sessionStorage)
+        storageAudit?: StorageAuditResult;
+        // Mixed Content Detection
+        mixedContent?: MixedContentResult;
+        // Form Security Scan
+        formSecurity?: FormSecurityResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -848,6 +857,15 @@ export async function POST(request: NextRequest) {
         // We'll use the headers from the initial fetch if available
         const securityHeadersExtended = analyzeSecurityHeaders(responseHeaders);
 
+        // Storage Audit (localStorage/sessionStorage)
+        const storageAudit = analyzeStorageUsage(combinedHtml);
+
+        // Mixed Content Detection
+        const mixedContent = detectMixedContent(combinedHtml, url);
+
+        // Form Security Scan
+        const formSecurity = analyzeFormSecurity(combinedHtml, url);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -973,6 +991,47 @@ export async function POST(request: NextRequest) {
             score -= Math.round(secHeadersPenalty);
         } else {
             scoreBreakdown.push({ item: `Security Headers (Grade ${securityHeadersExtended.grade})`, points: 0, passed: true });
+        }
+
+        // Storage Audit penalty - up to 6 points
+        const storagePenalty = Math.min(storageAudit.issues.filter(i => i.risk === 'critical' || i.risk === 'high').length * 3, 6);
+        if (storagePenalty > 0) {
+            scoreBreakdown.push({
+                item: `Storage Issues (${storageAudit.issues.length})`,
+                points: -storagePenalty,
+                passed: false
+            });
+            score -= storagePenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Client Storage Compliant', points: 0, passed: true });
+        }
+
+        // Mixed Content penalty - up to 15 points (very serious)
+        const mixedContentPenalty = Math.min(mixedContent.blockedCount * 5 + mixedContent.warningCount * 2, 15);
+        if (mixedContentPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Mixed Content (${mixedContent.totalIssues} issues)`,
+                points: -mixedContentPenalty,
+                passed: false
+            });
+            score -= mixedContentPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'No Mixed Content', points: 0, passed: true });
+        }
+
+        // Form Security penalty - up to 10 points
+        const formPenalty = formSecurity.compliant ? 0 :
+            Math.min(formSecurity.issues.filter(i => i.severity === 'critical').length * 5 +
+                formSecurity.issues.filter(i => i.severity === 'high').length * 3, 10);
+        if (formPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Form Security Issues (${formSecurity.issuesCount})`,
+                points: -formPenalty,
+                passed: false
+            });
+            score -= formPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Forms Secure', points: 0, passed: true });
         }
 
         // Trackers penalty
@@ -1133,6 +1192,12 @@ export async function POST(request: NextRequest) {
                 fingerprinting,
                 // Security Headers Extended
                 securityHeadersExtended,
+                // Storage Audit
+                storageAudit,
+                // Mixed Content
+                mixedContent,
+                // Form Security
+                formSecurity,
             },
             regulations,
             scoreBreakdown,

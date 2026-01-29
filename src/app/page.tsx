@@ -241,6 +241,69 @@ interface AuditResult {
       headers: Record<string, { present: boolean; value?: string }>;
       recommendations: string[];
     };
+    // Storage Audit
+    storageAudit?: {
+      totalItems: number;
+      localStorage: { count: number; riskItems: number };
+      sessionStorage: { count: number; riskItems: number };
+      issues: {
+        key: string;
+        type: 'localStorage' | 'sessionStorage';
+        category: string;
+        risk: 'low' | 'medium' | 'high' | 'critical';
+        description: string;
+        recommendation: string;
+      }[];
+      score: number;
+      compliant: boolean;
+      recommendations: string[];
+    };
+    // Mixed Content
+    mixedContent?: {
+      detected: boolean;
+      totalIssues: number;
+      blockedCount: number;
+      warningCount: number;
+      issues: {
+        type: string;
+        url: string;
+        severity: 'low' | 'medium' | 'high' | 'critical';
+        blocked: boolean;
+        description: string;
+        recommendation: string;
+      }[];
+      score: number;
+      byType: {
+        scripts: number;
+        styles: number;
+        images: number;
+        iframes: number;
+        fonts: number;
+        media: number;
+        forms: number;
+        other: number;
+      };
+      recommendations: string[];
+    };
+    // Form Security
+    formSecurity?: {
+      totalForms: number;
+      secureCount: number;
+      issuesCount: number;
+      issues: {
+        formId?: string;
+        type: string;
+        severity: 'low' | 'medium' | 'high' | 'critical';
+        description: string;
+        field?: string;
+        recommendation: string;
+      }[];
+      score: number;
+      hasLoginForm: boolean;
+      hasPaymentForm: boolean;
+      compliant: boolean;
+      recommendations: string[];
+    };
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -312,6 +375,9 @@ export default function Home() {
   const [showCookieLifespan, setShowCookieLifespan] = useState(false);
   const [showFingerprinting, setShowFingerprinting] = useState(false);
   const [showSecurityHeadersExt, setShowSecurityHeadersExt] = useState(false);
+  const [showStorageAudit, setShowStorageAudit] = useState(false);
+  const [showMixedContent, setShowMixedContent] = useState(false);
+  const [showFormSecurity, setShowFormSecurity] = useState(false);
 
   // Cookie consent banner state
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -1949,8 +2015,8 @@ export default function Home() {
                                   <p className="text-xs text-orange-600">{issue.currentLifespan} days → {issue.recommendedLifespan} days max</p>
                                 </div>
                                 <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-red-200 text-red-800' :
-                                    issue.severity === 'high' ? 'bg-orange-200 text-orange-800' :
-                                      'bg-yellow-200 text-yellow-800'
+                                  issue.severity === 'high' ? 'bg-orange-200 text-orange-800' :
+                                    'bg-yellow-200 text-yellow-800'
                                   }`}>{issue.severity}</span>
                               </div>
                               {isPro && (
@@ -1983,8 +2049,8 @@ export default function Home() {
                         <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Clean</span>
                       ) : (
                         <span className={`text-xs px-2 py-0.5 rounded-full ${result.issues.fingerprinting.riskLevel === 'critical' ? 'bg-red-100 text-red-700' :
-                            result.issues.fingerprinting.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' :
-                              'bg-yellow-100 text-yellow-700'
+                          result.issues.fingerprinting.riskLevel === 'high' ? 'bg-orange-100 text-orange-700' :
+                            'bg-yellow-100 text-yellow-700'
                           }`}>
                           {result.issues.fingerprinting.riskLevel.toUpperCase()} RISK
                         </span>
@@ -2017,8 +2083,8 @@ export default function Home() {
                           <div className="space-y-2 max-h-48 overflow-y-auto">
                             {result.issues.fingerprinting.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
                               <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
-                                  issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
-                                    'bg-yellow-50 border-yellow-200'
+                                issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
+                                  'bg-yellow-50 border-yellow-200'
                                 }`}>
                                 <div className="flex items-center gap-2 mb-1">
                                   <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type}</span>
@@ -2065,9 +2131,9 @@ export default function Home() {
                       <span className="text-xl">🛡️</span>
                       Security Headers
                       <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-green-100 text-green-700' :
-                          result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
-                            result.issues.securityHeadersExtended.grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
-                              'bg-red-100 text-red-700'
+                        result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
+                          result.issues.securityHeadersExtended.grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
+                            'bg-red-100 text-red-700'
                         }`}>
                         Grade {result.issues.securityHeadersExtended.grade}
                       </span>
@@ -2081,9 +2147,9 @@ export default function Home() {
                       {/* Summary */}
                       <div className="flex items-center gap-4 mb-4">
                         <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-green-100 text-green-700' :
-                            result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
-                              result.issues.securityHeadersExtended.grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
-                                'bg-red-100 text-red-700'
+                          result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
+                            result.issues.securityHeadersExtended.grade === 'C' ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-red-100 text-red-700'
                           }`}>
                           {result.issues.securityHeadersExtended.grade}
                         </div>
@@ -2132,6 +2198,230 @@ export default function Home() {
 
                       <p className="text-xs text-gray-400 mt-3">
                         * Security headers protect against XSS, clickjacking, and data leakage.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Storage Audit */}
+              {result.issues.storageAudit && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowStorageAudit(!showStorageAudit)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">💾</span>
+                      Storage Audit
+                      {result.issues.storageAudit.compliant ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Clean</span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                          {result.issues.storageAudit.issues.length} risk{result.issues.storageAudit.issues.length > 1 ? 's' : ''}
+                        </span>
+                      )}
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showStorageAudit ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showStorageAudit && (
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
+                      <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className="p-3 rounded-lg bg-purple-50 text-center">
+                          <p className="text-2xl font-bold text-purple-700">{result.issues.storageAudit.localStorage.count}</p>
+                          <p className="text-xs text-slate-500">localStorage</p>
+                        </div>
+                        <div className="p-3 rounded-lg bg-blue-50 text-center">
+                          <p className="text-2xl font-bold text-blue-700">{result.issues.storageAudit.sessionStorage.count}</p>
+                          <p className="text-xs text-slate-500">sessionStorage</p>
+                        </div>
+                      </div>
+
+                      {result.issues.storageAudit.issues.length > 0 ? (
+                        <div className="space-y-2 max-h-48 overflow-y-auto">
+                          {result.issues.storageAudit.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
+                            <div key={i} className={`p-3 rounded-lg border ${issue.risk === 'critical' ? 'bg-red-50 border-red-200' :
+                                issue.risk === 'high' ? 'bg-orange-50 border-orange-200' :
+                                  'bg-yellow-50 border-yellow-200'
+                              }`}>
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <p className="font-mono text-sm text-slate-800">{issue.key}</p>
+                                  <p className="text-xs text-slate-500">{issue.type} · {issue.category}</p>
+                                </div>
+                                <span className={`text-xs px-2 py-0.5 rounded ${issue.risk === 'critical' ? 'bg-red-200 text-red-800' : 'bg-orange-200 text-orange-800'
+                                  }`}>{issue.risk}</span>
+                              </div>
+                              {isPro && (
+                                <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                          <span className="text-2xl">✅</span>
+                          <p className="font-semibold text-green-800">No risky storage detected</p>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * localStorage persists indefinitely and requires consent like cookies.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Mixed Content */}
+              {result.issues.mixedContent && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowMixedContent(!showMixedContent)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">🔓</span>
+                      Mixed Content Check
+                      {result.issues.mixedContent.detected ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                          {result.issues.mixedContent.totalIssues} issue{result.issues.mixedContent.totalIssues > 1 ? 's' : ''}
+                        </span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Secure</span>
+                      )}
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showMixedContent ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showMixedContent && (
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
+                      {result.issues.mixedContent.detected ? (
+                        <>
+                          <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                            <p className="text-red-800 text-sm">
+                              <strong>⚠️ Security Risk:</strong> HTTP resources on HTTPS page.
+                              {result.issues.mixedContent.blockedCount > 0 && ` ${result.issues.mixedContent.blockedCount} blocked by browser.`}
+                            </p>
+                          </div>
+
+                          <div className="grid grid-cols-4 gap-2 mb-4 text-xs">
+                            {Object.entries(result.issues.mixedContent.byType).filter(([, v]) => v > 0).map(([type, count]) => (
+                              <div key={type} className="p-2 rounded bg-red-50 text-center">
+                                <p className="font-bold text-red-600">{count}</p>
+                                <p className="text-slate-500">{type}</p>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="space-y-2 max-h-40 overflow-y-auto">
+                            {result.issues.mixedContent.issues.slice(0, isPro ? 8 : 2).map((issue, i) => (
+                              <div key={i} className="p-2 bg-red-50 rounded-lg border border-red-100 text-xs">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-semibold text-slate-700 uppercase">{issue.type}</span>
+                                  {issue.blocked && <span className="px-1 bg-red-200 text-red-800 rounded">BLOCKED</span>}
+                                </div>
+                                <p className="text-slate-600 truncate">{issue.url}</p>
+                                {isPro && (
+                                  <p className="text-blue-600 mt-1">→ {issue.recommendation}</p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                          <span className="text-2xl">✅</span>
+                          <div>
+                            <p className="font-semibold text-green-800">All Secure</p>
+                            <p className="text-sm text-green-600">No HTTP resources on HTTPS page.</p>
+                          </div>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Mixed content exposes data to man-in-the-middle attacks.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Form Security */}
+              {result.issues.formSecurity && result.issues.formSecurity.totalForms > 0 && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowFormSecurity(!showFormSecurity)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">📝</span>
+                      Form Security
+                      {result.issues.formSecurity.compliant ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Secure</span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                          {result.issues.formSecurity.issuesCount} issue{result.issues.formSecurity.issuesCount > 1 ? 's' : ''}
+                        </span>
+                      )}
+                      {result.issues.formSecurity.hasLoginForm && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">Login</span>
+                      )}
+                      {result.issues.formSecurity.hasPaymentForm && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">Payment</span>
+                      )}
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showFormSecurity ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showFormSecurity && (
+                    <div className="bg-white border border-slate-200 rounded-lg p-4">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="p-3 rounded-lg bg-slate-50 text-center">
+                          <p className="text-2xl font-bold text-slate-700">{result.issues.formSecurity.totalForms}</p>
+                          <p className="text-xs text-slate-500">Forms</p>
+                        </div>
+                        <div className={`p-3 rounded-lg text-center ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'bg-green-50' : 'bg-orange-50'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'text-green-600' : 'text-orange-600'}`}>
+                            {result.issues.formSecurity.secureCount}/{result.issues.formSecurity.totalForms}
+                          </p>
+                          <p className="text-xs text-slate-500">Secure</p>
+                        </div>
+                      </div>
+
+                      {result.issues.formSecurity.issues.length > 0 ? (
+                        <div className="space-y-2 max-h-48 overflow-y-auto">
+                          {result.issues.formSecurity.issues.slice(0, isPro ? 8 : 2).map((issue, i) => (
+                            <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-red-50 border-red-200' :
+                                issue.severity === 'high' ? 'bg-orange-50 border-orange-200' :
+                                  'bg-yellow-50 border-yellow-200'
+                              }`}>
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type.replace(/-/g, ' ')}</span>
+                                <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-red-200 text-red-800' : 'bg-orange-200 text-orange-800'
+                                  }`}>{issue.severity}</span>
+                              </div>
+                              <p className="text-sm text-slate-700">{issue.description}</p>
+                              {issue.field && <p className="text-xs text-slate-500">Field: {issue.field}</p>}
+                              {isPro && (
+                                <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
+                          <span className="text-2xl">✅</span>
+                          <p className="font-semibold text-green-800">All forms follow security best practices</p>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Forms with passwords or payments require HTTPS and CSRF protection.
                       </p>
                     </div>
                   )}
