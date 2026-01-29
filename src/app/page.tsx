@@ -1870,9 +1870,12 @@ export default function Home() {
               <img src="/logo.png" alt="PrivacyChecker" className="w-10 h-10 scale-150" />
               <span className="text-xl font-bold text-gray-900">PrivacyChecker</span>
             </div>
-            <div className="flex gap-6 text-gray-600">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-gray-600 text-sm">
               <Link href="/privacy" className="hover:text-gray-900 transition">Privacy Policy</Link>
               <Link href="/terms" className="hover:text-gray-900 transition">Terms of Service</Link>
+              <Link href="/legal/dpa" className="hover:text-gray-900 transition">DPA</Link>
+              <Link href="/legal/cookies" className="hover:text-gray-900 transition">Cookie Policy</Link>
+              <Link href="/legal" className="hover:text-gray-900 transition">Legal</Link>
               <a href="mailto:support@privacychecker.pro" className="hover:text-gray-900 transition">Contact</a>
             </div>
             <p className="text-gray-500 text-sm">© 2026 PrivacyChecker. All rights reserved.</p>
