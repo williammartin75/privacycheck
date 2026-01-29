@@ -3,24 +3,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage, SUPPORTED_LANGUAGES, SupportedLanguage } from '@/contexts/LanguageContext';
 
-// Flag emojis and language names
-const LANGUAGE_DATA: Record<SupportedLanguage, { flag: string; name: string }> = {
-    en: { flag: '🇬🇧', name: 'English' },
-    fr: { flag: '🇫🇷', name: 'Français' },
-    de: { flag: '🇩🇪', name: 'Deutsch' },
-    es: { flag: '🇪🇸', name: 'Español' },
-    it: { flag: '🇮🇹', name: 'Italiano' },
-    pt: { flag: '🇵🇹', name: 'Português' },
-    nl: { flag: '🇳🇱', name: 'Nederlands' },
-    pl: { flag: '🇵🇱', name: 'Polski' },
-    ro: { flag: '🇷🇴', name: 'Română' },
-    cs: { flag: '🇨🇿', name: 'Čeština' },
-    hu: { flag: '🇭🇺', name: 'Magyar' },
-    el: { flag: '🇬🇷', name: 'Ελληνικά' },
-    sv: { flag: '🇸🇪', name: 'Svenska' },
-    da: { flag: '🇩🇰', name: 'Dansk' },
-    fi: { flag: '🇫🇮', name: 'Suomi' },
-    no: { flag: '🇳🇴', name: 'Norsk' },
+// Language names only (flag emojis don't display on Windows)
+const LANGUAGE_DATA: Record<SupportedLanguage, { abbr: string; name: string }> = {
+    en: { abbr: 'EN', name: 'English' },
+    fr: { abbr: 'FR', name: 'Français' },
+    de: { abbr: 'DE', name: 'Deutsch' },
+    es: { abbr: 'ES', name: 'Español' },
+    it: { abbr: 'IT', name: 'Italiano' },
+    pt: { abbr: 'PT', name: 'Português' },
+    nl: { abbr: 'NL', name: 'Nederlands' },
+    pl: { abbr: 'PL', name: 'Polski' },
+    ro: { abbr: 'RO', name: 'Română' },
+    cs: { abbr: 'CZ', name: 'Čeština' },
+    hu: { abbr: 'HU', name: 'Magyar' },
+    el: { abbr: 'GR', name: 'Ελληνικά' },
+    sv: { abbr: 'SE', name: 'Svenska' },
+    da: { abbr: 'DK', name: 'Dansk' },
+    fi: { abbr: 'FI', name: 'Suomi' },
+    no: { abbr: 'NO', name: 'Norsk' },
 };
 
 export function LanguageSelector() {
@@ -50,7 +50,7 @@ export function LanguageSelector() {
                 className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
                 aria-label="Select language"
             >
-                <span className="text-lg">{currentLang.flag}</span>
+                <span className="text-sm font-semibold">{currentLang.abbr}</span>
                 <svg
                     className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
                     fill="none"
@@ -80,7 +80,6 @@ export function LanguageSelector() {
                                     : 'hover:bg-gray-50 text-gray-700'
                                     }`}
                             >
-                                <span className="text-xl">{langData.flag}</span>
                                 <span className="flex-1 font-medium">{langData.name}</span>
                                 {isActive && (
                                     <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
