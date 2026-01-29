@@ -87,6 +87,28 @@ interface AuditResult {
       concerns: string[];
       gdprCompliant: boolean;
     }[];
+    // Consent Behavior Analysis
+    consentBehavior?: {
+      detected: boolean;
+      hasRejectButton: boolean;
+      hasAcceptButton: boolean;
+      rejectButtonLabels: string[];
+      acceptButtonLabels: string[];
+      darkPatterns: {
+        type: string;
+        description: string;
+        severity: 'low' | 'medium' | 'high';
+      }[];
+      preConsentCookies: {
+        name: string;
+        category: string;
+        droppedBeforeConsent: boolean;
+        violation: boolean;
+      }[];
+      consentProvider: string | null;
+      score: number;
+      issues: string[];
+    };
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -149,6 +171,7 @@ export default function Home() {
   const [showRiskAssessment, setShowRiskAssessment] = useState(false);
   const [showEmailExposure, setShowEmailExposure] = useState(false);
   const [showTrackers, setShowTrackers] = useState(false);
+  const [showConsentBehavior, setShowConsentBehavior] = useState(false);
 
   // Cookie consent banner state
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -1015,6 +1038,133 @@ export default function Home() {
 
                       <p className="text-xs text-gray-400 mt-3">
                         * Checks for exposed config files, cloud storage, API endpoints, and security misconfigurations.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Consent Behavior Test */}
+              {result.issues.consentBehavior && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowConsentBehavior(!showConsentBehavior)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      Consent Behavior Test
+                      <span className={`text-xs px-2 py-0.5 rounded ${result.issues.consentBehavior.score >= 80 ? 'bg-green-100 text-green-700' :
+                        result.issues.consentBehavior.score >= 50 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
+                        {result.issues.consentBehavior.score >= 80 ? 'PASSED' : result.issues.consentBehavior.score >= 50 ? 'WARNING' : 'FAILED'}
+                      </span>
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showConsentBehavior ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showConsentBehavior && (
+                    <div className="rounded-lg p-5 border border-slate-200 bg-white">
+                      {/* Header */}
+                      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${result.issues.consentBehavior.score >= 80 ? 'bg-green-100' : 'bg-red-100'}`}>
+                            <svg className={`w-5 h-5 ${result.issues.consentBehavior.score >= 80 ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.score >= 80 ? 'M5 13l4 4L19 7' : 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'} />
+                            </svg>
+                          </div>
+                          <div>
+                            <p className="font-semibold text-slate-800">Consent Implementation Quality</p>
+                            <p className="text-sm text-slate-500">
+                              {result.issues.consentBehavior.consentProvider ? `Using ${result.issues.consentBehavior.consentProvider}` : 'Consent banner detected'}
+                            </p>
+                          </div>
+                        </div>
+                        <span className={`text-2xl font-bold ${result.issues.consentBehavior.score >= 80 ? 'text-green-600' :
+                          result.issues.consentBehavior.score >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
+                          {result.issues.consentBehavior.score}/100
+                        </span>
+                      </div>
+
+                      {/* Quick checks */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.detected ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.detected ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
+                          </svg>
+                          <span className="text-xs font-medium">Banner Present</span>
+                        </div>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.hasRejectButton ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.hasRejectButton ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
+                          </svg>
+                          <span className="text-xs font-medium">Reject Button</span>
+                        </div>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.darkPatterns.length === 0 ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.darkPatterns.length === 0 ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
+                          </svg>
+                          <span className="text-xs font-medium">No Dark Patterns</span>
+                        </div>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
+                          </svg>
+                          <span className="text-xs font-medium">Consent-Gated</span>
+                        </div>
+                      </div>
+
+                      {/* Issues found */}
+                      {result.issues.consentBehavior.issues.length > 0 && (
+                        <div className="mb-4">
+                          <p className="text-sm font-semibold text-slate-700 mb-2">Issues Detected:</p>
+                          <div className="space-y-2">
+                            {result.issues.consentBehavior.issues.slice(0, 5).map((issue, i) => (
+                              <div key={i} className="flex items-center gap-2 bg-red-50 px-3 py-2 rounded-lg">
+                                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                                <span className="text-sm text-red-700">{issue}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Dark patterns detail */}
+                      {result.issues.consentBehavior.darkPatterns.length > 0 && (
+                        <div className="mb-4">
+                          <p className="text-sm font-semibold text-slate-700 mb-2">Dark Patterns Found:</p>
+                          <div className="space-y-2">
+                            {result.issues.consentBehavior.darkPatterns.map((pattern, i) => (
+                              <div key={i} className="flex items-center justify-between bg-orange-50 px-3 py-2 rounded-lg border border-orange-200">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-orange-500">⚠️</span>
+                                  <span className="text-sm text-orange-800">{pattern.description}</span>
+                                </div>
+                                <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'high' ? 'bg-red-100 text-red-700' :
+                                  pattern.severity === 'medium' ? 'bg-orange-100 text-orange-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                  {pattern.severity.toUpperCase()}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Pre-consent cookies */}
+                      {result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length > 0 && (
+                        <div className="mb-4">
+                          <p className="text-sm font-semibold text-slate-700 mb-2">Cookies Loaded Before Consent:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).map((cookie, i) => (
+                              <span key={i} className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">
+                                {cookie.name} ({cookie.category})
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Checks consent banner implementation, presence of dark patterns, and whether tracking scripts await user consent.
                       </p>
                     </div>
                   )}

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getVendorRisk, getRiskLabel, VendorRisk } from '@/lib/vendor-risk';
 import { calculateRiskPrediction, RiskPrediction } from '@/lib/risk-predictor';
 import { scanAttackSurface, AttackSurfaceResult } from '@/lib/attack-surface';
+import { analyzeConsentBanner, ConsentBannerAnalysis } from '@/lib/consent-analysis';
 
 interface Cookie {
     name: string;
@@ -87,6 +88,8 @@ interface AuditResult {
             concerns: string[];
             gdprCompliant: boolean;
         }[];
+        // Consent Behavior Analysis
+        consentBehavior?: ConsentBannerAnalysis;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -803,7 +806,11 @@ export async function POST(request: NextRequest) {
         if (domain.endsWith('.ca')) regulations.push('PIPEDA');
         if (domain.endsWith('.de') || htmlLower.includes('datenschutz')) regulations.push('DSGVO');
 
+        // Consent Behavior Analysis
+        const consentBehavior = analyzeConsentBanner(combinedHtml, mainPage.cookies);
+
         // Calculate score with breakdown
+        // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
         const scoreBreakdown: { item: string; points: number; passed: boolean }[] = [];
 
@@ -812,15 +819,29 @@ export async function POST(request: NextRequest) {
             if (!condition) score -= points;
         };
 
-        deduct(isHttps, 'HTTPS Enabled', 12);
-        deduct(hasConsentBanner, 'Cookie Consent Banner', 15);
-        deduct(hasPrivacyPolicy, 'Privacy Policy', 12);
-        deduct(hasLegalMentions, 'Legal Mentions', 8);
-        deduct(hasDpoContact, 'DPO Contact', 8);
-        deduct(hasDataDeleteLink, 'Data Deletion Option', 8);
-        deduct(hasSecureForms || !combinedHtml.includes('<form'), 'Secure Forms', 5);
-        deduct(hasOptOutMechanism, 'Opt-out Mechanism', 8);
-        deduct(hasCookiePolicy, 'Cookie Policy', 6);
+        deduct(isHttps, 'HTTPS Enabled', 10);
+        deduct(hasConsentBanner, 'Cookie Consent Banner', 8);
+        deduct(hasPrivacyPolicy, 'Privacy Policy', 10);
+        deduct(hasLegalMentions, 'Legal Mentions', 6);
+        deduct(hasDpoContact, 'DPO Contact', 6);
+        deduct(hasDataDeleteLink, 'Data Deletion Option', 6);
+        deduct(hasSecureForms || !combinedHtml.includes('<form'), 'Secure Forms', 4);
+        deduct(hasOptOutMechanism, 'Opt-out Mechanism', 6);
+        deduct(hasCookiePolicy, 'Cookie Policy', 4);
+
+        // Consent Behavior Test (new) - 10 points max
+        const consentBehaviorPassed = consentBehavior.score >= 80;
+        const consentBehaviorPenalty = consentBehaviorPassed ? 0 : Math.min(Math.floor((100 - consentBehavior.score) / 10), 10);
+        if (consentBehaviorPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Consent Behavior (${consentBehavior.issues.length} issues)`,
+                points: -consentBehaviorPenalty,
+                passed: false
+            });
+            score -= consentBehaviorPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Consent Behavior', points: 0, passed: true });
+        }
 
         // Trackers penalty
         const trackerPenalty = Math.min(allTrackers.length * 2, 8);
@@ -966,6 +987,8 @@ export async function POST(request: NextRequest) {
                 dataBreaches,
                 // Vendor Risk Assessment
                 vendorRisks,
+                // Consent Behavior Analysis
+                consentBehavior,
             },
             regulations,
             scoreBreakdown,
