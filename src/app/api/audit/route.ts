@@ -4,6 +4,7 @@ import { calculateRiskPrediction, RiskPrediction } from '@/lib/risk-predictor';
 import { scanAttackSurface, AttackSurfaceResult } from '@/lib/attack-surface';
 import { analyzeConsentBanner, ConsentBannerAnalysis } from '@/lib/consent-analysis';
 import { analyzePrivacyPolicy, fetchAndAnalyzePolicy, PolicyAnalysisResult } from '@/lib/policy-analysis';
+import { detectDarkPatterns, DarkPatternsResult } from '@/lib/dark-patterns';
 
 interface Cookie {
     name: string;
@@ -93,6 +94,8 @@ interface AuditResult {
         consentBehavior?: ConsentBannerAnalysis;
         // Privacy Policy AI Analysis
         policyAnalysis?: PolicyAnalysisResult;
+        // Site-wide Dark Patterns Detection
+        darkPatterns?: DarkPatternsResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -816,6 +819,9 @@ export async function POST(request: NextRequest) {
         const policyBaseUrl = new URL(url);
         const policyAnalysis = analyzePrivacyPolicy(combinedHtml, null, policyBaseUrl);
 
+        // Site-wide Dark Patterns Detection
+        const darkPatterns = detectDarkPatterns(combinedHtml);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -862,6 +868,27 @@ export async function POST(request: NextRequest) {
             score -= policyAnalysisPenalty;
         } else {
             scoreBreakdown.push({ item: 'Privacy Policy Quality', points: 0, passed: true });
+        }
+
+        // Dark Patterns Detection (new) - up to 15 points penalty
+        const darkPatternsPenalty = darkPatterns.detected
+            ? Math.min(
+                darkPatterns.bySeverity.critical * 5 +
+                darkPatterns.bySeverity.high * 3 +
+                darkPatterns.bySeverity.medium * 2 +
+                darkPatterns.bySeverity.low,
+                15
+            )
+            : 0;
+        if (darkPatternsPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Dark Patterns (${darkPatterns.totalCount} detected)`,
+                points: -darkPatternsPenalty,
+                passed: false
+            });
+            score -= darkPatternsPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'No Dark Patterns', points: 0, passed: true });
         }
 
         // Trackers penalty
@@ -1012,6 +1039,8 @@ export async function POST(request: NextRequest) {
                 consentBehavior,
                 // Privacy Policy AI Analysis
                 policyAnalysis,
+                // Site-wide Dark Patterns
+                darkPatterns,
             },
             regulations,
             scoreBreakdown,

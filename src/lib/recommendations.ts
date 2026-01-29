@@ -2,7 +2,7 @@ export interface Recommendation {
     title: string;
     description: string;
     steps: string[];
-    priority: 'high' | 'medium' | 'low';
+    priority: 'critical' | 'high' | 'medium' | 'low';
 }
 
 export const recommendations: Record<string, Recommendation> = {
@@ -279,6 +279,72 @@ export const recommendations: Record<string, Recommendation> = {
             'Explain how users can obtain a copy of the transfer safeguards',
         ],
         priority: 'medium',
+    },
+    // Dark Patterns recommendations
+    darkPatternConfirmshaming: {
+        title: 'Remove Confirmshaming Language',
+        description: 'Your site uses guilt-tripping language to manipulate user decisions (e.g., "No thanks, I hate saving money").',
+        steps: [
+            'Identify all buttons and links that decline offers or opt-out',
+            'Replace manipulative language with neutral options (e.g., "No thanks" or "Skip")',
+            'Avoid negative self-statements (e.g., "I don\'t care about my privacy")',
+            'Remove sad emojis or guilt-inducing imagery from decline options',
+            'Ensure reject/decline options are written in respectful, neutral language',
+            'Test all user flows to ensure no confirmshaming remains',
+        ],
+        priority: 'high',
+    },
+    darkPatternPreSelection: {
+        title: 'Uncheck Pre-Selected Consent Boxes',
+        description: 'Pre-checked checkboxes for marketing or data sharing violate GDPR consent requirements.',
+        steps: [
+            'Audit all forms for pre-checked checkboxes related to marketing or data sharing',
+            'Remove the "checked" attribute from these inputs',
+            'Ensure newsletter and marketing opt-ins require explicit user action',
+            'Set all consent toggles to OFF by default',
+            'Keep only strictly necessary cookies enabled by default',
+            'Document the changes for compliance records',
+        ],
+        priority: 'critical',
+    },
+    darkPatternRoachMotel: {
+        title: 'Simplify Account Deletion',
+        description: 'Users find it easy to sign up but difficult to cancel or delete their accounts.',
+        steps: [
+            'Add a self-service account deletion option in account settings',
+            'Do not require users to call or email to cancel',
+            'Limit cancellation to 2-3 clicks maximum',
+            'Remove mandatory surveys before cancellation',
+            'Process deletion requests within 30 days (GDPR requirement)',
+            'Provide clear confirmation of deletion completion',
+        ],
+        priority: 'high',
+    },
+    darkPatternMisdirection: {
+        title: 'Balance Accept/Reject Button Design',
+        description: 'Your consent interface gives visual priority to the "Accept" option over "Reject".',
+        steps: [
+            'Make Accept and Reject buttons the same size',
+            'Use the same color intensity for both options (or neutral colors for both)',
+            'Place both buttons at the same level, not one hidden or smaller',
+            'Avoid using bright colors for Accept and gray/faded for Reject',
+            'Ensure equal visual weight in font size and styling',
+            'Test with users to ensure no bias in the interface',
+        ],
+        priority: 'medium',
+    },
+    darkPatternHiddenInfo: {
+        title: 'Make Privacy Information Visible',
+        description: 'Important privacy-related information is hidden or displayed with low contrast.',
+        steps: [
+            'Ensure all privacy notices meet WCAG contrast requirements (4.5:1 minimum)',
+            'Use font sizes of at least 12px for important privacy text',
+            'Do not hide unsubscribe or opt-out links with display:none',
+            'Avoid extremely small scroll containers for terms and conditions',
+            'Place privacy links prominently in page footer and relevant forms',
+            'Test readability across different devices and browsers',
+        ],
+        priority: 'high',
     },
 };
 

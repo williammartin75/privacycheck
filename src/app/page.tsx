@@ -130,6 +130,37 @@ interface AuditResult {
       recommendations: string[];
       gdprArticles: { article: string; status: 'compliant' | 'partial' | 'missing' }[];
     };
+    // Site-wide Dark Patterns Detection
+    darkPatterns?: {
+      detected: boolean;
+      totalCount: number;
+      score: number;
+      bySeverity: {
+        critical: number;
+        high: number;
+        medium: number;
+        low: number;
+      };
+      byCategory: Record<string, number>;
+      patterns: {
+        type: string;
+        category: string;
+        description: string;
+        severity: 'low' | 'medium' | 'high' | 'critical';
+        element?: string;
+        gdprRelevance: boolean;
+        recommendation: string;
+      }[];
+      gdprViolations: {
+        type: string;
+        category: string;
+        description: string;
+        severity: 'low' | 'medium' | 'high' | 'critical';
+        gdprRelevance: boolean;
+        recommendation: string;
+      }[];
+      recommendations: string[];
+    };
   };
   regulations: string[];
   scoreBreakdown?: { item: string; points: number; passed: boolean }[];
@@ -194,6 +225,7 @@ export default function Home() {
   const [showTrackers, setShowTrackers] = useState(false);
   const [showConsentBehavior, setShowConsentBehavior] = useState(false);
   const [showPolicyAnalysis, setShowPolicyAnalysis] = useState(false);
+  const [showDarkPatterns, setShowDarkPatterns] = useState(false);
 
   // Cookie consent banner state
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -1307,9 +1339,9 @@ export default function Home() {
                       <span className="text-xl">📜</span>
                       Privacy Policy AI Analysis
                       <span className={`text-xs px-2 py-0.5 rounded-full ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-green-100 text-green-700' :
-                          result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-100 text-yellow-700' :
-                            result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-100 text-gray-700' :
-                              'bg-red-100 text-red-700'
+                        result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-100 text-yellow-700' :
+                          result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-100 text-gray-700' :
+                            'bg-red-100 text-red-700'
                         }`}>
                         {result.issues.policyAnalysis.overallScore}%
                       </span>
@@ -1322,9 +1354,9 @@ export default function Home() {
                     <div className="bg-white rounded-lg border border-slate-200 p-4">
                       {/* Overall Status */}
                       <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${result.issues.policyAnalysis.overallStatus === 'compliant' ? 'bg-green-50' :
-                          result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-50' :
-                            result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-50' :
-                              'bg-red-50'
+                        result.issues.policyAnalysis.overallStatus === 'partial' ? 'bg-yellow-50' :
+                          result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-50' :
+                            'bg-red-50'
                         }`}>
                         <span className="text-2xl">
                           {result.issues.policyAnalysis.overallStatus === 'compliant' ? '✅' :
@@ -1353,8 +1385,8 @@ export default function Home() {
                             <span
                               key={i}
                               className={`text-xs px-3 py-1.5 rounded-full ${article.status === 'compliant' ? 'bg-green-100 text-green-700' :
-                                  article.status === 'partial' ? 'bg-yellow-100 text-yellow-700' :
-                                    'bg-red-100 text-red-700'
+                                article.status === 'partial' ? 'bg-yellow-100 text-yellow-700' :
+                                  'bg-red-100 text-red-700'
                                 }`}
                             >
                               {article.status === 'compliant' ? '✓' : article.status === 'partial' ? '~' : '✗'} {article.article}
@@ -1380,15 +1412,15 @@ export default function Home() {
                             <div
                               key={key}
                               className={`p-3 rounded-lg border ${section.status === 'compliant' ? 'bg-green-50 border-green-200' :
-                                  section.status === 'partial' ? 'bg-yellow-50 border-yellow-200' :
-                                    'bg-red-50 border-red-200'
+                                section.status === 'partial' ? 'bg-yellow-50 border-yellow-200' :
+                                  'bg-red-50 border-red-200'
                                 }`}
                             >
                               <div className="flex items-center justify-between mb-1">
                                 <span className="text-sm font-medium text-slate-700">{sectionNames[key] || key}</span>
                                 <span className={`text-xs px-2 py-0.5 rounded ${section.status === 'compliant' ? 'bg-green-200 text-green-800' :
-                                    section.status === 'partial' ? 'bg-yellow-200 text-yellow-800' :
-                                      'bg-red-200 text-red-800'
+                                  section.status === 'partial' ? 'bg-yellow-200 text-yellow-800' :
+                                    'bg-red-200 text-red-800'
                                   }`}>
                                   {section.score}%
                                 </span>
@@ -1467,6 +1499,180 @@ export default function Home() {
 
                       <p className="text-xs text-gray-400 mt-3">
                         * Analyzes privacy policy content for GDPR compliance including legal basis, user rights, data retention, and contact information.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Dark Patterns Detection */}
+              {result.issues.darkPatterns && (
+                <div className="mb-6">
+                  <button
+                    onClick={() => setShowDarkPatterns(!showDarkPatterns)}
+                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-xl">🎭</span>
+                      Dark Patterns Detection
+                      {result.issues.darkPatterns.detected ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                          {result.issues.darkPatterns.totalCount} found
+                        </span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                          Clean
+                        </span>
+                      )}
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showDarkPatterns ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showDarkPatterns && (
+                    <div className="bg-white rounded-lg border border-slate-200 p-4">
+                      {/* Overall Status */}
+                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${!result.issues.darkPatterns.detected ? 'bg-green-50' :
+                          result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-red-50' :
+                            result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-orange-50' :
+                              'bg-yellow-50'
+                        }`}>
+                        <span className="text-2xl">
+                          {!result.issues.darkPatterns.detected ? '🎉' :
+                            result.issues.darkPatterns.bySeverity.critical > 0 ? '🚨' :
+                              result.issues.darkPatterns.bySeverity.high > 0 ? '⚠️' : '💡'}
+                        </span>
+                        <div>
+                          <p className="font-semibold text-slate-800">
+                            {!result.issues.darkPatterns.detected ? 'No Dark Patterns Detected!' :
+                              result.issues.darkPatterns.bySeverity.critical > 0 ? 'Critical Dark Patterns Found' :
+                                result.issues.darkPatterns.bySeverity.high > 0 ? 'Dark Patterns Require Attention' :
+                                  'Minor Dark Patterns Detected'}
+                          </p>
+                          <p className="text-sm text-slate-600">
+                            Score: {result.issues.darkPatterns.score}/100
+                            {result.issues.darkPatterns.gdprViolations.length > 0 &&
+                              ` • ${result.issues.darkPatterns.gdprViolations.length} GDPR-relevant`}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Severity Breakdown */}
+                      <div className="grid grid-cols-4 gap-2 mb-4">
+                        <div className={`p-2 rounded text-center ${result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-red-100' : 'bg-gray-50'}`}>
+                          <p className={`text-lg font-bold ${result.issues.darkPatterns.bySeverity.critical > 0 ? 'text-red-700' : 'text-gray-400'}`}>
+                            {result.issues.darkPatterns.bySeverity.critical}
+                          </p>
+                          <p className="text-xs text-slate-600">Critical</p>
+                        </div>
+                        <div className={`p-2 rounded text-center ${result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-orange-100' : 'bg-gray-50'}`}>
+                          <p className={`text-lg font-bold ${result.issues.darkPatterns.bySeverity.high > 0 ? 'text-orange-700' : 'text-gray-400'}`}>
+                            {result.issues.darkPatterns.bySeverity.high}
+                          </p>
+                          <p className="text-xs text-slate-600">High</p>
+                        </div>
+                        <div className={`p-2 rounded text-center ${result.issues.darkPatterns.bySeverity.medium > 0 ? 'bg-yellow-100' : 'bg-gray-50'}`}>
+                          <p className={`text-lg font-bold ${result.issues.darkPatterns.bySeverity.medium > 0 ? 'text-yellow-700' : 'text-gray-400'}`}>
+                            {result.issues.darkPatterns.bySeverity.medium}
+                          </p>
+                          <p className="text-xs text-slate-600">Medium</p>
+                        </div>
+                        <div className={`p-2 rounded text-center ${result.issues.darkPatterns.bySeverity.low > 0 ? 'bg-blue-100' : 'bg-gray-50'}`}>
+                          <p className={`text-lg font-bold ${result.issues.darkPatterns.bySeverity.low > 0 ? 'text-blue-700' : 'text-gray-400'}`}>
+                            {result.issues.darkPatterns.bySeverity.low}
+                          </p>
+                          <p className="text-xs text-slate-600">Low</p>
+                        </div>
+                      </div>
+
+                      {/* Detected Patterns List */}
+                      {result.issues.darkPatterns.patterns.length > 0 && (
+                        <div className="mb-4">
+                          <p className="text-sm font-semibold text-slate-700 mb-2">Detected Patterns:</p>
+                          <div className="space-y-2 max-h-64 overflow-y-auto">
+                            {result.issues.darkPatterns.patterns.slice(0, isPro ? 20 : 3).map((pattern, i) => (
+                              <div
+                                key={i}
+                                className={`p-3 rounded-lg border ${pattern.severity === 'critical' ? 'bg-red-50 border-red-200' :
+                                    pattern.severity === 'high' ? 'bg-orange-50 border-orange-200' :
+                                      pattern.severity === 'medium' ? 'bg-yellow-50 border-yellow-200' :
+                                        'bg-blue-50 border-blue-200'
+                                  }`}
+                              >
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'critical' ? 'bg-red-200 text-red-800' :
+                                          pattern.severity === 'high' ? 'bg-orange-200 text-orange-800' :
+                                            pattern.severity === 'medium' ? 'bg-yellow-200 text-yellow-800' :
+                                              'bg-blue-200 text-blue-800'
+                                        }`}>
+                                        {pattern.severity.toUpperCase()}
+                                      </span>
+                                      <span className="text-xs text-slate-500 capitalize">{pattern.type.replace(/-/g, ' ')}</span>
+                                      {pattern.gdprRelevance && (
+                                        <span className="text-xs bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">GDPR</span>
+                                      )}
+                                    </div>
+                                    <p className="text-sm text-slate-700">{pattern.description}</p>
+                                    {isPro && pattern.element && (
+                                      <p className="text-xs text-slate-500 mt-1 font-mono bg-slate-100 px-2 py-1 rounded truncate">
+                                        {pattern.element.slice(0, 100)}...
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                            {!isPro && result.issues.darkPatterns.patterns.length > 3 && (
+                              <div className="text-center p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                <p className="text-slate-600 text-sm mb-2">
+                                  +{result.issues.darkPatterns.patterns.length - 3} more patterns (Pro)
+                                </p>
+                                <button
+                                  onClick={() => handleCheckout()}
+                                  className="px-3 py-1 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700 transition"
+                                >
+                                  Upgrade to Pro
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Recommendations */}
+                      {result.issues.darkPatterns.recommendations.length > 0 && (
+                        <div className="mb-4">
+                          <p className="text-sm font-semibold text-slate-700 mb-2">
+                            {isPro ? 'How to Fix:' : 'Recommendations (Pro):'}
+                          </p>
+                          {isPro ? (
+                            <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                              <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
+                                {result.issues.darkPatterns.recommendations.map((rec, i) => (
+                                  <li key={i}>{rec}</li>
+                                ))}
+                              </ol>
+                            </div>
+                          ) : (
+                            <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 text-center">
+                              <p className="text-slate-600 text-sm mb-3">
+                                Upgrade to Pro to see detailed recommendations for removing dark patterns
+                              </p>
+                              <button
+                                onClick={() => handleCheckout()}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+                              >
+                                Upgrade to Pro - €19/mo
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-400 mt-3">
+                        * Scans for manipulative UI patterns including confirmshaming, pre-checked boxes, hidden information, and more.
                       </p>
                     </div>
                   )}
