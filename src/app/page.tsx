@@ -789,11 +789,11 @@ export default function Home() {
                           <div className="flex items-center gap-2">
                             <div className="w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
                               <div
-                                className={`h-full ${result.riskPrediction.probability >= 70 ? 'bg-red-500' :
-                                  result.riskPrediction.probability >= 40 ? 'bg-yellow-500' :
-                                    'bg-green-500'
-                                  }`}
-                                style={{ width: `${result.riskPrediction.probability}%` }}
+                                className="h-full"
+                                style={{
+                                  width: `${result.riskPrediction.probability}%`,
+                                  backgroundColor: result.riskPrediction.probability >= 70 ? '#dc2626' : result.riskPrediction.probability >= 40 ? '#FFD700' : '#16a34a'
+                                }}
                               ></div>
                             </div>
                             <span style={{ color: result.riskPrediction.probability >= 70 ? '#dc2626' : result.riskPrediction.probability >= 40 ? '#FFD700' : '#16a34a' }} className="text-lg font-bold">{result.riskPrediction.probability}%</span>
