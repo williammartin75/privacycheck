@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
@@ -1596,10 +1596,10 @@ export default function Home() {
                           result.issues.policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-50' :
                             'bg-white'
                         }`}>
-                        <span className="text-2xl">
-                          {result.issues.policyAnalysis.overallStatus === 'compliant' ? '✅' :
-                            result.issues.policyAnalysis.overallStatus === 'partial' ? '⚠️' :
-                              result.issues.policyAnalysis.overallStatus === 'not-found' ? '❓' : '❌'}
+                        <span className="text-sm font-bold uppercase tracking-wider">
+                          {result.issues.policyAnalysis.overallStatus === 'compliant' ? <span className="text-blue-600">PASS</span> :
+                            result.issues.policyAnalysis.overallStatus === 'partial' ? <span className="text-amber-600">REVIEW</span> :
+                              result.issues.policyAnalysis.overallStatus === 'not-found' ? <span className="text-slate-500">N/A</span> : <span className="text-red-600">FAIL</span>}
                         </span>
                         <div>
                           <p className="font-semibold text-slate-800">
@@ -1774,10 +1774,10 @@ export default function Home() {
                           result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-white' :
                             'bg-white'
                         }`}>
-                        <span className="text-2xl">
-                          {!result.issues.darkPatterns.detected ? '🎉' :
-                            result.issues.darkPatterns.bySeverity.critical > 0 ? '🚨' :
-                              result.issues.darkPatterns.bySeverity.high > 0 ? '⚠️' : '💡'}
+                        <span className="text-sm font-bold uppercase tracking-wider">
+                          {!result.issues.darkPatterns.detected ? <span className="text-blue-600">OK</span> :
+                            result.issues.darkPatterns.bySeverity.critical > 0 ? <span className="text-red-600">CRITICAL</span> :
+                              result.issues.darkPatterns.bySeverity.high > 0 ? <span className="text-amber-600">ALERT</span> : <span className="text-slate-600">INFO</span>}
                         </span>
                         <div>
                           <p className="font-semibold text-slate-800">
@@ -1963,7 +1963,7 @@ export default function Home() {
 
                       {result.issues.optInForms.compliant ? (
                         <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-2xl">✅</span>
+                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
                           <div>
                             <p className="font-semibold text-blue-800">All Forms Are Compliant</p>
                             <p className="text-sm text-blue-600">
@@ -2180,7 +2180,7 @@ export default function Home() {
                         </>
                       ) : (
                         <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-2xl">✅</span>
+                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
                           <div>
                             <p className="font-semibold text-blue-800">No Fingerprinting Detected</p>
                             <p className="text-sm text-blue-600">
@@ -2384,7 +2384,7 @@ export default function Home() {
                         </div>
                       ) : (
                         <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-2xl">✅</span>
+                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
                           <p className="font-semibold text-blue-800">No risky storage detected</p>
                         </div>
                       )}
@@ -2455,7 +2455,7 @@ export default function Home() {
                         </>
                       ) : (
                         <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-2xl">✅</span>
+                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
                           <div>
                             <p className="font-semibold text-blue-800">All Secure</p>
                             <p className="text-sm text-blue-600">No HTTP resources on HTTPS page.</p>
@@ -2535,7 +2535,7 @@ export default function Home() {
                         </div>
                       ) : (
                         <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-2xl">✅</span>
+                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
                           <p className="font-semibold text-blue-800">All forms follow security best practices</p>
                         </div>
                       )}
@@ -3654,6 +3654,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
