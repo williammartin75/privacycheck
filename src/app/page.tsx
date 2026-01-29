@@ -1854,95 +1854,74 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trust Badges - Shield Crest Style */}
+        {/* Trust Badges */}
         <section className="py-12">
           <div className="container mx-auto px-6">
-            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
 
-              {/* GDPR Compliant Badge */}
+              {/* EU Data Badge - Circle with stars */}
               <div className="flex flex-col items-center group">
-                <div className="w-16 h-20 relative">
-                  {/* Shield shape */}
-                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <defs>
-                      <linearGradient id="gdprGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#2563eb" />
-                        <stop offset="100%" stopColor="#1d4ed8" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#gdprGrad)" stroke="#1e40af" strokeWidth="2" />
-                    <path d="M35 55 L45 65 L65 45" stroke="white" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                <div className="w-20 h-20 relative">
+                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    {/* EU Blue circle */}
+                    <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
+                    {/* Stars in circle */}
+                    {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => (
+                      <text
+                        key={i}
+                        x={50 + 35 * Math.cos((angle - 90) * Math.PI / 180)}
+                        y={50 + 35 * Math.sin((angle - 90) * Math.PI / 180)}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        fill="#FFCC00"
+                        fontSize="10"
+                      >★</text>
+                    ))}
+                    {/* EU DATA text in center */}
+                    <text x="50" y="46" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">EU</text>
+                    <text x="50" y="60" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">DATA</text>
                   </svg>
                 </div>
-                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">GDPR</span>
+                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Frankfurt</span>
               </div>
 
-              {/* EU Data Badge */}
+              {/* SSL 256-Bit Badge - Gray Square */}
               <div className="flex flex-col items-center group">
-                <div className="w-16 h-20 relative">
-                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <defs>
-                      <linearGradient id="euGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#059669" />
-                        <stop offset="100%" stopColor="#047857" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#euGrad)" stroke="#065f46" strokeWidth="2" />
-                    <text x="50" y="70" textAnchor="middle" fill="white" fontSize="36">🇪🇺</text>
+                <div className="w-20 h-20 relative">
+                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    <rect x="2" y="2" width="96" height="96" rx="8" fill="#4b5563" stroke="#374151" strokeWidth="2" />
+                    <text x="50" y="40" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SSL</text>
+                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="11">256-BIT</text>
+                    {/* Lock icon */}
+                    <rect x="40" y="68" width="20" height="14" rx="2" fill="white" />
+                    <path d="M44 68 L44 62 Q44 55 50 55 Q56 55 56 62 L56 68" stroke="white" strokeWidth="3" fill="none" />
                   </svg>
                 </div>
-                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">EU DATA</span>
+                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Encrypted</span>
               </div>
 
-              {/* SSL Badge */}
+              {/* SOC 2 Badge - Light Blue Square */}
               <div className="flex flex-col items-center group">
-                <div className="w-16 h-20 relative">
-                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <defs>
-                      <linearGradient id="sslGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#f59e0b" />
-                        <stop offset="100%" stopColor="#d97706" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#sslGrad)" stroke="#b45309" strokeWidth="2" />
-                    <rect x="35" y="50" width="30" height="25" rx="3" fill="white" />
-                    <path d="M40 50 L40 42 Q40 32 50 32 Q60 32 60 42 L60 50" stroke="white" strokeWidth="5" fill="none" />
+                <div className="w-20 h-20 relative">
+                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    <rect x="2" y="2" width="96" height="96" rx="8" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2" />
+                    <text x="50" y="45" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">SOC 2</text>
+                    <text x="50" y="62" textAnchor="middle" fill="white" fontSize="10">TYPE II</text>
+                    {/* Checkmark */}
+                    <circle cx="50" cy="78" r="10" fill="white" opacity="0.3" />
+                    <path d="M44 78 L48 82 L56 74" stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">SSL 256-BIT</span>
+                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Certified</span>
               </div>
 
-              {/* SOC 2 Badge */}
+              {/* 100K Scans Badge - Square */}
               <div className="flex flex-col items-center group">
-                <div className="w-16 h-20 relative">
-                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <defs>
-                      <linearGradient id="socGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#9333ea" />
-                        <stop offset="100%" stopColor="#7c3aed" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#socGrad)" stroke="#6b21a8" strokeWidth="2" />
-                    <circle cx="50" cy="55" r="20" stroke="white" strokeWidth="4" fill="none" />
-                    <path d="M40 55 L47 62 L62 47" stroke="white" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">SOC 2</span>
-              </div>
-
-              {/* 100K Badge */}
-              <div className="flex flex-col items-center group">
-                <div className="w-16 h-20 relative">
-                  <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <defs>
-                      <linearGradient id="scanGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#475569" />
-                        <stop offset="100%" stopColor="#334155" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M50 5 L95 20 L95 60 Q95 95 50 115 Q5 95 5 60 L5 20 Z" fill="url(#scanGrad)" stroke="#1e293b" strokeWidth="2" />
-                    <text x="50" y="60" textAnchor="middle" fill="white" fontSize="22" fontWeight="bold">100K</text>
-                    <text x="50" y="78" textAnchor="middle" fill="white" fontSize="10" opacity="0.8">SCANS</text>
+                <div className="w-20 h-20 relative">
+                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
+                    <rect x="2" y="2" width="96" height="96" rx="8" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
+                    <text x="50" y="45" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">100K</text>
+                    <text x="50" y="65" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">SCANS</text>
                   </svg>
                 </div>
                 <span className="mt-2 text-xs font-bold text-gray-700 uppercase tracking-wide">Verified</span>
