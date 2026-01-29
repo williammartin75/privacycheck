@@ -47,7 +47,7 @@ export function LanguageSelector() {
             {/* Current language button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium text-gray-700"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
                 aria-label="Select language"
             >
                 <span className="text-lg">{currentLang.flag}</span>
