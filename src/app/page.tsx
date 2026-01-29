@@ -791,13 +791,13 @@ export default function Home() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="Enter your website URL (e.g., https://example.com)"
-                className="flex-1 px-6 py-4 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
+                className="flex-1 px-6 py-4 rounded-md bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
                 required
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25"
+                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold rounded-md transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25"
               >
                 {loading ? (
                   <>
@@ -817,7 +817,7 @@ export default function Home() {
           {/* Progress Bar */}
           {loading && (
             <div className="max-w-2xl mx-auto mb-8">
-              <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <div className="bg-white border border-gray-200 rounded-md p-6 shadow-lg">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center animate-pulse">
@@ -858,6 +858,17 @@ export default function Home() {
           {/* Results */}
           {result && (
             <div className="max-w-4xl mx-auto bg-white border border-slate-200 rounded-lg p-8 shadow-sm text-left">
+              {/* Report Metadata */}
+              <div className="flex justify-between items-start mb-6 pb-4 border-b border-slate-100">
+                <div>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider">Privacy Audit Report</p>
+                  <p className="text-[10px] text-slate-400 mt-1">Ref: RPT-{new Date().toISOString().slice(0, 10).replace(/-/g, '')}-{result.domain.slice(0, 4).toUpperCase()}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] text-slate-400">Generated: {new Date().toLocaleDateString('en-GB')} at {new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">Audit Engine v2.1</p>
+                </div>
+              </div>
               {/* Header with Score Gauge */}
               <div className="flex flex-col md:flex-row items-center gap-8 mb-8 pb-8 border-b border-slate-100">
                 {/* Score Circle - Corporate Navy Style */}
@@ -2997,7 +3008,7 @@ export default function Home() {
                   Cookies Detected ({result.issues.cookies.count})
                 </button>
                 {showCookies && result.issues.cookies.list.length > 0 && (
-                  <div className="bg-white rounded-xl p-4 overflow-x-auto">
+                  <div className="bg-white rounded-md p-4 overflow-x-auto">
                     {/* Category Legend */}
                     <div className="flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-200">
                       <span className="text-xs text-gray-500 font-medium">Categories:</span>
@@ -3046,7 +3057,7 @@ export default function Home() {
                   Pages Scanned ({result.pagesScanned})
                 </button>
                 {showPages && (
-                  <div className="bg-white rounded-xl p-4 space-y-3">
+                  <div className="bg-white rounded-md p-4 space-y-3">
                     {result.pages.map((page, i) => (
                       <div key={i} className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-100">
                         <div className="truncate flex-1 mr-4">
@@ -3100,12 +3111,22 @@ export default function Home() {
               )}
 
               {/* CTA */}
-              <div className="mt-8 p-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl text-center">
-                <h4 className="text-xl font-bold text-white mb-2">Get the Full Audit Report</h4>
-                <p className="text-blue-100 mb-4">Detailed recommendations, PDF export, and continuous monitoring</p>
-                <button onClick={() => handleCheckout()} className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition">
-                  Get Pro Now
+              <div className="mt-8 p-6 bg-slate-800 border border-slate-700 rounded-md text-center">
+                <h4 className="text-lg font-semibold text-white mb-2 uppercase tracking-wider">Get the Full Audit Report</h4>
+                <p className="text-slate-300 text-sm mb-4">Detailed recommendations, PDF export, and continuous monitoring</p>
+                <button onClick={() => handleCheckout()} className="px-6 py-2.5 bg-white text-slate-800 font-semibold rounded-md hover:bg-slate-100 transition text-sm">
+                  Upgrade to Pro
                 </button>
+              </div>
+
+              {/* Disclaimer Footer */}
+              <div className="mt-6 pt-4 border-t border-slate-200 text-center">
+                <p className="text-[10px] text-slate-400 uppercase tracking-wider">
+                  This automated report does not constitute legal advice. For official compliance certification, consult a qualified DPO.
+                </p>
+                <p className="text-[10px] text-slate-400 mt-1">
+                  Report generated by PrivacyChecker Audit Engine v2.1 • © {new Date().getFullYear()} PrivacyChecker
+                </p>
               </div>
             </div>
           )}
@@ -3116,7 +3137,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">How it works</h2>
           <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">A complete privacy audit of your website in under 60 seconds</p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="p-8 bg-white rounded-2xl border border-gray-100">
+            <div className="p-8 bg-white rounded-lg border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">1</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Enter your website URL</h3>
               <p className="text-gray-600 text-sm mb-4">We crawl up to 1,000 pages and run a comprehensive analysis.</p>
@@ -3133,7 +3154,7 @@ export default function Home() {
                 <li>• DNS security (SPF, DKIM, DMARC)</li>
               </ul>
             </div>
-            <div className="p-8 bg-white rounded-2xl border border-gray-100">
+            <div className="p-8 bg-white rounded-lg border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">2</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Get your compliance score</h3>
               <p className="text-gray-600 text-sm mb-4">We check 20+ compliance criteria and calculate your privacy score from 0 to 100%.</p>
@@ -3150,7 +3171,7 @@ export default function Home() {
                 <li>• Attack surface vulnerabilities</li>
               </ul>
             </div>
-            <div className="p-8 bg-white rounded-2xl border border-gray-100">
+            <div className="p-8 bg-white rounded-lg border border-gray-100">
               <div className="text-4xl font-bold text-blue-600 mb-4">3</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Fix issues and stay compliant</h3>
               <p className="text-gray-600 text-sm mb-4">Pro users get everything to fix and maintain compliance over time.</p>
@@ -3175,7 +3196,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">Simple pricing</h2>
           <p className="text-gray-600 text-center mb-12">Free to scan. Upgrade to unlock recommendations.</p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="p-8 bg-white rounded-2xl border border-gray-100 flex flex-col">
+            <div className="p-8 bg-white rounded-lg border border-gray-100 flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Free</h3>
               <p className="text-4xl font-bold text-gray-900 mb-6">€0</p>
               <ul className="space-y-3 mb-8">
@@ -3222,12 +3243,12 @@ export default function Home() {
                   How to fix? Upgrade to Pro
                 </li>
               </ul>
-              <a href="/signup" className="block w-full py-3 border border-blue-600 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition font-semibold text-center mt-auto">
+              <a href="/signup" className="block w-full py-3 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition font-semibold text-center mt-auto">
                 Start Free Audit
               </a>
             </div>
 
-            <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-2xl border border-blue-400 relative shadow-xl flex flex-col">
+            <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-lg border border-blue-400 relative shadow-xl flex flex-col">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-blue-200 rounded-full text-sm font-medium text-blue-700 shadow-sm">
                 Most Popular
               </div>
@@ -3289,13 +3310,13 @@ export default function Home() {
                   <strong>Google Consent Mode v2</strong>
                 </li>
               </ul>
-              <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition text-center mt-auto">
+              <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-center mt-auto">
                 Get Pro Now
               </button>
             </div>
 
             {/* Pro+ */}
-            <div className="p-8 bg-gradient-to-b from-cyan-500 to-teal-600 rounded-2xl border border-cyan-400 relative shadow-xl flex flex-col">
+            <div className="p-8 bg-gradient-to-b from-cyan-500 to-teal-600 rounded-lg border border-cyan-400 relative shadow-xl flex flex-col">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-teal-200 rounded-full text-sm font-medium text-teal-700 shadow-sm">
                 Best Value
               </div>
@@ -3381,7 +3402,7 @@ export default function Home() {
                   Compliance Drift Detection
                 </li>
               </ul>
-              <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-xl hover:bg-teal-50 transition text-center mt-auto">
+              <button onClick={() => handleCheckout('pro_plus')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">
                 Get Pro+ Now
               </button>
             </div>
@@ -3392,31 +3413,31 @@ export default function Home() {
         <section id="faq" className="py-20">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-white p-6 rounded-xl border border-gray-200">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What does PrivacyChecker scan?</h3>
               <p className="text-gray-600">We check 14+ compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, and security headers. Plus: third-party vendor risk scores (80+ trackers), exposed files (.git, .env, backups), DNS security (SPF/DMARC), and AI-powered GDPR fine estimation.</p>
             </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Is the audit really free?</h3>
               <p className="text-gray-600">Yes! The full audit is 100% free. You'll see your privacy score and all issues detected. Pro unlocks step-by-step recommendations on how to fix each issue, plus PDF reports and email alerts.</p>
             </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">How long does a scan take?</h3>
               <p className="text-gray-600">Usually 30-60 seconds depending on your website size. We analyze your pages in real-time to give you accurate results.</p>
             </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What regulations do you check?</h3>
               <p className="text-gray-600">We check compliance against GDPR (Europe), CCPA (California), LGPD (Brazil), and 50+ other global privacy regulations. Your results show which laws apply to your site based on its content.</p>
             </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What&apos;s included in Pro and Pro+?</h3>
               <p className="text-gray-600">Pro includes step-by-step fix recommendations, PDF reports, email alerts, monthly auto-scans, Cookie Banner Widget (geo-targeting 8 privacy laws), and Google Consent Mode v2. Pro+ adds: weekly scans, AI Risk Predictor (€ fine estimation), Vendor Risk Scores, Attack Surface Scanner (.git, .env, S3 exposed), DNS Security checks (SPF/DKIM/DMARC), and Compliance Drift Detection.</p>
             </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What is the Cookie Banner Widget?</h3>
               <p className="text-gray-600">It&apos;s a customizable cookie consent banner you can embed on your site with one line of code. It handles consent for Analytics, Marketing, and Functional cookies, and integrates with Google Consent Mode v2 to ensure your Google Analytics and Ads respect user choices.</p>
             </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Can I cancel my subscription anytime?</h3>
               <p className="text-gray-600">Yes, you can cancel at any time from your Dashboard or by emailing support@privacychecker.pro. Your access continues until the end of your billing period. There are no cancellation fees.</p>
             </div>
@@ -3633,5 +3654,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 
