@@ -2118,7 +2118,7 @@ export default function Home() {
                 </div>
               )}
 
-              {/* Security Headers Extended */}
+              {/* Security & Infrastructure */}
               {result.issues.securityHeadersExtended && (
                 <div className="mb-4">
                   <button
@@ -2126,7 +2126,7 @@ export default function Home() {
                     className="section-btn"
                   >
                     <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Security Headers</span>
+                      <span className="section-btn-title">Security & Infrastructure</span>
                       <span className={result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'badge-passed' :
                         result.issues.securityHeadersExtended.grade === 'B' ? 'badge-info' :
                           result.issues.securityHeadersExtended.grade === 'C' ? 'badge-warning' :
@@ -2141,7 +2141,7 @@ export default function Home() {
                   </button>
                   {showSecurityHeadersExt && (
                     <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      {/* Summary */}
+                      {/* Grade Summary */}
                       <div className="flex items-center gap-4 mb-4">
                         <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-green-100 text-green-700' :
                           result.issues.securityHeadersExtended.grade === 'B' ? 'bg-blue-100 text-blue-700' :
@@ -2160,7 +2160,53 @@ export default function Home() {
                         </div>
                       </div>
 
-                      {/* Headers list */}
+                      {/* SSL/TLS & Email Security - Combined Grid */}
+                      <div className="grid md:grid-cols-2 gap-3 mb-4">
+                        {/* SSL/TLS */}
+                        {result.issues.ssl && (
+                          <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
+                            <h4 className="font-medium text-slate-700 text-sm mb-2">SSL/TLS</h4>
+                            <div className="space-y-1 text-sm">
+                              <div className="flex justify-between">
+                                <span className="text-slate-600">HTTPS</span>
+                                <span className={result.issues.ssl.valid ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                  {result.issues.ssl.valid ? '✓' : '✕'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-slate-600">HSTS</span>
+                                <span className={result.issues.ssl.hsts ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                  {result.issues.ssl.hsts ? '✓' : '✕'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Email Security */}
+                        {result.issues.emailSecurity && (
+                          <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
+                            <h4 className="font-medium text-slate-700 text-sm mb-2">Email Security</h4>
+                            <div className="space-y-1 text-sm">
+                              <div className="flex justify-between">
+                                <span className="text-slate-600">SPF Record</span>
+                                <span className={result.issues.emailSecurity.spf ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                  {result.issues.emailSecurity.spf ? '✓' : '✕'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-slate-600">DMARC</span>
+                                <span className={result.issues.emailSecurity.dmarc ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                                  {result.issues.emailSecurity.dmarc ? '✓' : '✕'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Security Headers list */}
+                      <h4 className="font-medium text-slate-700 text-sm mb-2">Security Headers</h4>
                       <div className="grid grid-cols-2 gap-2 mb-4">
                         {Object.entries(result.issues.securityHeadersExtended.headers).slice(0, isPro ? 10 : 6).map(([header, info]) => (
                           <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
@@ -2181,7 +2227,7 @@ export default function Home() {
                       {/* Pro recommendations */}
                       {isPro && result.issues.securityHeadersExtended.issues.length > 0 && (
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
-                          <p className="text-sm text-blue-800 font-medium mb-2">📋 Recommendations:</p>
+                          <p className="text-sm text-blue-800 font-medium mb-2">Recommendations:</p>
                           <div className="space-y-2">
                             {result.issues.securityHeadersExtended.issues.slice(0, 3).map((issue, i) => (
                               <div key={i} className="text-xs text-blue-700">
@@ -2194,7 +2240,7 @@ export default function Home() {
                       )}
 
                       <p className="text-xs text-gray-400 mt-3">
-                        * Security headers protect against XSS, clickjacking, and data leakage.
+                        * SSL/TLS ensures encrypted connections. Security headers protect against XSS, clickjacking, and data leakage.
                       </p>
                     </div>
                   )}
@@ -2457,119 +2503,7 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Security Checks */}
-              {(result.issues.ssl || result.issues.securityHeaders || result.issues.emailSecurity) && (
-                <div className="mb-6">
-                  <button
-                    onClick={() => setShowSecurityChecks(!showSecurityChecks)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
-                  >
-                    <span>Security Checks</span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showSecurityChecks ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showSecurityChecks && (
-                    <div className="grid md:grid-cols-3 gap-4">
-                      {/* SSL/TLS */}
-                      {result.issues.ssl && (
-                        <div className="bg-white rounded-lg p-4 border border-slate-200">
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-                              <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                              </svg>
-                            </div>
-                            <h4 className="font-semibold text-gray-900">SSL/TLS</h4>
-                          </div>
-                          <div className="space-y-2 text-sm">
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">HTTPS</span>
-                              <span className={result.issues.ssl.valid ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.ssl.valid ? '✓' : '✕'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">HSTS</span>
-                              <span className={result.issues.ssl.hsts ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.ssl.hsts ? '✓' : '✕'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
 
-                      {/* Email Security */}
-                      {result.issues.emailSecurity && (
-                        <div className="bg-white rounded-xl p-4 border border-gray-200">
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-                              <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                              </svg>
-                            </div>
-                            <h4 className="font-semibold text-gray-900">Email Security</h4>
-                          </div>
-                          <div className="space-y-2 text-sm">
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">SPF Record</span>
-                              <span className={result.issues.emailSecurity.spf ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.emailSecurity.spf ? '✓' : '✕'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">DMARC</span>
-                              <span className={result.issues.emailSecurity.dmarc ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.emailSecurity.dmarc ? '✓' : '✕'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Security Headers */}
-                      {result.issues.securityHeaders && (
-                        <div className="bg-white rounded-xl p-4 border border-gray-200">
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-                              <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                              </svg>
-                            </div>
-                            <h4 className="font-semibold text-gray-900">Security Headers</h4>
-                          </div>
-                          <div className="space-y-1 text-sm">
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">CSP</span>
-                              <span className={result.issues.securityHeaders.csp ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.securityHeaders.csp ? '✓' : '✕'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">X-Frame-Options</span>
-                              <span className={result.issues.securityHeaders.xFrameOptions ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.securityHeaders.xFrameOptions ? '✓' : '✕'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">X-Content-Type</span>
-                              <span className={result.issues.securityHeaders.xContentType ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.securityHeaders.xContentType ? '✓' : '✕'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">Referrer-Policy</span>
-                              <span className={result.issues.securityHeaders.referrerPolicy ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                                {result.issues.securityHeaders.referrerPolicy ? '✓' : '✕'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
 
               {/* Email Exposure Warning */}
               {result.issues.exposedEmails && result.issues.exposedEmails.length > 0 && (
@@ -2611,32 +2545,65 @@ export default function Home() {
                 </div>
               )}
 
-              {/* External Resources */}
-              {result.issues.externalResources &&
+              {/* Third-Party Scripts & Tracking */}
+              {((result.issues.externalResources &&
                 (result.issues.externalResources.scripts.length > 0 ||
                   result.issues.externalResources.fonts.length > 0 ||
-                  result.issues.externalResources.iframes.length > 0) && (
-                  <div className="mb-6">
+                  result.issues.externalResources.iframes.length > 0)) ||
+                (result.issues.socialTrackers && result.issues.socialTrackers.length > 0)) && (
+                  <div className="mb-4">
                     <button
                       onClick={() => setShowExternalResources(!showExternalResources)}
-                      className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
+                      className="section-btn"
                     >
-                      <span>External Resources</span>
-                      <svg className={`w-5 h-5 text-slate-500 transition-transform ${showExternalResources ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <span className="flex items-center gap-2">
+                        <span className="section-btn-title">Third-Party Scripts & Tracking</span>
+                        {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
+                          <span className="badge-warning">
+                            {result.issues.socialTrackers.length} tracker{result.issues.socialTrackers.length > 1 ? 's' : ''}
+                          </span>
+                        )}
+                      </span>
+                      <svg className={`w-5 h-5 text-slate-400 transition-transform ${showExternalResources ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
                     {showExternalResources && (
                       <div className="bg-white border border-slate-200 rounded-lg p-4">
                         <p className="text-slate-600 text-xs mb-4">
-                          Third-party resources may track visitors and impact performance.
+                          Third-party resources may track visitors and require explicit consent under GDPR.
                         </p>
 
-                        {/* Scripts */}
-                        {result.issues.externalResources.scripts.length > 0 && (
+                        {/* Social & Ad Trackers */}
+                        {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
                           <div className="mb-4">
                             <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 rounded text-xs">{result.issues.externalResources.scripts.length}</span>
+                              <span className="px-1.5 py-0.5 bg-slate-800 text-white rounded text-xs">{result.issues.socialTrackers.length}</span>
+                              Social & Ad Trackers
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {result.issues.socialTrackers.map((tracker, i) => (
+                                <span
+                                  key={i}
+                                  className={`px-2 py-1 rounded text-xs font-medium ${tracker.risk === 'high'
+                                    ? 'bg-red-100 text-red-700 border border-red-200'
+                                    : tracker.risk === 'medium'
+                                      ? 'bg-amber-100 text-amber-700 border border-amber-200'
+                                      : 'bg-slate-100 text-slate-700 border border-slate-200'
+                                    }`}
+                                >
+                                  {tracker.name}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* External Scripts */}
+                        {result.issues.externalResources && result.issues.externalResources.scripts.length > 0 && (
+                          <div className="mb-4">
+                            <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
+                              <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.scripts.length}</span>
                               External Scripts
                             </h4>
                             <div className="flex flex-wrap gap-2">
@@ -2649,11 +2616,11 @@ export default function Home() {
                           </div>
                         )}
 
-                        {/* Fonts */}
-                        {result.issues.externalResources.fonts.length > 0 && (
+                        {/* External Fonts */}
+                        {result.issues.externalResources && result.issues.externalResources.fonts.length > 0 && (
                           <div className="mb-4">
-                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                              <span className="px-2 py-1 bg-orange-200 rounded text-xs">{result.issues.externalResources.fonts.length}</span>
+                            <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
+                              <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.fonts.length}</span>
                               External Fonts
                             </h4>
                             <div className="flex flex-wrap gap-2">
@@ -2666,8 +2633,8 @@ export default function Home() {
                           </div>
                         )}
 
-                        {/* Iframes */}
-                        {result.issues.externalResources.iframes.length > 0 && (
+                        {/* Embedded Iframes */}
+                        {result.issues.externalResources && result.issues.externalResources.iframes.length > 0 && (
                           <div>
                             <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
                               <span className="px-1.5 py-0.5 bg-slate-200 rounded text-xs">{result.issues.externalResources.iframes.length}</span>
@@ -2682,47 +2649,14 @@ export default function Home() {
                             </div>
                           </div>
                         )}
+
+                        <p className="text-xs text-gray-400 mt-3">
+                          * All external resources may track visitors and impact page load performance.
+                        </p>
                       </div>
                     )}
                   </div>
                 )}
-
-              {/* Social Trackers */}
-              {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
-                <div className="mb-6">
-                  <button
-                    onClick={() => setShowSocialTrackers(!showSocialTrackers)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
-                  >
-                    <span>Social & Ad Trackers</span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showSocialTrackers ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showSocialTrackers && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      <p className="text-slate-600 text-xs mb-4">
-                        These trackers collect user data and may require explicit consent under GDPR.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {result.issues.socialTrackers.map((tracker, i) => (
-                          <span
-                            key={i}
-                            className={`px-2 py-1 rounded text-xs font-medium flex items-center gap-2 ${tracker.risk === 'high'
-                              ? 'bg-slate-800 text-white'
-                              : tracker.risk === 'medium'
-                                ? 'bg-white0 text-white'
-                                : 'bg-slate-200 text-slate-700'
-                              }`}
-                          >
-                            {tracker.name}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
 
               {/* Vendor Risk Assessment */}
               {result.issues.vendorRisks && result.issues.vendorRisks.length > 0 && (
