@@ -660,13 +660,13 @@ export default function Home() {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-blue-700';
-    if (score >= 50) return 'text-slate-600';
-    return 'text-slate-800';
+    if (score >= 80) return 'text-green-700';
+    if (score >= 50) return 'text-amber-600';
+    return 'text-red-700';
   };
 
   const getScoreLabel = (score: number) => {
-    if (score >= 80) return { label: 'Compliant', sublabel: 'Low Risk', bg: 'border border-blue-600', text: 'text-blue-600' };
+    if (score >= 80) return { label: 'Compliant', sublabel: 'Low Risk', bg: 'border border-green-600', text: 'text-green-600' };
     if (score >= 50) return { label: 'Improvements Required', sublabel: 'Medium Risk', bg: 'border border-amber-600', text: 'text-amber-600' };
     return { label: 'Non-Compliant', sublabel: 'High Risk', bg: 'border border-red-600', text: 'text-red-600' };
   };
@@ -879,7 +879,7 @@ export default function Home() {
                     <circle cx="64" cy="64" r="56" stroke="#e2e8f0" strokeWidth="8" fill="none" />
                     <circle
                       cx="64" cy="64" r="56"
-                      stroke={result.score >= 80 ? '#2563eb' : result.score >= 50 ? '#d97706' : '#dc2626'}
+                      stroke={result.score >= 80 ? '#16a34a' : result.score >= 50 ? '#d97706' : '#dc2626'}
                       strokeWidth="8"
                       fill="none"
                       strokeLinecap="round"
@@ -887,8 +887,8 @@ export default function Home() {
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span style={{ color: result.score >= 80 ? '#2563eb' : result.score >= 50 ? '#d97706' : '#dc2626' }} className="text-3xl font-bold">{result.score}</span>
-                    <span style={{ color: result.score >= 80 ? '#2563eb' : result.score >= 50 ? '#d97706' : '#dc2626' }} className="text-xl font-bold">%</span>
+                    <span style={{ color: result.score >= 80 ? '#16a34a' : result.score >= 50 ? '#d97706' : '#dc2626' }} className="text-3xl font-bold">{result.score}</span>
+                    <span style={{ color: result.score >= 80 ? '#16a34a' : result.score >= 50 ? '#d97706' : '#dc2626' }} className="text-xl font-bold">%</span>
                   </div>
                 </div>
 
