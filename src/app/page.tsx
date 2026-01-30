@@ -2212,12 +2212,11 @@ export default function Home() {
                     <div className="bg-white border border-slate-200 rounded-lg p-4">
                       {/* Grade Summary */}
                       <div className="flex items-center gap-4 mb-4">
-                        <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'bg-white text-blue-700' :
-                          result.issues.securityHeadersExtended.grade === 'B' ? 'bg-white text-blue-700' :
-                            result.issues.securityHeadersExtended.grade === 'C' ? 'bg-white text-yellow-700' :
-                              'bg-white text-red-700'
+                        <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${result.issues.securityHeadersExtended.score >= 80 ? 'bg-white text-slate-700' :
+                          result.issues.securityHeadersExtended.score >= 50 ? 'bg-white text-amber-700' :
+                            'bg-white text-red-700'
                           }`}>
-                          {result.issues.securityHeadersExtended.grade}
+                          {result.issues.securityHeadersExtended.score}/100
                         </div>
                         <div>
                           <p className="text-slate-700">
@@ -2238,14 +2237,14 @@ export default function Home() {
                             <div className="space-y-1 text-sm">
                               <div className="flex justify-between">
                                 <span className="text-slate-600">HTTPS</span>
-                                <span className={result.issues.ssl.valid ? 'text-blue-600 font-medium' : 'text-red-600 font-medium'}>
-                                  {result.issues.ssl.valid ? '✓' : '✕'}
+                                <span className={result.issues.ssl.valid ? 'text-slate-700 font-medium' : 'text-red-700 font-medium'}>
+                                  {result.issues.ssl.valid ? 'Yes' : 'No'}
                                 </span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-slate-600">HSTS</span>
-                                <span className={result.issues.ssl.hsts ? 'text-blue-600 font-medium' : 'text-red-600 font-medium'}>
-                                  {result.issues.ssl.hsts ? '✓' : '✕'}
+                                <span className={result.issues.ssl.hsts ? 'text-slate-700 font-medium' : 'text-red-700 font-medium'}>
+                                  {result.issues.ssl.hsts ? 'Yes' : 'No'}
                                 </span>
                               </div>
                             </div>
@@ -2259,14 +2258,14 @@ export default function Home() {
                             <div className="space-y-1 text-sm">
                               <div className="flex justify-between">
                                 <span className="text-slate-600">SPF Record</span>
-                                <span className={result.issues.emailSecurity.spf ? 'text-blue-600 font-medium' : 'text-red-600 font-medium'}>
-                                  {result.issues.emailSecurity.spf ? '✓' : '✕'}
+                                <span className={result.issues.emailSecurity.spf ? 'text-slate-700 font-medium' : 'text-red-700 font-medium'}>
+                                  {result.issues.emailSecurity.spf ? 'Yes' : 'No'}
                                 </span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-slate-600">DMARC</span>
-                                <span className={result.issues.emailSecurity.dmarc ? 'text-blue-600 font-medium' : 'text-red-600 font-medium'}>
-                                  {result.issues.emailSecurity.dmarc ? '✓' : '✕'}
+                                <span className={result.issues.emailSecurity.dmarc ? 'text-slate-700 font-medium' : 'text-red-700 font-medium'}>
+                                  {result.issues.emailSecurity.dmarc ? 'Yes' : 'No'}
                                 </span>
                               </div>
                             </div>
@@ -2278,14 +2277,14 @@ export default function Home() {
                       <h4 className="font-medium text-slate-700 text-sm mb-2">Security Headers</h4>
                       <div className="grid grid-cols-2 gap-2 mb-4">
                         {Object.entries(result.issues.securityHeadersExtended.headers).slice(0, isPro ? 10 : 6).map(([header, info]) => (
-                          <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-white border border-blue-200' : 'bg-white border border-red-200'}`}>
+                          <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-white border border-slate-200' : 'bg-white border border-red-200'}`}>
                             <div className="flex items-center gap-2">
                               {info.present ? (
-                                <span className="text-blue-600">✓</span>
+                                <span className="text-slate-700">Yes</span>
                               ) : (
-                                <span className="text-red-600">✗</span>
+                                <span className="text-red-700">X</span>
                               )}
-                              <span className={`font-medium ${info.present ? 'text-blue-800' : 'text-red-800'}`}>
+                              <span className={`font-medium ${info.present ? 'text-slate-800' : 'text-red-800'}`}>
                                 {header.replace('Cross-Origin-', 'CO-')}
                               </span>
                             </div>
@@ -2295,13 +2294,13 @@ export default function Home() {
 
                       {/* Pro recommendations */}
                       {isPro && result.issues.securityHeadersExtended.issues.length > 0 && (
-                        <div className="bg-white border border-blue-200 rounded-lg p-3 mt-4">
-                          <p className="text-sm text-blue-800 font-medium mb-2">Recommendations:</p>
+                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 mt-4">
+                          <p className="text-sm text-slate-800 font-medium mb-2">Recommendations:</p>
                           <div className="space-y-2">
                             {result.issues.securityHeadersExtended.issues.slice(0, 3).map((issue, i) => (
-                              <div key={i} className="text-xs text-blue-700">
+                              <div key={i} className="text-xs text-slate-700">
                                 <p><strong>{issue.header}:</strong> {issue.recommendation}</p>
-                                <p className="text-blue-500 mt-0.5">→ {issue.privacyImpact}</p>
+                                <p className="text-slate-500 mt-0.5">- {issue.privacyImpact}</p>
                               </div>
                             ))}
                           </div>
