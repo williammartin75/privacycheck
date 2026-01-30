@@ -35,6 +35,8 @@ import { SecurityInfra } from '@/components/report/SecurityInfra';
 import { StorageAudit } from '@/components/report/StorageAudit';
 import { MixedContent } from '@/components/report/MixedContent';
 import { FormSecurity } from '@/components/report/FormSecurity';
+import { ThirdPartyScripts } from '@/components/report/ThirdPartyScripts';
+import { VendorRisk } from '@/components/report/VendorRisk';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -801,207 +803,23 @@ export default function Home() {
               )}
 
               {/* Third-Party Scripts & Tracking */}
-              {((result.issues.externalResources &&
-                (result.issues.externalResources.scripts.length > 0 ||
-                  result.issues.externalResources.fonts.length > 0 ||
-                  result.issues.externalResources.iframes.length > 0)) ||
-                (result.issues.socialTrackers && result.issues.socialTrackers.length > 0)) && (
-                  <div className="mb-4">
-                    <button
-                      onClick={() => setShowExternalResources(!showExternalResources)}
-                      className="section-btn"
-                    >
-                      <span className="flex items-center gap-2">
-                        <span className="section-btn-title">Third-Party Scripts & Tracking</span>
-                        {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
-                          <span className="badge-warning">
-                            {result.issues.socialTrackers.length} tracker{result.issues.socialTrackers.length > 1 ? 's' : ''}
-                          </span>
-                        )}
-                      </span>
-                      <svg className={`w-5 h-5 text-slate-400 transition-transform ${showExternalResources ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    {showExternalResources && (
-                      <div className="bg-white border border-slate-200 rounded-lg p-4">
-                        <p className="text-slate-600 text-xs mb-4">
-                          Third-party resources may track visitors and require explicit consent under GDPR.
-                        </p>
-
-                        {/* Social & Ad Trackers */}
-                        {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
-                          <div className="mb-4">
-                            <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded text-xs">{result.issues.socialTrackers.length}</span>
-                              Social & Ad Trackers
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {result.issues.socialTrackers.map((tracker, i) => (
-                                <span
-                                  key={i}
-                                  className={`px-2 py-1 rounded text-xs font-medium ${tracker.risk === 'high'
-                                    ? 'bg-white text-red-700 border border-red-200'
-                                    : tracker.risk === 'medium'
-                                      ? 'bg-white text-amber-700 border border-amber-200'
-                                      : 'bg-white text-slate-700 border border-slate-200'
-                                    }`}
-                                >
-                                  <MaskedText text={tracker.name} show={isPro} /> ({tracker.risk})
-                                </span>
-                              ))}
-                            </div>
-                            {!isPro && (
-                              <UpgradeCTA feature="tracker details" hiddenCount={result.issues.socialTrackers.length} onUpgrade={() => handleCheckout()} />
-                            )}
-                          </div>
-                        )}
-
-                        {/* External Scripts */}
-                        {result.issues.externalResources && result.issues.externalResources.scripts.length > 0 && (
-                          <div className="mb-4">
-                            <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 bg-white rounded text-xs">{result.issues.externalResources.scripts.length}</span>
-                              External Scripts
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].slice(0, isPro ? undefined : 3).map((provider, i) => (
-                                <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                  <MaskedText text={provider} show={isPro} />
-                                </span>
-                              ))}
-                              {!isPro && [...new Set(result.issues.externalResources.scripts.map(s => s.provider))].length > 3 && (
-                                <span className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-slate-500 text-sm">
-                                  +{[...new Set(result.issues.externalResources.scripts.map(s => s.provider))].length - 3} more
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* External Fonts */}
-                        {result.issues.externalResources && result.issues.externalResources.fonts.length > 0 && (
-                          <div className="mb-4">
-                            <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 bg-white rounded text-xs">{result.issues.externalResources.fonts.length}</span>
-                              External Fonts
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {[...new Set(result.issues.externalResources.fonts.map(f => f.provider))].map((provider, i) => (
-                                <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                  {provider}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Embedded Iframes */}
-                        {result.issues.externalResources && result.issues.externalResources.iframes.length > 0 && (
-                          <div>
-                            <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 bg-white rounded text-xs">{result.issues.externalResources.iframes.length}</span>
-                              Embedded Iframes
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {[...new Set(result.issues.externalResources.iframes.map(f => f.provider))].map((provider, i) => (
-                                <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                  {provider}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        <p className="text-xs text-gray-400 mt-3">
-                          * All external resources may track visitors and impact page load performance.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
+              <ThirdPartyScripts
+                externalResources={result.issues.externalResources}
+                socialTrackers={result.issues.socialTrackers}
+                isOpen={showExternalResources}
+                onToggle={() => setShowExternalResources(!showExternalResources)}
+                isPro={isPro}
+                onUpgrade={() => handleCheckout()}
+              />
 
               {/* Vendor Risk Assessment */}
-              {result.issues.vendorRisks && result.issues.vendorRisks.length > 0 && (
-                <div className="mb-6">
-                  <button
-                    onClick={() => setShowVendorRisk(!showVendorRisk)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
-                  >
-                    <span>Vendor Risk Assessment</span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showVendorRisk ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showVendorRisk && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      <p className="text-slate-600 text-xs mb-4">
-                        Privacy risk evaluation of third-party vendors. Higher scores indicate greater concerns.
-                      </p>
-                      <div className="space-y-3">
-                        {result.issues.vendorRisks.map((vendor, i) => (
-                          <div key={i} className={`bg-white border rounded-lg p-4 ${vendor.riskScore >= 8 ? 'border-red-300' :
-                            vendor.riskScore >= 6 ? 'border-orange-300' :
-                              vendor.riskScore >= 4 ? 'border-yellow-300' :
-                                'border-blue-300'
-                            }`}>
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white ${vendor.riskScore >= 8 ? 'bg-white0' :
-                                  vendor.riskScore >= 6 ? 'bg-white0' :
-                                    vendor.riskScore >= 4 ? 'bg-white0' :
-                                      'bg-white0'
-                                  }`}>
-                                  {vendor.riskScore}
-                                </div>
-                                <div>
-                                  <h4 className="font-semibold text-gray-900"><MaskedText text={vendor.name} show={isPro} /></h4>
-                                  <p className="text-xs text-gray-500 capitalize">{vendor.category} • <MaskedText text={vendor.jurisdiction} show={isPro} /></p>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${vendor.riskLevel === 'critical' ? 'bg-white text-red-700' :
-                                  vendor.riskLevel === 'high' ? 'bg-white text-orange-700' :
-                                    vendor.riskLevel === 'medium' ? 'bg-white text-yellow-700' :
-                                      'bg-white text-blue-700'
-                                  }`}>
-                                  {vendor.riskLevel.toUpperCase()}
-                                </span>
-                                {vendor.gdprCompliant ? (
-                                  <span className="px-2 py-1 bg-white text-blue-700 rounded-full text-xs font-medium">GDPR ✓</span>
-                                ) : (
-                                  <span className="px-2 py-1 bg-white text-red-700 rounded-full text-xs font-medium">GDPR ✗</span>
-                                )}
-                              </div>
-                            </div>
-                            {vendor.concerns.length > 0 && (
-                              <div className="flex flex-wrap gap-1 mt-2">
-                                {vendor.concerns.map((concern, j) => (
-                                  <span key={j} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
-                                    {concern}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-                            <div className="mt-2 text-xs text-gray-400">
-                              Data transfer: <span className={`font-medium ${vendor.dataTransfer === 'EU' ? 'text-blue-600' : vendor.dataTransfer === 'CN' ? 'text-red-600' : 'text-orange-600'}`}>
-                                {vendor.dataTransfer === 'EU' ? 'EU (adequate)' : vendor.dataTransfer === 'US' ? 'USA' : vendor.dataTransfer === 'CN' ? 'China' : 'Other'}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-4 pt-3 border-t border-gray-200">
-                        <div className="flex gap-4 text-xs text-gray-500">
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white0"></span> 8-10: Critical</span>
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white0"></span> 6-7: High</span>
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white0"></span> 4-5: Medium</span>
-                          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-white0"></span> 1-3: Low</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+              {result.issues.vendorRisks && (
+                <VendorRisk
+                  vendorRisks={result.issues.vendorRisks}
+                  isOpen={showVendorRisk}
+                  onToggle={() => setShowVendorRisk(!showVendorRisk)}
+                  isPro={isPro}
+                />
               )}
 
               {/* Data Transfers Outside EU */}
