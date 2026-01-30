@@ -20,6 +20,7 @@ interface SecurityExposureProps {
     attackSurface: AttackSurfaceData;
     isOpen: boolean;
     onToggle: () => void;
+    isPro: boolean;
 }
 
 function getBadgeClass(risk: string): string {
@@ -49,7 +50,7 @@ function getSeverityColor(severity: string): string {
     }
 }
 
-export function SecurityExposure({ attackSurface, isOpen, onToggle }: SecurityExposureProps) {
+export function SecurityExposure({ attackSurface, isOpen, onToggle, isPro }: SecurityExposureProps) {
     if (attackSurface.totalFindings === 0) return null;
 
     return (
@@ -96,7 +97,7 @@ export function SecurityExposure({ attackSurface, isOpen, onToggle }: SecurityEx
                         {attackSurface.findings.slice(0, 6).map((finding, i) => (
                             <div key={i} className="bg-white rounded-lg px-4 py-3 border border-slate-200">
                                 <div className="flex items-start justify-between gap-2">
-                                    <div className="flex items-start gap-3">
+                                    <div className={`flex items-start gap-3 ${!isPro ? 'blur-sm select-none' : ''}`}>
                                         <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${getSeverityColor(finding.severity)}`}></span>
                                         <div>
                                             <p className="font-medium text-slate-800 text-sm">{finding.title}</p>
@@ -112,7 +113,7 @@ export function SecurityExposure({ attackSurface, isOpen, onToggle }: SecurityEx
                                         {finding.type.toUpperCase()}
                                     </span>
                                 </div>
-                                <p className="text-xs text-slate-600 mt-2 bg-white p-2 rounded">
+                                <p className={`text-xs text-slate-600 mt-2 bg-white p-2 rounded ${!isPro ? 'blur-sm select-none' : ''}`}>
                                     <strong>Recommendation:</strong> {finding.remediation}
                                 </p>
                             </div>

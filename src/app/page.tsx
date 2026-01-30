@@ -610,6 +610,7 @@ export default function Home() {
                   attackSurface={result.attackSurface}
                   isOpen={showSecurityExposure}
                   onToggle={() => setShowSecurityExposure(!showSecurityExposure)}
+                  isPro={isPro}
                 />
               )}
 
