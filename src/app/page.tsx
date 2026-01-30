@@ -3224,7 +3224,7 @@ export default function Home() {
                 <li>• Step-by-step fix recommendations</li>
                 <li>• PDF compliance report</li>
                 <li>• Cookie Banner Widget with geo-targeting</li>
-                <li>• Embeddable Trust Badge & WordPress Plugin</li>
+                <li>• WordPress Plugin</li>
               </ul>
               <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Monitoring</p>
               <ul className="text-gray-600 text-sm space-y-1">
@@ -3353,6 +3353,12 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   <strong>Google Consent Mode v2</strong>
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  WordPress Plugin
                 </li>
               </ul>
               <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-white transition text-center mt-auto">
