@@ -837,10 +837,10 @@ export default function Home() {
               />
 
               {/* CTA */}
-              <div className="mt-8 p-6 bg-slate-800 border border-slate-700 rounded-md text-center">
+              <div className="mt-8 p-6 bg-blue-600 border border-blue-500 rounded-md text-center">
                 <h4 className="text-lg font-semibold text-white mb-2 uppercase tracking-wider">Get the Full Audit Report</h4>
-                <p className="text-slate-300 text-sm mb-4">Detailed recommendations, PDF export, and continuous monitoring</p>
-                <button onClick={() => handleCheckout()} className="px-6 py-2.5 bg-white text-slate-800 font-semibold rounded-md hover:bg-white transition text-sm">
+                <p className="text-blue-100 text-sm mb-4">Detailed recommendations, PDF export, and continuous monitoring</p>
+                <button onClick={() => handleCheckout()} className="px-6 py-2.5 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-sm">
                   Upgrade to Pro
                 </button>
               </div>
