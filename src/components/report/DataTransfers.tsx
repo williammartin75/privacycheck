@@ -111,7 +111,7 @@ export function DataTransfers({
                         </>
                     ) : (
                         <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                            <span className="text-blue-600 font-bold text-lg">✓</span>
+                            <span className="text-sm font-bold text-blue-600 uppercase border border-blue-300 px-2 py-0.5 rounded">PASS</span>
                             <div>
                                 <p className="font-semibold text-blue-800">All Data Stays in EU</p>
                                 <p className="text-sm text-blue-600">

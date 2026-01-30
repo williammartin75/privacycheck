@@ -45,8 +45,8 @@ export function Tooltip({ children, content }: TooltipProps) {
                     {content}
                     <div
                         className={`absolute left-1/2 -translate-x-1/2 border-4 border-transparent ${position === 'top'
-                                ? 'top-full border-t-slate-800'
-                                : 'bottom-full border-b-slate-800'
+                            ? 'top-full border-t-slate-800'
+                            : 'bottom-full border-b-slate-800'
                             }`}
                     />
                 </div>
@@ -78,4 +78,7 @@ export const termDefinitions: Record<string, string> = {
     'Third-Party Trackers': 'External scripts that collect user data for advertising, analytics, or other purposes (Google Analytics, Facebook Pixel, etc.).',
     'Mixed Content': 'When an HTTPS page loads resources over insecure HTTP, weakening the security of the connection.',
     'Secure Forms': 'Forms that include proper consent checkboxes and submit data over HTTPS connections.',
+    'Consent Behavior': 'How your cookie banner handles user choices. Good: respects "reject all". Bad: pre-checks boxes, ignores refusal, or sets cookies before consent.',
+    'Security Headers': 'HTTP response headers that protect against common web attacks (XSS, clickjacking, MIME sniffing). Includes CSP, HSTS, X-Frame-Options, etc.',
+    'Undeclared Cookies': 'Cookies set by your site that are not listed in your cookie policy. GDPR requires disclosure of all cookies before they are set.',
 };
