@@ -76,6 +76,12 @@ function getSeverityBadge(severity: string): string {
     }
 }
 
+function getScoreColor(score: number): string {
+    if (score >= 80) return 'text-blue-600';
+    if (score >= 50) return 'text-yellow-600';
+    return 'text-red-600';
+}
+
 export function DarkPatterns({
     darkPatterns,
     isOpen,
@@ -114,26 +120,29 @@ export function DarkPatterns({
             {isOpen && (
                 <div className="bg-white rounded-lg border border-slate-200 p-4">
                     {/* Overall Status */}
-                    <div className="flex items-center gap-3 p-3 rounded-lg mb-4 bg-white">
-                        <span className="text-sm font-bold uppercase tracking-wider">
-                            {!darkPatterns.detected ? <span className="text-blue-600">OK</span> :
-                                hasCritical ? <span className="text-red-600">CRITICAL</span> :
-                                    hasHigh ? <span className="text-amber-600">ALERT</span> :
-                                        <span className="text-slate-600">INFO</span>}
-                        </span>
-                        <div>
-                            <p className="font-semibold text-slate-800">
-                                {!darkPatterns.detected ? 'No Dark Patterns Detected!' :
-                                    hasCritical ? 'Critical Dark Patterns Found' :
-                                        hasHigh ? 'Dark Patterns Require Attention' :
-                                            'Minor Dark Patterns Detected'}
-                            </p>
-                            <p className="text-sm text-slate-600">
-                                Score: {darkPatterns.score}/100
-                                {darkPatterns.gdprViolations.length > 0 &&
-                                    ` • ${darkPatterns.gdprViolations.length} GDPR-relevant`}
-                            </p>
+                    <div className="flex items-center justify-between gap-4 p-3 rounded-lg mb-4 bg-white">
+                        <div className="flex items-center gap-3">
+                            <span className="text-sm font-bold uppercase tracking-wider">
+                                {!darkPatterns.detected ? <span className="text-blue-600">OK</span> :
+                                    hasCritical ? <span className="text-red-600">CRITICAL</span> :
+                                        hasHigh ? <span className="text-amber-600">ALERT</span> :
+                                            <span className="text-slate-600">INFO</span>}
+                            </span>
+                            <div>
+                                <p className="font-semibold text-slate-800">
+                                    {!darkPatterns.detected ? 'No Dark Patterns Detected!' :
+                                        hasCritical ? 'Critical Dark Patterns Found' :
+                                            hasHigh ? 'Dark Patterns Require Attention' :
+                                                'Minor Dark Patterns Detected'}
+                                </p>
+                                <p className="text-sm text-slate-600">
+                                    {darkPatterns.totalCount} patterns detected
+                                </p>
+                            </div>
                         </div>
+                        <span className={`text-2xl font-bold ${getScoreColor(darkPatterns.score)}`}>
+                            {darkPatterns.score}/100
+                        </span>
                     </div>
 
                     {/* Severity Breakdown */}
@@ -156,42 +165,33 @@ export function DarkPatterns({
                         <div className="mb-4">
                             <p className="text-sm font-semibold text-slate-700 mb-2">Detected Patterns:</p>
                             <div className="space-y-2 max-h-96 overflow-y-auto">
-                                {sortedPatterns.slice(0, isPro ? 20 : 3).map((pattern, i) => (
-                                    <div key={i} className={`p-3 rounded-lg border ${getSeverityBorder(pattern.severity)}`}>
-                                        <div className="flex items-start justify-between gap-2">
-                                            <div className="flex-1">
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <span className={`text-xs px-2 py-0.5 rounded ${getSeverityBadge(pattern.severity)}`}>
-                                                        {pattern.severity.toUpperCase()}
-                                                    </span>
-                                                    <span className="text-xs text-slate-500 capitalize">{pattern.type.replace(/-/g, ' ')}</span>
-                                                    {pattern.gdprRelevance && (
-                                                        <span className="text-xs bg-white text-slate-700 px-1.5 py-0.5 rounded">GDPR</span>
+                                {sortedPatterns.slice(0, isPro ? 20 : undefined).map((pattern, i) => {
+                                    const isVisibleForFree = (pattern.severity === 'high' || pattern.severity === 'critical') && pattern.gdprRelevance;
+                                    const shouldBlur = !isPro && !isVisibleForFree;
+                                    return (
+                                        <div key={i} className={`p-3 rounded-lg border ${getSeverityBorder(pattern.severity)}`}>
+                                            <div className="flex items-start justify-between gap-2">
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <span className={`text-xs px-2 py-0.5 rounded ${getSeverityBadge(pattern.severity)}`}>
+                                                            {pattern.severity.toUpperCase()}
+                                                        </span>
+                                                        <span className={`text-xs text-slate-500 capitalize ${shouldBlur ? 'blur-sm select-none' : ''}`}>{pattern.type.replace(/-/g, ' ')}</span>
+                                                        {pattern.gdprRelevance && (
+                                                            <span className="text-xs bg-white text-slate-700 px-1.5 py-0.5 rounded">GDPR</span>
+                                                        )}
+                                                    </div>
+                                                    <p className={`text-sm text-slate-700 ${shouldBlur ? 'blur-sm select-none' : ''}`}>{pattern.description}</p>
+                                                    {isPro && pattern.element && (
+                                                        <p className="text-xs text-slate-500 mt-1 font-mono bg-white px-2 py-1 rounded truncate">
+                                                            {pattern.element.slice(0, 100)}...
+                                                        </p>
                                                     )}
                                                 </div>
-                                                <p className="text-sm text-slate-700">{pattern.description}</p>
-                                                {isPro && pattern.element && (
-                                                    <p className="text-xs text-slate-500 mt-1 font-mono bg-white px-2 py-1 rounded truncate">
-                                                        {pattern.element.slice(0, 100)}...
-                                                    </p>
-                                                )}
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                                {!isPro && darkPatterns.patterns.length > 3 && (
-                                    <div className="text-center p-3 bg-slate-50 rounded-lg border border-slate-200">
-                                        <p className="text-slate-600 text-sm mb-2">
-                                            +{darkPatterns.patterns.length - 3} more patterns (Pro)
-                                        </p>
-                                        <button
-                                            onClick={onUpgrade}
-                                            className="px-3 py-1 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700 transition"
-                                        >
-                                            Upgrade to Pro
-                                        </button>
-                                    </div>
-                                )}
+                                    );
+                                })}
                             </div>
                         </div>
                     )}
