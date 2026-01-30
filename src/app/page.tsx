@@ -59,6 +59,7 @@ export default function Home() {
   const [isScheduled, setIsScheduled] = useState(false);
   const [schedulingLoading, setSchedulingLoading] = useState(false);
   const [driftReport, setDriftReport] = useState<DriftReport | null>(null);
+  const [scanCountInfo, setScanCountInfo] = useState<{ count: number; limit: number; remaining: number; atLimit: boolean } | null>(null);
 
   // Collapsible sections state (all closed by default)
   const [showVendorRisk, setShowVendorRisk] = useState(false);
@@ -144,6 +145,10 @@ export default function Home() {
             console.log('[PrivacyChecker] Setting tier to:', tierData.tier);
             setTier(tierData.tier);
           }
+          // Fetch scan count after getting tier
+          const scanCountRes = await fetch('/api/scan-count');
+          const scanCountData = await scanCountRes.json();
+          setScanCountInfo(scanCountData);
         } catch (err) {
           console.error('Failed to fetch tier:', err);
         }
@@ -472,6 +477,9 @@ export default function Home() {
             onUrlChange={setUrl}
             onSubmit={handleAudit}
             loading={loading}
+            atLimit={!isPro && scanCountInfo?.atLimit}
+            scansRemaining={!isPro ? scanCountInfo?.remaining : undefined}
+            onUpgrade={() => handleCheckout()}
           />
 
           {/* Progress Bar */}
