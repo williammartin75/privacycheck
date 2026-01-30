@@ -1,8 +1,5 @@
 'use client';
 
-import { MaskedText } from '@/components/ProGate';
-import { UpgradeCTA } from '@/components/UpgradeCTA';
-
 interface SocialTracker {
     name: string;
     risk: 'high' | 'medium' | 'low';
@@ -86,12 +83,17 @@ export function ThirdPartyScripts({
                                                 : 'bg-white text-slate-700 border border-slate-200'
                                             }`}
                                     >
-                                        <MaskedText text={tracker.name} show={isPro} /> ({tracker.risk})
+                                        <span className={!isPro ? 'blur-sm select-none' : ''}>{tracker.name}</span> ({tracker.risk})
                                     </span>
                                 ))}
                             </div>
                             {!isPro && (
-                                <UpgradeCTA feature="tracker details" hiddenCount={socialTrackers.length} onUpgrade={onUpgrade} />
+                                <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
+                                    <p className="text-slate-600 text-sm mb-2">{socialTrackers.length} tracker details hidden</p>
+                                    <button onClick={onUpgrade} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+                                        Upgrade to Pro
+                                    </button>
+                                </div>
                             )}
                         </div>
                     )}
@@ -106,7 +108,7 @@ export function ThirdPartyScripts({
                             <div className="flex flex-wrap gap-2">
                                 {[...new Set(externalResources.scripts.map(s => s.provider))].slice(0, isPro ? undefined : 3).map((provider, i) => (
                                     <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                        <MaskedText text={provider} show={isPro} />
+                                        <span className={!isPro ? 'blur-sm select-none' : ''}>{provider}</span>
                                     </span>
                                 ))}
                                 {!isPro && [...new Set(externalResources.scripts.map(s => s.provider))].length > 3 && (
@@ -145,7 +147,7 @@ export function ThirdPartyScripts({
                             <div className="flex flex-wrap gap-2">
                                 {[...new Set(externalResources.iframes.map(f => f.provider))].map((provider, i) => (
                                     <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm">
-                                        {provider}
+                                        <span className={!isPro ? 'blur-sm select-none' : ''}>{provider}</span>
                                     </span>
                                 ))}
                             </div>
