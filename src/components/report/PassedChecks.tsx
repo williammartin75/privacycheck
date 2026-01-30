@@ -37,7 +37,7 @@ export function PassedChecks({ issues }: PassedChecksProps) {
     return (
         <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
             <h4 className="text-sm font-semibold text-slate-700 mb-3">Checks Passed</h4>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+            <div className="flex flex-wrap gap-2">
                 <CheckItem passed={!!issues.https} label="HTTPS Enabled" />
                 <CheckItem passed={!!issues.privacyPolicy} label="Privacy Policy" />
                 <CheckItem passed={!!issues.cookiePolicy} label="Cookie Policy" />
