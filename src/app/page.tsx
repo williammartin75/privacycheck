@@ -18,6 +18,10 @@ import { HowItWorksSection } from '@/components/landing/HowItWorksSection';
 import { RegulationsBadges } from '@/components/landing/RegulationsBadges';
 import { ScanForm } from '@/components/landing/ScanForm';
 import { ScanProgress } from '@/components/landing/ScanProgress';
+import { ReportHeader } from '@/components/report/ReportHeader';
+import { PassedChecks } from '@/components/report/PassedChecks';
+import { IssuesFound } from '@/components/report/IssuesFound';
+import { ScoreBreakdown } from '@/components/report/ScoreBreakdown';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -468,77 +472,15 @@ export default function Home() {
           {/* Results */}
           {result && (
             <div className="max-w-4xl mx-auto bg-white border border-slate-200 rounded-lg p-8 shadow-sm text-left">
-              {/* Report Metadata */}
-              <div className="flex justify-between items-start mb-6 pb-4 border-b border-slate-100">
-                <div>
-                  <p className="text-xs text-slate-400 uppercase tracking-wider">Privacy Audit Report</p>
-                  <p className="text-[10px] text-slate-400 mt-1">Ref: RPT-{new Date().toISOString().slice(0, 10).replace(/-/g, '')}-{result.domain.slice(0, 4).toUpperCase()}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-[10px] text-slate-400">Generated: {new Date().toLocaleDateString('en-GB')} at {new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Audit Engine v2.1</p>
-                </div>
-              </div>
-              {/* Header with Score Gauge */}
-              <div className="flex flex-col md:flex-row items-center gap-8 mb-8 pb-8 border-b border-slate-100">
-                {/* Score Circle - Corporate Navy Style */}
-                <div className="relative">
-                  <svg className="w-32 h-32 transform -rotate-90">
-                    <circle cx="64" cy="64" r="56" stroke="#e2e8f0" strokeWidth="8" fill="none" />
-                    <circle
-                      cx="64" cy="64" r="56"
-                      stroke={result.score >= 80 ? '#16a34a' : result.score >= 50 ? '#d97706' : '#dc2626'}
-                      strokeWidth="8"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeDasharray={`${result.score * 3.52} 352`}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span style={{ color: result.score >= 80 ? '#16a34a' : result.score >= 50 ? '#d97706' : '#dc2626' }} className="text-3xl font-bold">{result.score}</span>
-                    <span style={{ color: result.score >= 80 ? '#16a34a' : result.score >= 50 ? '#d97706' : '#dc2626' }} className="text-xl font-bold">%</span>
-                  </div>
-                </div>
-
-                {/* Site Info */}
-                <div className="flex-1 text-center md:text-left">
-                  <p className="text-slate-800 text-2xl font-semibold mb-3">{result.domain}</p>
-                  <div className={`inline-block px-3 py-1.5 rounded text-xs font-semibold ${getScoreLabel(result.score).bg} ${getScoreLabel(result.score).text}`}>
-                    {getScoreLabel(result.score).label} • {getScoreLabel(result.score).sublabel}
-                  </div>
-                  <div className="flex gap-2 mt-3 flex-wrap justify-center md:justify-start">
-                    {result.regulations?.map((reg, i) => (
-                      <span key={i} className="px-2 py-0.5 bg-white text-slate-600 text-xs rounded font-medium border border-slate-300">
-                        {reg}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Executive Summary */}
-                <div className="flex-shrink-0">
-                  <p className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Summary</p>
-                  <div className="grid grid-cols-1 gap-2 min-w-[220px]">
-                    {/* Issues Found - Red indicator */}
-                    <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
-                      <span className="text-xs text-red-600">Issues Found</span>
-                      <span className="font-bold text-red-600">{result.scoreBreakdown?.filter(b => b.points < 0).length || 0}</span>
-                    </div>
-                    {/* Checks Passed - Slate indicator */}
-                    <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
-                      <div className="flex items-center gap-2">
-
-                        <span className="text-xs text-slate-700">Checks Passed</span>
-                      </div>
-                      <span className="font-bold text-slate-800">{result.scoreBreakdown?.filter(b => b.points >= 0).length || 0}</span>
-                    </div>
-                    <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
-                      <span className="text-xs text-slate-700">Pages Scanned</span>
-                      <span className="font-bold text-slate-800">{result.pagesScanned}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* Report Header */}
+              <ReportHeader
+                domain={result.domain}
+                score={result.score}
+                regulations={result.regulations || []}
+                pagesScanned={result.pagesScanned}
+                issuesCount={result.scoreBreakdown?.filter(b => b.points < 0).length || 0}
+                passedCount={result.scoreBreakdown?.filter(b => b.points >= 0).length || 0}
+              />
 
               {/* PDF Button */}
               <div className="flex justify-center gap-3 mb-8">
@@ -608,62 +550,17 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Passed Checks List - Always visible */}
-              {result && (
-                <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
-                  <h4 className="text-sm font-semibold text-slate-700 mb-3">Checks Passed</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {result.issues.https && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>HTTPS Enabled</span>}
-                    {result.issues.privacyPolicy && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Privacy Policy</span>}
-                    {result.issues.cookiePolicy && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Policy</span>}
-                    {result.issues.consentBanner && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Consent</span>}
-                    {result.issues.legalMentions && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Legal Mentions</span>}
-                    {result.issues.dpoContact && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DPO Contact</span>}
-                    {result.issues.dataDeleteLink && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Data Deletion</span>}
-                    {result.issues.optOutMechanism && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Opt-out Option</span>}
-                    {result.issues.secureforms && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Secure Forms</span>}
-                    {result.issues.ssl?.valid && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SSL Certificate</span>}
-                    {result.issues.emailSecurity?.spf && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SPF Record</span>}
-                    {result.issues.emailSecurity?.dmarc && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DMARC Record</span>}
-                  </div>
-                </div>
-              )}
+              {/* Passed Checks List */}
+              <PassedChecks issues={result.issues} />
 
-              {/* Key Issues Summary - Based on Score Breakdown */}
-              {result.scoreBreakdown && result.scoreBreakdown.filter(b => b.points < 0).length > 0 && (
-                <div className="mb-6 p-4 rounded-lg border border-slate-300">
-                  <h4 className="text-sm font-semibold text-red-600 mb-3">Issues Found</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {result.scoreBreakdown.filter(b => b.points < 0).map((item, i) => (
-                      <span key={i} className="px-2 py-1 text-xs text-red-600">✕ {item.item}</span>
-                    ))}
-                  </div>
-                </div>
+              {/* Issues Found */}
+              {result.scoreBreakdown && (
+                <IssuesFound issues={result.scoreBreakdown} />
               )}
 
               {/* Score Breakdown */}
               {result.scoreBreakdown && result.scoreBreakdown.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-3">Score Breakdown</h3>
-                  <div className="bg-white rounded-lg p-4 border border-slate-200">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      {result.scoreBreakdown.filter(b => b.points !== 0 || !b.passed).map((item, i) => (
-                        <div key={i} className={`flex items-center justify-between px-3 py-2 rounded border ${item.passed ? 'bg-white border-slate-200' : 'bg-white border-slate-300'}`}>
-                          <span className={`text-sm ${item.passed ? 'text-slate-700' : 'text-slate-600'}`}>
-                            {item.item}
-                          </span>
-                          <span className={`text-sm font-semibold ${item.passed ? 'text-slate-700' : 'text-slate-500'}`}>
-                            {item.points > 0 ? '+' : ''}{item.points}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-3 pt-3 border-t border-slate-200 flex justify-between items-center">
-                      <span className="text-slate-600 font-medium text-sm">Final Score</span>
-                      <span className="text-xl font-bold text-slate-800">{result.score}/100</span>
-                    </div>
-                  </div>
-                </div>
+                <ScoreBreakdown breakdown={result.scoreBreakdown} finalScore={result.score} />
               )}
 
               {/* Risk Assessment */}
