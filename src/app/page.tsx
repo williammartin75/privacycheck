@@ -879,7 +879,7 @@ export default function Home() {
                     <circle cx="64" cy="64" r="56" stroke="#e2e8f0" strokeWidth="8" fill="none" />
                     <circle
                       cx="64" cy="64" r="56"
-                      stroke={result.score >= 70 ? '#2563eb' : result.score >= 40 ? '#d97706' : '#dc2626'}
+                      stroke={result.score >= 80 ? '#2563eb' : result.score >= 50 ? '#d97706' : '#dc2626'}
                       strokeWidth="8"
                       fill="none"
                       strokeLinecap="round"
@@ -887,8 +887,8 @@ export default function Home() {
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span style={{ color: result.score >= 70 ? '#2563eb' : result.score >= 40 ? '#d97706' : '#dc2626' }} className="text-3xl font-bold">{result.score}</span>
-                    <span style={{ color: result.score >= 70 ? '#2563eb' : result.score >= 40 ? '#d97706' : '#dc2626' }} className="text-xl font-bold">%</span>
+                    <span style={{ color: result.score >= 80 ? '#2563eb' : result.score >= 50 ? '#d97706' : '#dc2626' }} className="text-3xl font-bold">{result.score}</span>
+                    <span style={{ color: result.score >= 80 ? '#2563eb' : result.score >= 50 ? '#d97706' : '#dc2626' }} className="text-xl font-bold">%</span>
                   </div>
                 </div>
 
@@ -901,7 +901,7 @@ export default function Home() {
                   </div>
                   <div className="flex gap-2 mt-3 flex-wrap justify-center md:justify-start">
                     {result.regulations?.map((reg, i) => (
-                      <span key={i} className="px-2 py-0.5 bg-white text-slate-600 text-xs rounded font-medium">
+                      <span key={i} className="px-2 py-0.5 bg-white text-slate-600 text-xs rounded font-medium border border-slate-300">
                         {reg}
                       </span>
                     ))}
@@ -910,7 +910,7 @@ export default function Home() {
 
                 {/* Executive Summary */}
                 <div className="flex-shrink-0">
-                  <p className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Executive Summary</p>
+                  <p className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Summary</p>
                   <div className="grid grid-cols-1 gap-2 min-w-[220px]">
                     {/* Issues Found - Red indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
@@ -923,7 +923,7 @@ export default function Home() {
                     {/* Checks Passed - Blue indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+
                         <span className="text-xs text-slate-700">Checks Passed</span>
                       </div>
                       <span className="font-bold text-slate-800">{Object.values(result.issues).filter(v => v).length}</span>
