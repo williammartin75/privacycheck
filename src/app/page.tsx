@@ -955,8 +955,8 @@ export default function Home() {
                   )}
                 </button>
 
-                {/* Schedule Button (Pro only) */}
-                {isPro && (
+                {/* Schedule Button */}
+                {isPro ? (
                   <button
                     onClick={handleSchedule}
                     disabled={schedulingLoading}
@@ -985,6 +985,17 @@ export default function Home() {
                         Schedule {isProPlus ? 'Weekly' : 'Monthly'} Scan
                       </>
                     )}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleCheckout()}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm bg-slate-100 text-slate-400 border border-slate-200 cursor-pointer hover:bg-slate-50 transition"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Schedule Scans
+                    <span className="text-xs px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded">Pro</span>
                   </button>
                 )}
               </div>
@@ -1992,8 +2003,10 @@ export default function Home() {
                                   )}
                                 </div>
                                 <p className="text-sm text-slate-700">{issue.description}</p>
-                                {isPro && (
+                                {isPro ? (
                                   <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
+                                ) : (
+                                  <p className="text-xs text-blue-600 mt-2 blur-sm select-none">💡 Upgrade to Pro to see recommendation...</p>
                                 )}
                               </div>
                             ))}
@@ -2155,8 +2168,10 @@ export default function Home() {
                                 </div>
                                 <p className="text-sm text-slate-700">{issue.description}</p>
                                 <p className="text-xs text-red-600 mt-1">{issue.gdprImpact}</p>
-                                {isPro && (
+                                {isPro ? (
                                   <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
+                                ) : (
+                                  <p className="text-xs text-blue-600 mt-2 blur-sm select-none">💡 Upgrade to Pro to see recommendation...</p>
                                 )}
                               </div>
                             ))}
@@ -2447,8 +2462,10 @@ export default function Home() {
                                   {issue.blocked && <span className="px-1 bg-white text-red-800 rounded">BLOCKED</span>}
                                 </div>
                                 <p className="text-slate-600 truncate">{issue.url}</p>
-                                {isPro && (
+                                {isPro ? (
                                   <p className="text-blue-600 mt-1">→ {issue.recommendation}</p>
+                                ) : (
+                                  <p className="text-blue-600 mt-1 blur-sm select-none">→ Upgrade to Pro to see fix...</p>
                                 )}
                               </div>
                             ))}
