@@ -124,7 +124,7 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
-                            Email Security (SPF/DKIM/DMARC)
+                            Email Security
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
@@ -162,11 +162,11 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Data Breach Detection</strong> (HIBP)
+                            <strong>Data Breach Detection</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>AI Risk Predictor</strong> (€ fine estimation)
+                            <strong>AI Risk Predictor</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
