@@ -51,8 +51,16 @@ export function SecurityInfra({
     const badgeClass = securityHeaders.score >= 80 ? 'badge-passed' :
         securityHeaders.score >= 50 ? 'badge-warning' : 'badge-failed';
 
-    const scoreColor = securityHeaders.score >= 80 ? 'bg-white text-slate-700' :
-        securityHeaders.score >= 50 ? 'bg-white text-amber-700' : 'bg-white text-red-700';
+    const scoreColor = securityHeaders.score >= 80 ? 'text-blue-600' :
+        securityHeaders.score >= 50 ? 'text-yellow-600' : 'text-red-600';
+
+    const statusBadgeClass = securityHeaders.score >= 80 ? 'border border-blue-300 text-blue-600 px-2 py-0.5 rounded' :
+        securityHeaders.score >= 50 ? 'border border-yellow-300 text-yellow-600 px-2 py-0.5 rounded' : 'border border-red-300 text-red-600 px-2 py-0.5 rounded';
+
+    const statusLabel = securityHeaders.score >= 80 ? 'PASS' :
+        securityHeaders.score >= 50 ? 'REVIEW' : 'ALERT';
+
+    const missingHeadersCount = securityHeaders.totalHeaders - securityHeaders.presentCount;
 
     return (
         <div className="mb-4">
@@ -69,18 +77,23 @@ export function SecurityInfra({
             {isOpen && (
                 <div className="bg-white border border-slate-200 rounded-lg p-4">
                     {/* Grade Summary */}
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${scoreColor}`}>
+                    <div className="flex items-center justify-between gap-4 p-3 rounded-lg mb-4 bg-white">
+                        <div className="flex items-center gap-3">
+                            <span className={`text-sm font-bold uppercase tracking-wider ${statusBadgeClass}`}>
+                                {statusLabel}
+                            </span>
+                            <div>
+                                <p className="font-semibold text-slate-800">
+                                    Security Infrastructure Analysis
+                                </p>
+                                <p className="text-sm text-slate-600">
+                                    {securityHeaders.presentCount} of {securityHeaders.totalHeaders} headers present
+                                </p>
+                            </div>
+                        </div>
+                        <span className={`text-2xl font-bold ${scoreColor}`}>
                             {securityHeaders.score}/100
-                        </div>
-                        <div>
-                            <p className="text-slate-700">
-                                <strong>{securityHeaders.presentCount}</strong> of {securityHeaders.totalHeaders} headers present
-                            </p>
-                            <p className="text-sm text-slate-500">
-                                Score: {securityHeaders.score}/100
-                            </p>
-                        </div>
+                        </span>
                     </div>
 
                     {/* SSL/TLS & Email Security - Combined Grid */}
@@ -131,7 +144,7 @@ export function SecurityInfra({
                     {/* Security Headers list */}
                     <h4 className="font-medium text-slate-700 text-sm mb-2">Security Headers</h4>
                     <div className="grid grid-cols-2 gap-2 mb-4">
-                        {Object.entries(securityHeaders.headers).slice(0, isPro ? 10 : 6).map(([header, info]) => (
+                        {Object.entries(securityHeaders.headers).map(([header, info]) => (
                             <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-white border border-slate-200' : 'bg-white border border-red-200'}`}>
                                 <div className="flex items-center gap-2">
                                     {info.present ? (
@@ -139,13 +152,21 @@ export function SecurityInfra({
                                     ) : (
                                         <span className="text-red-700">X</span>
                                     )}
-                                    <span className={`font-medium ${info.present ? 'text-slate-800' : 'text-red-800'}`}>
+                                    <span className={`font-medium ${info.present ? 'text-slate-800' : 'text-red-800'} ${!isPro ? 'blur-sm select-none' : ''}`}>
                                         {header.replace('Cross-Origin-', 'CO-')}
                                     </span>
                                 </div>
                             </div>
                         ))}
                     </div>
+                    {!isPro && missingHeadersCount > 0 && (
+                        <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 text-center mb-4">
+                            <p className="text-slate-600 text-sm mb-2">Unlock {missingHeadersCount} security headers</p>
+                            <button onClick={onUpgrade} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+                                Upgrade to Pro
+                            </button>
+                        </div>
+                    )}
 
                     {/* Pro recommendations */}
                     {isPro && securityHeaders.issues.length > 0 && (
