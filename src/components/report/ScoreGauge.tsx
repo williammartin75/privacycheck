@@ -22,9 +22,9 @@ export function ScoreGauge({ score, size = 'md' }: ScoreGaugeProps) {
 
     // SVG circle dimensions based on size
     const dimensions = {
-        sm: { cx: 40, cy: 40, r: 35, strokeWidth: 8 },
-        md: { cx: 64, cy: 64, r: 56, strokeWidth: 10 },
-        lg: { cx: 80, cy: 80, r: 70, strokeWidth: 12 }
+        sm: { cx: 40, cy: 40, r: 35, strokeWidth: 10 },
+        md: { cx: 64, cy: 64, r: 56, strokeWidth: 12 },
+        lg: { cx: 80, cy: 80, r: 70, strokeWidth: 14 }
     };
 
     const d = dimensions[size];
