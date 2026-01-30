@@ -1094,7 +1094,7 @@ export default function Home() {
                         </div>
                         <div className="text-center">
                           <p className="text-sm font-medium text-gray-500 mb-1">Enforcement Probability</p>
-                          <span style={{ color: result.riskPrediction.probability >= 70 ? '#b91c1c' : result.riskPrediction.probability >= 40 ? '#b45309' : '#15803d' }} className="text-lg font-bold">{result.riskPrediction.probability}%</span>
+                          <span style={{ color: result.riskPrediction.probability >= 70 ? '#b91c1c' : result.riskPrediction.probability >= 40 ? '#b45309' : '#15803d' }} className="inline-block px-4 py-2 rounded-full text-lg font-bold">{result.riskPrediction.probability}%</span>
                         </div>
                       </div>
 
