@@ -58,10 +58,10 @@ function getScoreColor(score: number): string {
 
 function getStatusLabel(status: string): React.ReactNode {
     switch (status) {
-        case 'compliant': return <span className="text-blue-600">PASS</span>;
-        case 'partial': return <span className="text-amber-600">REVIEW</span>;
-        case 'not-found': return <span className="text-slate-500">N/A</span>;
-        default: return <span className="text-red-600">FAIL</span>;
+        case 'compliant': return <span className="text-blue-600 border border-blue-300 px-2 py-0.5 rounded">PASS</span>;
+        case 'partial': return <span className="text-amber-600 border border-amber-300 px-2 py-0.5 rounded">REVIEW</span>;
+        case 'not-found': return <span className="text-slate-500 border border-slate-300 px-2 py-0.5 rounded">N/A</span>;
+        default: return <span className="text-red-600 border border-red-300 px-2 py-0.5 rounded">FAIL</span>;
     }
 }
 
