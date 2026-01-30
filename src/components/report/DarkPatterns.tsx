@@ -68,11 +68,11 @@ function getSeverityBorder(severity: string): string {
 
 function getSeverityBadge(severity: string): string {
     switch (severity) {
-        case 'critical': return 'bg-white text-red-800';
-        case 'high': return 'bg-white text-orange-800';
-        case 'medium': return 'bg-white text-yellow-800';
-        case 'low': return 'bg-white text-blue-800';
-        default: return 'bg-white text-slate-800';
+        case 'critical': return 'bg-white text-red-800 border border-red-300';
+        case 'high': return 'bg-white text-orange-800 border border-orange-300';
+        case 'medium': return 'bg-white text-yellow-800 border border-yellow-300';
+        case 'low': return 'bg-white text-blue-800 border border-blue-300';
+        default: return 'bg-white text-slate-800 border border-slate-300';
     }
 }
 
