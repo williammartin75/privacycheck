@@ -944,7 +944,7 @@ export default function Home() {
               <div className="flex justify-center gap-3 mb-8">
                 <button
                   onClick={() => isPro ? generatePDF(result) : handleCheckout()}
-                  className={`flex items-center gap-3 px-6 py-3 rounded-lg transition font-semibold text-sm ${isPro ? 'bg-slate-800 text-white hover:bg-slate-900' : 'bg-white text-slate-600 hover:bg-white border border-slate-200'}`}
+                  className={`flex items-center gap-3 px-6 py-3 rounded-lg transition font-semibold text-sm bg-white text-slate-700 hover:bg-slate-50 border border-slate-200`}
                 >
                   {isPro ? (
                     <>
@@ -1095,7 +1095,7 @@ export default function Home() {
                         </div>
                         <div className="text-center">
                           <p className="text-sm font-medium text-gray-500 mb-1">Risk Level</p>
-                          <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-600' :
+                          <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-700' :
                             result.riskPrediction.riskLevel === 'high' ? 'text-orange-600' :
                               result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
                                 'text-blue-600'
@@ -1105,18 +1105,7 @@ export default function Home() {
                         </div>
                         <div className="text-center">
                           <p className="text-sm font-medium text-gray-500 mb-1">Enforcement Probability</p>
-                          <div className="flex items-center gap-2">
-                            <div className="w-24 h-3 bg-gray-200 rounded-full overflow-hidden">
-                              <div
-                                className="h-full"
-                                style={{
-                                  width: `${result.riskPrediction.probability}%`,
-                                  backgroundColor: result.riskPrediction.probability >= 70 ? '#dc2626' : result.riskPrediction.probability >= 40 ? '#FFD700' : '#16a34a'
-                                }}
-                              ></div>
-                            </div>
-                            <span style={{ color: result.riskPrediction.probability >= 70 ? '#dc2626' : result.riskPrediction.probability >= 40 ? '#FFD700' : '#16a34a' }} className="text-lg font-bold">{result.riskPrediction.probability}%</span>
-                          </div>
+                          <span style={{ color: result.riskPrediction.probability >= 70 ? '#b91c1c' : result.riskPrediction.probability >= 40 ? '#b45309' : '#15803d' }} className="text-lg font-bold">{result.riskPrediction.probability}%</span>
                         </div>
                       </div>
 
@@ -1140,7 +1129,7 @@ export default function Home() {
                                     )}
                                   </div>
                                 </div>
-                                <span className="text-red-600 font-semibold">
+                                <span className="text-red-700 font-semibold">
                                   +€{factor.fineContribution >= 1000 ? (factor.fineContribution / 1000).toFixed(0) + 'k' : factor.fineContribution}
                                 </span>
                               </div>
