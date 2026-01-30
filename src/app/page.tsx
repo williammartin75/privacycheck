@@ -3360,6 +3360,24 @@ export default function Home() {
                   </svg>
                   WordPress Plugin
                 </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Security Headers Analysis
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Email Security (SPF/DKIM/DMARC)
+                </li>
+                <li className="flex items-center gap-2 text-white">
+                  <svg className="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Exposed Emails Detection
+                </li>
               </ul>
               <button onClick={() => handleCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-white transition text-center mt-auto">
                 Get Pro Now
@@ -3405,34 +3423,10 @@ export default function Home() {
                   <strong>Data Breach Detection</strong> (HIBP)
                 </li>
                 <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Social Trackers (FB, TikTok, LinkedIn...)
-                </li>
-                <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Security Headers Analysis
-                </li>
-                <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Email Security (SPF/DKIM/DMARC)
-                </li>
-                <li className="flex items-center gap-2 text-white">
-                  <svg className="w-5 h-5 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Exposed Emails Detection
-                </li>
-                <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <strong>AI Risk Predictor</strong>
+                  <strong>AI Risk Predictor</strong> (€ fine estimation)
                 </li>
                 <li className="flex items-center gap-2 text-white">
                   <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -3482,7 +3476,7 @@ export default function Home() {
             </div>
             <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What&apos;s included in Pro and Pro+?</h3>
-              <p className="text-gray-600">Pro includes step-by-step fix recommendations, PDF reports, email alerts, monthly auto-scans, Cookie Banner Widget (geo-targeting 8 privacy laws), and Google Consent Mode v2. Pro+ adds: weekly scans, AI Risk Predictor (€ fine estimation), Vendor Risk Scores, Attack Surface Scanner (.git, .env, S3 exposed), DNS Security checks (SPF/DKIM/DMARC), and Compliance Drift Detection.</p>
+              <p className="text-gray-600">Pro (€19/mo) includes step-by-step fix recommendations, PDF reports, email alerts, monthly auto-scans, Security Headers Analysis, Email Security checks (SPF/DKIM/DMARC), Exposed Emails Detection, Cookie Banner Widget, WordPress Plugin, and Google Consent Mode v2. Pro+ (€29/mo) adds: 200 scans/month, 1,000 pages, weekly auto-scans, Data Breach Detection (HIBP), AI Risk Predictor (€ fine estimation), Vendor Risk Scores, Attack Surface Scanner, and Compliance Drift Detection.</p>
             </div>
             <div className="bg-white p-6 rounded-md border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">What is the Cookie Banner Widget?</h3>
