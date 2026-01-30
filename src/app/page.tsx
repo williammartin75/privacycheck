@@ -12,6 +12,7 @@ import { MaskedText, MaskedEmail } from '@/components/ProGate';
 import { UpgradeCTA } from '@/components/UpgradeCTA';
 import { Cookie, PageScan, AuditResult } from '@/types/audit';
 import { getScoreColor, getScoreLabel, getCategoryColor } from '@/lib/score-utils';
+import { FAQSection } from '@/components/landing/FAQSection';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -3105,39 +3106,7 @@ export default function Home() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="py-20">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Frequently Asked Questions</h2>
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-white p-6 rounded-md border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">What does PrivacyChecker scan?</h3>
-              <p className="text-gray-600">We check 14+ compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, and security headers. Plus: third-party vendor risk scores (80+ trackers), exposed files (.git, .env, backups), DNS security (SPF/DMARC), and AI-powered GDPR fine estimation.</p>
-            </div>
-            <div className="bg-white p-6 rounded-md border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Is the audit really free?</h3>
-              <p className="text-gray-600">Yes! The full audit is 100% free. You'll see your privacy score and all issues detected. Pro unlocks step-by-step recommendations on how to fix each issue, plus PDF reports and email alerts.</p>
-            </div>
-            <div className="bg-white p-6 rounded-md border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">How long does a scan take?</h3>
-              <p className="text-gray-600">Usually 30-60 seconds depending on your website size. We analyze your pages in real-time to give you accurate results.</p>
-            </div>
-            <div className="bg-white p-6 rounded-md border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">What regulations do you check?</h3>
-              <p className="text-gray-600">We check compliance against GDPR (Europe), CCPA (California), LGPD (Brazil), and 50+ other global privacy regulations. Your results show which laws apply to your site based on its content.</p>
-            </div>
-            <div className="bg-white p-6 rounded-md border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">What&apos;s included in Pro and Pro+?</h3>
-              <p className="text-gray-600">Pro (€19/mo) includes step-by-step fix recommendations, PDF reports, email alerts, monthly auto-scans, Security Headers Analysis, Email Security checks (SPF/DKIM/DMARC), Exposed Emails Detection, Cookie Banner Widget, WordPress Plugin, and Google Consent Mode v2. Pro+ (€29/mo) adds: 200 scans/month, 1,000 pages, weekly auto-scans, Data Breach Detection (HIBP), AI Risk Predictor (€ fine estimation), Vendor Risk Scores, Attack Surface Scanner, and Compliance Drift Detection.</p>
-            </div>
-            <div className="bg-white p-6 rounded-md border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">What is the Cookie Banner Widget?</h3>
-              <p className="text-gray-600">It&apos;s a customizable cookie consent banner you can embed on your site with one line of code. It handles consent for Analytics, Marketing, and Functional cookies, and integrates with Google Consent Mode v2 to ensure your Google Analytics and Ads respect user choices.</p>
-            </div>
-            <div className="bg-white p-6 rounded-md border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Can I cancel my subscription anytime?</h3>
-              <p className="text-gray-600">Yes, you can cancel at any time from your Dashboard or by emailing support@privacychecker.pro. Your access continues until the end of your billing period. There are no cancellation fees.</p>
-            </div>
-          </div>
-        </section>
+        <FAQSection />
 
         {/* Regulations Covered */}
         <section className="py-16">
