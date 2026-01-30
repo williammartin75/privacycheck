@@ -89,8 +89,8 @@ export function ConsentBehavior({
                     {/* Header */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-white">
-                                <svg className={`w-5 h-5 ${consentBehavior.score >= 80 ? 'text-blue-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center bg-white border ${consentBehavior.score >= 80 ? 'border-blue-300' : consentBehavior.score >= 50 ? 'border-yellow-300' : 'border-red-300'}`}>
+                                <svg className={`w-5 h-5 ${getScoreColor(consentBehavior.score)}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={consentBehavior.score >= 80 ? 'M5 13l4 4L19 7' : 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'} />
                                 </svg>
                             </div>
@@ -108,17 +108,17 @@ export function ConsentBehavior({
 
                     {/* Quick checks */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
-                        <CheckIndicator passed={consentBehavior.detected} label="Banner Present" />
-                        <CheckIndicator passed={consentBehavior.hasRejectButton} label="Reject Button" />
-                        <CheckIndicator passed={consentBehavior.darkPatterns.length === 0} label="No Dark Patterns" />
-                        <CheckIndicator passed={violatingCookies.length === 0} label="Consent-Gated" />
+                        <CheckIndicator passed={consentBehavior.detected} label="Banner Present" isPro={isPro} />
+                        <CheckIndicator passed={consentBehavior.hasRejectButton} label="Reject Button" isPro={isPro} />
+                        <CheckIndicator passed={consentBehavior.darkPatterns.length === 0} label="No Dark Patterns" isPro={isPro} />
+                        <CheckIndicator passed={violatingCookies.length === 0} label="Consent-Gated" isPro={isPro} />
                     </div>
 
                     {/* Issues found */}
                     {consentBehavior.issues.length > 0 && (
                         <div className="mb-4">
                             <p className="text-sm font-semibold text-slate-700 mb-2">Issues Detected:</p>
-                            <div className="space-y-2">
+                            <div className={`space-y-2 ${!isPro ? 'blur-sm select-none' : ''}`}>
                                 {consentBehavior.issues.slice(0, 5).map((issue, i) => (
                                     <div key={i} className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg">
                                         <span className="w-2 h-2 rounded-full bg-red-500"></span>
@@ -138,7 +138,6 @@ export function ConsentBehavior({
                                     <ExpandableItem
                                         key={i}
                                         id={`darkPattern-${i}`}
-                                        icon="⚠️"
                                         text={pattern.description}
                                         severity={pattern.severity}
                                         isPro={isPro}
@@ -186,7 +185,6 @@ export function ConsentBehavior({
                         <div className="mb-4">
                             <ExpandableItem
                                 id="missingRejectButton"
-                                icon="❌"
                                 text="Missing clear reject button"
                                 isPro={isPro}
                                 expandedRec={expandedRec}
@@ -207,22 +205,21 @@ export function ConsentBehavior({
 }
 
 // Helper components
-function CheckIndicator({ passed, label }: { passed: boolean; label: string }) {
+function CheckIndicator({ passed, label, isPro }: { passed: boolean; label: string; isPro: boolean }) {
     return (
         <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${passed ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={passed ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
             </svg>
-            <span className="text-xs font-medium">{label}</span>
+            <span className={`text-xs font-medium ${!isPro ? 'blur-sm select-none' : ''}`}>{label}</span>
         </div>
     );
 }
 
 function ExpandableItem({
-    id, icon, text, severity, isPro, expandedRec, setExpandedRec, recommendation, borderColor
+    id, text, severity, isPro, expandedRec, setExpandedRec, recommendation, borderColor
 }: {
     id: string;
-    icon: string;
     text: string;
     severity?: string;
     isPro: boolean;
@@ -242,7 +239,9 @@ function ExpandableItem({
         >
             <div className="flex items-center justify-between px-3 py-2">
                 <div className="flex items-center gap-2">
-                    <span>{icon}</span>
+                    <svg className={`w-4 h-4 ${borderColor === 'orange' ? 'text-orange-500' : 'text-red-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
                     <span className={`text-sm ${textClass}`}>{text}</span>
                 </div>
                 <div className="flex items-center gap-2">
