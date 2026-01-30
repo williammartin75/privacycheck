@@ -171,8 +171,6 @@ export function DarkPatterns({
                             <p className="text-sm font-semibold text-slate-700 mb-2">Detected Patterns:</p>
                             <div className="space-y-2 max-h-96 overflow-y-auto">
                                 {sortedPatterns.slice(0, isPro ? 20 : undefined).map((pattern, i) => {
-                                    const isVisibleForFree = (pattern.severity === 'high' || pattern.severity === 'critical') && pattern.gdprRelevance;
-                                    const shouldBlur = !isPro && !isVisibleForFree;
                                     return (
                                         <div key={i} className={`p-3 rounded-lg border ${getSeverityBorder(pattern.severity)}`}>
                                             <div className="flex items-start justify-between gap-2">
@@ -181,12 +179,12 @@ export function DarkPatterns({
                                                         <span className={`text-xs px-2 py-0.5 rounded ${getSeverityBadge(pattern.severity)}`}>
                                                             {pattern.severity.toUpperCase()}
                                                         </span>
-                                                        <span className={`text-xs text-slate-500 capitalize ${shouldBlur ? 'blur-sm select-none' : ''}`}>{pattern.type.replace(/-/g, ' ')}</span>
+                                                        <span className={`text-xs text-slate-500 capitalize ${!isPro ? 'blur-sm select-none' : ''}`}>{pattern.type.replace(/-/g, ' ')}</span>
                                                         {pattern.gdprRelevance && (
-                                                            <span className="text-xs bg-white text-slate-700 px-1.5 py-0.5 rounded">GDPR</span>
+                                                            <span className="text-xs bg-white text-slate-700 px-1.5 py-0.5 rounded border border-slate-200">GDPR</span>
                                                         )}
                                                     </div>
-                                                    <p className={`text-sm text-slate-700 ${shouldBlur ? 'blur-sm select-none' : ''}`}>{pattern.description}</p>
+                                                    <p className={`text-sm text-slate-700 ${!isPro ? 'blur-sm select-none' : ''}`}>{pattern.description}</p>
                                                     {isPro && pattern.element && (
                                                         <p className="text-xs text-slate-500 mt-1 font-mono bg-white px-2 py-1 rounded truncate">
                                                             {pattern.element.slice(0, 100)}...

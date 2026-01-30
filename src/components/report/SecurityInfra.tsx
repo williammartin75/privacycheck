@@ -100,7 +100,7 @@ export function SecurityInfra({
                     <div className="grid md:grid-cols-2 gap-3 mb-4">
                         {/* SSL/TLS */}
                         {ssl && (
-                            <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
+                            <div className="bg-white rounded-lg p-3 border border-slate-200">
                                 <h4 className="font-medium text-slate-700 text-sm mb-2">SSL/TLS</h4>
                                 <div className="space-y-1 text-sm">
                                     <div className="flex justify-between">
@@ -121,7 +121,7 @@ export function SecurityInfra({
 
                         {/* Email Security */}
                         {emailSecurity && (
-                            <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
+                            <div className="bg-white rounded-lg p-3 border border-slate-200">
                                 <h4 className="font-medium text-slate-700 text-sm mb-2">Email Security</h4>
                                 <div className="space-y-1 text-sm">
                                     <div className="flex justify-between">
