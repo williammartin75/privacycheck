@@ -27,6 +27,7 @@ import { ComplianceDrift } from '@/components/report/ComplianceDrift';
 import { SecurityExposure } from '@/components/report/SecurityExposure';
 import { ConsentBehavior } from '@/components/report/ConsentBehavior';
 import { PolicyAnalysis } from '@/components/report/PolicyAnalysis';
+import { DarkPatterns } from '@/components/report/DarkPatterns';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -624,180 +625,13 @@ export default function Home() {
 
               {/* Dark Patterns Detection */}
               {result.issues.darkPatterns && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowDarkPatterns(!showDarkPatterns)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Dark Patterns Detection</span>
-                      {result.issues.darkPatterns.detected ? (
-                        <span className="badge-failed">
-                          {result.issues.darkPatterns.totalCount} found
-                        </span>
-                      ) : (
-                        <span className="badge-passed">
-                          Clean
-                        </span>
-                      )}
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showDarkPatterns ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showDarkPatterns && (
-                    <div className="bg-white rounded-lg border border-slate-200 p-4">
-                      {/* Overall Status */}
-                      <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${!result.issues.darkPatterns.detected ? 'bg-white' :
-                        result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-white' :
-                          result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-white' :
-                            'bg-white'
-                        }`}>
-                        <span className="text-sm font-bold uppercase tracking-wider">
-                          {!result.issues.darkPatterns.detected ? <span className="text-blue-600">OK</span> :
-                            result.issues.darkPatterns.bySeverity.critical > 0 ? <span className="text-red-600">CRITICAL</span> :
-                              result.issues.darkPatterns.bySeverity.high > 0 ? <span className="text-amber-600">ALERT</span> : <span className="text-slate-600">INFO</span>}
-                        </span>
-                        <div>
-                          <p className="font-semibold text-slate-800">
-                            {!result.issues.darkPatterns.detected ? 'No Dark Patterns Detected!' :
-                              result.issues.darkPatterns.bySeverity.critical > 0 ? 'Critical Dark Patterns Found' :
-                                result.issues.darkPatterns.bySeverity.high > 0 ? 'Dark Patterns Require Attention' :
-                                  'Minor Dark Patterns Detected'}
-                          </p>
-                          <p className="text-sm text-slate-600">
-                            Score: {result.issues.darkPatterns.score}/100
-                            {result.issues.darkPatterns.gdprViolations.length > 0 &&
-                              ` • ${result.issues.darkPatterns.gdprViolations.length} GDPR-relevant`}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Severity Breakdown */}
-                      <div className="grid grid-cols-4 gap-2 mb-4">
-                        <div className={`p-2 rounded text-center ${result.issues.darkPatterns.bySeverity.critical > 0 ? 'bg-white' : 'bg-gray-50'}`}>
-                          <p className={`text-lg font-bold ${result.issues.darkPatterns.bySeverity.critical > 0 ? 'text-red-700' : 'text-gray-400'}`}>
-                            {result.issues.darkPatterns.bySeverity.critical}
-                          </p>
-                          <p className="text-xs text-slate-600">Critical</p>
-                        </div>
-                        <div className={`p-2 rounded text-center ${result.issues.darkPatterns.bySeverity.high > 0 ? 'bg-white' : 'bg-gray-50'}`}>
-                          <p className={`text-lg font-bold ${result.issues.darkPatterns.bySeverity.high > 0 ? 'text-orange-700' : 'text-gray-400'}`}>
-                            {result.issues.darkPatterns.bySeverity.high}
-                          </p>
-                          <p className="text-xs text-slate-600">High</p>
-                        </div>
-                        <div className={`p-2 rounded text-center ${result.issues.darkPatterns.bySeverity.medium > 0 ? 'bg-white' : 'bg-gray-50'}`}>
-                          <p className={`text-lg font-bold ${result.issues.darkPatterns.bySeverity.medium > 0 ? 'text-yellow-700' : 'text-gray-400'}`}>
-                            {result.issues.darkPatterns.bySeverity.medium}
-                          </p>
-                          <p className="text-xs text-slate-600">Medium</p>
-                        </div>
-                        <div className={`p-2 rounded text-center ${result.issues.darkPatterns.bySeverity.low > 0 ? 'bg-white' : 'bg-gray-50'}`}>
-                          <p className={`text-lg font-bold ${result.issues.darkPatterns.bySeverity.low > 0 ? 'text-blue-700' : 'text-gray-400'}`}>
-                            {result.issues.darkPatterns.bySeverity.low}
-                          </p>
-                          <p className="text-xs text-slate-600">Low</p>
-                        </div>
-                      </div>
-
-                      {/* Detected Patterns List */}
-                      {result.issues.darkPatterns.patterns.length > 0 && (
-                        <div className="mb-4">
-                          <p className="text-sm font-semibold text-slate-700 mb-2">Detected Patterns:</p>
-                          <div className="space-y-2 max-h-96 overflow-y-auto">
-                            {[...result.issues.darkPatterns.patterns]
-                              .sort((a, b) => {
-                                const order = { critical: 0, high: 1, medium: 2, low: 3 };
-                                return (order[a.severity as keyof typeof order] ?? 4) - (order[b.severity as keyof typeof order] ?? 4);
-                              })
-                              .slice(0, isPro ? 20 : 3).map((pattern, i) => (
-                                <div
-                                  key={i}
-                                  className={`p-3 rounded-lg border ${pattern.severity === 'critical' ? 'bg-white border-red-200' :
-                                    pattern.severity === 'high' ? 'bg-white border-orange-200' :
-                                      pattern.severity === 'medium' ? 'bg-white border-yellow-200' :
-                                        'bg-white border-blue-200'
-                                    }`}
-                                >
-                                  <div className="flex items-start justify-between gap-2">
-                                    <div className="flex-1">
-                                      <div className="flex items-center gap-2 mb-1">
-                                        <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'critical' ? 'bg-white text-red-800' :
-                                          pattern.severity === 'high' ? 'bg-white text-orange-800' :
-                                            pattern.severity === 'medium' ? 'bg-white text-yellow-800' :
-                                              'bg-white text-blue-800'
-                                          }`}>
-                                          {pattern.severity.toUpperCase()}
-                                        </span>
-                                        <span className="text-xs text-slate-500 capitalize">{pattern.type.replace(/-/g, ' ')}</span>
-                                        {pattern.gdprRelevance && (
-                                          <span className="text-xs bg-white text-slate-700 px-1.5 py-0.5 rounded">GDPR</span>
-                                        )}
-                                      </div>
-                                      <p className="text-sm text-slate-700">{pattern.description}</p>
-                                      {isPro && pattern.element && (
-                                        <p className="text-xs text-slate-500 mt-1 font-mono bg-white px-2 py-1 rounded truncate">
-                                          {pattern.element.slice(0, 100)}...
-                                        </p>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            {!isPro && result.issues.darkPatterns.patterns.length > 3 && (
-                              <div className="text-center p-3 bg-slate-50 rounded-lg border border-slate-200">
-                                <p className="text-slate-600 text-sm mb-2">
-                                  +{result.issues.darkPatterns.patterns.length - 3} more patterns (Pro)
-                                </p>
-                                <button
-                                  onClick={() => handleCheckout()}
-                                  className="px-3 py-1 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700 transition"
-                                >
-                                  Upgrade to Pro
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Recommendations */}
-                      {result.issues.darkPatterns.recommendations.length > 0 && (
-                        <div className="mb-4">
-                          <p className="text-sm font-semibold text-slate-700 mb-2">
-                            {isPro ? 'How to Fix:' : 'Recommendations (Pro):'}
-                          </p>
-                          {isPro ? (
-                            <div className="bg-white rounded-lg p-4 border border-blue-200">
-                              <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
-                                {result.issues.darkPatterns.recommendations.map((rec, i) => (
-                                  <li key={i}>{rec}</li>
-                                ))}
-                              </ol>
-                            </div>
-                          ) : (
-                            <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 text-center">
-                              <p className="text-slate-600 text-sm mb-3">
-                                Upgrade to Pro to see detailed recommendations for removing dark patterns
-                              </p>
-                              <button
-                                onClick={() => handleCheckout()}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
-                              >
-                                Upgrade to Pro - €19/mo
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * Scans for manipulative UI patterns including confirmshaming, pre-checked boxes, hidden information, and more.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <DarkPatterns
+                  darkPatterns={result.issues.darkPatterns}
+                  isOpen={showDarkPatterns}
+                  onToggle={() => setShowDarkPatterns(!showDarkPatterns)}
+                  isPro={isPro}
+                  onUpgrade={() => handleCheckout()}
+                />
               )}
 
               {/* Opt-in Forms Analysis */}
