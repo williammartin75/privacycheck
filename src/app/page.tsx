@@ -914,15 +914,15 @@ export default function Home() {
                     {/* Issues Found - Red indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <span className="text-xs text-red-600">Issues Found</span>
-                      <span className="font-bold text-red-600">{Object.values(result.issues).filter(v => !v).length}</span>
+                      <span className="font-bold text-red-600">{result.scoreBreakdown?.filter(b => b.points < 0).length || 0}</span>
                     </div>
-                    {/* Checks Passed - Blue indicator */}
+                    {/* Checks Passed - Slate indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <div className="flex items-center gap-2">
 
                         <span className="text-xs text-slate-700">Checks Passed</span>
                       </div>
-                      <span className="font-bold text-slate-800">{Object.values(result.issues).filter(v => v).length}</span>
+                      <span className="font-bold text-slate-800">{result.scoreBreakdown?.filter(b => b.points >= 0).length || 0}</span>
                     </div>
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
                       <span className="text-xs text-slate-700">Pages Scanned</span>
@@ -1010,17 +1010,14 @@ export default function Home() {
                 </div>
               )}
 
-              {/* Key Issues Summary */}
-              {Object.values(result.issues).filter(v => !v).length > 0 && (
+              {/* Key Issues Summary - Based on Score Breakdown */}
+              {result.scoreBreakdown && result.scoreBreakdown.filter(b => b.points < 0).length > 0 && (
                 <div className="mb-6 p-4 rounded-lg border border-slate-300">
                   <h4 className="text-sm font-semibold text-red-600 mb-3">Issues Found</h4>
                   <div className="flex flex-wrap gap-2">
-                    {!result.issues.consentBanner && <span className="px-2 py-1 text-xs text-red-600">✕ Cookie Consent Banner</span>}
-                    {!result.issues.cookiePolicy && <span className="px-2 py-1 text-xs text-red-600">✕ Cookie Policy</span>}
-                    {!result.issues.dpoContact && <span className="px-2 py-1 text-xs text-red-600">✕ DPO Contact</span>}
-                    {!result.issues.secureforms && <span className="px-2 py-1 text-xs text-red-600">✕ Secure Forms</span>}
-                    {!result.issues.privacyPolicy && <span className="px-2 py-1 text-xs text-red-600">✕ Privacy Policy</span>}
-                    {result.issues.cookies.undeclared > 0 && <span className="px-2 py-1 text-xs text-red-600">✕ Undeclared Cookies ({result.issues.cookies.undeclared})</span>}
+                    {result.scoreBreakdown.filter(b => b.points < 0).map((item, i) => (
+                      <span key={i} className="px-2 py-1 text-xs text-red-600">✕ {item.item}</span>
+                    ))}
                   </div>
                 </div>
               )}
