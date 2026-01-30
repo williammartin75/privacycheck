@@ -1,5 +1,183 @@
 import jsPDF from 'jspdf';
-import type { AuditResult } from '@/types/audit';
+
+interface Cookie {
+    name: string;
+    category: 'necessary' | 'analytics' | 'marketing' | 'preferences' | 'unknown';
+    description: string;
+    provider: string;
+}
+
+interface ConsentBehavior {
+    score: number;
+    issues: string[];
+    preConsentCookies?: number;
+    respectsRejection?: boolean;
+    acceptAllProminent?: boolean;
+    rejectAllAvailable?: boolean;
+}
+
+interface PolicyCategory {
+    name: string;
+    status: 'compliant' | 'partial' | 'not-found' | 'missing';
+}
+
+interface PolicyAnalysis {
+    score: number;
+    categories: PolicyCategory[];
+    missingElements?: string[];
+}
+
+interface DarkPattern {
+    type: string;
+    severity: 'critical' | 'high' | 'medium' | 'low';
+    description: string;
+    location?: string;
+}
+
+interface DarkPatternsResult {
+    score: number;
+    patterns: DarkPattern[];
+}
+
+interface OptInForm {
+    url: string;
+    hasConsent: boolean;
+    issues: string[];
+}
+
+interface CookieLifespanItem {
+    name: string;
+    days: number;
+    category: string;
+}
+
+interface FingerprintingResult {
+    score: number;
+    detected: boolean;
+    scripts: string[];
+    techniques?: string[];
+}
+
+interface StorageItem {
+    key: string;
+    type: 'localStorage' | 'sessionStorage';
+    size: number;
+}
+
+interface StorageAudit {
+    localStorage: StorageItem[];
+    sessionStorage: StorageItem[];
+    issues: string[];
+}
+
+interface MixedContentItem {
+    url: string;
+    type: string;
+}
+
+interface MixedContentResult {
+    found: boolean;
+    items: MixedContentItem[];
+}
+
+interface FormSecurityIssue {
+    url: string;
+    issue: string;
+}
+
+interface FormSecurityResult {
+    issues: FormSecurityIssue[];
+    score: number;
+}
+
+interface AuditResult {
+    score: number;
+    domain: string;
+    pagesScanned: number;
+    pages: { url: string; title: string; cookiesFound: number; trackersFound: string[] }[];
+    issues: {
+        cookies: {
+            count: number;
+            undeclared: number;
+            list: Cookie[];
+        };
+        consentBanner: boolean;
+        privacyPolicy: boolean;
+        https: boolean;
+        trackers: string[];
+        legalMentions: boolean;
+        dpoContact: boolean;
+        dataDeleteLink: boolean;
+        secureforms: boolean;
+        optOutMechanism: boolean;
+        ageVerification: boolean;
+        cookiePolicy: boolean;
+        ssl?: { valid: boolean; hsts: boolean; hstsMaxAge: number | null };
+        securityHeaders?: {
+            csp: boolean;
+            xFrameOptions: boolean;
+            xContentType: boolean;
+            strictTransportSecurity: boolean;
+            referrerPolicy: boolean;
+            permissionsPolicy: boolean;
+        };
+        securityHeadersExtended?: {
+            score: number;
+            headers: { name: string; present: boolean; value?: string }[];
+        };
+        emailSecurity?: { spf: boolean; dmarc: boolean; domain: string };
+        exposedEmails?: string[];
+        externalResources?: {
+            scripts: { src: string; provider: string }[];
+            fonts: { src: string; provider: string }[];
+            iframes: { src: string; provider: string }[];
+        };
+        socialTrackers?: { name: string; risk: 'high' | 'medium' | 'low' }[];
+        dataBreaches?: { name: string; date: string; count: number }[];
+        vendorRisks?: {
+            name: string;
+            category: string;
+            riskScore: number;
+            riskLevel: 'low' | 'medium' | 'high' | 'critical';
+            jurisdiction: string;
+            dataTransfer: string;
+            concerns: string[];
+            gdprCompliant: boolean;
+        }[];
+        consentBehavior?: ConsentBehavior;
+        policyAnalysis?: PolicyAnalysis;
+        darkPatterns?: DarkPatternsResult;
+        optInForms?: { forms: OptInForm[]; score: number };
+        cookieLifespan?: { longLived: CookieLifespanItem[]; score: number };
+        fingerprinting?: FingerprintingResult;
+        storageAudit?: StorageAudit;
+        mixedContent?: MixedContentResult;
+        formSecurity?: FormSecurityResult;
+    };
+    regulations: string[];
+    scoreBreakdown?: { item: string; points: number; passed: boolean }[];
+    riskPrediction?: {
+        minFine: number;
+        maxFine: number;
+        avgFine: number;
+        riskLevel: 'low' | 'medium' | 'high' | 'critical';
+        probability: number;
+        factors: {
+            issue: string;
+            severity: 'low' | 'medium' | 'high' | 'critical';
+            fineContribution: number;
+            gdprArticle?: string;
+            description: string;
+        }[];
+        recommendation: string;
+    };
+    attackSurface?: {
+        overallRisk: 'low' | 'medium' | 'high' | 'critical';
+        totalFindings: number;
+        findings: { type: string; severity: string; title: string; description: string; remediation: string }[];
+        recommendations: string[];
+    };
+}
 
 // Color palette
 const COLORS = {
@@ -62,15 +240,25 @@ export function generatePDF(result: AuditResult): void {
         doc.setFontSize(9);
         if (passed) {
             doc.setTextColor(COLORS.blue[0], COLORS.blue[1], COLORS.blue[2]);
-            doc.text('[PASS]', 20, y);
+            doc.text('✓', 20, y);
         } else {
             doc.setTextColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
-            doc.text('[FAIL]', 20, y);
+            doc.text('✕', 20, y);
         }
         doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
         doc.setFont('helvetica', 'normal');
-        doc.text(label, 40, y);
+        doc.text(label, 28, y);
         y += 6;
+    };
+
+    const drawBadge = (text: string, color: [number, number, number], x: number, yPos: number) => {
+        const textWidth = doc.getTextWidth(text) + 6;
+        doc.setFillColor(color[0], color[1], color[2]);
+        doc.roundedRect(x, yPos - 4, textWidth, 6, 1, 1, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'bold');
+        doc.text(text, x + 3, yPos);
     };
 
     // ============ HEADER ============
@@ -156,7 +344,7 @@ export function generatePDF(result: AuditResult): void {
         failedItems.forEach(item => {
             checkNewPage(6);
             doc.setTextColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
-            doc.text(`X ${stripParentheses(item.item)}`, 20, y);
+            doc.text(`✕ ${stripParentheses(item.item)}`, 20, y);
             doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
             doc.text(`${item.points}`, 160, y);
             y += 5;
@@ -212,7 +400,7 @@ export function generatePDF(result: AuditResult): void {
         doc.text(`Risk Level: ${result.riskPrediction.riskLevel.toUpperCase()}`, 20, y);
         y += 8;
 
-        const formatFine = (n: number) => n >= 1000000 ? `EUR ${(n / 1000000).toFixed(1)}M` : `EUR ${(n / 1000).toFixed(0)}K`;
+        const formatFine = (n: number) => n >= 1000000 ? `€${(n / 1000000).toFixed(1)}M` : `€${(n / 1000).toFixed(0)}K`;
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(9);
         doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
@@ -268,12 +456,13 @@ export function generatePDF(result: AuditResult): void {
         doc.setFontSize(8);
         doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
 
-        if (cb.preConsentCookies && cb.preConsentCookies.length > 0) {
-            doc.text(`Pre-consent cookies: ${cb.preConsentCookies.length}`, 20, y);
+        if (cb.preConsentCookies !== undefined) {
+            doc.text(`Pre-consent cookies: ${cb.preConsentCookies}`, 20, y);
             y += 5;
         }
-        drawCheck('Has Reject Button', cb.hasRejectButton);
-        drawCheck('Has Accept Button', cb.hasAcceptButton);
+        drawCheck('Respects rejection', cb.respectsRejection ?? false);
+        drawCheck('Reject All available', cb.rejectAllAvailable ?? false);
+        drawCheck('Accept All prominent', !(cb.acceptAllProminent ?? true));
 
         if (cb.issues.length > 0) {
             y += 3;
@@ -283,7 +472,7 @@ export function generatePDF(result: AuditResult): void {
             doc.setFont('helvetica', 'normal');
             cb.issues.slice(0, 5).forEach(issue => {
                 checkNewPage(5);
-                doc.text(`- ${issue.substring(0, 70)}`, 25, y);
+                doc.text(`• ${issue.substring(0, 70)}`, 25, y);
                 y += 5;
             });
         }
@@ -295,40 +484,30 @@ export function generatePDF(result: AuditResult): void {
         drawSectionHeader('PRIVACY POLICY ANALYSIS');
 
         const pa = result.issues.policyAnalysis;
-        const paColor = pa.overallScore >= 80 ? COLORS.green : pa.overallScore >= 50 ? COLORS.gold : COLORS.red;
+        const paColor = pa.score >= 80 ? COLORS.green : pa.score >= 50 ? COLORS.gold : COLORS.red;
 
         doc.setFontSize(10);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(paColor[0], paColor[1], paColor[2]);
-        doc.text(`Score: ${pa.overallScore}/100`, 20, y);
+        doc.text(`Score: ${pa.score}/100`, 20, y);
         y += 8;
 
         doc.setFontSize(8);
-        const sections = [
-            { name: 'Legal Basis', data: pa.sections.legalBasis },
-            { name: 'Data Retention', data: pa.sections.dataRetention },
-            { name: 'User Rights', data: pa.sections.userRights },
-            { name: 'Third Party Sharing', data: pa.sections.thirdPartySharing },
-            { name: 'International Transfers', data: pa.sections.internationalTransfers },
-            { name: 'Contact Info', data: pa.sections.contactInfo },
-            { name: 'Cookie Policy', data: pa.sections.cookiePolicy },
-        ];
-
-        sections.forEach(section => {
+        pa.categories.forEach(cat => {
             checkNewPage(6);
-            const statusColor = section.data.status === 'compliant' ? COLORS.blue :
-                section.data.status === 'partial' ? COLORS.gold :
-                    section.data.status === 'missing' ? COLORS.red : COLORS.gray;
+            const statusColor = cat.status === 'compliant' ? COLORS.blue :
+                cat.status === 'partial' ? COLORS.gold :
+                    cat.status === 'not-found' ? COLORS.gray : COLORS.red;
 
             doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
             doc.setFont('helvetica', 'normal');
-            doc.text(section.name, 20, y);
+            doc.text(cat.name, 20, y);
 
             doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
             doc.setFont('helvetica', 'bold');
-            const statusLabel = section.data.status === 'compliant' ? 'PASS' :
-                section.data.status === 'partial' ? 'REVIEW' :
-                    section.data.status === 'missing' ? 'FAIL' : 'N/A';
+            const statusLabel = cat.status === 'compliant' ? 'PASS' :
+                cat.status === 'partial' ? 'REVIEW' :
+                    cat.status === 'not-found' ? 'N/A' : 'FAIL';
             doc.text(statusLabel, 120, y);
             y += 5;
         });
@@ -336,7 +515,7 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ============ DARK PATTERNS DETECTION ============
-    if (result.issues.darkPatterns && result.issues.darkPatterns.detected) {
+    if (result.issues.darkPatterns) {
         drawSectionHeader('DARK PATTERNS DETECTION');
 
         const dp = result.issues.darkPatterns;
@@ -348,7 +527,7 @@ export function generatePDF(result: AuditResult): void {
         doc.text(`Score: ${dp.score}/100`, 20, y);
         doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
         doc.setFontSize(8);
-        doc.text(`(${dp.totalCount} patterns detected)`, 60, y);
+        doc.text(`(${dp.patterns.length} patterns detected)`, 60, y);
         y += 8;
 
         dp.patterns.slice(0, 8).forEach(pattern => {
@@ -370,32 +549,6 @@ export function generatePDF(result: AuditResult): void {
             doc.setFontSize(7);
             doc.text(pattern.description.substring(0, 80), 25, y);
             y += 6;
-        });
-        y += 5;
-    }
-
-    // ============ FINGERPRINTING DETECTION ============
-    if (result.issues.fingerprinting && result.issues.fingerprinting.detected) {
-        drawSectionHeader('FINGERPRINTING DETECTION');
-
-        const fp = result.issues.fingerprinting;
-        const fpColor = fp.score >= 80 ? COLORS.green : fp.score >= 50 ? COLORS.gold : COLORS.red;
-
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(fpColor[0], fpColor[1], fpColor[2]);
-        doc.text(`Score: ${fp.score}/100`, 20, y);
-        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-        doc.setFontSize(8);
-        doc.text(`(${fp.totalTechniques} techniques detected)`, 60, y);
-        y += 8;
-
-        fp.issues.slice(0, 6).forEach(issue => {
-            checkNewPage(6);
-            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-            doc.setFontSize(8);
-            doc.text(`- ${issue.type}: ${issue.description.substring(0, 60)}`, 20, y);
-            y += 5;
         });
         y += 5;
     }
@@ -423,11 +576,11 @@ export function generatePDF(result: AuditResult): void {
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-            doc.text(`Security Headers Score: ${sh.score}/100 (Grade: ${sh.grade})`, 20, y);
+            doc.text(`Security Headers Score: ${sh.score}/100`, 20, y);
             y += 8;
 
-            sh.issues.slice(0, 6).forEach(h => {
-                drawCheck(h.header, h.status === 'present');
+            sh.headers.slice(0, 8).forEach(h => {
+                drawCheck(h.name, h.present);
             });
         } else if (result.issues.securityHeaders) {
             drawCheck('Content-Security-Policy', result.issues.securityHeaders.csp);
@@ -517,7 +670,7 @@ export function generatePDF(result: AuditResult): void {
 
         result.issues.trackers.slice(0, 15).forEach(tracker => {
             checkNewPage(5);
-            doc.text(`- ${tracker}`, 20, y);
+            doc.text(`• ${tracker}`, 20, y);
             y += 5;
         });
         y += 5;
@@ -562,7 +715,7 @@ export function generatePDF(result: AuditResult): void {
 
     // ============ DATA BREACHES ============
     if (result.issues.dataBreaches && result.issues.dataBreaches.length > 0) {
-        drawSectionHeader('DATA BREACHES DETECTED');
+        drawSectionHeader('⚠ DATA BREACHES DETECTED');
 
         doc.setTextColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
         doc.setFontSize(9);
@@ -573,7 +726,7 @@ export function generatePDF(result: AuditResult): void {
         doc.setFontSize(8);
         result.issues.dataBreaches.forEach(breach => {
             checkNewPage(5);
-            doc.text(`- ${breach.name} (${breach.date}) - ${breach.count.toLocaleString()} records`, 20, y);
+            doc.text(`• ${breach.name} (${breach.date}) - ${breach.count.toLocaleString()} records`, 20, y);
             y += 5;
         });
         y += 5;
@@ -592,7 +745,7 @@ export function generatePDF(result: AuditResult): void {
         doc.setFontSize(8);
         result.issues.exposedEmails.slice(0, 8).forEach(email => {
             checkNewPage(5);
-            doc.text(`- ${email}`, 20, y);
+            doc.text(`• ${email}`, 20, y);
             y += 5;
         });
         y += 5;
