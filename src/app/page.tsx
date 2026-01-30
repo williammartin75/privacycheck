@@ -1611,12 +1611,12 @@ export default function Home() {
                           {result.issues.policyAnalysis.gdprArticles.map((article, i) => (
                             <span
                               key={i}
-                              className={`text-xs px-3 py-1.5 rounded-full ${article.status === 'compliant' ? 'bg-white text-blue-700' :
-                                article.status === 'partial' ? 'bg-white text-yellow-700' :
-                                  'bg-white text-red-700'
+                              className={`text-xs px-3 py-1.5 rounded-full border ${article.status === 'compliant' ? 'bg-white text-slate-700 border-slate-300' :
+                                article.status === 'partial' ? 'bg-white text-amber-700 border-amber-200' :
+                                  'bg-white text-red-700 border-red-200'
                                 }`}
                             >
-                              {article.status === 'compliant' ? '✓' : article.status === 'partial' ? '~' : '✗'} {article.article}
+                              {article.article}
                             </span>
                           ))}
                         </div>
@@ -1638,15 +1638,15 @@ export default function Home() {
                           return (
                             <div
                               key={key}
-                              className={`p-3 rounded-lg border ${section.status === 'compliant' ? 'bg-white border-blue-200' :
-                                section.status === 'partial' ? 'bg-white border-yellow-200' :
+                              className={`p-3 rounded-lg border ${section.status === 'compliant' ? 'bg-white border-slate-200' :
+                                section.status === 'partial' ? 'bg-white border-amber-200' :
                                   'bg-white border-red-200'
                                 }`}
                             >
                               <div className="flex items-center justify-between mb-1">
                                 <span className="text-sm font-medium text-slate-700">{sectionNames[key] || key}</span>
-                                <span className={`text-xs px-2 py-0.5 rounded ${section.status === 'compliant' ? 'bg-white text-blue-800' :
-                                  section.status === 'partial' ? 'bg-white text-yellow-800' :
+                                <span className={`text-xs px-2 py-0.5 rounded font-bold ${section.status === 'compliant' ? 'bg-white text-slate-800' :
+                                  section.status === 'partial' ? 'bg-white text-amber-800' :
                                     'bg-white text-red-800'
                                   }`}>
                                   {section.score}%
@@ -1656,7 +1656,7 @@ export default function Home() {
                                 <p className="text-xs text-slate-600 truncate">{section.details[0]}</p>
                               )}
                               {section.issues.length > 0 && (
-                                <p className="text-xs text-red-600 truncate mt-1">⚠️ {section.issues[0]}</p>
+                                <p className="text-xs text-red-700 truncate mt-1">Warning: {section.issues[0]}</p>
                               )}
                             </div>
                           );
@@ -1684,7 +1684,7 @@ export default function Home() {
                             {isPro ? 'Recommendations:' : 'Recommendations (Pro):'}
                           </p>
                           {isPro ? (
-                            <div className="bg-white rounded-lg p-4 border border-blue-200">
+                            <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                               <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
                                 {result.issues.policyAnalysis.recommendations.map((rec, i) => (
                                   <li key={i}>{rec}</li>
