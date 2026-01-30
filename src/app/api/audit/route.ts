@@ -1266,6 +1266,23 @@ export async function POST(request: NextRequest) {
             internalLinksFound: allInternalLinks?.length || 0
         };
 
+        // Log scan to scan_history for rate limiting and analytics
+        try {
+            await supabase.from('scan_history').insert({
+                user_id: user.id,
+                user_email: user.email,
+                url: url,
+                tier: tier,
+                scan_type: 'manual',
+                pages_scanned: pages.length,
+                score: result.score,
+            });
+            console.log(`[Audit API] Scan logged for user ${user.email}`);
+        } catch (logError) {
+            console.error('[Audit API] Failed to log scan:', logError);
+            // Don't fail the request if logging fails
+        }
+
         return NextResponse.json(result);
     } catch (error) {
         console.error('Audit error:', error);
