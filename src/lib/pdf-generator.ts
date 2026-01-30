@@ -388,6 +388,9 @@ export function generatePDF(result: AuditResult): void {
     drawCheck('Data Deletion Option', result.issues.dataDeleteLink);
     drawCheck('Opt-out Mechanism', result.issues.optOutMechanism);
     drawCheck('Form Consent', result.issues.secureforms);
+    if (result.issues.ageVerification) {
+        drawCheck('Age Verification', true);
+    }
     y += 5;
 
     // ============ SECURITY HEADERS ============
@@ -482,6 +485,221 @@ export function generatePDF(result: AuditResult): void {
             y += 5;
         });
         y += 5;
+    }
+
+    // ============ SOCIAL TRACKERS ============
+    if (result.issues.socialTrackers && result.issues.socialTrackers.length > 0) {
+        drawSectionHeader('SOCIAL TRACKERS');
+
+        doc.setFontSize(8);
+        result.issues.socialTrackers.slice(0, 10).forEach(tracker => {
+            checkNewPage(5);
+            const riskColor = tracker.risk === 'high' ? COLORS.red :
+                tracker.risk === 'medium' ? COLORS.orange : COLORS.gray;
+            doc.setTextColor(riskColor[0], riskColor[1], riskColor[2]);
+            doc.text(`[${tracker.risk.toUpperCase()}]`, 20, y);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(tracker.name, 45, y);
+            y += 5;
+        });
+        y += 5;
+    }
+
+    // ============ FINGERPRINTING DETECTION ============
+    if (result.issues.fingerprinting) {
+        drawSectionHeader('FINGERPRINTING DETECTION');
+
+        const fp = result.issues.fingerprinting;
+        const fpColor = fp.score >= 80 ? COLORS.green : fp.score >= 50 ? COLORS.gold : COLORS.red;
+
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(fpColor[0], fpColor[1], fpColor[2]);
+        doc.text(`Score: ${fp.score}/100`, 20, y);
+        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+        doc.setFontSize(8);
+        doc.text(fp.detected ? '(Fingerprinting detected)' : '(No fingerprinting detected)', 55, y);
+        y += 8;
+
+        if (fp.issues.length > 0) {
+            doc.setFont('helvetica', 'normal');
+            fp.issues.slice(0, 5).forEach(issue => {
+                checkNewPage(6);
+                const sevColor = issue.severity === 'critical' || issue.severity === 'high' ? COLORS.red : COLORS.orange;
+                doc.setTextColor(sevColor[0], sevColor[1], sevColor[2]);
+                doc.text(`[${issue.severity.toUpperCase()}]`, 20, y);
+                doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                doc.text(issue.type, 45, y);
+                y += 5;
+            });
+        }
+        y += 5;
+    }
+
+    // ============ COOKIE LIFESPAN ANALYSIS ============
+    if (result.issues.cookieLifespan) {
+        drawSectionHeader('COOKIE LIFESPAN ANALYSIS');
+
+        const cl = result.issues.cookieLifespan;
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`Cookies Analyzed: ${cl.totalCookiesAnalyzed} | Issues: ${cl.issuesCount} | Avg Lifespan: ${cl.averageLifespan}d`, 20, y);
+        y += 6;
+
+        if (cl.longestCookie) {
+            doc.text(`Longest: "${cl.longestCookie.name}" - ${cl.longestCookie.days} days`, 20, y);
+            y += 6;
+        }
+
+        if (cl.issues.length > 0) {
+            doc.setFontSize(8);
+            cl.issues.slice(0, 5).forEach(issue => {
+                checkNewPage(5);
+                const sevColor = issue.severity === 'critical' || issue.severity === 'high' ? COLORS.red : COLORS.orange;
+                doc.setTextColor(sevColor[0], sevColor[1], sevColor[2]);
+                doc.text(`• ${issue.name}: ${issue.currentLifespan}d (recommended: ${issue.recommendedLifespan}d)`, 20, y);
+                y += 5;
+            });
+        }
+        y += 5;
+    }
+
+    // ============ OPT-IN FORMS ANALYSIS ============
+    if (result.issues.optInForms && result.issues.optInForms.totalIssues > 0) {
+        drawSectionHeader('OPT-IN FORMS ANALYSIS');
+
+        const oi = result.issues.optInForms;
+        const oiColor = oi.score >= 80 ? COLORS.green : oi.score >= 50 ? COLORS.gold : COLORS.red;
+
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(oiColor[0], oiColor[1], oiColor[2]);
+        doc.text(`Score: ${oi.score}/100`, 20, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`Forms Analyzed: ${oi.formsAnalyzed} | Pre-checked: ${oi.preCheckedCount} | Hidden Consent: ${oi.hiddenConsentCount}`, 20, y);
+        y += 6;
+
+        oi.issues.slice(0, 5).forEach(issue => {
+            checkNewPage(5);
+            const sevColor = issue.severity === 'critical' || issue.severity === 'high' ? COLORS.red : COLORS.orange;
+            doc.setTextColor(sevColor[0], sevColor[1], sevColor[2]);
+            doc.text(`• [${issue.type}] ${issue.description.substring(0, 60)}`, 20, y);
+            y += 5;
+        });
+        y += 5;
+    }
+
+    // ============ STORAGE AUDIT ============
+    if (result.issues.storageAudit && result.issues.storageAudit.totalItems > 0) {
+        drawSectionHeader('STORAGE AUDIT');
+
+        const sa = result.issues.storageAudit;
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`LocalStorage: ${sa.localStorage.count} items (${sa.localStorage.riskItems} risky)`, 20, y);
+        doc.text(`SessionStorage: ${sa.sessionStorage.count} items`, 100, y);
+        y += 6;
+
+        if (sa.issues.length > 0) {
+            doc.setFontSize(8);
+            sa.issues.slice(0, 5).forEach(issue => {
+                checkNewPage(5);
+                const riskColor = issue.risk === 'critical' || issue.risk === 'high' ? COLORS.red : COLORS.orange;
+                doc.setTextColor(riskColor[0], riskColor[1], riskColor[2]);
+                doc.text(`• ${issue.key}: ${issue.description.substring(0, 50)}`, 20, y);
+                y += 5;
+            });
+        }
+        y += 5;
+    }
+
+    // ============ MIXED CONTENT ============
+    if (result.issues.mixedContent && result.issues.mixedContent.detected) {
+        drawSectionHeader('⚠ MIXED CONTENT DETECTED');
+
+        const mc = result.issues.mixedContent;
+        doc.setTextColor(COLORS.orange[0], COLORS.orange[1], COLORS.orange[2]);
+        doc.setFontSize(9);
+        doc.text(`${mc.totalIssues} mixed content issue(s) found (${mc.blockedCount} blocked, ${mc.warningCount} warnings)`, 20, y);
+        y += 6;
+
+        doc.setFontSize(8);
+        mc.issues.slice(0, 5).forEach(issue => {
+            checkNewPage(5);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(`• [${issue.type}] ${issue.url.substring(0, 50)}`, 20, y);
+            y += 5;
+        });
+        y += 5;
+    }
+
+    // ============ FORM SECURITY ============
+    if (result.issues.formSecurity && result.issues.formSecurity.issuesCount > 0) {
+        drawSectionHeader('FORM SECURITY');
+
+        const fs = result.issues.formSecurity;
+        const fsColor = fs.score >= 80 ? COLORS.green : fs.score >= 50 ? COLORS.gold : COLORS.red;
+
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(fsColor[0], fsColor[1], fsColor[2]);
+        doc.text(`Score: ${fs.score}/100`, 20, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`Forms: ${fs.totalForms} | Secure: ${fs.secureCount} | Issues: ${fs.issuesCount}`, 20, y);
+        y += 6;
+
+        fs.issues.slice(0, 5).forEach(issue => {
+            checkNewPage(5);
+            const sevColor = issue.severity === 'critical' || issue.severity === 'high' ? COLORS.red : COLORS.orange;
+            doc.setTextColor(sevColor[0], sevColor[1], sevColor[2]);
+            doc.text(`• [${issue.severity.toUpperCase()}] ${issue.type}: ${issue.description.substring(0, 45)}`, 20, y);
+            y += 5;
+        });
+        y += 5;
+    }
+
+    // ============ EXTERNAL RESOURCES ============
+    if (result.issues.externalResources) {
+        const er = result.issues.externalResources;
+        const totalExternal = er.scripts.length + er.fonts.length + er.iframes.length;
+        if (totalExternal > 0) {
+            drawSectionHeader('EXTERNAL RESOURCES');
+
+            doc.setFontSize(8);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(`Scripts: ${er.scripts.length} | Fonts: ${er.fonts.length} | Iframes: ${er.iframes.length}`, 20, y);
+            y += 6;
+
+            if (er.scripts.length > 0) {
+                drawSubHeader('External Scripts');
+                er.scripts.slice(0, 5).forEach(s => {
+                    checkNewPage(5);
+                    doc.setFontSize(7);
+                    doc.text(`• ${s.provider}: ${s.src.substring(0, 50)}`, 20, y);
+                    y += 4;
+                });
+            }
+
+            if (er.iframes.length > 0) {
+                y += 2;
+                drawSubHeader('Iframes');
+                er.iframes.slice(0, 3).forEach(s => {
+                    checkNewPage(5);
+                    doc.setFontSize(7);
+                    doc.text(`• ${s.provider}: ${s.src.substring(0, 50)}`, 20, y);
+                    y += 4;
+                });
+            }
+            y += 5;
+        }
     }
 
     // ============ THIRD-PARTY TRACKERS ============
