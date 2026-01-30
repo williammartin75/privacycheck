@@ -1001,13 +1001,13 @@ export async function POST(request: NextRequest) {
         const secHeadersPenalty = Math.max(0, Math.min((100 - securityHeadersExtended.score) / 10, 10));
         if (secHeadersPenalty > 2) {
             scoreBreakdown.push({
-                item: `Security Headers (Grade ${securityHeadersExtended.grade})`,
+                item: `Security Headers (${securityHeadersExtended.score}/100)`,
                 points: -Math.round(secHeadersPenalty),
                 passed: false
             });
             score -= Math.round(secHeadersPenalty);
         } else {
-            scoreBreakdown.push({ item: `Security Headers (Grade ${securityHeadersExtended.grade})`, points: 0, passed: true });
+            scoreBreakdown.push({ item: `Security Headers (${securityHeadersExtended.score}/100)`, points: 0, passed: true });
         }
 
         // Storage Audit penalty - up to 6 points
@@ -1067,15 +1067,7 @@ export async function POST(request: NextRequest) {
             score -= cookiePenalty;
         }
 
-        // P0 Security: Security headers score penalty (-10 max)
-        const headersCount = Object.values(securityHeaders).filter(Boolean).length;
-        const headersPenalty = Math.max(0, 10 - headersCount * 2);
-        if (headersPenalty > 0) {
-            scoreBreakdown.push({ item: `Security Headers (${headersCount}/6)`, points: -headersPenalty, passed: false });
-            score -= headersPenalty;
-        } else {
-            scoreBreakdown.push({ item: 'Security Headers', points: 0, passed: true });
-        }
+        // Note: Security headers already handled above via securityHeadersExtended
 
         // P0 Security: Email security
         deduct(emailSecurity.spf, 'SPF Record', 3);
