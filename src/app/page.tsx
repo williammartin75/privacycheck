@@ -25,6 +25,7 @@ import { ScoreBreakdown } from '@/components/report/ScoreBreakdown';
 import { RiskAssessment } from '@/components/report/RiskAssessment';
 import { ComplianceDrift } from '@/components/report/ComplianceDrift';
 import { SecurityExposure } from '@/components/report/SecurityExposure';
+import { ConsentBehavior } from '@/components/report/ConsentBehavior';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -597,230 +598,16 @@ export default function Home() {
 
               {/* Consent Behavior Test */}
               {result.issues.consentBehavior && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowConsentBehavior(!showConsentBehavior)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Consent Behavior Test</span>
-                      <span className={result.issues.consentBehavior.score >= 80 ? 'badge-passed' :
-                        result.issues.consentBehavior.score >= 50 ? 'badge-warning' : 'badge-failed'}>
-                        {result.issues.consentBehavior.score}/100
-                      </span>
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showConsentBehavior ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showConsentBehavior && (
-                    <div className="rounded-lg p-5 border border-slate-200 bg-white">
-                      {/* Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${result.issues.consentBehavior.score >= 80 ? 'bg-white' : 'bg-white'}`}>
-                            <svg className={`w-5 h-5 ${result.issues.consentBehavior.score >= 80 ? 'text-blue-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.score >= 80 ? 'M5 13l4 4L19 7' : 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'} />
-                            </svg>
-                          </div>
-                          <div>
-                            <p className="font-semibold text-slate-800">Consent Implementation Quality</p>
-                            <p className="text-sm text-slate-500">
-                              {result.issues.consentBehavior.consentProvider ? `Using ${result.issues.consentBehavior.consentProvider}` : 'Consent banner detected'}
-                            </p>
-                          </div>
-                        </div>
-                        <span className={`text-2xl font-bold ${result.issues.consentBehavior.score >= 80 ? 'text-blue-600' :
-                          result.issues.consentBehavior.score >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
-                          {result.issues.consentBehavior.score}/100
-                        </span>
-                      </div>
-
-                      {/* Quick checks */}
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.detected ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.detected ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
-                          </svg>
-                          <span className="text-xs font-medium">Banner Present</span>
-                        </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.hasRejectButton ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.hasRejectButton ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
-                          </svg>
-                          <span className="text-xs font-medium">Reject Button</span>
-                        </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.darkPatterns.length === 0 ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.darkPatterns.length === 0 ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
-                          </svg>
-                          <span className="text-xs font-medium">No Dark Patterns</span>
-                        </div>
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'bg-white text-blue-700' : 'bg-white text-red-700'}`}>
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length === 0 ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
-                          </svg>
-                          <span className="text-xs font-medium">Consent-Gated</span>
-                        </div>
-                      </div>
-
-                      {/* Issues found */}
-                      {result.issues.consentBehavior.issues.length > 0 && (
-                        <div className="mb-4">
-                          <p className="text-sm font-semibold text-slate-700 mb-2">Issues Detected:</p>
-                          <div className="space-y-2">
-                            {result.issues.consentBehavior.issues.slice(0, 5).map((issue, i) => (
-                              <div key={i} className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg">
-                                <span className="w-2 h-2 rounded-full bg-white0"></span>
-                                <span className="text-sm text-red-700">{issue}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Dark patterns detail with recommendations */}
-                      {result.issues.consentBehavior.darkPatterns.length > 0 && (
-                        <div className="mb-4">
-                          <p className="text-sm font-semibold text-slate-700 mb-2">Dark Patterns Found:</p>
-                          <div className="space-y-2">
-                            {result.issues.consentBehavior.darkPatterns.map((pattern, i) => (
-                              <div
-                                key={i}
-                                className={`bg-white rounded-lg border border-orange-200 overflow-hidden ${isPro ? 'cursor-pointer hover:bg-white' : ''}`}
-                                onClick={() => isPro && setExpandedRec(expandedRec === `darkPattern-${i}` ? null : `darkPattern-${i}`)}
-                              >
-                                <div className="flex items-center justify-between px-3 py-2">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-orange-500">⚠️</span>
-                                    <span className="text-sm text-orange-800">{pattern.description}</span>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <span className={`text-xs px-2 py-0.5 rounded ${pattern.severity === 'high' ? 'bg-white text-red-700' :
-                                      pattern.severity === 'medium' ? 'bg-white text-orange-700' : 'bg-white text-yellow-700'}`}>
-                                      {pattern.severity.toUpperCase()}
-                                    </span>
-                                    {isPro && (
-                                      <svg className={`w-4 h-4 text-orange-400 transition-transform ${expandedRec === `darkPattern-${i}` ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                      </svg>
-                                    )}
-                                  </div>
-                                </div>
-                                {expandedRec === `darkPattern-${i}` && isPro && (
-                                  <div className="px-3 pb-3">
-                                    <div className="bg-white rounded-lg p-4 border border-orange-200">
-                                      <h4 className="font-semibold text-gray-900 mb-2">{recommendations.darkPatterns?.title || 'Fix Dark Pattern'}</h4>
-                                      <p className="text-gray-600 text-sm mb-3">{recommendations.darkPatterns?.description}</p>
-                                      <h5 className="font-medium text-gray-900 mb-2 text-sm">How to fix:</h5>
-                                      <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
-                                        {recommendations.darkPatterns?.steps.map((step, si) => (
-                                          <li key={si}>{step}</li>
-                                        ))}
-                                      </ol>
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                          {!isPro && (
-                            <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
-                              <p className="text-slate-600 text-xs mb-2">Upgrade to Pro for step-by-step fix instructions</p>
-                              <button onClick={() => handleCheckout()} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 transition">
-                                Upgrade - €19/mo
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Pre-consent cookies with recommendations */}
-                      {result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).length > 0 && (
-                        <div className="mb-4">
-                          <div
-                            className={`${isPro ? 'cursor-pointer' : ''}`}
-                            onClick={() => isPro && setExpandedRec(expandedRec === 'preConsentCookies' ? null : 'preConsentCookies')}
-                          >
-                            <div className="flex items-center justify-between mb-2">
-                              <p className="text-sm font-semibold text-slate-700">Cookies Loaded Before Consent:</p>
-                              {isPro && (
-                                <svg className={`w-4 h-4 text-slate-400 transition-transform ${expandedRec === 'preConsentCookies' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                              )}
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                              {result.issues.consentBehavior.preConsentCookies.filter(c => c.violation).map((cookie, i) => (
-                                <MaskedText text={`${cookie.name} (${cookie.category})`} show={isPro} />
-                              ))}
-                            </div>
-                          </div>
-                          {expandedRec === 'preConsentCookies' && isPro && (
-                            <div className="mt-3 bg-white rounded-lg p-4 border border-red-100">
-                              <h4 className="font-semibold text-gray-900 mb-2">{recommendations.preConsentCookies?.title || 'Fix Pre-Consent Cookies'}</h4>
-                              <p className="text-gray-600 text-sm mb-3">{recommendations.preConsentCookies?.description}</p>
-                              <h5 className="font-medium text-gray-900 mb-2 text-sm">How to fix:</h5>
-                              <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
-                                {recommendations.preConsentCookies?.steps.map((step, si) => (
-                                  <li key={si}>{step}</li>
-                                ))}
-                              </ol>
-                            </div>
-                          )}
-                          {!isPro && (
-                            <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
-                              <p className="text-slate-600 text-xs mb-2">Upgrade to Pro for step-by-step fix instructions</p>
-                              <button onClick={() => handleCheckout()} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 transition">
-                                Upgrade - €19/mo
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Missing reject button recommendation */}
-                      {!result.issues.consentBehavior.hasRejectButton && result.issues.consentBehavior.detected && (
-                        <div className="mb-4">
-                          <div
-                            className={`bg-white rounded-lg border border-red-200 overflow-hidden ${isPro ? 'cursor-pointer hover:bg-white' : ''}`}
-                            onClick={() => isPro && setExpandedRec(expandedRec === 'missingRejectButton' ? null : 'missingRejectButton')}
-                          >
-                            <div className="flex items-center justify-between px-3 py-2">
-                              <div className="flex items-center gap-2">
-                                <span className="text-red-500">❌</span>
-                                <span className="text-sm text-red-800">Missing clear reject button</span>
-                              </div>
-                              {isPro && (
-                                <svg className={`w-4 h-4 text-red-400 transition-transform ${expandedRec === 'missingRejectButton' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                              )}
-                            </div>
-                            {expandedRec === 'missingRejectButton' && isPro && (
-                              <div className="px-3 pb-3">
-                                <div className="bg-white rounded-lg p-4 border border-red-200">
-                                  <h4 className="font-semibold text-gray-900 mb-2">{recommendations.missingRejectButton?.title || 'Add Reject Button'}</h4>
-                                  <p className="text-gray-600 text-sm mb-3">{recommendations.missingRejectButton?.description}</p>
-                                  <h5 className="font-medium text-gray-900 mb-2 text-sm">How to fix:</h5>
-                                  <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
-                                    {recommendations.missingRejectButton?.steps.map((step, si) => (
-                                      <li key={si}>{step}</li>
-                                    ))}
-                                  </ol>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * Checks consent banner implementation, presence of dark patterns, and whether tracking scripts await user consent.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <ConsentBehavior
+                  consentBehavior={result.issues.consentBehavior}
+                  isOpen={showConsentBehavior}
+                  onToggle={() => setShowConsentBehavior(!showConsentBehavior)}
+                  isPro={isPro}
+                  expandedRec={expandedRec}
+                  setExpandedRec={setExpandedRec}
+                  recommendations={recommendations}
+                  onUpgrade={() => handleCheckout()}
+                />
               )}
 
               {/* Privacy Policy AI Analysis */}
