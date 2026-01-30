@@ -153,12 +153,16 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             <strong>200 scans</strong>/month
                         </li>
                         <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <CheckIcon className="w-5 h-5 text-cyan-200" />
                             <strong>1,000 pages</strong> scanned
                         </li>
                         <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <CheckIcon className="w-5 h-5 text-cyan-200" />
                             <strong>Weekly</strong> auto-scan
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-cyan-200" />
+                            Compliance Drift Detection
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
@@ -175,10 +179,6 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
                             <strong>Attack Surface Scanner</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <CheckIcon className="w-5 h-5 text-cyan-200" />
-                            Compliance Drift Detection
                         </li>
                     </ul>
                     <button onClick={() => onCheckout('pro_plus')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">
