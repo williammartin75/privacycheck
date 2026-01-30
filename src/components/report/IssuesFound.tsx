@@ -4,6 +4,11 @@ interface IssuesFoundProps {
     issues: Array<{ item: string; points: number }>;
 }
 
+// Remove parentheses and their content for cleaner display
+function stripParentheses(text: string): string {
+    return text.replace(/\s*\([^)]*\)/g, '').trim();
+}
+
 export function IssuesFound({ issues }: IssuesFoundProps) {
     const failedItems = issues.filter(b => b.points < 0);
 
@@ -15,7 +20,7 @@ export function IssuesFound({ issues }: IssuesFoundProps) {
             <div className="flex flex-wrap gap-2">
                 {failedItems.map((item, i) => (
                     <span key={i} className="px-2 py-1 text-xs text-red-600">
-                        ✕ {item.item}
+                        ✕ {stripParentheses(item.item)}
                     </span>
                 ))}
             </div>
