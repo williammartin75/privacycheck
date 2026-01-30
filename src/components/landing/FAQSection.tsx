@@ -3,31 +3,35 @@
 const faqData = [
     {
         question: "What does PrivacyChecker scan?",
-        answer: "We check 14+ compliance criteria including HTTPS, cookie consent banner, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, and security headers. Plus: third-party vendor risk scores (80+ trackers), exposed files (.git, .env, backups), DNS security (SPF/DMARC), and AI-powered GDPR fine estimation."
+        answer: "We analyze 25+ compliance criteria including: cookies & consent banners, privacy policy, legal mentions, DPO contact, data deletion options, secure forms, security headers (CSP, HSTS, X-Frame-Options), SSL/TLS, email security (SPF/DMARC). Plus advanced analysis: Dark Patterns Detection, Consent Behavior Analysis, Cookie Lifespan checks, Fingerprinting Detection, Third-party Vendor Risk (80+ trackers), Attack Surface Scanner, AI-powered Policy Analysis, and GDPR Fine Risk Estimation."
     },
     {
         question: "Is the audit really free?",
-        answer: "Yes! The full audit is 100% free. You'll see your privacy score and all issues detected. Pro unlocks step-by-step recommendations on how to fix each issue, plus PDF reports and email alerts."
+        answer: "Yes! Free users get 10 scans/month with the full compliance audit. You'll see your privacy score, all issues detected, cookie categories, and severity levels. Pro unlocks detailed fix recommendations, PDF reports, and monitoring features."
     },
     {
         question: "How long does a scan take?",
-        answer: "Usually 30-60 seconds depending on your website size. We analyze your pages in real-time to give you accurate results."
+        answer: "Usually 30-60 seconds depending on your website size. Free scans cover 20 pages, Pro covers 200 pages, and Pro+ scans up to 1,000 pages for comprehensive site analysis."
     },
     {
         question: "What regulations do you check?",
-        answer: "We check compliance against GDPR (Europe), CCPA (California), LGPD (Brazil), and 50+ other global privacy regulations. Your results show which laws apply to your site based on its content."
+        answer: "We check compliance against GDPR (Europe), CCPA/CPRA (California), LGPD (Brazil), POPIA (South Africa), PDPA (Singapore/Thailand), and 50+ other global privacy regulations. Your results show which laws apply based on your site's content and detected jurisdictions."
     },
     {
         question: "What's included in Pro and Pro+?",
-        answer: "Pro (€19/mo) includes step-by-step fix recommendations, PDF reports, email alerts, monthly auto-scans, Security Headers Analysis, Email Security checks (SPF/DKIM/DMARC), Exposed Emails Detection, Cookie Banner Widget, WordPress Plugin, and Google Consent Mode v2. Pro+ (€29/mo) adds: 200 scans/month, 1,000 pages, weekly auto-scans, Data Breach Detection (HIBP), AI Risk Predictor (€ fine estimation), Vendor Risk Scores, Attack Surface Scanner, and Compliance Drift Detection."
+        answer: "Pro (€19/mo): 50 scans, 200 pages, step-by-step fix recommendations, PDF reports, email alerts, monthly auto-scans, Cookie Banner Widget, WordPress Plugin, Google Consent Mode v2. Pro+ (€29/mo): 200 scans, 1,000 pages, weekly auto-scans, Data Breach Detection (HIBP), AI Risk Predictor (€ fine estimation), Vendor Risk Scores, Attack Surface Scanner, Compliance Drift Detection, and priority support."
     },
     {
         question: "What is the Cookie Banner Widget?",
-        answer: "It's a customizable cookie consent banner you can embed on your site with one line of code. It handles consent for Analytics, Marketing, and Functional cookies, and integrates with Google Consent Mode v2 to ensure your Google Analytics and Ads respect user choices."
+        answer: "It's a fully customizable, GDPR-compliant cookie consent banner you can embed with one line of code. It handles consent for Analytics, Marketing, and Functional cookies, stores user preferences, and integrates with Google Consent Mode v2 to ensure your Google Analytics and Ads respect user choices automatically."
+    },
+    {
+        question: "What is Compliance Drift Detection?",
+        answer: "It monitors your site for changes that could affect compliance. When you run a new scan, we compare it to previous scans and alert you if your score drops, new trackers appear, or security headers change. Pro+ includes automatic weekly scans with email alerts."
     },
     {
         question: "Can I cancel my subscription anytime?",
-        answer: "Yes, you can cancel at any time from your Dashboard or by emailing support@privacychecker.pro. Your access continues until the end of your billing period. There are no cancellation fees."
+        answer: "Yes, you can cancel at any time from your Dashboard or by emailing support@privacychecker.pro. Your access continues until the end of your billing period. No cancellation fees, no questions asked."
     }
 ];
 

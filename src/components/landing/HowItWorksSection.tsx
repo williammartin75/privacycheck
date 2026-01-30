@@ -31,7 +31,7 @@ const steps = [
         description: "We check 20+ compliance criteria and calculate your privacy score from 0 to 100%.",
         sections: [
             {
-                label: "What you'll see",
+                label: "What you will see",
                 items: [
                     "Applicable regulations (GDPR, CCPA, LGPD...)",
                     "Issues found with severity levels",
