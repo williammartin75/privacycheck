@@ -84,7 +84,7 @@ export function SecurityExposure({ attackSurface, isOpen, onToggle, isPro }: Sec
                             </div>
                             <div>
                                 <p className="font-semibold text-slate-800">Security & Privacy Exposure Check</p>
-                                <p className="text-sm text-slate-500">{attackSurface.totalFindings} finding(s) detected</p>
+                                <p className="text-sm text-slate-500">{attackSurface.totalFindings} finding(s) detected, checks for exposed config files, cloud storage, API endpoints, and security misconfigurations.</p>
                             </div>
                         </div>
                         <span className={`text-sm font-semibold ${getRiskColor(attackSurface.overallRisk)}`}>
@@ -134,9 +134,7 @@ export function SecurityExposure({ attackSurface, isOpen, onToggle, isPro }: Sec
                         </div>
                     )}
 
-                    <p className="text-xs text-gray-400 mt-3">
-                        * Checks for exposed config files, cloud storage, API endpoints, and security misconfigurations.
-                    </p>
+
                 </div>
             )}
         </div>
