@@ -30,6 +30,10 @@ import { PolicyAnalysis } from '@/components/report/PolicyAnalysis';
 import { DarkPatterns } from '@/components/report/DarkPatterns';
 import { OptInForms } from '@/components/report/OptInForms';
 import { CookieLifespan } from '@/components/report/CookieLifespan';
+import { Fingerprinting } from '@/components/report/Fingerprinting';
+import { SecurityInfra } from '@/components/report/SecurityInfra';
+import { StorageAudit } from '@/components/report/StorageAudit';
+import { MixedContent } from '@/components/report/MixedContent';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -659,374 +663,45 @@ export default function Home() {
 
               {/* Fingerprinting Detection */}
               {result.issues.fingerprinting && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowFingerprinting(!showFingerprinting)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Fingerprinting Detection</span>
-                      <span className={result.issues.fingerprinting.score >= 80 ? 'badge-passed' :
-                        result.issues.fingerprinting.score >= 50 ? 'badge-warning' : 'badge-failed'}>
-                        {result.issues.fingerprinting.score}/100
-                      </span>
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showFingerprinting ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showFingerprinting && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      {result.issues.fingerprinting.detected ? (
-                        <>
-                          <div className="bg-white border border-red-200 rounded-lg p-4 mb-4">
-                            <p className="text-red-800 text-sm">
-                              <strong>⚠️ Privacy Alert:</strong> Browser fingerprinting techniques detected. These track users without cookies and require explicit GDPR consent.
-                            </p>
-                          </div>
-
-                          {/* Breakdown by type */}
-                          <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-4">
-                            {Object.entries(result.issues.fingerprinting.byType).map(([type, count]) => (
-                              <div key={type} className={`p-2 rounded text-center ${count > 0 ? 'bg-white' : 'bg-white'}`}>
-                                <p className={`text-lg font-bold ${count > 0 ? 'text-red-600' : 'text-blue-600'}`}>{count}</p>
-                                <p className="text-xs text-slate-500 capitalize">{type}</p>
-                              </div>
-                            ))}
-                          </div>
-
-                          <div className="space-y-2 max-h-48 overflow-y-auto">
-                            {result.issues.fingerprinting.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
-                              <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-white border-red-200' :
-                                issue.severity === 'high' ? 'bg-white border-orange-200' :
-                                  'bg-white border-yellow-200'
-                                }`}>
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type}</span>
-                                  <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-white text-red-800' : 'bg-white text-orange-800'
-                                    }`}>{issue.severity}</span>
-                                </div>
-                                <p className="text-sm text-slate-700">{issue.description}</p>
-                                <p className="text-xs text-red-600 mt-1">{issue.gdprImpact}</p>
-                                {isPro ? (
-                                  <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
-                                ) : (
-                                  <p className="text-xs text-blue-600 mt-2 blur-sm select-none">💡 Upgrade to Pro to see recommendation...</p>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
-                          <div>
-                            <p className="font-semibold text-blue-800">No Fingerprinting Detected</p>
-                            <p className="text-sm text-blue-600">
-                              No canvas, WebGL, audio, or device fingerprinting techniques found.
-                            </p>
-                          </div>
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * Fingerprinting creates unique device identifiers that persist even when cookies are cleared.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <Fingerprinting
+                  fingerprinting={result.issues.fingerprinting}
+                  isOpen={showFingerprinting}
+                  onToggle={() => setShowFingerprinting(!showFingerprinting)}
+                  isPro={isPro}
+                />
               )}
 
               {/* Security & Infrastructure */}
               {result.issues.securityHeadersExtended && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowSecurityHeadersExt(!showSecurityHeadersExt)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Security & Infrastructure</span>
-                      <span className={result.issues.securityHeadersExtended.score >= 80 ? 'badge-passed' :
-                        result.issues.securityHeadersExtended.score >= 50 ? 'badge-warning' :
-                          'badge-failed'
-                      }>
-                        {result.issues.securityHeadersExtended.score}/100
-                      </span>
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showSecurityHeadersExt ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showSecurityHeadersExt && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      {/* Grade Summary */}
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className={`text-4xl font-bold px-4 py-2 rounded-lg ${result.issues.securityHeadersExtended.score >= 80 ? 'bg-white text-slate-700' :
-                          result.issues.securityHeadersExtended.score >= 50 ? 'bg-white text-amber-700' :
-                            'bg-white text-red-700'
-                          }`}>
-                          {result.issues.securityHeadersExtended.score}/100
-                        </div>
-                        <div>
-                          <p className="text-slate-700">
-                            <strong>{result.issues.securityHeadersExtended.presentCount}</strong> of {result.issues.securityHeadersExtended.totalHeaders} headers present
-                          </p>
-                          <p className="text-sm text-slate-500">
-                            Score: {result.issues.securityHeadersExtended.score}/100
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* SSL/TLS & Email Security - Combined Grid */}
-                      <div className="grid md:grid-cols-2 gap-3 mb-4">
-                        {/* SSL/TLS */}
-                        {result.issues.ssl && (
-                          <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
-                            <h4 className="font-medium text-slate-700 text-sm mb-2">SSL/TLS</h4>
-                            <div className="space-y-1 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-slate-600">HTTPS</span>
-                                <span className={result.issues.ssl.valid ? 'text-slate-700 font-medium' : 'text-red-700 font-medium'}>
-                                  {result.issues.ssl.valid ? 'Yes' : 'No'}
-                                </span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-slate-600">HSTS</span>
-                                <span className={result.issues.ssl.hsts ? 'text-slate-700 font-medium' : 'text-red-700 font-medium'}>
-                                  {result.issues.ssl.hsts ? 'Yes' : 'No'}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Email Security */}
-                        {result.issues.emailSecurity && (
-                          <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
-                            <h4 className="font-medium text-slate-700 text-sm mb-2">Email Security</h4>
-                            <div className="space-y-1 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-slate-600">SPF Record</span>
-                                <span className={result.issues.emailSecurity.spf ? 'text-slate-700 font-medium' : 'text-red-700 font-medium'}>
-                                  {result.issues.emailSecurity.spf ? 'Yes' : 'No'}
-                                </span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-slate-600">DMARC</span>
-                                <span className={result.issues.emailSecurity.dmarc ? 'text-slate-700 font-medium' : 'text-red-700 font-medium'}>
-                                  {result.issues.emailSecurity.dmarc ? 'Yes' : 'No'}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Security Headers list */}
-                      <h4 className="font-medium text-slate-700 text-sm mb-2">Security Headers</h4>
-                      <div className="grid grid-cols-2 gap-2 mb-4">
-                        {Object.entries(result.issues.securityHeadersExtended.headers).slice(0, isPro ? 10 : 6).map(([header, info]) => (
-                          <div key={header} className={`p-2 rounded-lg text-xs ${info.present ? 'bg-white border border-slate-200' : 'bg-white border border-red-200'}`}>
-                            <div className="flex items-center gap-2">
-                              {info.present ? (
-                                <span className="text-slate-700">Yes</span>
-                              ) : (
-                                <span className="text-red-700">X</span>
-                              )}
-                              <span className={`font-medium ${info.present ? 'text-slate-800' : 'text-red-800'}`}>
-                                {header.replace('Cross-Origin-', 'CO-')}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Pro recommendations */}
-                      {isPro && result.issues.securityHeadersExtended.issues.length > 0 && (
-                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 mt-4">
-                          <p className="text-sm text-slate-800 font-medium mb-2">Recommendations:</p>
-                          <div className="space-y-2">
-                            {result.issues.securityHeadersExtended.issues.slice(0, 3).map((issue, i) => (
-                              <div key={i} className="text-xs text-slate-700">
-                                <p><strong>{issue.header}:</strong> {issue.recommendation}</p>
-                                <p className="text-slate-500 mt-0.5">- {issue.privacyImpact}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {!isPro && result.issues.securityHeadersExtended.issues.length > 0 && (
-                        <div className="mt-4">
-                          <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 blur-sm pointer-events-none select-none">
-                            <p className="text-sm text-slate-800 font-medium mb-2">Recommendations:</p>
-                            <div className="space-y-2">
-                              <div className="text-xs text-slate-700">
-                                <p><strong>Strict-Transport-Security:</strong> Add header to enforce HTTPS...</p>
-                                <p className="text-slate-500 mt-0.5">- Prevents man-in-the-middle attacks</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
-                            <p className="text-slate-600 text-sm mb-2">Unlock {result.issues.securityHeadersExtended.issues.length} security recommendations</p>
-                            <button onClick={() => handleCheckout()} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
-                              Upgrade to Pro
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * SSL/TLS ensures encrypted connections. Security headers protect against XSS, clickjacking, and data leakage.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <SecurityInfra
+                  securityHeaders={result.issues.securityHeadersExtended}
+                  ssl={result.issues.ssl}
+                  emailSecurity={result.issues.emailSecurity}
+                  isOpen={showSecurityHeadersExt}
+                  onToggle={() => setShowSecurityHeadersExt(!showSecurityHeadersExt)}
+                  isPro={isPro}
+                  onUpgrade={() => handleCheckout()}
+                />
               )}
 
               {/* Storage Audit */}
               {result.issues.storageAudit && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowStorageAudit(!showStorageAudit)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Client Storage Audit</span>
-                      {result.issues.storageAudit.compliant ? (
-                        <span className="badge-passed">0 issues</span>
-                      ) : (
-                        <span className="badge-warning">
-                          {result.issues.storageAudit.issues.length} risk{result.issues.storageAudit.issues.length > 1 ? 's' : ''}
-                        </span>
-                      )}
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showStorageAudit ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showStorageAudit && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      <div className="grid grid-cols-2 gap-3 mb-4">
-                        <div className="p-3 rounded-lg bg-white text-center">
-                          <p className="text-2xl font-bold text-slate-700">{result.issues.storageAudit.localStorage.count}</p>
-                          <p className="text-xs text-slate-500">localStorage</p>
-                        </div>
-                        <div className="p-3 rounded-lg bg-white text-center">
-                          <p className="text-2xl font-bold text-blue-700">{result.issues.storageAudit.sessionStorage.count}</p>
-                          <p className="text-xs text-slate-500">sessionStorage</p>
-                        </div>
-                      </div>
-
-                      {result.issues.storageAudit.issues.length > 0 ? (
-                        <div className="space-y-2 max-h-48 overflow-y-auto">
-                          {result.issues.storageAudit.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
-                            <div key={i} className={`p-3 rounded-lg border ${issue.risk === 'critical' ? 'bg-white border-red-200' :
-                              issue.risk === 'high' ? 'bg-white border-orange-200' :
-                                'bg-white border-yellow-200'
-                              }`}>
-                              <div className="flex justify-between items-start">
-                                <div>
-                                  <p className="font-mono text-sm text-slate-800">{issue.key}</p>
-                                  <p className="text-xs text-slate-500">{issue.type} · {issue.category}</p>
-                                </div>
-                                <span className={`text-xs px-2 py-0.5 rounded ${issue.risk === 'critical' ? 'bg-white text-red-800' : 'bg-white text-orange-800'
-                                  }`}>{issue.risk}</span>
-                              </div>
-                              {isPro && (
-                                <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
-                          <p className="font-semibold text-blue-800">No risky storage detected</p>
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * localStorage persists indefinitely and requires consent like cookies.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <StorageAudit
+                  storageAudit={result.issues.storageAudit}
+                  isOpen={showStorageAudit}
+                  onToggle={() => setShowStorageAudit(!showStorageAudit)}
+                  isPro={isPro}
+                />
               )}
 
               {/* Mixed Content */}
               {result.issues.mixedContent && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowMixedContent(!showMixedContent)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Mixed Content Security</span>
-                      {result.issues.mixedContent.detected ? (
-                        <span className="badge-failed">
-                          {result.issues.mixedContent.totalIssues} issue{result.issues.mixedContent.totalIssues > 1 ? 's' : ''}
-                        </span>
-                      ) : (
-                        <span className="badge-passed">0 issues</span>
-                      )}
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showMixedContent ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showMixedContent && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      {result.issues.mixedContent.detected ? (
-                        <>
-                          <div className="bg-white border border-red-200 rounded-lg p-3 mb-4">
-                            <p className="text-red-800 text-sm">
-                              <strong>⚠️ Security Risk:</strong> HTTP resources on HTTPS page.
-                              {result.issues.mixedContent.blockedCount > 0 && ` ${result.issues.mixedContent.blockedCount} blocked by browser.`}
-                            </p>
-                          </div>
-
-                          <div className="grid grid-cols-4 gap-2 mb-4 text-xs">
-                            {Object.entries(result.issues.mixedContent.byType).filter(([, v]) => v > 0).map(([type, count]) => (
-                              <div key={type} className="p-2 rounded bg-white text-center">
-                                <p className="font-bold text-red-600">{count}</p>
-                                <p className="text-slate-500">{type}</p>
-                              </div>
-                            ))}
-                          </div>
-
-                          <div className="space-y-2 max-h-40 overflow-y-auto">
-                            {result.issues.mixedContent.issues.slice(0, isPro ? 8 : 2).map((issue, i) => (
-                              <div key={i} className="p-2 bg-white rounded-lg border border-red-100 text-xs">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-semibold text-slate-700 uppercase">{issue.type}</span>
-                                  {issue.blocked && <span className="px-1 bg-white text-red-800 rounded">BLOCKED</span>}
-                                </div>
-                                <p className="text-slate-600 truncate">{issue.url}</p>
-                                {isPro ? (
-                                  <p className="text-blue-600 mt-1">→ {issue.recommendation}</p>
-                                ) : (
-                                  <p className="text-blue-600 mt-1 blur-sm select-none">→ Upgrade to Pro to see fix...</p>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
-                          <div>
-                            <p className="font-semibold text-blue-800">All Secure</p>
-                            <p className="text-sm text-blue-600">No HTTP resources on HTTPS page.</p>
-                          </div>
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * Mixed content exposes data to man-in-the-middle attacks.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <MixedContent
+                  mixedContent={result.issues.mixedContent}
+                  isOpen={showMixedContent}
+                  onToggle={() => setShowMixedContent(!showMixedContent)}
+                  isPro={isPro}
+                />
               )}
 
               {/* Form Security */}
