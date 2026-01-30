@@ -789,7 +789,7 @@ export default function Home() {
                   isOpen={showVendorRisk}
                   onToggle={() => setShowVendorRisk(!showVendorRisk)}
                   isPro={isPro}
-                  onUpgrade={() => setShowPricing(true)}
+                  onUpgrade={() => handleCheckout()}
                 />
               )}
 
