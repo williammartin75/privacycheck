@@ -894,7 +894,6 @@ export default function Home() {
 
                 {/* Site Info */}
                 <div className="flex-1 text-center md:text-left">
-                  <p className="text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Privacy Audit Report</p>
                   <p className="text-slate-800 text-2xl font-semibold mb-3">{result.domain}</p>
                   <div className={`inline-block px-3 py-1.5 rounded text-xs font-semibold ${getScoreLabel(result.score).bg} ${getScoreLabel(result.score).text}`}>
                     {getScoreLabel(result.score).label} • {getScoreLabel(result.score).sublabel}
@@ -1330,9 +1329,9 @@ export default function Home() {
                   >
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Consent Behavior Test</span>
-                      <span className={result.issues.consentBehavior.score >= 80 ? 'badge-passed' :
-                        result.issues.consentBehavior.score >= 50 ? 'badge-warning' : 'badge-failed'}>
-                        {result.issues.consentBehavior.score >= 80 ? 'PASSED' : result.issues.consentBehavior.score >= 50 ? 'WARNING' : 'FAILED'}
+                      <span className={result.issues.consentBehavior.issues.length === 0 ? 'badge-passed' :
+                        result.issues.consentBehavior.issues.length <= 2 ? 'badge-warning' : 'badge-failed'}>
+                        {result.issues.consentBehavior.issues.length === 0 ? '0 issues' : `${result.issues.consentBehavior.issues.length} issue${result.issues.consentBehavior.issues.length > 1 ? 's' : ''}`}
                       </span>
                     </span>
                     <svg className={`w-5 h-5 text-slate-400 transition-transform ${showConsentBehavior ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1908,7 +1907,7 @@ export default function Home() {
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Opt-in Forms Analysis</span>
                       {result.issues.optInForms.compliant ? (
-                        <span className="badge-passed">Compliant</span>
+                        <span className="badge-passed">0 issues</span>
                       ) : (
                         <span className="badge-failed">
                           {result.issues.optInForms.totalIssues} issue{result.issues.optInForms.totalIssues > 1 ? 's' : ''}
@@ -2024,7 +2023,7 @@ export default function Home() {
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Cookie Lifespan Analysis</span>
                       {result.issues.cookieLifespan.compliant ? (
-                        <span className="badge-passed">Compliant</span>
+                        <span className="badge-passed">0 issues</span>
                       ) : (
                         <span className="badge-warning">
                           {result.issues.cookieLifespan.issuesCount} issue{result.issues.cookieLifespan.issuesCount > 1 ? 's' : ''}
@@ -2106,13 +2105,13 @@ export default function Home() {
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Fingerprinting Detection</span>
                       {result.issues.fingerprinting.riskLevel === 'none' ? (
-                        <span className="badge-passed">Clean</span>
+                        <span className="badge-passed">0 issues</span>
                       ) : (
                         <span className={result.issues.fingerprinting.riskLevel === 'critical' ? 'badge-failed' :
                           result.issues.fingerprinting.riskLevel === 'high' ? 'badge-failed' :
                             'badge-warning'
                         }>
-                          {result.issues.fingerprinting.riskLevel.toUpperCase()} RISK
+                          {result.issues.fingerprinting.issues.length} issue{result.issues.fingerprinting.issues.length > 1 ? 's' : ''}
                         </span>
                       )}
                     </span>
@@ -2317,7 +2316,7 @@ export default function Home() {
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Client Storage Audit</span>
                       {result.issues.storageAudit.compliant ? (
-                        <span className="badge-passed">Clean</span>
+                        <span className="badge-passed">0 issues</span>
                       ) : (
                         <span className="badge-warning">
                           {result.issues.storageAudit.issues.length} risk{result.issues.storageAudit.issues.length > 1 ? 's' : ''}
@@ -2391,7 +2390,7 @@ export default function Home() {
                           {result.issues.mixedContent.totalIssues} issue{result.issues.mixedContent.totalIssues > 1 ? 's' : ''}
                         </span>
                       ) : (
-                        <span className="badge-passed">Secure</span>
+                        <span className="badge-passed">0 issues</span>
                       )}
                     </span>
                     <svg className={`w-5 h-5 text-slate-400 transition-transform ${showMixedContent ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2461,7 +2460,7 @@ export default function Home() {
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Form Security Analysis</span>
                       {result.issues.formSecurity.compliant ? (
-                        <span className="badge-passed">Secure</span>
+                        <span className="badge-passed">0 issues</span>
                       ) : (
                         <span className="badge-warning">
                           {result.issues.formSecurity.issuesCount} issue{result.issues.formSecurity.issuesCount > 1 ? 's' : ''}
@@ -2935,7 +2934,7 @@ export default function Home() {
                         {result.issues.dataBreaches.length} breach{result.issues.dataBreaches.length > 1 ? 'es' : ''}
                       </span>
                     ) : (
-                      <span className="badge-passed">Clean</span>
+                      <span className="badge-passed">0 issues</span>
                     )}
                   </span>
                   <svg className={`w-5 h-5 text-slate-400 transition-transform ${showDataBreaches ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
