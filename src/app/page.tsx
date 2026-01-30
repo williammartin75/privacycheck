@@ -22,6 +22,8 @@ import { ReportHeader } from '@/components/report/ReportHeader';
 import { PassedChecks } from '@/components/report/PassedChecks';
 import { IssuesFound } from '@/components/report/IssuesFound';
 import { ScoreBreakdown } from '@/components/report/ScoreBreakdown';
+import { RiskAssessment } from '@/components/report/RiskAssessment';
+import { ComplianceDrift } from '@/components/report/ComplianceDrift';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -565,184 +567,22 @@ export default function Home() {
 
               {/* Risk Assessment */}
               {result.riskPrediction && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowRiskAssessment(!showRiskAssessment)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">GDPR Fine Estimation</span>
-                      <span className={result.riskPrediction.riskLevel === 'critical' || result.riskPrediction.riskLevel === 'high' ? 'badge-failed' :
-                        result.riskPrediction.riskLevel === 'medium' ? 'badge-warning' : 'badge-passed'
-                      }>
-                        €{result.riskPrediction.minFine >= 1000 ? (result.riskPrediction.minFine / 1000).toFixed(0) + 'k' : result.riskPrediction.minFine} - €{result.riskPrediction.maxFine >= 1000000 ? (result.riskPrediction.maxFine / 1000000).toFixed(1) + 'M' : result.riskPrediction.maxFine >= 1000 ? (result.riskPrediction.maxFine / 1000).toFixed(0) + 'k' : result.riskPrediction.maxFine}
-                      </span>
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showRiskAssessment ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showRiskAssessment && (
-                    <div className="rounded-lg p-6 border border-slate-200 bg-white">
-                      {/* Fine Estimation Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                        <div>
-                          <p className="text-sm font-medium text-gray-500 mb-1">Potential GDPR Fine Range</p>
-                          <p className={`text-3xl font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-700' :
-                            result.riskPrediction.riskLevel === 'high' ? 'text-orange-700' :
-                              result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
-                                'text-blue-700'
-                            }`}>
-                            €{result.riskPrediction.minFine >= 1000 ? (result.riskPrediction.minFine / 1000).toFixed(0) + 'k' : result.riskPrediction.minFine}
-                            {' - '}
-                            €{result.riskPrediction.maxFine >= 1000000 ? (result.riskPrediction.maxFine / 1000000).toFixed(1) + 'M' : result.riskPrediction.maxFine >= 1000 ? (result.riskPrediction.maxFine / 1000).toFixed(0) + 'k' : result.riskPrediction.maxFine}
-                          </p>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-sm font-medium text-gray-500 mb-1">Risk Level</p>
-                          <span className={`inline-block px-4 py-2 rounded-full text-lg font-bold ${result.riskPrediction.riskLevel === 'critical' ? 'text-red-700' :
-                            result.riskPrediction.riskLevel === 'high' ? 'text-orange-600' :
-                              result.riskPrediction.riskLevel === 'medium' ? 'text-yellow-700' :
-                                'text-blue-600'
-                            }`}>
-                            {result.riskPrediction.riskLevel.toUpperCase()}
-                          </span>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-sm font-medium text-gray-500 mb-1">Enforcement Probability</p>
-                          <span style={{ color: result.riskPrediction.probability >= 70 ? '#b91c1c' : result.riskPrediction.probability >= 40 ? '#b45309' : '#15803d' }} className="inline-block px-4 py-2 rounded-full text-lg font-bold">{result.riskPrediction.probability}%</span>
-                        </div>
-                      </div>
-
-                      {/* Risk Factors */}
-                      {result.riskPrediction.factors.length > 0 && (
-                        <div className="mb-4">
-                          <p className="text-sm font-semibold text-gray-600 mb-2">Risk Factors Identified:</p>
-                          <div className={`space-y-2 ${!isPro ? 'blur-sm pointer-events-none select-none' : ''}`}>
-                            {result.riskPrediction.factors.slice(0, isPro ? 5 : 2).map((factor, i) => (
-                              <div key={i} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
-                                <div className="flex items-center gap-3">
-                                  <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-600' :
-                                    factor.severity === 'high' ? 'bg-red-500' :
-                                      factor.severity === 'medium' ? 'bg-amber-500' :
-                                        'bg-slate-300'
-                                    }`}></span>
-                                  <div>
-                                    <p className="font-medium text-gray-800">{factor.issue}</p>
-                                    {factor.gdprArticle && (
-                                      <p className="text-xs text-gray-500">GDPR {factor.gdprArticle}</p>
-                                    )}
-                                  </div>
-                                </div>
-                                <span className="text-red-700 font-semibold">
-                                  +€{factor.fineContribution >= 1000 ? (factor.fineContribution / 1000).toFixed(0) + 'k' : factor.fineContribution}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                          {!isPro && (
-                            <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
-                              <p className="text-slate-600 text-sm mb-2">Unlock all {result.riskPrediction.factors.length} risk factors + remediation steps</p>
-                              <button onClick={() => handleCheckout()} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
-                                Upgrade to Pro
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Recommendation */}
-                      <div className="mt-4 p-4 rounded-lg bg-white border border-slate-200">
-                        <p className="text-sm font-medium text-slate-700">
-                          <strong>Recommendation:</strong> {result.riskPrediction.recommendation}
-                        </p>
-                      </div>
-
-                      <p className="text-xs text-slate-400 mt-3">
-                        * Estimates based on GDPR enforcement patterns and detected violations. Actual fines depend on DPA discretion, company size, and specifics of the case.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <RiskAssessment
+                  riskPrediction={result.riskPrediction}
+                  isOpen={showRiskAssessment}
+                  onToggle={() => setShowRiskAssessment(!showRiskAssessment)}
+                  isPro={isPro}
+                  onUpgrade={() => handleCheckout()}
+                />
               )}
 
               {/* Compliance Drift Detection */}
               {driftReport && driftReport.hasChanges && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowComplianceDrift(!showComplianceDrift)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Compliance Drift Detection</span>
-                      <span className={driftReport.overallTrend === 'declining' ? 'badge-warning' : 'badge-passed'}>
-                        {driftReport.changes.length} change{driftReport.changes.length > 1 ? 's' : ''}
-                      </span>
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showComplianceDrift ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showComplianceDrift && (
-                    <div className="rounded-lg p-5 border border-slate-200 bg-white">
-                      {/* Header with trend */}
-                      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${driftReport.overallTrend === 'improving' ? 'bg-white' : driftReport.overallTrend === 'declining' ? 'bg-white' : 'bg-white'}`}>
-                            <svg className={`w-5 h-5 ${driftReport.overallTrend === 'improving' ? 'text-blue-600' : 'text-slate-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={driftReport.overallTrend === 'improving' ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : driftReport.overallTrend === 'declining' ? 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6' : 'M5 12h14'} />
-                            </svg>
-                          </div>
-                          <div>
-                            <p className="font-semibold text-slate-800">
-                              {driftReport.overallTrend === 'improving' ? 'Privacy Improving' :
-                                driftReport.overallTrend === 'declining' ? 'Privacy Declining' : 'No Significant Change'}
-                            </p>
-                            <p className="text-sm text-slate-500">{driftReport.changes.length} change(s) detected since last scan</p>
-                          </div>
-                        </div>
-                        {driftReport.scoreDelta !== 0 && (
-                          <div className={`px-3 py-1.5 rounded ${driftReport.scoreDelta > 0 ? 'bg-white text-blue-700 border border-blue-200' : 'bg-white text-slate-700 border border-slate-200'}`}>
-                            <span className="text-lg font-bold">
-                              {driftReport.scoreDelta > 0 ? '+' : ''}{driftReport.scoreDelta}
-                            </span>
-                            <span className="text-xs ml-1">points</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Changes list */}
-                      <div className="space-y-2">
-                        {driftReport.changes.slice(0, 6).map((change, i) => (
-                          <div key={i} className={`flex items-center justify-between bg-white rounded-lg px-4 py-3 shadow-sm border-l-4 ${change.impact === 'negative' ? 'border-red-500' :
-                            change.impact === 'positive' ? 'border-blue-500' :
-                              'border-gray-300'
-                            }`}>
-                            <div className="flex items-center gap-3">
-                              <span className={`font-bold ${change.impact === 'positive' ? 'text-blue-600' : change.impact === 'negative' ? 'text-red-600' : 'text-gray-500'}`}>
-                                {change.impact === 'positive' ? '↑' : change.impact === 'negative' ? '↓' : '–'}
-                              </span>
-                              <div>
-                                <p className="font-medium text-gray-800">{change.field}</p>
-                                <p className="text-sm text-gray-500">{change.description}</p>
-                              </div>
-                            </div>
-                            <span className={`text-xs px-2 py-1 rounded ${change.type === 'improvement' ? 'bg-white text-blue-700' :
-                              change.type === 'regression' ? 'bg-white text-red-700' :
-                                'bg-gray-100 text-gray-600'
-                              }`}>
-                              {change.category}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * Changes compared to your previous scan of this domain. Scan history is stored locally in your browser.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <ComplianceDrift
+                  driftReport={driftReport}
+                  isOpen={showComplianceDrift}
+                  onToggle={() => setShowComplianceDrift(!showComplianceDrift)}
+                />
               )}
 
               {/* Security Exposure Analysis */}
