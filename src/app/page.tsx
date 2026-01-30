@@ -1070,7 +1070,7 @@ export default function Home() {
                       <span className={result.riskPrediction.riskLevel === 'critical' || result.riskPrediction.riskLevel === 'high' ? 'badge-failed' :
                         result.riskPrediction.riskLevel === 'medium' ? 'badge-warning' : 'badge-passed'
                       }>
-                        {result.riskPrediction.riskLevel.toUpperCase()}
+                        €{result.riskPrediction.minFine >= 1000 ? (result.riskPrediction.minFine / 1000).toFixed(0) + 'k' : result.riskPrediction.minFine} - €{result.riskPrediction.maxFine >= 1000000 ? (result.riskPrediction.maxFine / 1000000).toFixed(1) + 'M' : result.riskPrediction.maxFine >= 1000 ? (result.riskPrediction.maxFine / 1000).toFixed(0) + 'k' : result.riskPrediction.maxFine}
                       </span>
                     </span>
                     <svg className={`w-5 h-5 text-slate-400 transition-transform ${showRiskAssessment ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
