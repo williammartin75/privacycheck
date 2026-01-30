@@ -34,6 +34,7 @@ import { Fingerprinting } from '@/components/report/Fingerprinting';
 import { SecurityInfra } from '@/components/report/SecurityInfra';
 import { StorageAudit } from '@/components/report/StorageAudit';
 import { MixedContent } from '@/components/report/MixedContent';
+import { FormSecurity } from '@/components/report/FormSecurity';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -705,80 +706,13 @@ export default function Home() {
               )}
 
               {/* Form Security */}
-              {result.issues.formSecurity && result.issues.formSecurity.totalForms > 0 && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowFormSecurity(!showFormSecurity)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Form Security Analysis</span>
-                      {result.issues.formSecurity.compliant ? (
-                        <span className="badge-passed">0 issues</span>
-                      ) : (
-                        <span className="badge-warning">
-                          {result.issues.formSecurity.issuesCount} issue{result.issues.formSecurity.issuesCount > 1 ? 's' : ''}
-                        </span>
-                      )}
-                      {result.issues.formSecurity.hasLoginForm && (
-                        <span className="badge-info">Login</span>
-                      )}
-                      {result.issues.formSecurity.hasPaymentForm && (
-                        <span className="badge-info">Payment</span>
-                      )}
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showFormSecurity ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showFormSecurity && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 rounded-lg bg-slate-50 text-center">
-                          <p className="text-2xl font-bold text-slate-700">{result.issues.formSecurity.totalForms}</p>
-                          <p className="text-xs text-slate-500">Forms</p>
-                        </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'bg-white' : 'bg-white'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'text-slate-700' : 'text-red-700'}`}>
-                            {result.issues.formSecurity.secureCount}/{result.issues.formSecurity.totalForms}
-                          </p>
-                          <p className="text-xs text-slate-500">Secure</p>
-                        </div>
-                      </div>
-
-                      {result.issues.formSecurity.issues.length > 0 ? (
-                        <div className="space-y-2 max-h-48 overflow-y-auto">
-                          {result.issues.formSecurity.issues.slice(0, isPro ? 8 : 2).map((issue, i) => (
-                            <div key={i} className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-white border-red-200' :
-                              issue.severity === 'high' ? 'bg-white border-orange-200' :
-                                'bg-white border-yellow-200'
-                              }`}>
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-xs font-semibold text-slate-700 uppercase">{issue.type.replace(/-/g, ' ')}</span>
-                                <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-white text-red-800' : 'bg-white text-orange-800'
-                                  }`}>{issue.severity}</span>
-                              </div>
-                              <p className="text-sm text-slate-700">{issue.description}</p>
-                              {issue.field && <p className="text-xs text-slate-500">Field: {issue.field}</p>}
-                              {isPro && (
-                                <p className="text-xs text-slate-600 mt-2">Tip: {issue.recommendation}</p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-sm font-bold text-slate-700 uppercase">PASS</span>
-                          <p className="font-semibold text-slate-800">All forms follow security best practices</p>
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * Forms with passwords or payments require HTTPS and CSRF protection.
-                      </p>
-                    </div>
-                  )}
-                </div>
+              {result.issues.formSecurity && (
+                <FormSecurity
+                  formSecurity={result.issues.formSecurity}
+                  isOpen={showFormSecurity}
+                  onToggle={() => setShowFormSecurity(!showFormSecurity)}
+                  isPro={isPro}
+                />
               )}
 
               {/* Compliance Checks */}
