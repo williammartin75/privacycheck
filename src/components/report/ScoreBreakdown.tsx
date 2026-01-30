@@ -37,7 +37,7 @@ export function ScoreBreakdown({ breakdown, finalScore }: ScoreBreakdownProps) {
                     ))}
                 </div>
                 <div className="mt-3 pt-3 border-t border-slate-200 flex justify-between items-center">
-                    <span className="text-slate-600 font-medium text-sm">Final Score</span>
+                    <span className="text-slate-800 font-bold text-sm">Final Score</span>
                     <span className="text-xl font-bold text-slate-800">{finalScore}/100</span>
                 </div>
             </div>
