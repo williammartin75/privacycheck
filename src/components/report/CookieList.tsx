@@ -1,7 +1,5 @@
 'use client';
 
-import { MaskedText } from '@/components/ProGate';
-
 interface CookieItem {
     name: string;
     category: string;
@@ -53,7 +51,7 @@ export function CookieList({
             </button>
 
             {isOpen && cookies.list.length > 0 && (
-                <div className="bg-white rounded-md p-4 overflow-x-auto">
+                <div className={`bg-white rounded-md p-4 overflow-x-auto ${!isPro ? 'relative' : ''}`}>
                     {/* Category Legend */}
                     <div className="flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-200">
                         <span className="text-xs text-gray-500 font-medium">Categories:</span>
@@ -62,30 +60,32 @@ export function CookieList({
                         <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-sky-200 text-sky-800">marketing</span>
                         <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-400 text-amber-900">preferences</span>
                     </div>
-                    <table className="w-full text-sm">
-                        <thead>
-                            <tr className="text-left text-gray-500 border-b border-gray-200">
-                                <th className="pb-2 pr-4">Name</th>
-                                <th className="pb-2 pr-4">Category</th>
-                                <th className="pb-2 pr-4">Provider</th>
-                                <th className="pb-2">Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {cookies.list.map((cookie, i) => (
-                                <tr key={i} className="border-b border-gray-100 last:border-0">
-                                    <td className="py-2 pr-4 font-mono text-gray-900"><MaskedText text={cookie.name} show={isPro} /></td>
-                                    <td className="py-2 pr-4">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(cookie.category)}`}>
-                                            {cookie.category}
-                                        </span>
-                                    </td>
-                                    <td className="py-2 pr-4 text-gray-600"><MaskedText text={cookie.provider} show={isPro} /></td>
-                                    <td className="py-2 text-gray-600"><MaskedText text={cookie.description} show={isPro} /></td>
+                    <div className={!isPro ? 'blur-sm select-none pointer-events-none' : ''}>
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="text-left text-gray-500 border-b border-gray-200">
+                                    <th className="pb-2 pr-4">Name</th>
+                                    <th className="pb-2 pr-4">Category</th>
+                                    <th className="pb-2 pr-4">Provider</th>
+                                    <th className="pb-2">Description</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {cookies.list.map((cookie, i) => (
+                                    <tr key={i} className="border-b border-gray-100 last:border-0">
+                                        <td className="py-2 pr-4 font-mono text-gray-900">{cookie.name}</td>
+                                        <td className="py-2 pr-4">
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(cookie.category)}`}>
+                                                {cookie.category}
+                                            </span>
+                                        </td>
+                                        <td className="py-2 pr-4 text-gray-600">{cookie.provider}</td>
+                                        <td className="py-2 text-gray-600">{cookie.description}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
         </div>
