@@ -11,6 +11,11 @@ interface ScoreBreakdownProps {
     finalScore: number;
 }
 
+// Remove parentheses and their content for cleaner display
+function stripParentheses(text: string): string {
+    return text.replace(/\s*\([^)]*\)/g, '').trim();
+}
+
 export function ScoreBreakdown({ breakdown, finalScore }: ScoreBreakdownProps) {
     if (!breakdown || breakdown.length === 0) return null;
 
@@ -28,7 +33,7 @@ export function ScoreBreakdown({ breakdown, finalScore }: ScoreBreakdownProps) {
                                 }`}
                         >
                             <span className={`text-sm ${item.passed ? 'text-slate-700' : 'text-slate-600'}`}>
-                                {item.item}
+                                {stripParentheses(item.item)}
                             </span>
                             <span className={`text-sm font-semibold ${item.passed ? 'text-slate-700' : 'text-slate-500'}`}>
                                 {item.points > 0 ? '+' : ''}{item.points}
