@@ -50,6 +50,12 @@ function getBadgeClass(score: number): string {
     return 'badge-failed';
 }
 
+function getScoreColor(score: number): string {
+    if (score >= 80) return 'text-blue-600';
+    if (score >= 50) return 'text-yellow-600';
+    return 'text-red-600';
+}
+
 function getStatusLabel(status: string): React.ReactNode {
     switch (status) {
         case 'compliant': return <span className="text-blue-600">PASS</span>;
@@ -92,26 +98,30 @@ export function PolicyAnalysis({
             {isOpen && (
                 <div className="bg-white rounded-lg border border-slate-200 p-4">
                     {/* Overall Status */}
-                    <div className={`flex items-center gap-3 p-3 rounded-lg mb-4 ${policyAnalysis.overallStatus === 'not-found' ? 'bg-gray-50' : 'bg-white'
-                        }`}>
-                        <span className="text-sm font-bold uppercase tracking-wider">
-                            {getStatusLabel(policyAnalysis.overallStatus)}
-                        </span>
-                        <div>
-                            <p className="font-semibold text-slate-800">
-                                {getStatusMessage(policyAnalysis.overallStatus)}
-                            </p>
-                            <p className="text-sm text-slate-600">
-                                Score: {policyAnalysis.overallScore}/100
-                                {policyAnalysis.lastUpdated && ` • Last Updated: ${policyAnalysis.lastUpdated}`}
-                            </p>
+                    <div className="flex items-center justify-between gap-4 p-3 rounded-lg mb-4 bg-white">
+                        <div className="flex items-center gap-3">
+                            <span className="text-sm font-bold uppercase tracking-wider">
+                                {getStatusLabel(policyAnalysis.overallStatus)}
+                            </span>
+                            <div>
+                                <p className="font-semibold text-slate-800">
+                                    {getStatusMessage(policyAnalysis.overallStatus)}
+                                </p>
+                                <p className="text-sm text-slate-600">
+                                    Score: {policyAnalysis.overallScore}/100
+                                    {policyAnalysis.lastUpdated && ` • Last Updated: ${policyAnalysis.lastUpdated}`}
+                                </p>
+                            </div>
                         </div>
+                        <span className={`text-2xl font-bold ${getScoreColor(policyAnalysis.overallScore)}`}>
+                            {policyAnalysis.overallScore}/100
+                        </span>
                     </div>
 
                     {/* GDPR Articles Compliance */}
                     <div className="mb-4">
                         <p className="text-sm font-semibold text-slate-700 mb-2">GDPR Article Compliance:</p>
-                        <div className="flex flex-wrap gap-2">
+                        <div className={`flex flex-wrap gap-2 ${!isPro ? 'blur-sm select-none' : ''}`}>
                             {policyAnalysis.gdprArticles.map((article, i) => (
                                 <span
                                     key={i}
@@ -146,10 +156,10 @@ export function PolicyAnalysis({
                                     </span>
                                 </div>
                                 {section.details.length > 0 && (
-                                    <p className="text-xs text-slate-600 truncate">{section.details[0]}</p>
+                                    <p className={`text-xs text-slate-600 truncate ${!isPro ? 'blur-sm select-none' : ''}`}>{section.details[0]}</p>
                                 )}
                                 {section.issues.length > 0 && (
-                                    <p className="text-xs text-red-700 truncate mt-1">Warning: {section.issues[0]}</p>
+                                    <p className={`text-xs text-red-700 truncate mt-1 ${!isPro ? 'blur-sm select-none' : ''}`}>Warning: {section.issues[0]}</p>
                                 )}
                             </div>
                         ))}
@@ -159,7 +169,7 @@ export function PolicyAnalysis({
                     {policyAnalysis.missingElements.length > 0 && (
                         <div className="mb-4">
                             <p className="text-sm font-semibold text-red-700 mb-2">Missing Elements:</p>
-                            <div className="flex flex-wrap gap-2">
+                            <div className={`flex flex-wrap gap-2 ${!isPro ? 'blur-sm select-none' : ''}`}>
                                 {policyAnalysis.missingElements.map((element, i) => (
                                     <span key={i} className="text-xs bg-white text-red-700 px-2 py-1 rounded-full">
                                         {element}
