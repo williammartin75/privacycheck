@@ -1,8 +1,5 @@
 'use client';
 
-import { MaskedText } from '@/components/ProGate';
-import { UpgradeCTA } from '@/components/UpgradeCTA';
-
 interface TrackersListProps {
     trackers: string[];
     isOpen: boolean;
@@ -42,7 +39,7 @@ export function TrackersList({
                     <div className="flex flex-wrap gap-2 mb-3">
                         {trackers.slice(0, isPro ? undefined : 2).map((tracker, i) => (
                             <span key={i} className="px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 text-sm font-medium">
-                                <MaskedText text={tracker} show={isPro} />
+                                <span className={!isPro ? 'blur-sm select-none' : ''}>{tracker}</span>
                             </span>
                         ))}
                         {!isPro && trackers.length > 2 && (
@@ -52,7 +49,12 @@ export function TrackersList({
                         )}
                     </div>
                     {!isPro && (
-                        <UpgradeCTA feature="tracker names" hiddenCount={trackers.length} onUpgrade={onUpgrade} />
+                        <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
+                            <p className="text-slate-600 text-sm mb-2">{trackers.length} tracker names hidden</p>
+                            <button onClick={onUpgrade} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+                                Upgrade to Pro
+                            </button>
+                        </div>
                     )}
                     <p className="text-slate-500 text-xs mt-3">
                         Tip: Use our Cookie Banner to block these trackers until user consent is given.

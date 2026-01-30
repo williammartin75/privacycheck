@@ -1,7 +1,5 @@
 'use client';
 
-import { MaskedText } from '@/components/ProGate';
-
 interface DarkPattern {
     description: string;
     severity: 'high' | 'medium' | 'low';
@@ -169,7 +167,7 @@ export function ConsentBehavior({
                                 </div>
                                 <div className="flex flex-wrap gap-2">
                                     {violatingCookies.map((cookie, i) => (
-                                        <MaskedText key={i} text={`${cookie.name} (${cookie.category})`} show={isPro} />
+                                        <span key={i} className={!isPro ? 'blur-sm select-none' : ''}>{cookie.name} ({cookie.category})</span>
                                     ))}
                                 </div>
                             </div>
