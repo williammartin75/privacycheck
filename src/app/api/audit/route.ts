@@ -789,9 +789,11 @@ export async function POST(request: NextRequest) {
             }
         };
 
-        // Crawl in batches of 5 concurrent requests
-        const batchSize = 5;
+        // Parallel crawl - fetch all pages at once for faster scanning
+        // For Free tier (20 pages), fetch all in parallel
+        // For Pro/Pro+ (200-1000 pages), use batches to avoid overwhelming
         const maxPages = isProPlus ? 1000 : (isPro ? 200 : 20);
+        const batchSize = isPro || isProPlus ? 10 : 20; // Free: all at once, Pro/Pro+: batches of 10
         let linkIndex = 0;
 
         // Process links as they are discovered (allInternalLinks grows during crawl)
