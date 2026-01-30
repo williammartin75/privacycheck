@@ -2495,7 +2495,7 @@ export default function Home() {
                           <p className="text-xs text-slate-500">Forms</p>
                         </div>
                         <div className={`p-3 rounded-lg text-center ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'bg-white' : 'bg-white'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'text-blue-600' : 'text-orange-600'}`}>
+                          <p className={`text-2xl font-bold ${result.issues.formSecurity.secureCount === result.issues.formSecurity.totalForms ? 'text-slate-700' : 'text-red-700'}`}>
                             {result.issues.formSecurity.secureCount}/{result.issues.formSecurity.totalForms}
                           </p>
                           <p className="text-xs text-slate-500">Secure</p>
@@ -2517,15 +2517,15 @@ export default function Home() {
                               <p className="text-sm text-slate-700">{issue.description}</p>
                               {issue.field && <p className="text-xs text-slate-500">Field: {issue.field}</p>}
                               {isPro && (
-                                <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
+                                <p className="text-xs text-slate-600 mt-2">Tip: {issue.recommendation}</p>
                               )}
                             </div>
                           ))}
                         </div>
                       ) : (
                         <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
-                          <p className="font-semibold text-blue-800">All forms follow security best practices</p>
+                          <span className="text-sm font-bold text-slate-700 uppercase">PASS</span>
+                          <p className="font-semibold text-slate-800">All forms follow security best practices</p>
                         </div>
                       )}
 
