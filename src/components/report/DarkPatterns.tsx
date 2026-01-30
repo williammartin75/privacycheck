@@ -82,6 +82,12 @@ function getScoreColor(score: number): string {
     return 'text-red-600';
 }
 
+function getStatusBadgeClass(score: number): string {
+    if (score >= 80) return 'border border-blue-300 text-blue-600 px-2 py-0.5 rounded';
+    if (score >= 50) return 'border border-yellow-300 text-yellow-600 px-2 py-0.5 rounded';
+    return 'border border-red-300 text-red-600 px-2 py-0.5 rounded';
+}
+
 export function DarkPatterns({
     darkPatterns,
     isOpen,
@@ -122,11 +128,10 @@ export function DarkPatterns({
                     {/* Overall Status */}
                     <div className="flex items-center justify-between gap-4 p-3 rounded-lg mb-4 bg-white">
                         <div className="flex items-center gap-3">
-                            <span className="text-sm font-bold uppercase tracking-wider">
-                                {!darkPatterns.detected ? <span className="text-blue-600">OK</span> :
-                                    hasCritical ? <span className="text-red-600">CRITICAL</span> :
-                                        hasHigh ? <span className="text-amber-600">ALERT</span> :
-                                            <span className="text-slate-600">INFO</span>}
+                            <span className={`text-sm font-bold uppercase tracking-wider ${getStatusBadgeClass(darkPatterns.score)}`}>
+                                {!darkPatterns.detected ? 'OK' :
+                                    hasCritical ? 'CRITICAL' :
+                                        hasHigh ? 'ALERT' : 'INFO'}
                             </span>
                             <div>
                                 <p className="font-semibold text-slate-800">
