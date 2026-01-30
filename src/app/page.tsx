@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
@@ -60,6 +60,7 @@ export default function Home() {
   const [schedulingLoading, setSchedulingLoading] = useState(false);
   const [driftReport, setDriftReport] = useState<DriftReport | null>(null);
   const [scanCountInfo, setScanCountInfo] = useState<{ count: number; limit: number; remaining: number; atLimit: boolean } | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Collapsible sections state (all closed by default)
   const [showVendorRisk, setShowVendorRisk] = useState(false);
@@ -264,10 +265,12 @@ export default function Home() {
 
     try {
       console.log('[PrivacyChecker] Calling audit API with tier:', tier);
+      abortControllerRef.current = new AbortController();
       const response = await fetch('/api/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: normalizedUrl, tier }),
+        signal: abortControllerRef.current.signal,
       });
 
       if (!response.ok) throw new Error('Audit failed');
@@ -333,6 +336,17 @@ export default function Home() {
       setError('Failed to audit site. Please check the URL and try again.');
     } finally {
       setLoading(false);
+      abortControllerRef.current = null;
+    }
+  };
+
+  const handleCancelScan = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      setLoading(false);
+      setError('Scan cancelled.');
+      setScanProgress({ current: 0, total: 20, status: '' });
+      abortControllerRef.current = null;
     }
   };
 
@@ -477,6 +491,7 @@ export default function Home() {
             onUrlChange={setUrl}
             onSubmit={handleAudit}
             loading={loading}
+            onCancel={handleCancelScan}
             atLimit={!isPro && scanCountInfo?.atLimit}
             scansRemaining={!isPro ? scanCountInfo?.remaining : undefined}
             onUpgrade={() => handleCheckout()}
