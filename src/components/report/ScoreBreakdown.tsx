@@ -35,7 +35,7 @@ export function ScoreBreakdown({ breakdown, finalScore }: ScoreBreakdownProps) {
                             <span className={`text-sm ${item.passed ? 'text-slate-700' : 'text-slate-600'}`}>
                                 {stripParentheses(item.item)}
                             </span>
-                            <span className={`text-sm font-semibold ${item.passed ? 'text-slate-700' : 'text-slate-500'}`}>
+                            <span className={`text-sm font-semibold ${item.passed ? 'text-slate-700' : 'text-red-500'}`}>
                                 {item.points > 0 ? '+' : ''}{item.points}
                             </span>
                         </div>

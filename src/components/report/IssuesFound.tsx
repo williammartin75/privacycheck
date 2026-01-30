@@ -19,8 +19,11 @@ export function IssuesFound({ issues }: IssuesFoundProps) {
             <h4 className="text-sm font-semibold text-red-600 mb-3">Issues Found</h4>
             <div className="flex flex-wrap gap-2">
                 {failedItems.map((item, i) => (
-                    <span key={i} className="px-2 py-1 text-xs text-red-600">
-                        ✕ {stripParentheses(item.item)}
+                    <span key={i} className="flex items-center gap-1.5 px-2 py-1 text-xs text-red-600">
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        {stripParentheses(item.item)}
                     </span>
                 ))}
             </div>

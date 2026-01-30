@@ -24,12 +24,15 @@ export function PagesScanned({
         <div className="mb-6">
             <button
                 onClick={onToggle}
-                className="flex items-center gap-2 text-gray-900 font-semibold mb-4 hover:text-blue-600 transition"
+                className="section-btn"
             >
-                <svg className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <span className="flex items-center gap-2">
+                    <span className="section-btn-title">Pages Scanned</span>
+                    <span className="badge-passed">{pagesScanned} pages</span>
+                </span>
+                <svg className={`w-5 h-5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-                Pages Scanned ({pagesScanned})
             </button>
 
             {isOpen && (
