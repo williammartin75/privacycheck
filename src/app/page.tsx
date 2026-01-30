@@ -14,6 +14,7 @@ import { Cookie, PageScan, AuditResult } from '@/types/audit';
 import { getScoreColor, getScoreLabel, getCategoryColor } from '@/lib/score-utils';
 import { FAQSection } from '@/components/landing/FAQSection';
 import { PricingCards } from '@/components/landing/PricingCards';
+import { HowItWorksSection } from '@/components/landing/HowItWorksSection';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -2827,66 +2828,7 @@ export default function Home() {
         </div>
 
         {/* How It Works */}
-        <section className="py-20">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">How it works</h2>
-          <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">A complete privacy audit of your website in under 60 seconds</p>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="p-8 bg-white rounded-lg border border-gray-100">
-              <div className="text-4xl font-bold text-blue-600 mb-4">1</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Enter your website URL</h3>
-              <p className="text-gray-600 text-sm mb-4">We crawl up to 1,000 pages and run a comprehensive analysis.</p>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Compliance checks</p>
-              <ul className="text-gray-600 text-sm space-y-1 mb-4">
-                <li>• Cookies, consent banner, privacy policy</li>
-                <li>• HTTPS, DPO contact, data deletion</li>
-                <li>• Legal mentions, opt-out mechanisms</li>
-              </ul>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Security analysis</p>
-              <ul className="text-gray-600 text-sm space-y-1">
-                <li>• Third-party vendor risk scoring</li>
-                <li>• Exposed files detection (.git, .env)</li>
-                <li>• DNS security (SPF, DKIM, DMARC)</li>
-                <li>• Dark patterns & fingerprinting detection</li>
-              </ul>
-            </div>
-            <div className="p-8 bg-white rounded-lg border border-gray-100">
-              <div className="text-4xl font-bold text-blue-600 mb-4">2</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Get your compliance score</h3>
-              <p className="text-gray-600 text-sm mb-4">We check 20+ compliance criteria and calculate your privacy score from 0 to 100%.</p>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">What you&apos;ll see</p>
-              <ul className="text-gray-600 text-sm space-y-1 mb-4">
-                <li>• Applicable regulations (GDPR, CCPA, LGPD...)</li>
-                <li>• Issues found with severity levels</li>
-                <li>• Cookies and trackers detected</li>
-              </ul>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Pro+ insights</p>
-              <ul className="text-gray-600 text-sm space-y-1">
-                <li>• AI Risk Predictor with fine estimation</li>
-                <li>• Vendor risk scores (80+ third-parties)</li>
-                <li>• Attack surface vulnerabilities</li>
-                <li>• Data Breach Check & EU Transfers Map</li>
-              </ul>
-            </div>
-            <div className="p-8 bg-white rounded-lg border border-gray-100">
-              <div className="text-4xl font-bold text-blue-600 mb-4">3</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Fix issues and stay compliant</h3>
-              <p className="text-gray-600 text-sm mb-4">Pro users get everything to fix and maintain compliance over time.</p>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Fix tools</p>
-              <ul className="text-gray-600 text-sm space-y-1 mb-4">
-                <li>• Step-by-step fix recommendations</li>
-                <li>• PDF compliance report</li>
-                <li>• Cookie Banner Widget with geo-targeting</li>
-                <li>• WordPress Plugin</li>
-              </ul>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Monitoring</p>
-              <ul className="text-gray-600 text-sm space-y-1">
-                <li>• Weekly or monthly auto-rescans</li>
-                <li>• Email alerts if score drops</li>
-                <li>• Compliance drift detection</li>
-              </ul>
-            </div>
-          </div>
-        </section>
+        <HowItWorksSection />
 
         {/* Pricing */}
         <PricingCards onCheckout={handleCheckout} />
