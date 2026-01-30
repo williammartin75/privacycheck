@@ -118,6 +118,26 @@ export function PolicyAnalysis({
                         </span>
                     </div>
 
+                    {/* Policy Link & Description */}
+                    <div className="mb-4 pb-3 border-b border-slate-200">
+                        {policyAnalysis.policyUrl && (
+                            <a
+                                href={policyAnalysis.policyUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 mb-2"
+                            >
+                                View Privacy Policy
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        )}
+                        <p className="text-xs text-gray-400">
+                            Analyzes privacy policy content for GDPR compliance including legal basis, user rights, data retention, and contact information.
+                        </p>
+                    </div>
+
                     {/* GDPR Articles Compliance */}
                     <div className="mb-4">
                         <p className="text-sm font-semibold text-slate-700 mb-2">GDPR Article Compliance:</p>
@@ -209,26 +229,6 @@ export function PolicyAnalysis({
                         </div>
                     )}
 
-                    {/* Policy Link */}
-                    {policyAnalysis.policyUrl && (
-                        <div className="pt-3 border-t border-slate-200">
-                            <a
-                                href={policyAnalysis.policyUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
-                            >
-                                View Privacy Policy
-                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                            </a>
-                        </div>
-                    )}
-
-                    <p className="text-xs text-gray-400 mt-3">
-                        * Analyzes privacy policy content for GDPR compliance including legal basis, user rights, data retention, and contact information.
-                    </p>
                 </div>
             )}
         </div>
