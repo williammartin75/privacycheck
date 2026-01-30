@@ -91,10 +91,6 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             <strong>200 pages</strong> scanned
                         </li>
                         <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Step-by-step fix recommendations</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
                             PDF compliance report
                         </li>
@@ -105,14 +101,6 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
                             Monthly auto-scan
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Cookie Banner Widget</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Google Consent Mode v2</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
@@ -129,6 +117,18 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
                             Exposed Emails Detection
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Step-by-step fix recommendations</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Cookie Banner Widget</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Google Consent Mode v2</strong>
                         </li>
                     </ul>
                     <button onClick={() => onCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-white transition text-center mt-auto">
