@@ -3177,6 +3177,7 @@ export default function Home() {
                 <li>• Third-party vendor risk scoring</li>
                 <li>• Exposed files detection (.git, .env)</li>
                 <li>• DNS security (SPF, DKIM, DMARC)</li>
+                <li>• Dark patterns & fingerprinting detection</li>
               </ul>
             </div>
             <div className="p-8 bg-white rounded-lg border border-gray-100">
@@ -3194,6 +3195,7 @@ export default function Home() {
                 <li>• AI Risk Predictor with fine estimation</li>
                 <li>• Vendor risk scores (80+ third-parties)</li>
                 <li>• Attack surface vulnerabilities</li>
+                <li>• Data Breach Check & EU Transfers Map</li>
               </ul>
             </div>
             <div className="p-8 bg-white rounded-lg border border-gray-100">
@@ -3205,6 +3207,7 @@ export default function Home() {
                 <li>• Step-by-step fix recommendations</li>
                 <li>• PDF compliance report</li>
                 <li>• Cookie Banner Widget with geo-targeting</li>
+                <li>• Embeddable Trust Badge & WordPress Plugin</li>
               </ul>
               <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Monitoring</p>
               <ul className="text-gray-600 text-sm space-y-1">
