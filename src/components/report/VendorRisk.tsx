@@ -1,7 +1,5 @@
 'use client';
 
-import { MaskedText } from '@/components/ProGate';
-
 interface VendorRiskItem {
     name: string;
     category: string;
@@ -18,6 +16,7 @@ interface VendorRiskProps {
     isOpen: boolean;
     onToggle: () => void;
     isPro: boolean;
+    onUpgrade: () => void;
 }
 
 function getRiskBorder(riskScore: number): string {
@@ -62,7 +61,8 @@ export function VendorRisk({
     vendorRisks,
     isOpen,
     onToggle,
-    isPro
+    isPro,
+    onUpgrade
 }: VendorRiskProps) {
     if (vendorRisks.length === 0) {
         return null;
@@ -94,8 +94,8 @@ export function VendorRisk({
                                             {vendor.riskScore}
                                         </div>
                                         <div>
-                                            <h4 className="font-semibold text-gray-900"><MaskedText text={vendor.name} show={isPro} /></h4>
-                                            <p className="text-xs text-gray-500 capitalize">{vendor.category} • <MaskedText text={vendor.jurisdiction} show={isPro} /></p>
+                                            <h4 className="font-semibold text-gray-900"><span className={!isPro ? 'blur-sm select-none' : ''}>{vendor.name}</span></h4>
+                                            <p className="text-xs text-gray-500 capitalize">{vendor.category} • <span className={!isPro ? 'blur-sm select-none' : ''}>{vendor.jurisdiction}</span></p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -126,6 +126,14 @@ export function VendorRisk({
                             </div>
                         ))}
                     </div>
+                    {!isPro && (
+                        <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
+                            <p className="text-slate-600 text-sm mb-2">{vendorRisks.length} vendor names hidden</p>
+                            <button onClick={onUpgrade} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+                                Upgrade to Pro
+                            </button>
+                        </div>
+                    )}
                     <div className="mt-4 pt-3 border-t border-gray-200">
                         <div className="flex gap-4 text-xs text-gray-500">
                             <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-500"></span> 8-10: Critical</span>
