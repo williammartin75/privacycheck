@@ -110,13 +110,9 @@ export function DarkPatterns({
             <button onClick={onToggle} className="section-btn">
                 <span className="flex items-center gap-2">
                     <span className="section-btn-title">Dark Patterns Detection</span>
-                    {darkPatterns.detected ? (
-                        <span className="badge-failed">
-                            {darkPatterns.totalCount} found
-                        </span>
-                    ) : (
-                        <span className="badge-passed">Clean</span>
-                    )}
+                    <span className={darkPatterns.score >= 80 ? 'badge-passed' : darkPatterns.score >= 50 ? 'badge-warning' : 'badge-failed'}>
+                        {darkPatterns.score}/100
+                    </span>
                 </span>
                 <svg className={`w-5 h-5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
