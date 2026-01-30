@@ -37,6 +37,8 @@ import { MixedContent } from '@/components/report/MixedContent';
 import { FormSecurity } from '@/components/report/FormSecurity';
 import { ThirdPartyScripts } from '@/components/report/ThirdPartyScripts';
 import { VendorRisk } from '@/components/report/VendorRisk';
+import { EmailExposure } from '@/components/report/EmailExposure';
+import { DataTransfers } from '@/components/report/DataTransfers';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -755,51 +757,14 @@ export default function Home() {
 
 
               {/* Email Exposure Warning */}
-              {result.issues.exposedEmails && result.issues.exposedEmails.length > 0 && (
-                <div className="mb-6">
-                  <button
-                    onClick={() => setShowEmailExposure(!showEmailExposure)}
-                    className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
-                  >
-                    <span>Email Exposure Warning</span>
-                    <svg className={`w-5 h-5 text-slate-500 transition-transform ${showEmailExposure ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showEmailExposure && (
-                    <div className="p-4 bg-white border border-slate-200 rounded-lg">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="flex items-center justify-center">
-                          <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-slate-800">{result.issues.exposedEmails.length} Email{result.issues.exposedEmails.length > 1 ? 's' : ''} Exposed</h3>
-                          <p className="text-slate-600 text-xs">Email addresses visible in page source may be harvested by spammers.</p>
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {result.issues.exposedEmails.slice(0, isPro ? undefined : 2).map((email, i) => (
-                          <span key={i} className="px-2 py-1 bg-white border border-slate-300 rounded text-slate-700 text-xs font-mono">
-                            <MaskedEmail email={email} show={isPro} />
-                          </span>
-                        ))}
-                        {!isPro && result.issues.exposedEmails.length > 2 && (
-                          <span className="px-2 py-1 bg-slate-50 border border-slate-200 rounded text-slate-500 text-xs">
-                            +{result.issues.exposedEmails.length - 2} more
-                          </span>
-                        )}
-                      </div>
-                      {!isPro && (
-                        <UpgradeCTA feature="email addresses" hiddenCount={result.issues.exposedEmails.length} onUpgrade={() => handleCheckout()} />
-                      )}
-                      <p className="mt-3 text-slate-500 text-xs">
-                        <strong>Recommendation:</strong> Use contact forms or obfuscate emails to prevent harvesting.
-                      </p>
-                    </div>
-                  )}
-                </div>
+              {result.issues.exposedEmails && (
+                <EmailExposure
+                  exposedEmails={result.issues.exposedEmails}
+                  isOpen={showEmailExposure}
+                  onToggle={() => setShowEmailExposure(!showEmailExposure)}
+                  isPro={isPro}
+                  onUpgrade={() => handleCheckout()}
+                />
               )}
 
               {/* Third-Party Scripts & Tracking */}
@@ -823,109 +788,14 @@ export default function Home() {
               )}
 
               {/* Data Transfers Outside EU */}
-              {result.issues.vendorRisks && (() => {
-                const nonEuTransfers = result.issues.vendorRisks.filter(v =>
-                  v.dataTransfer === 'International' ||
-                  v.jurisdiction === 'USA' ||
-                  v.jurisdiction === 'China' ||
-                  v.jurisdiction === 'Russia' ||
-                  v.jurisdiction === 'India' ||
-                  !v.gdprCompliant
-                );
-                return (
-                  <div className="mb-4">
-                    <button
-                      onClick={() => setShowDataTransfers(!showDataTransfers)}
-                      className="section-btn"
-                    >
-                      <span className="flex items-center gap-2">
-                        <span className="section-btn-title">Data Transfers Outside EU</span>
-                        {nonEuTransfers.length > 0 ? (
-                          <span className="badge-warning">
-                            {nonEuTransfers.length} vendor{nonEuTransfers.length > 1 ? 's' : ''}
-                          </span>
-                        ) : (
-                          <span className="badge-passed">EU Only</span>
-                        )}
-                      </span>
-                      <svg className={`w-5 h-5 text-slate-400 transition-transform ${showDataTransfers ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    {showDataTransfers && (
-                      <div className="bg-white border border-slate-200 rounded-lg p-4">
-                        {nonEuTransfers.length > 0 ? (
-                          <>
-                            <div className="bg-white border border-orange-200 rounded-lg p-4 mb-4">
-                              <p className="text-orange-800 text-sm">
-                                <strong>GDPR Article 44-49:</strong> Transfers to non-EU countries require adequate safeguards (SCCs, BCRs) or user consent.
-                              </p>
-                            </div>
-                            <div className="space-y-3">
-                              {nonEuTransfers.map((vendor, i) => (
-                                <div key={i} className={`p-3 rounded-lg border ${!vendor.gdprCompliant ? 'bg-white border-red-200' :
-                                  vendor.jurisdiction === 'USA' ? 'bg-white border-orange-200' :
-                                    'bg-white border-yellow-200'
-                                  }`}>
-                                  <div className="flex justify-between items-start">
-                                    <div>
-                                      <p className="font-semibold text-slate-800">{vendor.name}</p>
-                                      <p className="text-xs text-slate-500">{vendor.category}</p>
-                                    </div>
-                                    <div className="text-right">
-                                      <span className={`text-xs px-2 py-1 rounded ${vendor.jurisdiction === 'USA' ? 'bg-slate-100 text-slate-700' :
-                                        vendor.jurisdiction === 'EU' ? 'bg-slate-100 text-slate-700' :
-                                          'bg-gray-100 text-gray-700'
-                                        }`}>
-                                        {vendor.jurisdiction}
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className="mt-2 flex items-center gap-2">
-                                    {vendor.gdprCompliant ? (
-                                      <span className="text-xs text-slate-600 flex items-center gap-1">
-                                        ✓ GDPR compliant (uses SCCs)
-                                      </span>
-                                    ) : (
-                                      <span className="text-xs text-red-600 flex items-center gap-1">
-                                        ⚠ No GDPR adequacy decision
-                                      </span>
-                                    )}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                            {isPro && (
-                              <div className="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                                <p className="text-sm text-slate-800 font-medium mb-2">Compliance Requirements:</p>
-                                <ul className="text-xs text-slate-700 list-disc list-inside space-y-1">
-                                  <li>Ensure Standard Contractual Clauses (SCCs) are in place</li>
-                                  <li>Document Transfer Impact Assessments (TIAs)</li>
-                                  <li>Disclose international transfers in your privacy policy</li>
-                                  <li>Consider EU-based alternatives for non-compliant vendors</li>
-                                </ul>
-                              </div>
-                            )}
-                          </>
-                        ) : (
-                          <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                            <span className="text-blue-600 font-bold text-lg">✓</span>
-                            <div>
-                              <p className="font-semibold text-blue-800">All Data Stays in EU</p>
-                              <p className="text-sm text-blue-600">
-                                No third-party vendors transfer data outside the European Union.
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                        <p className="text-xs text-gray-400 mt-3">
-                          * Based on vendor headquarters and known data processing locations.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })()}
+              {result.issues.vendorRisks && (
+                <DataTransfers
+                  vendorRisks={result.issues.vendorRisks}
+                  isOpen={showDataTransfers}
+                  onToggle={() => setShowDataTransfers(!showDataTransfers)}
+                  isPro={isPro}
+                />
+              )}
 
               {/* Data Breaches */}
               <div className="mb-4">
