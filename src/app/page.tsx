@@ -28,6 +28,8 @@ import { SecurityExposure } from '@/components/report/SecurityExposure';
 import { ConsentBehavior } from '@/components/report/ConsentBehavior';
 import { PolicyAnalysis } from '@/components/report/PolicyAnalysis';
 import { DarkPatterns } from '@/components/report/DarkPatterns';
+import { OptInForms } from '@/components/report/OptInForms';
+import { CookieLifespan } from '@/components/report/CookieLifespan';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -636,202 +638,23 @@ export default function Home() {
 
               {/* Opt-in Forms Analysis */}
               {result.issues.optInForms && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowOptInForms(!showOptInForms)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Opt-in Forms Analysis</span>
-                      {result.issues.optInForms.compliant ? (
-                        <span className="badge-passed">0 issues</span>
-                      ) : (
-                        <span className="badge-failed">
-                          {result.issues.optInForms.totalIssues} issue{result.issues.optInForms.totalIssues > 1 ? 's' : ''}
-                        </span>
-                      )}
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showOptInForms ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showOptInForms && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      {/* Summary */}
-                      <div className="grid grid-cols-3 gap-3 mb-4">
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.preCheckedCount > 0 ? 'bg-white' : 'bg-white'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.optInForms.preCheckedCount > 0 ? 'text-red-600' : 'text-blue-600'}`}>
-                            {result.issues.optInForms.preCheckedCount}
-                          </p>
-                          <p className="text-xs text-slate-600">Pre-checked</p>
-                        </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.hiddenConsentCount > 0 ? 'bg-white' : 'bg-white'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.optInForms.hiddenConsentCount > 0 ? 'text-orange-600' : 'text-blue-600'}`}>
-                            {result.issues.optInForms.hiddenConsentCount}
-                          </p>
-                          <p className="text-xs text-slate-600">Hidden consent</p>
-                        </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.optInForms.bundledConsentCount > 0 ? 'bg-white' : 'bg-white'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.optInForms.bundledConsentCount > 0 ? 'text-yellow-600' : 'text-blue-600'}`}>
-                            {result.issues.optInForms.bundledConsentCount}
-                          </p>
-                          <p className="text-xs text-slate-600">Bundled consent</p>
-                        </div>
-                      </div>
-
-                      {result.issues.optInForms.compliant ? (
-                        <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                          <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
-                          <div>
-                            <p className="font-semibold text-blue-800">All Forms Are Compliant</p>
-                            <p className="text-sm text-blue-600">
-                              No pre-checked consent boxes or hidden consent inputs found.
-                            </p>
-                          </div>
-                        </div>
-                      ) : (
-                        <>
-                          <div className="bg-white border border-red-200 rounded-lg p-4 mb-4">
-                            <p className="text-red-800 text-sm">
-                              <strong>GDPR Article 7:</strong> Consent must be freely given. Pre-checked boxes do not constitute valid consent.
-                            </p>
-                          </div>
-                          <div className="space-y-2 max-h-64 overflow-y-auto">
-                            {result.issues.optInForms.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
-                              <div
-                                key={i}
-                                className={`p-3 rounded-lg border ${issue.severity === 'critical' ? 'bg-white border-red-200' :
-                                  issue.severity === 'high' ? 'bg-white border-orange-200' :
-                                    'bg-white border-yellow-200'
-                                  }`}
-                              >
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-white text-red-800' :
-                                    issue.severity === 'high' ? 'bg-white text-orange-800' :
-                                      'bg-white text-yellow-800'
-                                    }`}>
-                                    {issue.severity.toUpperCase()}
-                                  </span>
-                                  <span className="text-xs text-slate-500">{issue.type.replace(/-/g, ' ')}</span>
-                                  {issue.gdprArticle && (
-                                    <span className="text-xs bg-white text-slate-700 px-1.5 py-0.5 rounded">
-                                      {issue.gdprArticle.split(' - ')[0]}
-                                    </span>
-                                  )}
-                                </div>
-                                <p className="text-sm text-slate-700">{issue.description}</p>
-                                {isPro ? (
-                                  <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
-                                ) : (
-                                  <p className="text-xs text-blue-600 mt-2 blur-sm select-none">💡 Upgrade to Pro to see recommendation...</p>
-                                )}
-                              </div>
-                            ))}
-                            {!isPro && result.issues.optInForms.issues.length > 2 && (
-                              <div className="text-center p-3 bg-slate-50 rounded-lg border border-slate-200">
-                                <p className="text-slate-600 text-sm mb-2">
-                                  +{result.issues.optInForms.issues.length - 2} more issues (Pro)
-                                </p>
-                                <button
-                                  onClick={() => handleCheckout()}
-                                  className="px-3 py-1 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700 transition"
-                                >
-                                  Upgrade to Pro
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * Scans form checkboxes for pre-selection, hidden consent fields, and bundled consent.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <OptInForms
+                  optInForms={result.issues.optInForms}
+                  isOpen={showOptInForms}
+                  onToggle={() => setShowOptInForms(!showOptInForms)}
+                  isPro={isPro}
+                  onUpgrade={() => handleCheckout()}
+                />
               )}
 
               {/* Cookie Lifespan Analysis */}
               {result.issues.cookieLifespan && (
-                <div className="mb-4">
-                  <button
-                    onClick={() => setShowCookieLifespan(!showCookieLifespan)}
-                    className="section-btn"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="section-btn-title">Cookie Lifespan Analysis</span>
-                      {result.issues.cookieLifespan.compliant ? (
-                        <span className="badge-passed">0 issues</span>
-                      ) : (
-                        <span className="badge-warning">
-                          {result.issues.cookieLifespan.issuesCount} issue{result.issues.cookieLifespan.issuesCount > 1 ? 's' : ''}
-                        </span>
-                      )}
-                    </span>
-                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showCookieLifespan ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showCookieLifespan && (
-                    <div className="bg-white border border-slate-200 rounded-lg p-4">
-                      {/* Summary stats */}
-                      <div className="grid grid-cols-3 gap-3 mb-4">
-                        <div className="p-3 rounded-lg text-center bg-slate-50">
-                          <p className="text-2xl font-bold text-slate-700">{result.issues.cookieLifespan.totalCookiesAnalyzed}</p>
-                          <p className="text-xs text-slate-500">Analyzed</p>
-                        </div>
-                        <div className={`p-3 rounded-lg text-center ${result.issues.cookieLifespan.issuesCount > 0 ? 'bg-white' : 'bg-white'}`}>
-                          <p className={`text-2xl font-bold ${result.issues.cookieLifespan.issuesCount > 0 ? 'text-orange-600' : 'text-blue-600'}`}>
-                            {result.issues.cookieLifespan.issuesCount}
-                          </p>
-                          <p className="text-xs text-slate-500">Excessive</p>
-                        </div>
-                        <div className="p-3 rounded-lg text-center bg-white">
-                          <p className="text-2xl font-bold text-blue-600">
-                            {result.issues.cookieLifespan.averageLifespan}d
-                          </p>
-                          <p className="text-xs text-slate-500">Avg lifespan</p>
-                        </div>
-                      </div>
-
-                      {result.issues.cookieLifespan.longestCookie && (
-                        <div className="bg-white border border-yellow-200 rounded-lg p-3 mb-4">
-                          <p className="text-yellow-800 text-sm">
-                            <strong>Longest cookie:</strong> "{result.issues.cookieLifespan.longestCookie.name}" - {result.issues.cookieLifespan.longestCookie.days} days
-                            {result.issues.cookieLifespan.longestCookie.days > 390 && ' (exceeds 13 months)'}
-                          </p>
-                        </div>
-                      )}
-
-                      {result.issues.cookieLifespan.issues.length > 0 && (
-                        <div className="space-y-2 max-h-48 overflow-y-auto">
-                          {result.issues.cookieLifespan.issues.slice(0, isPro ? 10 : 2).map((issue, i) => (
-                            <div key={i} className="p-3 bg-white rounded-lg border border-orange-100">
-                              <div className="flex justify-between items-start">
-                                <div>
-                                  <p className="font-medium text-slate-800">{issue.name}</p>
-                                  <p className="text-xs text-orange-600">{issue.currentLifespan} days → {issue.recommendedLifespan} days max</p>
-                                </div>
-                                <span className={`text-xs px-2 py-0.5 rounded ${issue.severity === 'critical' ? 'bg-white text-red-800' :
-                                  issue.severity === 'high' ? 'bg-white text-orange-800' :
-                                    'bg-white text-yellow-800'
-                                  }`}>{issue.severity}</span>
-                              </div>
-                              {isPro && (
-                                <p className="text-xs text-blue-600 mt-2">💡 {issue.recommendation}</p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        * CNIL recommends max 13 months for consent and analytics cookies.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <CookieLifespan
+                  cookieLifespan={result.issues.cookieLifespan}
+                  isOpen={showCookieLifespan}
+                  onToggle={() => setShowCookieLifespan(!showCookieLifespan)}
+                  isPro={isPro}
+                />
               )}
 
               {/* Fingerprinting Detection */}
