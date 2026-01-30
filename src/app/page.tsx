@@ -1102,14 +1102,14 @@ export default function Home() {
                       {result.riskPrediction.factors.length > 0 && (
                         <div className="mb-4">
                           <p className="text-sm font-semibold text-gray-600 mb-2">Risk Factors Identified:</p>
-                          <div className="space-y-2">
-                            {result.riskPrediction.factors.slice(0, 5).map((factor, i) => (
+                          <div className={`space-y-2 ${!isPro ? 'blur-sm pointer-events-none select-none' : ''}`}>
+                            {result.riskPrediction.factors.slice(0, isPro ? 5 : 2).map((factor, i) => (
                               <div key={i} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
                                 <div className="flex items-center gap-3">
-                                  <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-white0' :
-                                    factor.severity === 'high' ? 'bg-white0' :
-                                      factor.severity === 'medium' ? 'bg-white0' :
-                                        'bg-white0'
+                                  <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-600' :
+                                    factor.severity === 'high' ? 'bg-red-500' :
+                                      factor.severity === 'medium' ? 'bg-amber-500' :
+                                        'bg-slate-300'
                                     }`}></span>
                                   <div>
                                     <p className="font-medium text-gray-800">{factor.issue}</p>
@@ -1124,6 +1124,14 @@ export default function Home() {
                               </div>
                             ))}
                           </div>
+                          {!isPro && (
+                            <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
+                              <p className="text-slate-600 text-sm mb-2">Unlock all {result.riskPrediction.factors.length} risk factors + remediation steps</p>
+                              <button onClick={() => handleCheckout()} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+                                Upgrade to Pro
+                              </button>
+                            </div>
+                          )}
                         </div>
                       )}
 
@@ -2289,6 +2297,25 @@ export default function Home() {
                                 <p className="text-slate-500 mt-0.5">- {issue.privacyImpact}</p>
                               </div>
                             ))}
+                          </div>
+                        </div>
+                      )}
+                      {!isPro && result.issues.securityHeadersExtended.issues.length > 0 && (
+                        <div className="mt-4">
+                          <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 blur-sm pointer-events-none select-none">
+                            <p className="text-sm text-slate-800 font-medium mb-2">Recommendations:</p>
+                            <div className="space-y-2">
+                              <div className="text-xs text-slate-700">
+                                <p><strong>Strict-Transport-Security:</strong> Add header to enforce HTTPS...</p>
+                                <p className="text-slate-500 mt-0.5">- Prevents man-in-the-middle attacks</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
+                            <p className="text-slate-600 text-sm mb-2">Unlock {result.issues.securityHeadersExtended.issues.length} security recommendations</p>
+                            <button onClick={() => handleCheckout()} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+                              Upgrade to Pro
+                            </button>
                           </div>
                         </div>
                       )}
