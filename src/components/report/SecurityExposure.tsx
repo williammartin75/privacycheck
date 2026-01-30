@@ -123,7 +123,7 @@ export function SecurityExposure({ attackSurface, isOpen, onToggle, isPro }: Sec
                     {attackSurface.recommendations.length > 0 && (
                         <div className="mt-4 p-3 bg-white rounded-lg border border-slate-200">
                             <p className="text-sm font-semibold text-slate-700 mb-2">Top Recommendations:</p>
-                            <ul className="text-sm text-slate-600 space-y-1">
+                            <ul className={`text-sm text-slate-600 space-y-1 ${!isPro ? 'blur-sm select-none' : ''}`}>
                                 {attackSurface.recommendations.map((rec, i) => (
                                     <li key={i} className="flex items-start gap-2">
                                         <span className="text-slate-400">•</span>
