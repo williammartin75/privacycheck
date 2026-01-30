@@ -574,7 +574,7 @@ export default function Home() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     Schedule Scans
-                    <span className="text-xs px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded">Pro</span>
+                    <span className="text-xs px-1.5 py-0.5 bg-white text-blue-700 border border-blue-300 rounded">Pro</span>
                   </button>
                 )}
               </div>
