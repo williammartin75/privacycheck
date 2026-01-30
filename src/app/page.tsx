@@ -2655,7 +2655,7 @@ export default function Home() {
                         {result.issues.socialTrackers && result.issues.socialTrackers.length > 0 && (
                           <div className="mb-4">
                             <h4 className="font-medium text-slate-700 text-sm mb-2 flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 bg-slate-800 text-white rounded text-xs">{result.issues.socialTrackers.length}</span>
+                              <span className="px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded text-xs">{result.issues.socialTrackers.length}</span>
                               Social & Ad Trackers
                             </h4>
                             <div className="flex flex-wrap gap-2">
