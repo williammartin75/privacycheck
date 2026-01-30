@@ -648,6 +648,21 @@ function extractTitle(html: string): string {
 // Main audit function
 export async function POST(request: NextRequest) {
     try {
+        // Authentication check - require logged-in user
+        const { createClient } = await import('@/lib/supabase-server');
+        const supabase = await createClient();
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+        if (authError || !user) {
+            console.log('[Audit API] Unauthorized request - no valid session');
+            return NextResponse.json(
+                { error: 'Authentication required. Please log in to scan websites.' },
+                { status: 401 }
+            );
+        }
+
+        console.log(`[Audit API] Authenticated user: ${user.email}`);
+
         const { url, tier = 'free' } = await request.json();
 
         // Tier-based helpers

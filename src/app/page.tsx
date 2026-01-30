@@ -39,6 +39,10 @@ import { ThirdPartyScripts } from '@/components/report/ThirdPartyScripts';
 import { VendorRisk } from '@/components/report/VendorRisk';
 import { EmailExposure } from '@/components/report/EmailExposure';
 import { DataTransfers } from '@/components/report/DataTransfers';
+import { DataBreaches } from '@/components/report/DataBreaches';
+import { CookieList } from '@/components/report/CookieList';
+import { PagesScanned } from '@/components/report/PagesScanned';
+import { TrackersList } from '@/components/report/TrackersList';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -798,156 +802,28 @@ export default function Home() {
               )}
 
               {/* Data Breaches */}
-              <div className="mb-4">
-                <button
-                  onClick={() => setShowDataBreaches(!showDataBreaches)}
-                  className="section-btn"
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="section-btn-title">Data Breach Check</span>
-                    {result.issues.dataBreaches && result.issues.dataBreaches.length > 0 ? (
-                      <span className="badge-failed">
-                        {result.issues.dataBreaches.length} breach{result.issues.dataBreaches.length > 1 ? 'es' : ''}
-                      </span>
-                    ) : (
-                      <span className="badge-passed">0 issues</span>
-                    )}
-                  </span>
-                  <svg className={`w-5 h-5 text-slate-400 transition-transform ${showDataBreaches ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {showDataBreaches && (
-                  <div className="bg-white border border-slate-200 rounded-lg p-4">
-                    {result.issues.dataBreaches && result.issues.dataBreaches.length > 0 ? (
-                      <>
-                        <div className="bg-white border border-red-200 rounded-lg p-4 mb-4">
-                          <p className="text-red-700 text-sm">
-                            <strong>Warning:</strong> This domain has been involved in known data breaches. Users should be informed and passwords changed.
-                          </p>
-                        </div>
-                        <div className="space-y-3">
-                          {result.issues.dataBreaches.map((breach, i) => (
-                            <div key={i} className="bg-white border border-red-100 rounded-lg p-3 flex justify-between items-center">
-                              <div>
-                                <p className="font-semibold text-red-800">{breach.name}</p>
-                                <p className="text-xs text-red-600">Breach date: {breach.date}</p>
-                              </div>
-                              <div className="text-right">
-                                <p className="text-lg font-bold text-red-700">{breach.count.toLocaleString()}</p>
-                                <p className="text-xs text-red-500">accounts affected</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <a
-                          href={`https://haveibeenpwned.com/DomainSearch?domain=${result.domain}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 mt-4 text-sm text-red-700 hover:text-red-900"
-                        >
-                          View full details on HaveIBeenPwned →
-                        </a>
-                      </>
-                    ) : (
-                      <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                        <span className="text-blue-600 font-bold text-lg">✓</span>
-                        <div>
-                          <p className="font-semibold text-blue-800">No Data Breaches Found</p>
-                          <p className="text-sm text-blue-600">
-                            This domain has not been found in any known data breaches.
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                    <p className="text-xs text-gray-400 mt-3">
-                      * Checked against HaveIBeenPwned database of known breaches.
-                    </p>
-                  </div>
-                )}
-              </div>
+              <DataBreaches
+                dataBreaches={result.issues.dataBreaches}
+                domain={result.domain}
+                isOpen={showDataBreaches}
+                onToggle={() => setShowDataBreaches(!showDataBreaches)}
+              />
 
               {/* Cookies Section */}
-              <div className="mb-6">
-                <button
-                  onClick={() => setShowCookies(!showCookies)}
-                  className="flex items-center gap-2 text-gray-900 font-semibold mb-4 hover:text-blue-600 transition"
-                >
-                  <svg className={`w-5 h-5 transition-transform ${showCookies ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                  Cookies Detected ({result.issues.cookies.count})
-                </button>
-                {showCookies && result.issues.cookies.list.length > 0 && (
-                  <div className="bg-white rounded-md p-4 overflow-x-auto">
-                    {/* Category Legend */}
-                    <div className="flex flex-wrap gap-3 mb-4 pb-4 border-b border-gray-200">
-                      <span className="text-xs text-gray-500 font-medium">Categories:</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-white text-slate-700">necessary</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-600 text-white">analytics</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-sky-200 text-sky-800">marketing</span>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-400 text-amber-900">preferences</span>
-                    </div>
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="text-left text-gray-500 border-b border-gray-200">
-                          <th className="pb-2 pr-4">Name</th>
-                          <th className="pb-2 pr-4">Category</th>
-                          <th className="pb-2 pr-4">Provider</th>
-                          <th className="pb-2">Description</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {result.issues.cookies.list.map((cookie, i) => (
-                          <tr key={i} className="border-b border-gray-100 last:border-0">
-                            <td className="py-2 pr-4 font-mono text-gray-900"><MaskedText text={cookie.name} show={isPro} /></td>
-                            <td className="py-2 pr-4">
-                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(cookie.category)}`}>
-                                {cookie.category}
-                              </span>
-                            </td>
-                            <td className="py-2 pr-4 text-gray-600"><MaskedText text={cookie.provider} show={isPro} /></td>
-                            <td className="py-2 text-gray-600"><MaskedText text={cookie.description} show={isPro} /></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
+              <CookieList
+                cookies={result.issues.cookies}
+                isOpen={showCookies}
+                onToggle={() => setShowCookies(!showCookies)}
+                isPro={isPro}
+              />
 
               {/* Pages Scanned */}
-              <div className="mb-6">
-                <button
-                  onClick={() => setShowPages(!showPages)}
-                  className="flex items-center gap-2 text-gray-900 font-semibold mb-4 hover:text-blue-600 transition"
-                >
-                  <svg className={`w-5 h-5 transition-transform ${showPages ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                  Pages Scanned ({result.pagesScanned})
-                </button>
-                {showPages && (
-                  <div className="bg-white rounded-md p-4 space-y-3">
-                    {result.pages.map((page, i) => (
-                      <div key={i} className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-100">
-                        <div className="truncate flex-1 mr-4">
-                          <p className="font-medium text-gray-900 truncate">{page.title}</p>
-                          <p className="text-sm text-gray-500 truncate">{page.url}</p>
-                        </div>
-                        <div className="flex gap-2 flex-shrink-0">
-                          <span className="px-2 py-1 bg-white text-blue-700 text-xs rounded-full">
-                            {page.cookiesFound} cookies
-                          </span>
-                          <span className="px-2 py-1 bg-white text-black text-xs rounded-full">
-                            {page.trackersFound.length} trackers
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <PagesScanned
+                pages={result.pages}
+                pagesScanned={result.pagesScanned}
+                isOpen={showPages}
+                onToggle={() => setShowPages(!showPages)}
+              />
 
               {/* Trackers */}
               {result.issues.trackers.length > 0 && (
