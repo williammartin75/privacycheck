@@ -914,10 +914,7 @@ export default function Home() {
                   <div className="grid grid-cols-1 gap-2 min-w-[220px]">
                     {/* Issues Found - Red indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-white0"></span>
-                        <span className="text-xs text-red-600">Issues Found</span>
-                      </div>
+                      <span className="text-xs text-red-600">Issues Found</span>
                       <span className="font-bold text-red-600">{Object.values(result.issues).filter(v => !v).length}</span>
                     </div>
                     {/* Checks Passed - Blue indicator */}
@@ -928,12 +925,8 @@ export default function Home() {
                       </div>
                       <span className="font-bold text-slate-800">{Object.values(result.issues).filter(v => v).length}</span>
                     </div>
-                    {/* Pages Scanned - Blue indicator */}
                     <div className="flex items-center justify-between px-3 py-2 bg-white rounded border border-slate-300">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-white0"></span>
-                        <span className="text-xs text-slate-700">Pages Scanned</span>
-                      </div>
+                      <span className="text-xs text-slate-700">Pages Scanned</span>
                       <span className="font-bold text-slate-800">{result.pagesScanned}</span>
                     </div>
                   </div>
@@ -1000,20 +993,20 @@ export default function Home() {
               {/* Passed Checks List - Always visible */}
               {result && (
                 <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
-                  <h4 className="text-sm font-semibold text-blue-900 mb-3">Checks Passed</h4>
+                  <h4 className="text-sm font-semibold text-slate-700 mb-3">Checks Passed</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {result.issues.https && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>HTTPS Enabled</span>}
-                    {result.issues.privacyPolicy && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Privacy Policy</span>}
-                    {result.issues.cookiePolicy && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Policy</span>}
-                    {result.issues.consentBanner && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Consent</span>}
-                    {result.issues.legalMentions && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Legal Mentions</span>}
-                    {result.issues.dpoContact && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DPO Contact</span>}
-                    {result.issues.dataDeleteLink && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Data Deletion</span>}
-                    {result.issues.optOutMechanism && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Opt-out Option</span>}
-                    {result.issues.secureforms && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Secure Forms</span>}
-                    {result.issues.ssl?.valid && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SSL Certificate</span>}
-                    {result.issues.emailSecurity?.spf && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SPF Record</span>}
-                    {result.issues.emailSecurity?.dmarc && <span className="flex items-center gap-2 text-xs text-blue-900"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DMARC Record</span>}
+                    {result.issues.https && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>HTTPS Enabled</span>}
+                    {result.issues.privacyPolicy && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Privacy Policy</span>}
+                    {result.issues.cookiePolicy && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Policy</span>}
+                    {result.issues.consentBanner && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Cookie Consent</span>}
+                    {result.issues.legalMentions && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Legal Mentions</span>}
+                    {result.issues.dpoContact && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DPO Contact</span>}
+                    {result.issues.dataDeleteLink && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Data Deletion</span>}
+                    {result.issues.optOutMechanism && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Opt-out Option</span>}
+                    {result.issues.secureforms && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Secure Forms</span>}
+                    {result.issues.ssl?.valid && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SSL Certificate</span>}
+                    {result.issues.emailSecurity?.spf && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>SPF Record</span>}
+                    {result.issues.emailSecurity?.dmarc && <span className="flex items-center gap-2 text-xs text-slate-700"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>DMARC Record</span>}
                   </div>
                 </div>
               )}
@@ -1041,10 +1034,10 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {result.scoreBreakdown.filter(b => b.points !== 0 || !b.passed).map((item, i) => (
                         <div key={i} className={`flex items-center justify-between px-3 py-2 rounded border ${item.passed ? 'bg-white border-slate-200' : 'bg-white border-slate-300'}`}>
-                          <span className={`text-sm ${item.passed ? 'text-blue-700' : 'text-slate-600'}`}>
-                            {item.passed ? '✓' : '✕'} {item.item}
+                          <span className={`text-sm ${item.passed ? 'text-slate-700' : 'text-slate-600'}`}>
+                            {item.item}
                           </span>
-                          <span className={`text-sm font-semibold ${item.passed ? 'text-blue-600' : 'text-slate-500'}`}>
+                          <span className={`text-sm font-semibold ${item.passed ? 'text-slate-700' : 'text-slate-500'}`}>
                             {item.points > 0 ? '+' : ''}{item.points}
                           </span>
                         </div>
@@ -2196,12 +2189,11 @@ export default function Home() {
                   >
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Security & Infrastructure</span>
-                      <span className={result.issues.securityHeadersExtended.grade === 'A+' || result.issues.securityHeadersExtended.grade === 'A' ? 'badge-passed' :
-                        result.issues.securityHeadersExtended.grade === 'B' ? 'badge-info' :
-                          result.issues.securityHeadersExtended.grade === 'C' ? 'badge-warning' :
-                            'badge-failed'
+                      <span className={result.issues.securityHeadersExtended.score >= 80 ? 'badge-passed' :
+                        result.issues.securityHeadersExtended.score >= 50 ? 'badge-warning' :
+                          'badge-failed'
                       }>
-                        Grade {result.issues.securityHeadersExtended.grade}
+                        {result.issues.securityHeadersExtended.score}/100
                       </span>
                     </span>
                     <svg className={`w-5 h-5 text-slate-400 transition-transform ${showSecurityHeadersExt ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
