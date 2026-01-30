@@ -2877,8 +2877,8 @@ export default function Home() {
                                       <p className="text-xs text-slate-500">{vendor.category}</p>
                                     </div>
                                     <div className="text-right">
-                                      <span className={`text-xs px-2 py-1 rounded ${vendor.jurisdiction === 'USA' ? 'bg-white text-blue-700' :
-                                        vendor.jurisdiction === 'EU' ? 'bg-white text-blue-700' :
+                                      <span className={`text-xs px-2 py-1 rounded ${vendor.jurisdiction === 'USA' ? 'bg-slate-100 text-slate-700' :
+                                        vendor.jurisdiction === 'EU' ? 'bg-slate-100 text-slate-700' :
                                           'bg-gray-100 text-gray-700'
                                         }`}>
                                         {vendor.jurisdiction}
@@ -2887,7 +2887,7 @@ export default function Home() {
                                   </div>
                                   <div className="mt-2 flex items-center gap-2">
                                     {vendor.gdprCompliant ? (
-                                      <span className="text-xs text-blue-600 flex items-center gap-1">
+                                      <span className="text-xs text-slate-600 flex items-center gap-1">
                                         ✓ GDPR compliant (uses SCCs)
                                       </span>
                                     ) : (
@@ -2900,9 +2900,9 @@ export default function Home() {
                               ))}
                             </div>
                             {isPro && (
-                              <div className="mt-4 p-3 bg-white border border-blue-200 rounded-lg">
-                                <p className="text-sm text-blue-800 font-medium mb-2">Compliance Requirements:</p>
-                                <ul className="text-xs text-blue-700 list-disc list-inside space-y-1">
+                              <div className="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                                <p className="text-sm text-slate-800 font-medium mb-2">Compliance Requirements:</p>
+                                <ul className="text-xs text-slate-700 list-disc list-inside space-y-1">
                                   <li>Ensure Standard Contractual Clauses (SCCs) are in place</li>
                                   <li>Document Transfer Impact Assessments (TIAs)</li>
                                   <li>Disclose international transfers in your privacy policy</li>
