@@ -92,7 +92,7 @@ export function OptInForms({
 
                     {optInForms.compliant ? (
                         <div className="flex items-center gap-3 p-4 bg-white rounded-lg">
-                            <span className="text-sm font-bold text-blue-600 uppercase">PASS</span>
+                            <span className="text-sm font-bold text-blue-600 uppercase border border-blue-300 px-2 py-0.5 rounded">PASS</span>
                             <div>
                                 <p className="font-semibold text-blue-800">All Forms Are Compliant</p>
                                 <p className="text-sm text-blue-600">
