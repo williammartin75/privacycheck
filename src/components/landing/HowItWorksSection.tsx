@@ -5,7 +5,7 @@ const steps = [
         number: 1,
         title: "Paste your website",
         highlight: "We do the hard work for you",
-        subtitle: "Our scanner crawls up to 1,000 pages of your site and runs 25+ automated checks.",
+        subtitle: "Our platform crawls up to 1,000 pages of your site and runs 25+ security checks.",
         items: [
             "Find all cookies and trackers on your site",
             "Check your consent banner works correctly",
@@ -29,7 +29,7 @@ const steps = [
         number: 3,
         title: "Fix everything step-by-step",
         highlight: "Clear instructions, no tech jargon",
-        subtitle: "We don't just find problems — we tell you exactly how to fix them, in plain language your team can follow.",
+        subtitle: "We don't just find problems — we tell you exactly how to fix them in a simple way your team can follow.",
         items: [
             "Step-by-step guide for each issue",
             "PDF report to share with your team",
