@@ -112,8 +112,8 @@ export function RiskAssessment({
                                     <div key={i} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
                                         <div className="flex items-center gap-3">
                                             <span className={`w-2 h-2 rounded-full ${factor.severity === 'critical' ? 'bg-red-600' :
-                                                    factor.severity === 'high' ? 'bg-red-500' :
-                                                        factor.severity === 'medium' ? 'bg-amber-500' : 'bg-slate-300'
+                                                factor.severity === 'high' ? 'bg-red-500' :
+                                                    factor.severity === 'medium' ? 'bg-amber-500' : 'bg-slate-300'
                                                 }`}></span>
                                             <div>
                                                 <p className="font-medium text-gray-800">{factor.issue}</p>
@@ -147,7 +147,8 @@ export function RiskAssessment({
                     {/* Recommendation */}
                     <div className="mt-4 p-4 rounded-lg bg-white border border-slate-200">
                         <p className="text-sm font-medium text-slate-700">
-                            <strong>Recommendation:</strong> {riskPrediction.recommendation}
+                            <strong>Recommendation:</strong>{' '}
+                            <span className={!isPro ? 'blur-sm select-none' : ''}>{riskPrediction.recommendation}</span>
                         </p>
                     </div>
 
