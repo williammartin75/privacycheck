@@ -1196,7 +1196,7 @@ export default function Home() {
                             }`}>
                             <div className="flex items-center gap-3">
                               <span className={`font-bold ${change.impact === 'positive' ? 'text-blue-600' : change.impact === 'negative' ? 'text-red-600' : 'text-gray-500'}`}>
-                                {change.impact === 'positive' ? '✓' : change.impact === 'negative' ? '✕' : '–'}
+                                {change.impact === 'positive' ? '↑' : change.impact === 'negative' ? '↓' : '–'}
                               </span>
                               <div>
                                 <p className="font-medium text-gray-800">{change.field}</p>
@@ -1270,9 +1270,9 @@ export default function Home() {
                           <div key={i} className="bg-white rounded-lg px-4 py-3 border border-slate-200">
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex items-start gap-3">
-                                <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${finding.severity === 'critical' ? 'bg-slate-800' :
-                                  finding.severity === 'high' ? 'bg-slate-600' :
-                                    finding.severity === 'medium' ? 'bg-slate-400' : 'bg-slate-300'
+                                <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${finding.severity === 'critical' ? 'bg-red-600' :
+                                  finding.severity === 'high' ? 'bg-red-500' :
+                                    finding.severity === 'medium' ? 'bg-amber-500' : 'bg-slate-300'
                                   }`}></span>
                                 <div>
                                   <p className="font-medium text-slate-800 text-sm">{finding.title}</p>
