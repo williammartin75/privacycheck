@@ -15,6 +15,7 @@ import { getScoreColor, getScoreLabel, getCategoryColor } from '@/lib/score-util
 import { FAQSection } from '@/components/landing/FAQSection';
 import { PricingCards } from '@/components/landing/PricingCards';
 import { HowItWorksSection } from '@/components/landing/HowItWorksSection';
+import { RegulationsBadges } from '@/components/landing/RegulationsBadges';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -2837,88 +2838,7 @@ export default function Home() {
         <FAQSection />
 
         {/* Regulations Covered */}
-        <section className="py-16">
-          <div className="container mx-auto px-6">
-            <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
-            <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
-            <div className="flex justify-center overflow-hidden" style={{ maxHeight: '95px' }}>
-              <img
-                src="/badges.png"
-                alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                className="object-cover h-[360px] sm:h-[440px] -my-[132px] sm:-my-[172px]"
-                style={{
-                  filter: 'brightness(1.08) contrast(1.1)'
-                }}
-              />
-            </div>
-
-            {/* Trust Badges - integrated with regulations above */}
-            <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-0">
-
-              {/* EU Data Badge - Circle with stars */}
-              <div className="flex flex-col items-center group">
-                <div className="w-20 h-20 relative">
-                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    {/* EU Blue circle */}
-                    <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
-                    {/* Stars in circle */}
-                    {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => (
-                      <text
-                        key={i}
-                        x={50 + 35 * Math.cos((angle - 90) * Math.PI / 180)}
-                        y={50 + 35 * Math.sin((angle - 90) * Math.PI / 180)}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        fill="#FFCC00"
-                        fontSize="10"
-                      >★</text>
-                    ))}
-                    {/* EU DATA text in center */}
-                    <text x="50" y="46" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">EU</text>
-                    <text x="50" y="60" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">DATA</text>
-                  </svg>
-                </div>
-              </div>
-
-              {/* SSL 256-Bit Badge - Gray Circle */}
-              <div className="flex flex-col items-center group">
-                <div className="w-20 h-20 relative">
-                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <circle cx="50" cy="50" r="48" fill="#4b5563" stroke="#374151" strokeWidth="2" />
-                    <text x="50" y="38" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SSL</text>
-                    <text x="50" y="54" textAnchor="middle" fill="white" fontSize="10">256-BIT</text>
-                    <text x="50" y="70" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">ENCRYPTED</text>
-                  </svg>
-                </div>
-              </div>
-
-              {/* SOC 2 Badge - Light Blue Circle */}
-              <div className="flex flex-col items-center group">
-                <div className="w-20 h-20 relative">
-                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <circle cx="50" cy="50" r="48" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2" />
-                    <text x="50" y="42" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SOC 2</text>
-                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="10">TYPE II</text>
-                    <text x="50" y="74" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">CERTIFIED</text>
-                  </svg>
-                </div>
-              </div>
-
-              {/* 100K Scans Badge - Dark Circle */}
-              <div className="flex flex-col items-center group">
-                <div className="w-20 h-20 relative">
-                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                    <circle cx="50" cy="50" r="48" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
-                    <text x="50" y="42" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold">100K</text>
-                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">SCANS</text>
-                    <text x="50" y="74" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">VERIFIED</text>
-                  </svg>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
+        <RegulationsBadges />
       </main>
 
       {/* Footer */}
