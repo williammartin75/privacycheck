@@ -1329,9 +1329,9 @@ export default function Home() {
                   >
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Consent Behavior Test</span>
-                      <span className={result.issues.consentBehavior.issues.length === 0 ? 'badge-passed' :
-                        result.issues.consentBehavior.issues.length <= 2 ? 'badge-warning' : 'badge-failed'}>
-                        {result.issues.consentBehavior.issues.length === 0 ? '0 issues' : `${result.issues.consentBehavior.issues.length} issue${result.issues.consentBehavior.issues.length > 1 ? 's' : ''}`}
+                      <span className={result.issues.consentBehavior.score >= 80 ? 'badge-passed' :
+                        result.issues.consentBehavior.score >= 50 ? 'badge-warning' : 'badge-failed'}>
+                        {result.issues.consentBehavior.score}/100
                       </span>
                     </span>
                     <svg className={`w-5 h-5 text-slate-400 transition-transform ${showConsentBehavior ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1557,12 +1557,11 @@ export default function Home() {
                   >
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Privacy Policy Analysis</span>
-                      <span className={result.issues.policyAnalysis.overallStatus === 'compliant' ? 'badge-passed' :
-                        result.issues.policyAnalysis.overallStatus === 'partial' ? 'badge-warning' :
-                          result.issues.policyAnalysis.overallStatus === 'not-found' ? 'badge-info' :
-                            'badge-failed'
+                      <span className={result.issues.policyAnalysis.overallScore >= 80 ? 'badge-passed' :
+                        result.issues.policyAnalysis.overallScore >= 50 ? 'badge-warning' :
+                          'badge-failed'
                       }>
-                        {result.issues.policyAnalysis.overallScore}%
+                        {result.issues.policyAnalysis.overallScore}/100
                       </span>
                     </span>
                     <svg className={`w-5 h-5 text-slate-400 transition-transform ${showPolicyAnalysis ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2104,16 +2103,10 @@ export default function Home() {
                   >
                     <span className="flex items-center gap-2">
                       <span className="section-btn-title">Fingerprinting Detection</span>
-                      {result.issues.fingerprinting.riskLevel === 'none' ? (
-                        <span className="badge-passed">0 issues</span>
-                      ) : (
-                        <span className={result.issues.fingerprinting.riskLevel === 'critical' ? 'badge-failed' :
-                          result.issues.fingerprinting.riskLevel === 'high' ? 'badge-failed' :
-                            'badge-warning'
-                        }>
-                          {result.issues.fingerprinting.issues.length} issue{result.issues.fingerprinting.issues.length > 1 ? 's' : ''}
-                        </span>
-                      )}
+                      <span className={result.issues.fingerprinting.score >= 80 ? 'badge-passed' :
+                        result.issues.fingerprinting.score >= 50 ? 'badge-warning' : 'badge-failed'}>
+                        {result.issues.fingerprinting.score}/100
+                      </span>
                     </span>
                     <svg className={`w-5 h-5 text-slate-400 transition-transform ${showFingerprinting ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
