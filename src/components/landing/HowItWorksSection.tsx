@@ -3,35 +3,35 @@
 const steps = [
     {
         number: 1,
-        title: "Enter your website URL",
-        highlight: "20+ compliance & security checks",
+        title: "Paste your website",
+        highlight: "We scan everything automatically",
         items: [
-            "Cookies, consent banner & privacy policy",
-            "Security headers, SSL/HTTPS",
-            "Third-party vendor risks",
-            "Dark patterns & fingerprinting"
+            "Find cookies that track your visitors",
+            "Check if you ask permission properly",
+            "Spot hidden trackers from Facebook, Google...",
+            "Detect security issues hackers could exploit"
         ]
     },
     {
         number: 2,
-        title: "Get your compliance score",
-        highlight: "Privacy score from 0 to 100%",
+        title: "See what's wrong",
+        highlight: "Get a clear score from 0 to 100%",
         items: [
-            "Issues ranked by severity",
-            "Applicable regulations (GDPR, CCPA...)",
-            "Cookies & trackers detected",
-            "Pro+: AI fine estimation & breach check"
+            "See exactly which laws apply to you",
+            "Know which problems are most urgent",
+            "Understand what each issue means",
+            "Learn how much a fine could cost you"
         ]
     },
     {
         number: 3,
-        title: "Fix issues and monitor",
-        highlight: "Step-by-step fixes + auto-rescans",
+        title: "Fix it easily",
+        highlight: "Step-by-step instructions included",
         items: [
-            "Detailed fix recommendations",
-            "PDF compliance report",
-            "Cookie Banner Widget",
-            "Weekly email alerts if score drops"
+            "Simple guide to fix each problem",
+            "Get a PDF report for your team",
+            "Add our cookie banner in one click",
+            "Get alerts if something breaks later"
         ]
     }
 ];
@@ -50,7 +50,7 @@ export function HowItWorksSection() {
                         <ul className="text-gray-600 text-sm space-y-2">
                             {step.items.map((item, idx) => (
                                 <li key={idx} className="flex items-start gap-2">
-                                    <svg className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
                                     {item}
