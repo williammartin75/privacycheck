@@ -43,6 +43,7 @@ import { DataBreaches } from '@/components/report/DataBreaches';
 import { CookieList } from '@/components/report/CookieList';
 import { PagesScanned } from '@/components/report/PagesScanned';
 import { TrackersList } from '@/components/report/TrackersList';
+import { ReportSection } from '@/components/report/ReportSection';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -607,273 +608,289 @@ export default function Home() {
                 <ScoreBreakdown breakdown={result.scoreBreakdown} finalScore={result.score} />
               )}
 
-              {/* Risk Assessment */}
-              {result.riskPrediction && (
-                <RiskAssessment
-                  riskPrediction={result.riskPrediction}
-                  isOpen={showRiskAssessment}
-                  onToggle={() => setShowRiskAssessment(!showRiskAssessment)}
-                  isPro={isPro}
-                  onUpgrade={() => handleCheckout()}
-                />
-              )}
-
-              {/* Compliance Drift Detection */}
-              {driftReport && driftReport.hasChanges && (
-                <ComplianceDrift
-                  driftReport={driftReport}
-                  isOpen={showComplianceDrift}
-                  onToggle={() => setShowComplianceDrift(!showComplianceDrift)}
-                />
-              )}
-
-              {/* Security Exposure Analysis */}
-              {result.attackSurface && result.attackSurface.totalFindings > 0 && (
-                <SecurityExposure
-                  attackSurface={result.attackSurface}
-                  isOpen={showSecurityExposure}
-                  onToggle={() => setShowSecurityExposure(!showSecurityExposure)}
-                  isPro={isPro}
-                />
-              )}
-
-              {/* Consent Behavior Test */}
-              {result.issues.consentBehavior && (
-                <ConsentBehavior
-                  consentBehavior={result.issues.consentBehavior}
-                  isOpen={showConsentBehavior}
-                  onToggle={() => setShowConsentBehavior(!showConsentBehavior)}
-                  isPro={isPro}
-                  expandedRec={expandedRec}
-                  setExpandedRec={setExpandedRec}
-                  recommendations={recommendations}
-                  onUpgrade={() => handleCheckout()}
-                />
-              )}
-
-              {/* Privacy Policy AI Analysis */}
-              {result.issues.policyAnalysis && (
-                <PolicyAnalysis
-                  policyAnalysis={result.issues.policyAnalysis}
-                  isOpen={showPolicyAnalysis}
-                  onToggle={() => setShowPolicyAnalysis(!showPolicyAnalysis)}
-                  isPro={isPro}
-                  onUpgrade={() => handleCheckout()}
-                />
-              )}
-
-              {/* Dark Patterns Detection */}
-              {result.issues.darkPatterns && (
-                <DarkPatterns
-                  darkPatterns={result.issues.darkPatterns}
-                  isOpen={showDarkPatterns}
-                  onToggle={() => setShowDarkPatterns(!showDarkPatterns)}
-                  isPro={isPro}
-                  onUpgrade={() => handleCheckout()}
-                />
-              )}
-
-              {/* Opt-in Forms Analysis */}
-              {result.issues.optInForms && (
-                <OptInForms
-                  optInForms={result.issues.optInForms}
-                  isOpen={showOptInForms}
-                  onToggle={() => setShowOptInForms(!showOptInForms)}
-                  isPro={isPro}
-                  onUpgrade={() => handleCheckout()}
-                />
-              )}
-
-              {/* Cookie Lifespan Analysis */}
-              {result.issues.cookieLifespan && (
-                <CookieLifespan
-                  cookieLifespan={result.issues.cookieLifespan}
-                  isOpen={showCookieLifespan}
-                  onToggle={() => setShowCookieLifespan(!showCookieLifespan)}
-                  isPro={isPro}
-                />
-              )}
-
-              {/* Fingerprinting Detection */}
-              {result.issues.fingerprinting && (
-                <Fingerprinting
-                  fingerprinting={result.issues.fingerprinting}
-                  isOpen={showFingerprinting}
-                  onToggle={() => setShowFingerprinting(!showFingerprinting)}
-                  isPro={isPro}
-                />
-              )}
-
-              {/* Security & Infrastructure */}
-              {result.issues.securityHeadersExtended && (
-                <SecurityInfra
-                  securityHeaders={result.issues.securityHeadersExtended}
-                  ssl={result.issues.ssl}
-                  emailSecurity={result.issues.emailSecurity}
-                  isOpen={showSecurityHeadersExt}
-                  onToggle={() => setShowSecurityHeadersExt(!showSecurityHeadersExt)}
-                  isPro={isPro}
-                  onUpgrade={() => handleCheckout()}
-                />
-              )}
-
-              {/* Storage Audit */}
-              {result.issues.storageAudit && (
-                <StorageAudit
-                  storageAudit={result.issues.storageAudit}
-                  isOpen={showStorageAudit}
-                  onToggle={() => setShowStorageAudit(!showStorageAudit)}
-                  isPro={isPro}
-                />
-              )}
-
-              {/* Mixed Content */}
-              {result.issues.mixedContent && (
-                <MixedContent
-                  mixedContent={result.issues.mixedContent}
-                  isOpen={showMixedContent}
-                  onToggle={() => setShowMixedContent(!showMixedContent)}
-                  isPro={isPro}
-                />
-              )}
-
-              {/* Form Security */}
-              {result.issues.formSecurity && (
-                <FormSecurity
-                  formSecurity={result.issues.formSecurity}
-                  isOpen={showFormSecurity}
-                  onToggle={() => setShowFormSecurity(!showFormSecurity)}
-                  isPro={isPro}
-                />
-              )}
-
-              {/* Compliance Checks */}
-              <div className="mb-4">
-                <button onClick={() => setShowComplianceChecklist(!showComplianceChecklist)} className="section-btn">
-                  <span className="flex items-center gap-2">
-                    <span className="section-btn-title">Compliance Checklist</span>
-                    <span className={
-                      !result.issues.consentBanner || !result.issues.privacyPolicy || !result.issues.legalMentions
-                        ? 'badge-failed'
-                        : 'badge-passed'
-                    }>
-                      {[
-                        result.issues.https,
-                        result.issues.consentBanner,
-                        result.issues.privacyPolicy,
-                        result.issues.cookiePolicy,
-                        result.issues.legalMentions,
-                        result.issues.dpoContact,
-                        result.issues.dataDeleteLink,
-                        result.issues.optOutMechanism,
-                        result.issues.secureforms
-                      ].filter(Boolean).length}/9
-                    </span>
-                  </span>
-                  <svg className={`w-5 h-5 text-slate-400 transition-transform ${showComplianceChecklist ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {showComplianceChecklist && (
-                  <>
-                    <p className="text-xs text-slate-500 mb-4 mt-3">
-                      Click on any failed item to view detailed fix instructions
-                    </p>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-                      <CheckItem passed={result.issues.https} label="HTTPS Enabled" recKey="https" />
-                      <CheckItem passed={result.issues.consentBanner} label="Cookie Consent Banner" recKey="consentBanner" />
-                      <CheckItem passed={result.issues.privacyPolicy} label="Privacy Policy" recKey="privacyPolicy" />
-                      <CheckItem passed={result.issues.cookiePolicy} label="Cookie Policy" recKey="cookiePolicy" />
-                      <CheckItem passed={result.issues.legalMentions} label="Legal Mentions / Terms" recKey="legalMentions" />
-                      <CheckItem passed={result.issues.dpoContact} label="DPO / Privacy Contact" recKey="dpoContact" />
-                      <CheckItem passed={result.issues.dataDeleteLink} label="Data Deletion Option" recKey="dataDeleteLink" />
-                      <CheckItem passed={result.issues.optOutMechanism} label="Opt-out Mechanism" recKey="optOutMechanism" />
-                      <CheckItem passed={result.issues.secureforms} label="Form Consent Checkbox" recKey="secureforms" />
-                      <CheckItem passed={result.issues.cookies.undeclared === 0} label={`Cookies Declared (${result.issues.cookies.count} found)`} />
-                      {result.issues.ageVerification && (
-                        <CheckItem passed={true} label="Age Verification" recKey="ageVerification" />
-                      )}
-                    </div>
-                  </>
+              {/* ========== COMPLIANCE GROUP ========== */}
+              <ReportSection title="Compliance" defaultOpen={true}>
+                {/* Risk Assessment */}
+                {result.riskPrediction && (
+                  <RiskAssessment
+                    riskPrediction={result.riskPrediction}
+                    isOpen={showRiskAssessment}
+                    onToggle={() => setShowRiskAssessment(!showRiskAssessment)}
+                    isPro={isPro}
+                    onUpgrade={() => handleCheckout()}
+                  />
                 )}
-              </div>
 
+                {/* Compliance Checklist */}
+                <div className="mb-4">
+                  <button onClick={() => setShowComplianceChecklist(!showComplianceChecklist)} className="section-btn">
+                    <span className="flex items-center gap-2">
+                      <span className="section-btn-title">Compliance Checklist</span>
+                      <span className={
+                        !result.issues.consentBanner || !result.issues.privacyPolicy || !result.issues.legalMentions
+                          ? 'badge-failed'
+                          : 'badge-passed'
+                      }>
+                        {[
+                          result.issues.https,
+                          result.issues.consentBanner,
+                          result.issues.privacyPolicy,
+                          result.issues.cookiePolicy,
+                          result.issues.legalMentions,
+                          result.issues.dpoContact,
+                          result.issues.dataDeleteLink,
+                          result.issues.optOutMechanism,
+                          result.issues.secureforms
+                        ].filter(Boolean).length}/9
+                      </span>
+                    </span>
+                    <svg className={`w-5 h-5 text-slate-400 transition-transform ${showComplianceChecklist ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {showComplianceChecklist && (
+                    <>
+                      <p className="text-xs text-slate-500 mb-4 mt-3">
+                        Click on any failed item to view detailed fix instructions
+                      </p>
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                        <CheckItem passed={result.issues.https} label="HTTPS Enabled" recKey="https" />
+                        <CheckItem passed={result.issues.consentBanner} label="Cookie Consent Banner" recKey="consentBanner" />
+                        <CheckItem passed={result.issues.privacyPolicy} label="Privacy Policy" recKey="privacyPolicy" />
+                        <CheckItem passed={result.issues.cookiePolicy} label="Cookie Policy" recKey="cookiePolicy" />
+                        <CheckItem passed={result.issues.legalMentions} label="Legal Mentions / Terms" recKey="legalMentions" />
+                        <CheckItem passed={result.issues.dpoContact} label="DPO / Privacy Contact" recKey="dpoContact" />
+                        <CheckItem passed={result.issues.dataDeleteLink} label="Data Deletion Option" recKey="dataDeleteLink" />
+                        <CheckItem passed={result.issues.optOutMechanism} label="Opt-out Mechanism" recKey="optOutMechanism" />
+                        <CheckItem passed={result.issues.secureforms} label="Form Consent Checkbox" recKey="secureforms" />
+                        <CheckItem passed={result.issues.cookies.undeclared === 0} label={`Cookies Declared (${result.issues.cookies.count} found)`} />
+                        {result.issues.ageVerification && (
+                          <CheckItem passed={true} label="Age Verification" recKey="ageVerification" />
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
 
+                {/* Compliance Drift Detection */}
+                {driftReport && driftReport.hasChanges && (
+                  <ComplianceDrift
+                    driftReport={driftReport}
+                    isOpen={showComplianceDrift}
+                    onToggle={() => setShowComplianceDrift(!showComplianceDrift)}
+                  />
+                )}
+              </ReportSection>
 
-              {/* Email Exposure Warning */}
-              {result.issues.exposedEmails && (
-                <EmailExposure
-                  exposedEmails={result.issues.exposedEmails}
-                  isOpen={showEmailExposure}
-                  onToggle={() => setShowEmailExposure(!showEmailExposure)}
+              {/* ========== CONSENT & PRIVACY GROUP ========== */}
+              <ReportSection title="Consent & Privacy" defaultOpen={false}>
+                {/* Consent Behavior Test */}
+                {result.issues.consentBehavior && (
+                  <ConsentBehavior
+                    consentBehavior={result.issues.consentBehavior}
+                    isOpen={showConsentBehavior}
+                    onToggle={() => setShowConsentBehavior(!showConsentBehavior)}
+                    isPro={isPro}
+                    expandedRec={expandedRec}
+                    setExpandedRec={setExpandedRec}
+                    recommendations={recommendations}
+                    onUpgrade={() => handleCheckout()}
+                  />
+                )}
+
+                {/* Privacy Policy AI Analysis */}
+                {result.issues.policyAnalysis && (
+                  <PolicyAnalysis
+                    policyAnalysis={result.issues.policyAnalysis}
+                    isOpen={showPolicyAnalysis}
+                    onToggle={() => setShowPolicyAnalysis(!showPolicyAnalysis)}
+                    isPro={isPro}
+                    onUpgrade={() => handleCheckout()}
+                  />
+                )}
+
+                {/* Dark Patterns Detection */}
+                {result.issues.darkPatterns && (
+                  <DarkPatterns
+                    darkPatterns={result.issues.darkPatterns}
+                    isOpen={showDarkPatterns}
+                    onToggle={() => setShowDarkPatterns(!showDarkPatterns)}
+                    isPro={isPro}
+                    onUpgrade={() => handleCheckout()}
+                  />
+                )}
+
+                {/* Opt-in Forms Analysis */}
+                {result.issues.optInForms && (
+                  <OptInForms
+                    optInForms={result.issues.optInForms}
+                    isOpen={showOptInForms}
+                    onToggle={() => setShowOptInForms(!showOptInForms)}
+                    isPro={isPro}
+                    onUpgrade={() => handleCheckout()}
+                  />
+                )}
+              </ReportSection>
+
+              {/* ========== COOKIES & TRACKING GROUP ========== */}
+              <ReportSection title="Cookies & Tracking" defaultOpen={false}>
+                {/* Cookies Section */}
+                <CookieList
+                  cookies={result.issues.cookies}
+                  isOpen={showCookies}
+                  onToggle={() => setShowCookies(!showCookies)}
+                  isPro={isPro}
+                />
+
+                {/* Cookie Lifespan Analysis */}
+                {result.issues.cookieLifespan && (
+                  <CookieLifespan
+                    cookieLifespan={result.issues.cookieLifespan}
+                    isOpen={showCookieLifespan}
+                    onToggle={() => setShowCookieLifespan(!showCookieLifespan)}
+                    isPro={isPro}
+                  />
+                )}
+
+                {/* Third-Party Scripts & Tracking */}
+                <ThirdPartyScripts
+                  externalResources={result.issues.externalResources}
+                  socialTrackers={result.issues.socialTrackers}
+                  isOpen={showExternalResources}
+                  onToggle={() => setShowExternalResources(!showExternalResources)}
                   isPro={isPro}
                   onUpgrade={() => handleCheckout()}
                 />
-              )}
 
-              {/* Third-Party Scripts & Tracking */}
-              <ThirdPartyScripts
-                externalResources={result.issues.externalResources}
-                socialTrackers={result.issues.socialTrackers}
-                isOpen={showExternalResources}
-                onToggle={() => setShowExternalResources(!showExternalResources)}
-                isPro={isPro}
-                onUpgrade={() => handleCheckout()}
-              />
-
-              {/* Vendor Risk Assessment */}
-              {result.issues.vendorRisks && (
-                <VendorRisk
-                  vendorRisks={result.issues.vendorRisks}
-                  isOpen={showVendorRisk}
-                  onToggle={() => setShowVendorRisk(!showVendorRisk)}
+                {/* Trackers */}
+                <TrackersList
+                  trackers={result.issues.trackers}
+                  isOpen={showTrackers}
+                  onToggle={() => setShowTrackers(!showTrackers)}
                   isPro={isPro}
                   onUpgrade={() => handleCheckout()}
                 />
-              )}
+              </ReportSection>
 
-              {/* Data Transfers Outside EU */}
-              {result.issues.vendorRisks && (
-                <DataTransfers
-                  vendorRisks={result.issues.vendorRisks}
-                  isOpen={showDataTransfers}
-                  onToggle={() => setShowDataTransfers(!showDataTransfers)}
-                  isPro={isPro}
+              {/* ========== VENDORS & DATA FLOW GROUP ========== */}
+              <ReportSection title="Vendors & Data Flow" defaultOpen={false}>
+                {/* Vendor Risk Assessment */}
+                {result.issues.vendorRisks && (
+                  <VendorRisk
+                    vendorRisks={result.issues.vendorRisks}
+                    isOpen={showVendorRisk}
+                    onToggle={() => setShowVendorRisk(!showVendorRisk)}
+                    isPro={isPro}
+                    onUpgrade={() => handleCheckout()}
+                  />
+                )}
+
+                {/* Data Transfers Outside EU */}
+                {result.issues.vendorRisks && (
+                  <DataTransfers
+                    vendorRisks={result.issues.vendorRisks}
+                    isOpen={showDataTransfers}
+                    onToggle={() => setShowDataTransfers(!showDataTransfers)}
+                    isPro={isPro}
+                  />
+                )}
+
+                {/* Data Breaches */}
+                <DataBreaches
+                  dataBreaches={result.issues.dataBreaches}
+                  domain={result.domain}
+                  isOpen={showDataBreaches}
+                  onToggle={() => setShowDataBreaches(!showDataBreaches)}
                 />
-              )}
 
-              {/* Data Breaches */}
-              <DataBreaches
-                dataBreaches={result.issues.dataBreaches}
-                domain={result.domain}
-                isOpen={showDataBreaches}
-                onToggle={() => setShowDataBreaches(!showDataBreaches)}
-              />
+                {/* Email Exposure Warning */}
+                {result.issues.exposedEmails && (
+                  <EmailExposure
+                    exposedEmails={result.issues.exposedEmails}
+                    isOpen={showEmailExposure}
+                    onToggle={() => setShowEmailExposure(!showEmailExposure)}
+                    isPro={isPro}
+                    onUpgrade={() => handleCheckout()}
+                  />
+                )}
+              </ReportSection>
 
-              {/* Cookies Section */}
-              <CookieList
-                cookies={result.issues.cookies}
-                isOpen={showCookies}
-                onToggle={() => setShowCookies(!showCookies)}
-                isPro={isPro}
-              />
+              {/* ========== SECURITY GROUP ========== */}
+              <ReportSection title="Security" defaultOpen={false}>
+                {/* Security Exposure Analysis */}
+                {result.attackSurface && result.attackSurface.totalFindings > 0 && (
+                  <SecurityExposure
+                    attackSurface={result.attackSurface}
+                    isOpen={showSecurityExposure}
+                    onToggle={() => setShowSecurityExposure(!showSecurityExposure)}
+                    isPro={isPro}
+                  />
+                )}
 
-              {/* Pages Scanned */}
-              <PagesScanned
-                pages={result.pages}
-                pagesScanned={result.pagesScanned}
-                isOpen={showPages}
-                onToggle={() => setShowPages(!showPages)}
-              />
+                {/* Security & Infrastructure */}
+                {result.issues.securityHeadersExtended && (
+                  <SecurityInfra
+                    securityHeaders={result.issues.securityHeadersExtended}
+                    ssl={result.issues.ssl}
+                    emailSecurity={result.issues.emailSecurity}
+                    isOpen={showSecurityHeadersExt}
+                    onToggle={() => setShowSecurityHeadersExt(!showSecurityHeadersExt)}
+                    isPro={isPro}
+                    onUpgrade={() => handleCheckout()}
+                  />
+                )}
 
-              {/* Trackers */}
-              <TrackersList
-                trackers={result.issues.trackers}
-                isOpen={showTrackers}
-                onToggle={() => setShowTrackers(!showTrackers)}
-                isPro={isPro}
-                onUpgrade={() => handleCheckout()}
-              />
+                {/* Fingerprinting Detection */}
+                {result.issues.fingerprinting && (
+                  <Fingerprinting
+                    fingerprinting={result.issues.fingerprinting}
+                    isOpen={showFingerprinting}
+                    onToggle={() => setShowFingerprinting(!showFingerprinting)}
+                    isPro={isPro}
+                  />
+                )}
+
+                {/* Storage Audit */}
+                {result.issues.storageAudit && (
+                  <StorageAudit
+                    storageAudit={result.issues.storageAudit}
+                    isOpen={showStorageAudit}
+                    onToggle={() => setShowStorageAudit(!showStorageAudit)}
+                    isPro={isPro}
+                  />
+                )}
+
+                {/* Mixed Content */}
+                {result.issues.mixedContent && (
+                  <MixedContent
+                    mixedContent={result.issues.mixedContent}
+                    isOpen={showMixedContent}
+                    onToggle={() => setShowMixedContent(!showMixedContent)}
+                    isPro={isPro}
+                  />
+                )}
+
+                {/* Form Security */}
+                {result.issues.formSecurity && (
+                  <FormSecurity
+                    formSecurity={result.issues.formSecurity}
+                    isOpen={showFormSecurity}
+                    onToggle={() => setShowFormSecurity(!showFormSecurity)}
+                    isPro={isPro}
+                  />
+                )}
+              </ReportSection>
+
+              {/* ========== SCAN DETAILS GROUP ========== */}
+              <ReportSection title="Scan Details" defaultOpen={false}>
+                {/* Pages Scanned */}
+                <PagesScanned
+                  pages={result.pages}
+                  pagesScanned={result.pagesScanned}
+                  isOpen={showPages}
+                  onToggle={() => setShowPages(!showPages)}
+                />
+              </ReportSection>
 
               {/* CTA */}
               <div className="mt-8 p-6 bg-blue-600 border border-blue-500 rounded-md text-center">
