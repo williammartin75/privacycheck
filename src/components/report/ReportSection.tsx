@@ -9,10 +9,10 @@ interface ReportSectionProps {
     score?: number; // 0-100 score for the category
 }
 
-function getScoreColor(score: number): string {
-    if (score >= 80) return 'bg-green-500';
-    if (score >= 50) return 'bg-amber-500';
-    return 'bg-red-500';
+function getScoreClasses(score: number): string {
+    if (score >= 80) return 'text-green-600 border-green-500';
+    if (score >= 50) return 'text-amber-600 border-amber-500';
+    return 'text-red-600 border-red-500';
 }
 
 export function ReportSection({ title, children, defaultOpen = false, score }: ReportSectionProps) {
@@ -29,7 +29,7 @@ export function ReportSection({ title, children, defaultOpen = false, score }: R
                         {title}
                     </span>
                     {score !== undefined && (
-                        <span className={`px-2 py-0.5 rounded text-xs font-bold text-white ${getScoreColor(score)}`}>
+                        <span className={`px-2 py-0.5 rounded text-xs font-extrabold bg-white border ${getScoreClasses(score)}`}>
                             {score}/100
                         </span>
                     )}
