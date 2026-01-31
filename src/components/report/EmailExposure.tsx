@@ -23,13 +23,15 @@ export function EmailExposure({
     }
 
     return (
-        <div className="mb-6">
-            <button
-                onClick={onToggle}
-                className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
-            >
-                <span>Email Exposure Warning</span>
-                <svg className={`w-5 h-5 text-slate-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="mb-4">
+            <button onClick={onToggle} className="section-btn">
+                <span className="flex items-center gap-2">
+                    <span className="section-btn-title">Email Exposure</span>
+                    <span className="badge-warning">
+                        {exposedEmails.length} found
+                    </span>
+                </span>
+                <svg className={`w-5 h-5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
             </button>

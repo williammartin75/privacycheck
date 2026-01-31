@@ -748,19 +748,35 @@ export default function Home() {
               )}
 
               {/* Compliance Checks */}
-              <div className="mb-6">
-                <button
-                  onClick={() => setShowComplianceChecklist(!showComplianceChecklist)}
-                  className="w-full flex items-center justify-between text-lg font-semibold text-slate-800 mb-3 hover:text-slate-600 transition"
-                >
-                  <span>Compliance Checklist</span>
-                  <svg className={`w-5 h-5 text-slate-500 transition-transform ${showComplianceChecklist ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="mb-4">
+                <button onClick={() => setShowComplianceChecklist(!showComplianceChecklist)} className="section-btn">
+                  <span className="flex items-center gap-2">
+                    <span className="section-btn-title">Compliance Checklist</span>
+                    <span className={
+                      !result.issues.consentBanner || !result.issues.privacyPolicy || !result.issues.legalMentions
+                        ? 'badge-failed'
+                        : 'badge-passed'
+                    }>
+                      {[
+                        result.issues.https,
+                        result.issues.consentBanner,
+                        result.issues.privacyPolicy,
+                        result.issues.cookiePolicy,
+                        result.issues.legalMentions,
+                        result.issues.dpoContact,
+                        result.issues.dataDeleteLink,
+                        result.issues.optOutMechanism,
+                        result.issues.secureforms
+                      ].filter(Boolean).length}/9
+                    </span>
+                  </span>
+                  <svg className={`w-5 h-5 text-slate-400 transition-transform ${showComplianceChecklist ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
                 {showComplianceChecklist && (
                   <>
-                    <p className="text-xs text-slate-500 mb-4">
+                    <p className="text-xs text-slate-500 mb-4 mt-3">
                       Click on any failed item to view detailed fix instructions
                     </p>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
