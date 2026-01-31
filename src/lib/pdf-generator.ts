@@ -38,6 +38,18 @@ export function generatePDF(result: AuditResult): void {
         return false;
     };
 
+    const drawCategoryHeader = (title: string) => {
+        checkNewPage(20);
+        y += 5;
+        doc.setFillColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
+        doc.rect(15, y - 6, pageWidth - 30, 12, 'F');
+        doc.setTextColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text(title.toUpperCase(), 20, y + 2);
+        y += 18;
+    };
+
     const drawSectionHeader = (title: string) => {
         checkNewPage(25);
         doc.setFillColor(COLORS.lightGray[0], COLORS.lightGray[1], COLORS.lightGray[2]);
@@ -209,6 +221,11 @@ export function generatePDF(result: AuditResult): void {
         y += 10;
     }
 
+    // ==========================================
+    // CATEGORY: COMPLIANCE
+    // ==========================================
+    drawCategoryHeader('Compliance');
+
     // ============ GDPR FINE ESTIMATION ============
     if (result.riskPrediction) {
         drawSectionHeader('GDPR FINE ESTIMATION');
@@ -261,6 +278,11 @@ export function generatePDF(result: AuditResult): void {
         });
         y += 5;
     }
+
+    // ==========================================
+    // CATEGORY: CONSENT & PRIVACY
+    // ==========================================
+    drawCategoryHeader('Consent & Privacy');
 
     // ============ CONSENT BEHAVIOR TEST ============
     if (result.issues.consentBehavior) {
@@ -392,6 +414,11 @@ export function generatePDF(result: AuditResult): void {
         drawCheck('Age Verification', true);
     }
     y += 5;
+
+    // ==========================================
+    // CATEGORY: SECURITY
+    // ==========================================
+    drawCategoryHeader('Security');
 
     // ============ SECURITY HEADERS ============
     if (result.issues.securityHeadersExtended || result.issues.securityHeaders) {
@@ -666,6 +693,11 @@ export function generatePDF(result: AuditResult): void {
         y += 5;
     }
 
+    // ==========================================
+    // CATEGORY: COOKIES & TRACKING
+    // ==========================================
+    drawCategoryHeader('Cookies & Tracking');
+
     // ============ EXTERNAL RESOURCES ============
     if (result.issues.externalResources) {
         const er = result.issues.externalResources;
@@ -716,6 +748,11 @@ export function generatePDF(result: AuditResult): void {
         });
         y += 5;
     }
+
+    // ==========================================
+    // CATEGORY: VENDORS & DATA FLOW
+    // ==========================================
+    drawCategoryHeader('Vendors & Data Flow');
 
     // ============ VENDOR RISKS ============
     if (result.issues.vendorRisks && result.issues.vendorRisks.length > 0) {
