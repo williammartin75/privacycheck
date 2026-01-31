@@ -167,7 +167,6 @@ export async function GET(request: NextRequest) {
           if (name === 'src' && shouldBlock(value)) {
             // Store for later and block
             blockedScripts.push({ src: value, element: element });
-            console.log('[PrivacyChecker] Blocked:', value);
             return; // Don't set src, effectively blocking
           }
           return originalSetAttribute(name, value);
@@ -178,7 +177,6 @@ export async function GET(request: NextRequest) {
           set: function(value) {
             if (shouldBlock(value)) {
               blockedScripts.push({ src: value, element: element });
-              console.log('[PrivacyChecker] Blocked:', value);
               return;
             }
             originalSetAttribute('src', value);
@@ -210,7 +208,6 @@ export async function GET(request: NextRequest) {
         script.setAttribute('data-unblocked', 'true');
         script.src = blocked.src;
         document.head.appendChild(script);
-        console.log('[PrivacyChecker] Unblocked:', blocked.src);
       } else if (blocked.inline && categories[blocked.category]) {
         var script = document.createElement('script');
         script.textContent = blocked.inline;

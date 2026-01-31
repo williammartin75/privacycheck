@@ -20,6 +20,29 @@ export const metadata: Metadata = {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
   },
+  openGraph: {
+    title: "PrivacyChecker - Free GDPR & CCPA Compliance Scanner",
+    description: "Scan your website in 60 seconds. Get a detailed privacy audit with 25+ checks covering cookies, trackers, consent banners, and security headers.",
+    url: "https://privacychecker.pro",
+    siteName: "PrivacyChecker",
+    images: [
+      {
+        url: "https://privacychecker.pro/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "PrivacyChecker - Privacy Compliance Scanner",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PrivacyChecker - Free GDPR & CCPA Compliance Scanner",
+    description: "Scan your website in 60 seconds. Get a detailed privacy audit with 25+ checks.",
+    images: ["https://privacychecker.pro/og-image.png"],
+  },
+  metadataBase: new URL("https://privacychecker.pro"),
 };
 
 export default function RootLayout({

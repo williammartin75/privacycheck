@@ -29,7 +29,7 @@ export function ReportSection({ title, children, defaultOpen = false, score }: R
                         {title}
                     </span>
                     {score !== undefined && (
-                        <span className={`px-2 py-0.5 rounded text-xs font-extrabold bg-white border ${getScoreClasses(score)}`}>
+                        <span className={`px-2.5 py-1 rounded text-xs font-extrabold bg-white border-2 ${getScoreClasses(score)}`}>
                             {score}/100
                         </span>
                     )}

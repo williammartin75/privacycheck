@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PrivacyChecker
 
-## Getting Started
+> **Free GDPR & CCPA Compliance Scanner for Websites**
 
-First, run the development server:
+PrivacyChecker is a SaaS platform that audits websites for privacy compliance across 25+ security and privacy checks. Get instant compliance scores, detailed reports, and actionable recommendations.
+
+## ✨ Features
+
+- **25+ Security Checks** - Cookies, trackers, consent banners, security headers, email security
+- **80+ Vendor Risk Database** - Identify third-party risks with GDPR impact scores
+- **Multi-Regulation Support** - GDPR, CCPA, LGPD, and 50+ privacy laws
+- **Cookie Banner Widget** - GDPR-compliant consent management with Consent Mode v2
+- **PDF Reports** - Professional compliance reports for stakeholders
+- **Compliance Drift Detection** - Monitor changes that affect your score
+
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js 16 (App Router)
+- **Database**: Supabase (PostgreSQL)
+- **Payments**: Stripe
+- **Auth**: Google OAuth via Supabase
+- **Hosting**: Render
+- **Analytics**: Plausible (privacy-friendly)
 
-## Learn More
+## 🔒 Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Create a `.env.local` file with:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+HIBP_API_KEY= # Optional: Have I Been Pwned API
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proprietary - All rights reserved © 2025 PrivacyChecker SAS

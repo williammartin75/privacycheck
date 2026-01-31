@@ -654,23 +654,18 @@ export async function POST(request: NextRequest) {
         const { data: { user }, error: authError } = await supabase.auth.getUser();
 
         if (authError || !user) {
-            console.log('[Audit API] Unauthorized request - no valid session');
             return NextResponse.json(
                 { error: 'Authentication required. Please log in to scan websites.' },
                 { status: 401 }
             );
         }
 
-        console.log(`[Audit API] Authenticated user: ${user.email}`);
 
         const { url, tier = 'free' } = await request.json();
 
         // Tier-based helpers
         const isPro = tier === 'pro' || tier === 'pro_plus';
         const isProPlus = tier === 'pro_plus';
-
-        // Debug logging
-        console.log(`[Audit API] Received request - URL: ${url}, Tier: ${tier}, isPro: ${isPro}, isProPlus: ${isProPlus}`);
 
         if (!url) {
             return NextResponse.json({ error: 'URL is required' }, { status: 400 });
@@ -750,8 +745,6 @@ export async function POST(request: NextRequest) {
         // Get internal links - limit based on plan (Free: 5, Pro: 20, Pro+: 100)
         const maxExtraPages = isProPlus ? 999 : (isPro ? 199 : 19); // +1 for main page = 20, 200, or 1000
         const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
-
-        console.log(`[Audit API] maxExtraPages: ${maxExtraPages}, allInternalLinks found: ${allInternalLinks.length}`);
 
         // For deeper crawl, also get links from the first batch of pages
         const firstBatchLinks = allInternalLinks.slice(0, 5);
@@ -1269,10 +1262,8 @@ export async function POST(request: NextRequest) {
                 pages_scanned: pages.length,
                 score: result.score,
             });
-            console.log(`[Audit API] Scan logged for user ${user.email}`);
         } catch (logError) {
-            console.error('[Audit API] Failed to log scan:', logError);
-            // Don't fail the request if logging fails
+            // Silent fail - don't log scan tracking errors
         }
 
         return NextResponse.json(result);

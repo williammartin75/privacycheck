@@ -7,15 +7,11 @@ export async function POST(request: NextRequest) {
     try {
         const { email } = await request.json();
 
-        console.log('[Portal] Looking for customer with email:', email);
-
         // Find customer by email
         const customers = await stripe.customers.list({
             email: email,
             limit: 1,
         });
-
-        console.log('[Portal] Found customers count:', customers.data.length);
 
         if (customers.data.length === 0) {
             // Try searching with lowercase email as fallback
@@ -23,8 +19,6 @@ export async function POST(request: NextRequest) {
                 email: email.toLowerCase(),
                 limit: 1,
             });
-
-            console.log('[Portal] Found customers (lowercase) count:', customersLower.data.length);
 
             if (customersLower.data.length === 0) {
                 // Last resort: search all customers and filter
@@ -34,14 +28,12 @@ export async function POST(request: NextRequest) {
                 );
 
                 if (!matchingCustomer) {
-                    console.log('[Portal] No customer found for email:', email);
                     return NextResponse.json(
                         { error: 'No subscription found' },
                         { status: 404 }
                     );
                 }
 
-                console.log('[Portal] Found customer via search:', matchingCustomer.id);
                 const portalSession = await stripe.billingPortal.sessions.create({
                     customer: matchingCustomer.id,
                     return_url: `${request.headers.get('origin')}/dashboard`,
@@ -50,7 +42,6 @@ export async function POST(request: NextRequest) {
             }
 
             const customer = customersLower.data[0];
-            console.log('[Portal] Using lowercase match customer:', customer.id);
             const portalSession = await stripe.billingPortal.sessions.create({
                 customer: customer.id,
                 return_url: `${request.headers.get('origin')}/dashboard`,
@@ -59,7 +50,6 @@ export async function POST(request: NextRequest) {
         }
 
         const customer = customers.data[0];
-        console.log('[Portal] Found customer:', customer.id, 'email:', customer.email);
 
         // Create portal session
         const portalSession = await stripe.billingPortal.sessions.create({
