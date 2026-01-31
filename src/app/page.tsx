@@ -521,8 +521,8 @@ export default function Home() {
                 score={result.score}
                 regulations={result.regulations || []}
                 pagesScanned={result.pagesScanned}
-                issuesCount={result.scoreBreakdown?.filter(b => b.points < 0).length || 0}
-                passedCount={result.scoreBreakdown?.filter(b => b.points >= 0).length || 0}
+                issuesCount={result.scoreBreakdown?.filter(b => !b.passed).length || 0}
+                passedCount={result.scoreBreakdown?.filter(b => b.passed).length || 0}
               />
 
               {/* PDF Button */}
@@ -594,7 +594,7 @@ export default function Home() {
               </div>
 
               {/* Passed Checks List */}
-              <PassedChecks issues={result.issues} />
+              <PassedChecks scoreBreakdown={result.scoreBreakdown} />
 
               {/* Issues Found */}
               {result.scoreBreakdown && (
