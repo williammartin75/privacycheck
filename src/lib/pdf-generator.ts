@@ -1075,6 +1075,72 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ==========================================
+    // CATEGORY: TECHNOLOGY STACK SECURITY
+    // ==========================================
+    drawCategoryHeader('Technology Stack');
+
+    if (result.issues.technologyStack) {
+        const tech = result.issues.technologyStack;
+
+        // Security Score
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        const techColor = tech.score >= 80 ? COLORS.green : tech.score >= 60 ? COLORS.gold : COLORS.red;
+        doc.setTextColor(techColor[0], techColor[1], techColor[2]);
+        doc.text(`Technology Security Score: ${tech.score}/100`, 20, y);
+        y += 6;
+
+        // CMS Detection
+        if (tech.cms) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            const cmsStatus = tech.cms.isOutdated ? '⚠ OUTDATED' : '✓ Current';
+            doc.text(`CMS: ${tech.cms.name}${tech.cms.version ? ' v' + tech.cms.version : ''} [${cmsStatus}]`, 20, y);
+            y += 5;
+
+            if (tech.cms.isOutdated && tech.cms.latestVersion) {
+                doc.setFontSize(8);
+                doc.setTextColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+                doc.text(`   Update required: latest version is ${tech.cms.latestVersion}`, 20, y);
+                y += 5;
+            }
+        }
+
+        // Framework
+        if (tech.framework) {
+            doc.setFontSize(8);
+            doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+            doc.text(`Framework: ${tech.framework.name}${tech.framework.version ? ' v' + tech.framework.version : ''}`, 20, y);
+            y += 4;
+        }
+
+        // Server
+        if (tech.server?.software) {
+            doc.text(`Server: ${tech.server.software}${tech.server.version ? ' v' + tech.server.version : ''}`, 20, y);
+            y += 4;
+        }
+
+        // Outdated Components Alert
+        if (tech.outdatedComponents.length > 0) {
+            y += 2;
+            doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(7);
+            doc.text(`⚠ ${tech.outdatedComponents.length} outdated component(s) detected`, 20, y + 2);
+            y += 12;
+        }
+
+        y += 4;
+    } else {
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+        doc.text('Technology detection data not available', 20, y);
+        y += 10;
+    }
+
+    // ==========================================
     // CATEGORY: COOKIES & TRACKING
     // ==========================================
     drawCategoryHeader('Cookies & Tracking');

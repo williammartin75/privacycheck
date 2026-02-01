@@ -18,6 +18,7 @@ import { analyzeSupplyChain, SupplyChainResult } from '@/lib/supply-chain-audit'
 import { analyzeHiddenCosts, HiddenCostsResult } from '@/lib/hidden-costs-audit';
 import { analyzeEmailDeliverability, EmailDeliverabilityResult } from '@/lib/email-deliverability-audit';
 import { analyzeAIUsage, AIUsageResult } from '@/lib/ai-usage-audit';
+import { detectTechnologies, TechnologyResult } from '@/lib/technology-detection';
 
 interface Cookie {
     name: string;
@@ -135,6 +136,8 @@ interface AuditResult {
         emailDeliverability?: EmailDeliverabilityResult;
         // AI Usage & Compliance Audit (Pro/Pro+)
         aiUsage?: AIUsageResult;
+        // Technology Stack Detection (Security Light)
+        technologyStack?: TechnologyResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -912,6 +915,9 @@ export async function POST(request: NextRequest) {
         // AI Usage & Compliance Audit (Pro/Pro+) - EU AI Act
         const aiUsage = analyzeAIUsage(supplyChain.scripts, allTrackers);
 
+        // Technology Stack Detection (Security Light) - CMS/Framework versions
+        const technologyStack = detectTechnologies(combinedHtml, responseHeaders);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -1216,6 +1222,27 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'AI Compliance', points: 0, passed: true });
         }
 
+        // Technology Stack Security penalty - up to 8 points
+        let techPenalty = 0;
+        if (technologyStack.cms?.isOutdated) {
+            if (technologyStack.cms.securityRisk === 'critical') techPenalty += 5;
+            else if (technologyStack.cms.securityRisk === 'high') techPenalty += 3;
+            else techPenalty += 1;
+        }
+        if (technologyStack.alerts.some(a => a.severity === 'critical')) techPenalty += 3;
+        techPenalty = Math.min(techPenalty, 8);
+
+        if (techPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Technology Security (${technologyStack.score}/100)`,
+                points: -techPenalty,
+                passed: false
+            });
+            score -= techPenalty;
+        } else if (technologyStack.cms) {
+            scoreBreakdown.push({ item: `Technology (${technologyStack.cms.name})`, points: 0, passed: true });
+        }
+
         // Email Exposure (excludes same-domain contact emails)
         const exposedEmails = extractExposedEmails(combinedHtml, domain);
         if (exposedEmails.length > 0) {
@@ -1362,6 +1389,8 @@ export async function POST(request: NextRequest) {
                 emailDeliverability,
                 // AI Usage & Compliance Audit (Pro/Pro+)
                 aiUsage,
+                // Technology Stack Detection (Security Light)
+                technologyStack,
             },
             regulations,
             scoreBreakdown,

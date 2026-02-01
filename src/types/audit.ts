@@ -492,6 +492,48 @@ export interface AuditResult {
             euAiActStatus: 'compliant' | 'action-needed' | 'high-risk' | 'critical';
             summary: string;
         };
+        // Technology Stack Detection (Security Light)
+        technologyStack?: {
+            score: number;
+            cms: {
+                name: string;
+                version: string | null;
+                confidence: 'high' | 'medium' | 'low';
+                isOutdated: boolean;
+                latestVersion: string | null;
+                securityRisk: 'low' | 'medium' | 'high' | 'critical';
+            } | null;
+            framework: {
+                name: string;
+                version: string | null;
+                type: 'frontend' | 'backend' | 'fullstack';
+            } | null;
+            server: {
+                software: string | null;
+                version: string | null;
+                os: string | null;
+            } | null;
+            technologies: {
+                name: string;
+                category: string;
+                version: string | null;
+                confidence: 'high' | 'medium' | 'low';
+            }[];
+            outdatedComponents: {
+                name: string;
+                currentVersion: string;
+                latestVersion: string;
+                severity: 'low' | 'medium' | 'high' | 'critical';
+                recommendation: string;
+            }[];
+            alerts: {
+                severity: 'critical' | 'high' | 'medium' | 'low';
+                title: string;
+                description: string;
+            }[];
+            recommendations: string[];
+            summary: string;
+        };
     };
     regulations: string[];
     scoreBreakdown?: { item: string; points: number; passed: boolean }[];

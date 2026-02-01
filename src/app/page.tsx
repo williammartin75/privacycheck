@@ -50,6 +50,7 @@ import { SupplyChainAudit } from '@/components/report/SupplyChainAudit';
 import { HiddenCostsAudit } from '@/components/report/HiddenCostsAudit';
 import { EmailDeliverabilityAudit } from '@/components/report/EmailDeliverabilityAudit';
 import { AIUsageAudit } from '@/components/report/AIUsageAudit';
+import { TechnologyStack } from '@/components/report/TechnologyStack';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -1006,6 +1007,18 @@ export default function Home() {
                     >
                       <AIUsageAudit
                         aiUsage={result.issues.aiUsage}
+                        isPro={isPro}
+                      />
+                    </ReportSection>
+
+                    {/* ========== TECHNOLOGY STACK SECURITY GROUP ========== */}
+                    <ReportSection
+                      title="Technology Security"
+                      defaultOpen={false}
+                      score={result.issues.technologyStack?.score}
+                    >
+                      <TechnologyStack
+                        technologyStack={result.issues.technologyStack}
                         isPro={isPro}
                       />
                     </ReportSection>
