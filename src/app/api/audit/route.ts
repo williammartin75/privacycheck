@@ -16,6 +16,7 @@ import { analyzeAccessibility, AccessibilityResult } from '@/lib/accessibility-a
 import { analyzeDomainRisk, DomainRiskResult } from '@/lib/domain-risk';
 import { analyzeSupplyChain, SupplyChainResult } from '@/lib/supply-chain-audit';
 import { analyzeHiddenCosts, HiddenCostsResult } from '@/lib/hidden-costs-audit';
+import { analyzeEmailDeliverability, EmailDeliverabilityResult } from '@/lib/email-deliverability-audit';
 
 interface Cookie {
     name: string;
@@ -129,6 +130,8 @@ interface AuditResult {
         supplyChain?: SupplyChainResult;
         // Hidden Costs Audit (Pro/Pro+)
         hiddenCosts?: HiddenCostsResult;
+        // Email Deliverability Audit (Pro/Pro+)
+        emailDeliverability?: EmailDeliverabilityResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -900,6 +903,9 @@ export async function POST(request: NextRequest) {
         // Hidden Costs Audit (Pro/Pro+) - SaaS Cost Estimation
         const hiddenCosts = analyzeHiddenCosts(supplyChain.scripts, allTrackers);
 
+        // Email Deliverability Audit (Pro/Pro+) - SPF/DKIM/DMARC
+        const emailDeliverability = await analyzeEmailDeliverability(domain);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -1166,9 +1172,25 @@ export async function POST(request: NextRequest) {
 
         // Note: Security headers already handled above via securityHeadersExtended
 
-        // P0 Security: Email security
-        deduct(emailSecurity.spf, 'SPF Record', 3);
-        deduct(emailSecurity.dmarc, 'DMARC Record', 3);
+        // Email Deliverability penalty - up to 10 points
+        let emailPenalty = 0;
+        if (!emailDeliverability.spf.exists) emailPenalty += 3;
+        if (!emailDeliverability.dkim.exists) emailPenalty += 3;
+        if (!emailDeliverability.dmarc.exists) emailPenalty += 2;
+        else if (emailDeliverability.dmarc.policy === 'none') emailPenalty += 1;
+        if (emailDeliverability.alerts.some(a => a.severity === 'critical')) emailPenalty += 2;
+        emailPenalty = Math.min(emailPenalty, 10);
+
+        if (emailPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Email Deliverability (Grade ${emailDeliverability.grade})`,
+                points: -emailPenalty,
+                passed: false
+            });
+            score -= emailPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Email Deliverability', points: 0, passed: true });
+        }
 
         // Email Exposure (excludes same-domain contact emails)
         const exposedEmails = extractExposedEmails(combinedHtml, domain);
@@ -1312,6 +1334,8 @@ export async function POST(request: NextRequest) {
                 supplyChain,
                 // Hidden Costs Audit (Pro/Pro+)
                 hiddenCosts,
+                // Email Deliverability Audit (Pro/Pro+)
+                emailDeliverability,
             },
             regulations,
             scoreBreakdown,

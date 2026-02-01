@@ -48,6 +48,7 @@ import { AccessibilityAudit } from '@/components/report/AccessibilityAudit';
 import { DomainRisk } from '@/components/report/DomainRisk';
 import { SupplyChainAudit } from '@/components/report/SupplyChainAudit';
 import { HiddenCostsAudit } from '@/components/report/HiddenCostsAudit';
+import { EmailDeliverabilityAudit } from '@/components/report/EmailDeliverabilityAudit';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -980,6 +981,18 @@ export default function Home() {
                     >
                       <HiddenCostsAudit
                         hiddenCosts={result.issues.hiddenCosts}
+                        isPro={isPro}
+                      />
+                    </ReportSection>
+
+                    {/* ========== EMAIL DELIVERABILITY AUDIT GROUP ========== */}
+                    <ReportSection
+                      title="Email Deliverability"
+                      defaultOpen={false}
+                      score={result.issues.emailDeliverability?.score}
+                    >
+                      <EmailDeliverabilityAudit
+                        emailDeliverability={result.issues.emailDeliverability}
                         isPro={isPro}
                       />
                     </ReportSection>

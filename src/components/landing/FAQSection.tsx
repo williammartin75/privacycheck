@@ -46,6 +46,10 @@ const faqData = [
         answer: "We analyze your external SaaS tools (analytics, chat, monitoring, etc.) to estimate your monthly costs and identify redundancies. Many businesses pay for multiple similar tools without realizing it. We detect duplicates, suggest consolidations, and show potential monthly savings."
     },
     {
+        question: "What is the Email Deliverability Audit?",
+        answer: "We analyze your SPF, DKIM, and DMARC records to determine if your emails will reach inboxes or get marked as spam. Gmail, Outlook, and Yahoo now require proper email authentication. Our audit grades your configuration (A-F) and provides specific recommendations to improve delivery rates."
+    },
+    {
         question: "Can I cancel my subscription anytime?",
         answer: "Yes, cancel anytime from your Dashboard. Your access continues until the end of your billing period. No fees, no questions asked."
     }

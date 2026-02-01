@@ -410,6 +410,52 @@ export interface AuditResult {
                 other: number;
             };
         };
+        // Email Deliverability Audit (Pro/Pro+)
+        emailDeliverability?: {
+            score: number;
+            grade: 'A' | 'B' | 'C' | 'D' | 'F';
+            spf: {
+                exists: boolean;
+                record: string | null;
+                policy: 'hardfail' | 'softfail' | 'neutral' | 'pass' | 'none';
+                lookupCount: number;
+                issues: string[];
+                score: number;
+            };
+            dkim: {
+                exists: boolean;
+                selectorsFound: string[];
+                keyLength: 'unknown' | 'weak' | 'standard' | 'strong';
+                issues: string[];
+                score: number;
+            };
+            dmarc: {
+                exists: boolean;
+                record: string | null;
+                policy: 'none' | 'quarantine' | 'reject' | 'unknown';
+                reportingEnabled: boolean;
+                issues: string[];
+                score: number;
+            };
+            mxRecords: {
+                exists: boolean;
+                provider: string | null;
+                score: number;
+            };
+            alerts: {
+                severity: 'critical' | 'warning' | 'info';
+                provider: 'gmail' | 'outlook' | 'yahoo' | 'all';
+                message: string;
+            }[];
+            recommendations: {
+                priority: 'high' | 'medium' | 'low';
+                category: 'spf' | 'dkim' | 'dmarc' | 'general';
+                title: string;
+                description: string;
+                impact: string;
+            }[];
+            summary: string;
+        };
     };
     regulations: string[];
     scoreBreakdown?: { item: string; points: number; passed: boolean }[];

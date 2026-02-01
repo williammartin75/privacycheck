@@ -963,6 +963,63 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ==========================================
+    // CATEGORY: EMAIL DELIVERABILITY AUDIT
+    // ==========================================
+    drawCategoryHeader('Email Deliverability');
+
+    if (result.issues.emailDeliverability) {
+        const ed = result.issues.emailDeliverability;
+        const edColor = ed.score >= 80 ? COLORS.green : ed.score >= 50 ? COLORS.gold : COLORS.red;
+
+        // Grade and Score
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(edColor[0], edColor[1], edColor[2]);
+        doc.text(`Deliverability Grade: ${ed.grade} (${ed.score}/100)`, 20, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`SPF: ${ed.spf.exists ? '✓' : '✗'} | DKIM: ${ed.dkim.exists ? '✓' : '✗'} | DMARC: ${ed.dmarc.exists ? '✓' : '✗'} | MX: ${ed.mxRecords.exists ? '✓' : '✗'}`, 20, y);
+        y += 6;
+
+        if (ed.mxRecords.provider) {
+            doc.text(`Email Provider: ${ed.mxRecords.provider}`, 20, y);
+            y += 6;
+        }
+
+        // Alerts
+        if (ed.alerts.length > 0) {
+            y += 2;
+            doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(7);
+            const alertText = ed.alerts.slice(0, 2).map(a => a.message.substring(0, 50)).join(' | ');
+            doc.text(`⚠ ${alertText}`, 20, y + 2);
+            y += 12;
+        }
+
+        // Recommendations
+        if (ed.recommendations.length > 0) {
+            drawSubHeader('Recommendations');
+            ed.recommendations.slice(0, 3).forEach(rec => {
+                checkNewPage(5);
+                doc.setFontSize(7);
+                doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                doc.text(`• [${rec.priority.toUpperCase()}] ${rec.title}: ${rec.impact.substring(0, 50)}`, 20, y);
+                y += 5;
+            });
+        }
+    } else {
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+        doc.text('Email deliverability data not available', 20, y);
+        y += 10;
+    }
+
+    // ==========================================
     // CATEGORY: COOKIES & TRACKING
     // ==========================================
     drawCategoryHeader('Cookies & Tracking');
