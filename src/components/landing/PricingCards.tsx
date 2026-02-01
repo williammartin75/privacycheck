@@ -100,6 +100,10 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
+                            Email alerts if score drops
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
                             Cookies & Trackers Analysis
                         </li>
                         <li className="flex items-center gap-2 text-white">
