@@ -138,6 +138,10 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
                             <strong>Domain Security Monitor</strong>
                         </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Supply Chain Security</strong>
+                        </li>
                     </ul>
                     <button onClick={() => onCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-white transition text-center mt-auto">
                         Get Pro Now

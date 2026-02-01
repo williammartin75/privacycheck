@@ -850,6 +850,66 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ==========================================
+    // CATEGORY: SUPPLY CHAIN SECURITY
+    // ==========================================
+    drawCategoryHeader('Supply Chain Security');
+
+    if (result.issues.supplyChain) {
+        const sc = result.issues.supplyChain;
+        const scColor = sc.score >= 80 ? COLORS.green : sc.score >= 50 ? COLORS.gold : COLORS.red;
+
+        // Score Overview
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(scColor[0], scColor[1], scColor[2]);
+        doc.text(`Supply Chain Score: ${sc.score}/100`, 20, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`Total Scripts: ${sc.totalDependencies} | Unknown Origins: ${sc.unknownOrigins} | Risk: ${sc.riskLevel.toUpperCase()}`, 20, y);
+        y += 8;
+
+        // Category breakdown
+        if (sc.categories.length > 0) {
+            drawSubHeader('Dependency Categories');
+            const catText = sc.categories.map(c => `${c.name}: ${c.count}`).join(' | ');
+            doc.setFontSize(8);
+            doc.text(catText.substring(0, 100), 20, y);
+            y += 6;
+        }
+
+        // Critical scripts
+        if (sc.criticalDependencies.length > 0) {
+            y += 2;
+            doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
+            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+            doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
+            doc.setFontSize(7);
+            doc.text(`⚠ Critical Dependencies: ${sc.criticalDependencies.slice(0, 5).join(', ')}`, 20, y + 2);
+            y += 12;
+        }
+
+        // Recommendations
+        if (sc.recommendations.length > 0) {
+            drawSubHeader('Recommendations');
+            sc.recommendations.slice(0, 3).forEach(rec => {
+                checkNewPage(5);
+                doc.setFontSize(7);
+                doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                doc.text(`• ${rec.substring(0, 80)}`, 20, y);
+                y += 5;
+            });
+        }
+    } else {
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+        doc.text('Supply chain data not available', 20, y);
+        y += 10;
+    }
+
+    // ==========================================
     // CATEGORY: COOKIES & TRACKING
     // ==========================================
     drawCategoryHeader('Cookies & Tracking');

@@ -351,6 +351,25 @@ export interface AuditResult {
             overallRisk: 'low' | 'medium' | 'high' | 'critical';
             score: number;
         };
+        // Supply Chain Security (Pro/Pro+)
+        supplyChain?: {
+            score: number;
+            totalDependencies: number;
+            riskLevel: 'low' | 'medium' | 'high' | 'critical';
+            scripts: {
+                url: string;
+                domain: string;
+                category: 'analytics' | 'advertising' | 'social' | 'payment' | 'cdn' | 'utility' | 'unknown';
+                risk: 'low' | 'medium' | 'high' | 'critical';
+                isCritical: boolean;
+                provider: string | null;
+            }[];
+            categories: { name: string; count: number; risk: 'low' | 'medium' | 'high' }[];
+            criticalDependencies: string[];
+            unknownOrigins: number;
+            cdnUsage: { count: number; providers: string[] };
+            recommendations: string[];
+        };
     };
     regulations: string[];
     scoreBreakdown?: { item: string; points: number; passed: boolean }[];

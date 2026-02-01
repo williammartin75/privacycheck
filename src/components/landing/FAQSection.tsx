@@ -38,6 +38,10 @@ const faqData = [
         answer: "We scan your domain for security risks including WHOIS expiration alerts (prevent domain loss), DNS security (SPF, DKIM, DMARC configuration), and typosquatting detection (similar domains that could be used for phishing). Domain expiration can cause complete business loss overnight, and typosquatting domains are often used to steal your customers."
     },
     {
+        question: "What is Supply Chain Security?",
+        answer: "We analyze all external scripts and third-party dependencies on your website. This includes identifying unknown origins, flagging compromised libraries (like the Polyfill.io attack), categorizing dependencies (analytics, payment, advertising), and alerting when critical scripts change. Supply chain attacks can inject malware or steal customer data."
+    },
+    {
         question: "Can I cancel my subscription anytime?",
         answer: "Yes, cancel anytime from your Dashboard. Your access continues until the end of your billing period. No fees, no questions asked."
     }

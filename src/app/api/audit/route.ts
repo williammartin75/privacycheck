@@ -14,6 +14,7 @@ import { detectMixedContent, MixedContentResult } from '@/lib/mixed-content';
 import { analyzeFormSecurity, FormSecurityResult } from '@/lib/form-security';
 import { analyzeAccessibility, AccessibilityResult } from '@/lib/accessibility-audit';
 import { analyzeDomainRisk, DomainRiskResult } from '@/lib/domain-risk';
+import { analyzeSupplyChain, SupplyChainResult } from '@/lib/supply-chain-audit';
 
 interface Cookie {
     name: string;
@@ -123,6 +124,8 @@ interface AuditResult {
         accessibility?: AccessibilityResult;
         // Domain Risk Monitor (Pro/Pro+)
         domainRisk?: DomainRiskResult;
+        // Supply Chain Security (Pro/Pro+)
+        supplyChain?: SupplyChainResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -888,6 +891,9 @@ export async function POST(request: NextRequest) {
         // Domain Risk Monitor (Pro/Pro+) - WHOIS, DNS, Typosquatting
         const domainRisk = await analyzeDomainRisk(domain);
 
+        // Supply Chain Security (Pro/Pro+) - External Dependencies
+        const supplyChain = analyzeSupplyChain(combinedHtml, url);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -1097,6 +1103,27 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Domain Security', points: 0, passed: true });
         }
 
+        // Supply Chain penalty - up to 15 points
+        let supplyChainPenalty = 0;
+        // Critical dependencies get big penalties
+        const criticalScripts = supplyChain.scripts.filter(s => s.risk === 'critical').length;
+        const highRiskScripts = supplyChain.scripts.filter(s => s.risk === 'high').length;
+        supplyChainPenalty += criticalScripts * 8;  // Critical like polyfill.io
+        supplyChainPenalty += highRiskScripts * 3;
+        supplyChainPenalty += supplyChain.unknownOrigins * 2;  // Unknown origins
+        supplyChainPenalty = Math.min(supplyChainPenalty, 15);
+
+        if (supplyChainPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Supply Chain Risk (${supplyChain.riskLevel})`,
+                points: -supplyChainPenalty,
+                passed: false
+            });
+            score -= supplyChainPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Supply Chain Security', points: 0, passed: true });
+        }
+
         // Trackers penalty
         const trackerPenalty = Math.min(allTrackers.length * 2, 8);
         if (trackerPenalty > 0) {
@@ -1257,6 +1284,8 @@ export async function POST(request: NextRequest) {
                 accessibility,
                 // Domain Risk Monitor (Pro/Pro+)
                 domainRisk,
+                // Supply Chain Security (Pro/Pro+)
+                supplyChain,
             },
             regulations,
             scoreBreakdown,

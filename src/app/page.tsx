@@ -46,6 +46,7 @@ import { TrackersList } from '@/components/report/TrackersList';
 import { ReportSection } from '@/components/report/ReportSection';
 import { AccessibilityAudit } from '@/components/report/AccessibilityAudit';
 import { DomainRisk } from '@/components/report/DomainRisk';
+import { SupplyChainAudit } from '@/components/report/SupplyChainAudit';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -954,6 +955,18 @@ export default function Home() {
                     >
                       <DomainRisk
                         domainRisk={result.issues.domainRisk}
+                        isPro={isPro}
+                      />
+                    </ReportSection>
+
+                    {/* ========== SUPPLY CHAIN SECURITY GROUP ========== */}
+                    <ReportSection
+                      title="Supply Chain Security"
+                      defaultOpen={false}
+                      score={result.issues.supplyChain?.score}
+                    >
+                      <SupplyChainAudit
+                        supplyChain={result.issues.supplyChain}
                         isPro={isPro}
                       />
                     </ReportSection>
