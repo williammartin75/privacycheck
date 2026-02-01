@@ -315,6 +315,42 @@ export interface AuditResult {
             }[];
             passes: string[];
         };
+        // Domain Risk Monitor (Pro/Pro+)
+        domainRisk?: {
+            domainExpiry: {
+                expiresAt: string | null;
+                daysUntilExpiry: number | null;
+                registrar: string | null;
+                status: 'ok' | 'warning' | 'critical' | 'unknown';
+            };
+            sslExpiry: {
+                expiresAt: string | null;
+                daysUntilExpiry: number | null;
+                status: 'ok' | 'warning' | 'critical';
+            };
+            dnsSecurity: {
+                dnssec: boolean;
+                spf: boolean;
+                dkim: boolean;
+                dmarc: boolean;
+                score: number;
+            };
+            typosquatting: {
+                detected: number;
+                domains: {
+                    domain: string;
+                    type: string;
+                    registered: boolean;
+                    risk: 'high' | 'medium' | 'low';
+                }[];
+            };
+            phishingRisk: {
+                score: number;
+                alerts: string[];
+            };
+            overallRisk: 'low' | 'medium' | 'high' | 'critical';
+            score: number;
+        };
     };
     regulations: string[];
     scoreBreakdown?: { item: string; points: number; passed: boolean }[];

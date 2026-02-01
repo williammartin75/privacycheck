@@ -13,6 +13,7 @@ import { analyzeStorageUsage, StorageAuditResult } from '@/lib/storage-audit';
 import { detectMixedContent, MixedContentResult } from '@/lib/mixed-content';
 import { analyzeFormSecurity, FormSecurityResult } from '@/lib/form-security';
 import { analyzeAccessibility, AccessibilityResult } from '@/lib/accessibility-audit';
+import { analyzeDomainRisk, DomainRiskResult } from '@/lib/domain-risk';
 
 interface Cookie {
     name: string;
@@ -120,6 +121,8 @@ interface AuditResult {
         formSecurity?: FormSecurityResult;
         // Accessibility Audit (EAA 2025)
         accessibility?: AccessibilityResult;
+        // Domain Risk Monitor (Pro/Pro+)
+        domainRisk?: DomainRiskResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -882,6 +885,9 @@ export async function POST(request: NextRequest) {
         // Accessibility Audit (EAA 2025 / WCAG 2.1 AA)
         const accessibility = analyzeAccessibility(combinedHtml);
 
+        // Domain Risk Monitor (Pro/Pro+) - WHOIS, DNS, Typosquatting
+        const domainRisk = await analyzeDomainRisk(domain);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -1068,6 +1074,29 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Accessibility (EAA 2025)', points: 0, passed: true });
         }
 
+        // Domain Risk penalty - up to 20 points
+        let domainRiskPenalty = 0;
+        // Expiry penalties
+        if (domainRisk.domainExpiry.daysUntilExpiry !== null) {
+            if (domainRisk.domainExpiry.daysUntilExpiry < 30) domainRiskPenalty += 10;
+            else if (domainRisk.domainExpiry.daysUntilExpiry < 90) domainRiskPenalty += 5;
+        }
+        // Typosquatting penalties
+        const highRiskTypos = domainRisk.typosquatting.domains.filter(d => d.risk === 'high').length;
+        domainRiskPenalty += Math.min(highRiskTypos * 3, 10);
+        domainRiskPenalty = Math.min(domainRiskPenalty, 20);
+
+        if (domainRiskPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Domain Risk (${domainRisk.overallRisk})`,
+                points: -domainRiskPenalty,
+                passed: false
+            });
+            score -= domainRiskPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Domain Security', points: 0, passed: true });
+        }
+
         // Trackers penalty
         const trackerPenalty = Math.min(allTrackers.length * 2, 8);
         if (trackerPenalty > 0) {
@@ -1226,6 +1255,8 @@ export async function POST(request: NextRequest) {
                 formSecurity,
                 // Accessibility Audit (EAA 2025)
                 accessibility,
+                // Domain Risk Monitor (Pro/Pro+)
+                domainRisk,
             },
             regulations,
             scoreBreakdown,

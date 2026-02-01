@@ -45,6 +45,7 @@ import { PagesScanned } from '@/components/report/PagesScanned';
 import { TrackersList } from '@/components/report/TrackersList';
 import { ReportSection } from '@/components/report/ReportSection';
 import { AccessibilityAudit } from '@/components/report/AccessibilityAudit';
+import { DomainRisk } from '@/components/report/DomainRisk';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -941,6 +942,18 @@ export default function Home() {
                     >
                       <AccessibilityAudit
                         accessibility={result.issues.accessibility}
+                        isPro={isPro}
+                      />
+                    </ReportSection>
+
+                    {/* ========== DOMAIN SECURITY GROUP ========== */}
+                    <ReportSection
+                      title="Domain Security"
+                      defaultOpen={false}
+                      score={result.issues.domainRisk?.score}
+                    >
+                      <DomainRisk
+                        domainRisk={result.issues.domainRisk}
                         isPro={isPro}
                       />
                     </ReportSection>

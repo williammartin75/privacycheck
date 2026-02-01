@@ -34,6 +34,10 @@ const faqData = [
         answer: "The EAA is a new EU law that came into effect on June 28, 2025. It requires websites selling products or services in the EU to meet WCAG 2.1 AA accessibility standards. Non-compliance can result in fines up to €30,000. Our accessibility audit checks your site against 15+ WCAG criteria including images, forms, headings, links, color contrast, and ARIA attributes."
     },
     {
+        question: "What is Domain Security Monitor?",
+        answer: "We scan your domain for security risks including WHOIS expiration alerts (prevent domain loss), DNS security (SPF, DKIM, DMARC configuration), and typosquatting detection (similar domains that could be used for phishing). Domain expiration can cause complete business loss overnight, and typosquatting domains are often used to steal your customers."
+    },
+    {
         question: "Can I cancel my subscription anytime?",
         answer: "Yes, cancel anytime from your Dashboard. Your access continues until the end of your billing period. No fees, no questions asked."
     }

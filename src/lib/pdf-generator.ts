@@ -759,6 +759,97 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ==========================================
+    // CATEGORY: DOMAIN SECURITY
+    // ==========================================
+    drawCategoryHeader('Domain Security');
+
+    if (result.issues.domainRisk) {
+        const dr = result.issues.domainRisk;
+        const drColor = dr.score >= 80 ? COLORS.green : dr.score >= 50 ? COLORS.gold : COLORS.red;
+
+        // Score Overview
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(drColor[0], drColor[1], drColor[2]);
+        doc.text(`Domain Security Score: ${dr.score}/100`, 20, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`Overall Risk: ${dr.overallRisk.toUpperCase()}`, 20, y);
+        y += 8;
+
+        // Domain Expiry
+        drawSubHeader('Domain Expiry');
+        if (dr.domainExpiry.daysUntilExpiry !== null) {
+            const expiryColor = dr.domainExpiry.status === 'ok' ? COLORS.green :
+                dr.domainExpiry.status === 'warning' ? COLORS.gold : COLORS.red;
+            doc.setTextColor(expiryColor[0], expiryColor[1], expiryColor[2]);
+            doc.setFontSize(8);
+            doc.text(`${dr.domainExpiry.daysUntilExpiry} days until expiry`, 20, y);
+            if (dr.domainExpiry.registrar) {
+                doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+                doc.text(`Registrar: ${dr.domainExpiry.registrar.substring(0, 40)}`, 80, y);
+            }
+            y += 6;
+        } else {
+            doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+            doc.text('WHOIS data not available', 20, y);
+            y += 6;
+        }
+
+        // DNS Security
+        drawSubHeader('DNS Security');
+        doc.setFontSize(8);
+        const dnsItems = [
+            { label: 'SPF', value: dr.dnsSecurity.spf },
+            { label: 'DKIM', value: dr.dnsSecurity.dkim },
+            { label: 'DMARC', value: dr.dnsSecurity.dmarc },
+            { label: 'DNSSEC', value: dr.dnsSecurity.dnssec },
+        ];
+        let dnsX = 20;
+        dnsItems.forEach(item => {
+            const color = item.value ? COLORS.green : COLORS.red;
+            doc.setTextColor(color[0], color[1], color[2]);
+            doc.text(`${item.value ? '✓' : '✗'} ${item.label}`, dnsX, y);
+            dnsX += 30;
+        });
+        y += 8;
+
+        // Typosquatting
+        if (dr.typosquatting.detected > 0) {
+            drawSubHeader(`Typosquatting Detected (${dr.typosquatting.detected})`);
+            dr.typosquatting.domains.slice(0, 5).forEach(domain => {
+                checkNewPage(6);
+                const riskColor = domain.risk === 'high' ? COLORS.red :
+                    domain.risk === 'medium' ? COLORS.orange : COLORS.gold;
+                doc.setTextColor(riskColor[0], riskColor[1], riskColor[2]);
+                doc.setFontSize(8);
+                doc.text(`• ${domain.domain} [${domain.risk.toUpperCase()}]`, 20, y);
+                y += 5;
+            });
+            y += 3;
+        }
+
+        // Phishing alerts
+        if (dr.phishingRisk.alerts.length > 0) {
+            y += 3;
+            doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+            doc.setTextColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+            doc.setFontSize(7);
+            doc.text(`⚠ ${dr.phishingRisk.alerts[0].substring(0, 80)}`, 20, y + 2);
+            y += 12;
+        }
+    } else {
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+        doc.text('Domain security data not available', 20, y);
+        y += 10;
+    }
+
+    // ==========================================
     // CATEGORY: COOKIES & TRACKING
     // ==========================================
     drawCategoryHeader('Cookies & Tracking');

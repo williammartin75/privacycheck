@@ -11,7 +11,8 @@ const steps = [
             "Check your consent banner works correctly",
             "Analyze 80+ third-party services for privacy risks",
             "Detect security vulnerabilities hackers target",
-            "Verify WCAG 2.1 AA accessibility compliance (EAA 2025)"
+            "Verify WCAG 2.1 AA accessibility compliance (EAA 2025)",
+            "Monitor domain expiry and typosquatting risks"
         ]
     },
     {
