@@ -49,6 +49,7 @@ import { DomainRisk } from '@/components/report/DomainRisk';
 import { SupplyChainAudit } from '@/components/report/SupplyChainAudit';
 import { HiddenCostsAudit } from '@/components/report/HiddenCostsAudit';
 import { EmailDeliverabilityAudit } from '@/components/report/EmailDeliverabilityAudit';
+import { AIUsageAudit } from '@/components/report/AIUsageAudit';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -993,6 +994,18 @@ export default function Home() {
                     >
                       <EmailDeliverabilityAudit
                         emailDeliverability={result.issues.emailDeliverability}
+                        isPro={isPro}
+                      />
+                    </ReportSection>
+
+                    {/* ========== AI USAGE & COMPLIANCE AUDIT GROUP ========== */}
+                    <ReportSection
+                      title="AI Compliance"
+                      defaultOpen={false}
+                      score={result.issues.aiUsage?.score}
+                    >
+                      <AIUsageAudit
+                        aiUsage={result.issues.aiUsage}
                         isPro={isPro}
                       />
                     </ReportSection>

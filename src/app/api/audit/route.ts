@@ -17,6 +17,7 @@ import { analyzeDomainRisk, DomainRiskResult } from '@/lib/domain-risk';
 import { analyzeSupplyChain, SupplyChainResult } from '@/lib/supply-chain-audit';
 import { analyzeHiddenCosts, HiddenCostsResult } from '@/lib/hidden-costs-audit';
 import { analyzeEmailDeliverability, EmailDeliverabilityResult } from '@/lib/email-deliverability-audit';
+import { analyzeAIUsage, AIUsageResult } from '@/lib/ai-usage-audit';
 
 interface Cookie {
     name: string;
@@ -132,6 +133,8 @@ interface AuditResult {
         hiddenCosts?: HiddenCostsResult;
         // Email Deliverability Audit (Pro/Pro+)
         emailDeliverability?: EmailDeliverabilityResult;
+        // AI Usage & Compliance Audit (Pro/Pro+)
+        aiUsage?: AIUsageResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -906,6 +909,9 @@ export async function POST(request: NextRequest) {
         // Email Deliverability Audit (Pro/Pro+) - SPF/DKIM/DMARC
         const emailDeliverability = await analyzeEmailDeliverability(domain);
 
+        // AI Usage & Compliance Audit (Pro/Pro+) - EU AI Act
+        const aiUsage = analyzeAIUsage(supplyChain.scripts, allTrackers);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -1192,6 +1198,24 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Email Deliverability', points: 0, passed: true });
         }
 
+        // AI Usage & Compliance penalty - up to 10 points
+        let aiPenalty = 0;
+        if (aiUsage.riskBreakdown.highRisk > 0) aiPenalty += 5;
+        if (aiUsage.alerts.some(a => a.severity === 'high')) aiPenalty += 3;
+        if (aiUsage.systems.some(s => s.requiresDisclosure)) aiPenalty += 2;
+        aiPenalty = Math.min(aiPenalty, 10);
+
+        if (aiPenalty > 0) {
+            scoreBreakdown.push({
+                item: `AI Compliance (${aiUsage.euAiActStatus})`,
+                points: -aiPenalty,
+                passed: false
+            });
+            score -= aiPenalty;
+        } else if (aiUsage.aiSystemsDetected > 0) {
+            scoreBreakdown.push({ item: 'AI Compliance', points: 0, passed: true });
+        }
+
         // Email Exposure (excludes same-domain contact emails)
         const exposedEmails = extractExposedEmails(combinedHtml, domain);
         if (exposedEmails.length > 0) {
@@ -1336,6 +1360,8 @@ export async function POST(request: NextRequest) {
                 hiddenCosts,
                 // Email Deliverability Audit (Pro/Pro+)
                 emailDeliverability,
+                // AI Usage & Compliance Audit (Pro/Pro+)
+                aiUsage,
             },
             regulations,
             scoreBreakdown,

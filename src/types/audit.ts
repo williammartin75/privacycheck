@@ -456,6 +456,42 @@ export interface AuditResult {
             }[];
             summary: string;
         };
+        // AI Usage & Compliance Audit (Pro/Pro+)
+        aiUsage?: {
+            score: number;
+            aiSystemsDetected: number;
+            systems: {
+                name: string;
+                provider: string;
+                category: string;
+                riskLevel: 'prohibited' | 'high' | 'limited' | 'minimal';
+                detected: string;
+                purpose: string;
+                euAiActCategory: string;
+                requiresDisclosure: boolean;
+                requiresHumanOversight: boolean;
+            }[];
+            riskBreakdown: {
+                prohibited: number;
+                highRisk: number;
+                limitedRisk: number;
+                minimalRisk: number;
+            };
+            alerts: {
+                severity: 'critical' | 'high' | 'medium' | 'low';
+                system: string;
+                message: string;
+                regulation: string;
+            }[];
+            recommendations: {
+                priority: 'critical' | 'high' | 'medium' | 'low';
+                title: string;
+                description: string;
+                regulation: string;
+            }[];
+            euAiActStatus: 'compliant' | 'action-needed' | 'high-risk' | 'critical';
+            summary: string;
+        };
     };
     regulations: string[];
     scoreBreakdown?: { item: string; points: number; passed: boolean }[];

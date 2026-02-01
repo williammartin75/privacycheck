@@ -1020,6 +1020,61 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ==========================================
+    // CATEGORY: AI USAGE & COMPLIANCE
+    // ==========================================
+    drawCategoryHeader('AI Usage & Compliance');
+
+    if (result.issues.aiUsage) {
+        const ai = result.issues.aiUsage;
+        const aiColor = ai.euAiActStatus === 'compliant' ? COLORS.green :
+            ai.euAiActStatus === 'action-needed' ? COLORS.gold : COLORS.red;
+
+        // Status and Score
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(aiColor[0], aiColor[1], aiColor[2]);
+        const statusLabel = ai.euAiActStatus === 'compliant' ? '✓ Compliant' :
+            ai.euAiActStatus === 'action-needed' ? '⚠ Action Needed' :
+                ai.euAiActStatus === 'high-risk' ? '🔶 High Risk' : '🚨 Critical';
+        doc.text(`EU AI Act Status: ${statusLabel} (${ai.score}/100)`, 20, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`AI Systems Detected: ${ai.aiSystemsDetected} | High-Risk: ${ai.riskBreakdown.highRisk} | Limited: ${ai.riskBreakdown.limitedRisk}`, 20, y);
+        y += 6;
+
+        // Systems list (top 3)
+        if (ai.systems.length > 0) {
+            y += 2;
+            ai.systems.slice(0, 3).forEach(system => {
+                checkNewPage(5);
+                doc.setFontSize(7);
+                doc.text(`• ${system.name} [${system.riskLevel.toUpperCase()}] - ${system.purpose.substring(0, 40)}`, 20, y);
+                y += 4;
+            });
+        }
+
+        // Alerts
+        if (ai.alerts.length > 0) {
+            y += 2;
+            doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(7);
+            const alertText = ai.alerts.slice(0, 2).map(a => a.regulation).join(' | ');
+            doc.text(`⚠ ${alertText}`, 20, y + 2);
+            y += 12;
+        }
+    } else {
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+        doc.text('AI usage data not available', 20, y);
+        y += 10;
+    }
+
+    // ==========================================
     // CATEGORY: COOKIES & TRACKING
     // ==========================================
     drawCategoryHeader('Cookies & Tracking');

@@ -150,6 +150,10 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
                             <strong>Email Deliverability</strong>
                         </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>AI Compliance (EU AI Act)</strong>
+                        </li>
                     </ul>
                     <button onClick={() => onCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-white transition text-center mt-auto">
                         Get Pro Now

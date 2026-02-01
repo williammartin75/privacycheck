@@ -50,6 +50,10 @@ const faqData = [
         answer: "We analyze your SPF, DKIM, and DMARC records to determine if your emails will reach inboxes or get marked as spam. Gmail, Outlook, and Yahoo now require proper email authentication. Our audit grades your configuration (A-F) and provides specific recommendations to improve delivery rates."
     },
     {
+        question: "What is the AI Compliance Audit?",
+        answer: "We detect AI systems on your website (chatbots, analytics, personalization, etc.) and assess EU AI Act compliance. The 2024 regulation requires transparency for AI chatbots, conformity assessments for high-risk systems, and prohibits manipulative AI. We identify your AI inventory, risk levels, and provide specific compliance recommendations."
+    },
+    {
         question: "Can I cancel my subscription anytime?",
         answer: "Yes, cancel anytime from your Dashboard. Your access continues until the end of your billing period. No fees, no questions asked."
     }
