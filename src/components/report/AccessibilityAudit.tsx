@@ -26,6 +26,43 @@ interface AccessibilityAuditProps {
     isPro: boolean;
 }
 
+// SVG Icon Components 
+const AccessibilityIcon = () => (
+    <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+);
+
+const WarningIcon = () => (
+    <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+);
+
+const CheckIcon = () => (
+    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+    </svg>
+);
+
+const CheckSmallIcon = () => (
+    <svg className="w-3 h-3 text-green-600 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+    </svg>
+);
+
+const InfoIcon = () => (
+    <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+);
+
+const LockIcon = () => (
+    <svg className="w-3 h-3 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+);
+
 function getImpactColor(impact: string): string {
     switch (impact) {
         case 'critical': return 'text-red-600 bg-white border-red-200';
@@ -63,9 +100,12 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
             {/* Score Overview */}
             <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border border-slate-200">
                 <div className="flex items-center justify-between mb-4">
-                    <div>
-                        <h4 className="text-lg font-semibold text-slate-800">WCAG 2.1 AA Compliance</h4>
-                        <p className="text-sm text-slate-500">European Accessibility Act (EAA 2025)</p>
+                    <div className="flex items-center gap-2">
+                        <AccessibilityIcon />
+                        <div>
+                            <h4 className="text-lg font-semibold text-slate-800">WCAG 2.1 AA Compliance</h4>
+                            <p className="text-sm text-slate-500">European Accessibility Act (EAA 2025)</p>
+                        </div>
                     </div>
                     <div className={`text-4xl font-bold ${scoreColor}`}>
                         {accessibility.score}/100
@@ -97,9 +137,7 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
             {accessibility.violations.length > 0 && (
                 <div>
                     <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
-                        <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
+                        <WarningIcon />
                         Issues Found ({accessibility.violations.length})
                     </h4>
                     <div className="space-y-3">
@@ -138,7 +176,8 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
                                                     {violation.nodes} element{violation.nodes > 1 ? 's' : ''} affected
                                                 </p>
                                                 <div className="absolute inset-0 flex items-center justify-center">
-                                                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-medium">
+                                                    <span className="text-xs bg-white border border-blue-200 text-blue-700 px-2 py-1 rounded font-medium flex items-center">
+                                                        <LockIcon />
                                                         Upgrade to Pro+ to see details
                                                     </span>
                                                 </div>
@@ -156,15 +195,14 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
             {accessibility.passes.length > 0 && (
                 <div>
                     <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
-                        <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
+                        <CheckIcon />
                         Checks Passed ({accessibility.passes.length})
                     </h4>
                     <div className="flex flex-wrap gap-2">
                         {accessibility.passes.map((pass, index) => (
-                            <span key={index} className="text-xs bg-white text-green-700 px-2 py-1 rounded border border-green-200">
-                                ✓ {pass}
+                            <span key={index} className="text-xs bg-white text-green-700 px-2 py-1 rounded border border-green-200 flex items-center">
+                                <CheckSmallIcon />
+                                {pass}
                             </span>
                         ))}
                     </div>
@@ -174,9 +212,7 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
             {/* EAA 2025 Warning */}
             <div className="bg-white border border-amber-200 rounded-lg p-4">
                 <div className="flex gap-3">
-                    <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <InfoIcon />
                     <div>
                         <p className="text-sm font-medium text-amber-800">European Accessibility Act (EAA)</p>
                         <p className="text-xs text-amber-700 mt-1">
