@@ -44,26 +44,26 @@ export function RegulationsBadges() {
                         </div>
                     </div>
 
-                    {/* SSL 256-Bit Badge */}
+                    {/* EAA 2025 Badge */}
                     <div className="flex flex-col items-center group">
                         <div className="w-20 h-20 relative">
                             <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                                <circle cx="50" cy="50" r="48" fill="#4b5563" stroke="#374151" strokeWidth="2" />
-                                <text x="50" y="38" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SSL</text>
-                                <text x="50" y="54" textAnchor="middle" fill="white" fontSize="10">256-BIT</text>
-                                <text x="50" y="70" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">ENCRYPTED</text>
+                                <circle cx="50" cy="50" r="48" fill="#059669" stroke="#047857" strokeWidth="2" />
+                                <text x="50" y="38" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">EAA</text>
+                                <text x="50" y="54" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">2025</text>
+                                <text x="50" y="70" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">WCAG 2.1 AA</text>
                             </svg>
                         </div>
                     </div>
 
-                    {/* SOC 2 Badge */}
+                    {/* EU AI Act Badge */}
                     <div className="flex flex-col items-center group">
                         <div className="w-20 h-20 relative">
                             <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                                <circle cx="50" cy="50" r="48" fill="#0ea5e9" stroke="#0284c7" strokeWidth="2" />
-                                <text x="50" y="42" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">SOC 2</text>
-                                <text x="50" y="58" textAnchor="middle" fill="white" fontSize="10">TYPE II</text>
-                                <text x="50" y="74" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">CERTIFIED</text>
+                                <circle cx="50" cy="50" r="48" fill="#7c3aed" stroke="#6d28d9" strokeWidth="2" />
+                                <text x="50" y="38" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">EU AI</text>
+                                <text x="50" y="54" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">ACT</text>
+                                <text x="50" y="70" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">2024</text>
                             </svg>
                         </div>
                     </div>
