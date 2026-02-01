@@ -70,9 +70,9 @@ export function TechnologyStack({ technologyStack, isPro }: TechnologyStackProps
     const getRiskColor = (risk: string) => {
         switch (risk) {
             case 'critical': return 'bg-red-600 text-white';
-            case 'high': return 'bg-orange-500 text-white';
-            case 'medium': return 'bg-amber-500 text-white';
-            case 'low': return 'bg-green-500 text-white';
+            case 'high': return 'bg-white0 text-white';
+            case 'medium': return 'bg-white0 text-white';
+            case 'low': return 'bg-white0 text-white';
             default: return 'bg-slate-500 text-white';
         }
     };
@@ -142,7 +142,7 @@ export function TechnologyStack({ technologyStack, isPro }: TechnologyStackProps
                             </div>
                         </div>
                         {technologyStack.cms.isOutdated && technologyStack.cms.latestVersion && (
-                            <div className="mt-2 text-xs text-orange-600 bg-orange-50 px-3 py-1.5 rounded">
+                            <div className="mt-2 text-xs text-orange-600 bg-white px-3 py-1.5 rounded">
                                 Latest version: {technologyStack.cms.latestVersion}
                             </div>
                         )}
@@ -190,7 +190,7 @@ export function TechnologyStack({ technologyStack, isPro }: TechnologyStackProps
 
             {/* Outdated Components Alert */}
             {technologyStack.outdatedComponents.length > 0 && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="bg-white border border-red-200 rounded-lg p-4">
                     <h4 className="font-semibold text-red-800 mb-3">⚠️ Outdated Components</h4>
                     <div className="space-y-2">
                         {technologyStack.outdatedComponents.map((component, idx) => (
@@ -212,7 +212,7 @@ export function TechnologyStack({ technologyStack, isPro }: TechnologyStackProps
 
             {/* Security Alerts */}
             {technologyStack.alerts.length > 0 && (
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div className="bg-white border border-amber-200 rounded-lg p-4">
                     <h4 className="font-semibold text-amber-800 mb-3">🔍 Security Findings</h4>
                     <div className="space-y-2">
                         {technologyStack.alerts.map((alert, idx) => (
@@ -267,7 +267,7 @@ export function TechnologyStack({ technologyStack, isPro }: TechnologyStackProps
 
             {/* Recommendations */}
             {isPro && technologyStack.recommendations.length > 0 && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-white border border-blue-200 rounded-lg p-4">
                     <h4 className="font-semibold text-blue-800 mb-3">💡 Recommendations</h4>
                     <ul className="space-y-2">
                         {technologyStack.recommendations.map((rec, idx) => (

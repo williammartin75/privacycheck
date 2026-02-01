@@ -28,11 +28,11 @@ interface AccessibilityAuditProps {
 
 function getImpactColor(impact: string): string {
     switch (impact) {
-        case 'critical': return 'text-red-600 bg-red-50 border-red-200';
-        case 'serious': return 'text-orange-600 bg-orange-50 border-orange-200';
-        case 'moderate': return 'text-amber-600 bg-amber-50 border-amber-200';
-        case 'minor': return 'text-blue-600 bg-blue-50 border-blue-200';
-        default: return 'text-slate-600 bg-slate-50 border-slate-200';
+        case 'critical': return 'text-red-600 bg-white border-red-200';
+        case 'serious': return 'text-orange-600 bg-white border-orange-200';
+        case 'moderate': return 'text-amber-600 bg-white border-amber-200';
+        case 'minor': return 'text-blue-600 bg-white border-blue-200';
+        default: return 'text-slate-600 bg-white border-slate-200';
     }
 }
 
@@ -74,19 +74,19 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
 
                 {/* Issues by Severity */}
                 <div className="grid grid-cols-4 gap-3 mt-4">
-                    <div className="bg-red-50 rounded-lg p-3 text-center border border-red-200">
+                    <div className="bg-white rounded-lg p-3 text-center border border-red-200">
                         <div className="text-2xl font-bold text-red-600">{accessibility.criticalCount}</div>
                         <div className="text-xs text-red-600 font-medium">Critical</div>
                     </div>
-                    <div className="bg-orange-50 rounded-lg p-3 text-center border border-orange-200">
+                    <div className="bg-white rounded-lg p-3 text-center border border-orange-200">
                         <div className="text-2xl font-bold text-orange-600">{accessibility.seriousCount}</div>
                         <div className="text-xs text-orange-600 font-medium">Serious</div>
                     </div>
-                    <div className="bg-amber-50 rounded-lg p-3 text-center border border-amber-200">
+                    <div className="bg-white rounded-lg p-3 text-center border border-amber-200">
                         <div className="text-2xl font-bold text-amber-600">{accessibility.moderateCount}</div>
                         <div className="text-xs text-amber-600 font-medium">Moderate</div>
                     </div>
-                    <div className="bg-blue-50 rounded-lg p-3 text-center border border-blue-200">
+                    <div className="bg-white rounded-lg p-3 text-center border border-blue-200">
                         <div className="text-2xl font-bold text-blue-600">{accessibility.minorCount}</div>
                         <div className="text-xs text-blue-600 font-medium">Minor</div>
                     </div>
@@ -163,7 +163,7 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
                     </h4>
                     <div className="flex flex-wrap gap-2">
                         {accessibility.passes.map((pass, index) => (
-                            <span key={index} className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded border border-green-200">
+                            <span key={index} className="text-xs bg-white text-green-700 px-2 py-1 rounded border border-green-200">
                                 ✓ {pass}
                             </span>
                         ))}
@@ -172,7 +172,7 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
             )}
 
             {/* EAA 2025 Warning */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div className="bg-white border border-amber-200 rounded-lg p-4">
                 <div className="flex gap-3">
                     <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

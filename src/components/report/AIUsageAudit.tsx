@@ -52,10 +52,10 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'compliant': return 'bg-green-500 text-white';
-            case 'action-needed': return 'bg-amber-500 text-white';
-            case 'high-risk': return 'bg-orange-500 text-white';
-            case 'critical': return 'bg-red-500 text-white';
+            case 'compliant': return 'bg-white0 text-white';
+            case 'action-needed': return 'bg-white0 text-white';
+            case 'high-risk': return 'bg-white0 text-white';
+            case 'critical': return 'bg-white0 text-white';
             default: return 'bg-slate-500 text-white';
         }
     };
@@ -73,9 +73,9 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
     const getRiskColor = (risk: string) => {
         switch (risk) {
             case 'prohibited': return 'bg-red-600 text-white';
-            case 'high': return 'bg-orange-500 text-white';
-            case 'limited': return 'bg-amber-500 text-white';
-            case 'minimal': return 'bg-green-500 text-white';
+            case 'high': return 'bg-white0 text-white';
+            case 'limited': return 'bg-white0 text-white';
+            case 'minimal': return 'bg-white0 text-white';
             default: return 'bg-slate-500 text-white';
         }
     };
@@ -100,10 +100,10 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
 
     const getPriorityColor = (priority: string) => {
         switch (priority) {
-            case 'critical': return 'border-red-300 bg-red-50';
-            case 'high': return 'border-orange-200 bg-orange-50';
-            case 'medium': return 'border-amber-200 bg-amber-50';
-            case 'low': return 'border-blue-200 bg-blue-50';
+            case 'critical': return 'border-red-300 bg-white';
+            case 'high': return 'border-orange-200 bg-white';
+            case 'medium': return 'border-amber-200 bg-white';
+            case 'low': return 'border-blue-200 bg-white';
             default: return 'border-slate-200 bg-slate-50';
         }
     };
@@ -209,7 +209,7 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
 
             {/* Alerts */}
             {aiUsage.alerts.length > 0 && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="bg-white border border-red-200 rounded-lg p-4">
                     <h4 className="font-semibold text-red-800 mb-3">🚨 EU AI Act Compliance Alerts</h4>
                     <div className="space-y-2">
                         {aiUsage.alerts.map((alert, idx) => (
@@ -228,7 +228,7 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
 
             {/* Recommendations - Blurred for non-Pro */}
             {aiUsage.recommendations.length > 0 && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-white border border-blue-200 rounded-lg p-4">
                     <h4 className="font-semibold text-blue-800 mb-3">💡 Compliance Recommendations</h4>
 
                     {isPro ? (

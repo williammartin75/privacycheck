@@ -52,20 +52,20 @@ export function DomainRisk({ domainRisk, isPro }: DomainRiskProps) {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'ok': return 'text-green-600 bg-green-50 border-green-200';
-            case 'warning': return 'text-amber-600 bg-amber-50 border-amber-200';
-            case 'critical': return 'text-red-600 bg-red-50 border-red-200';
-            default: return 'text-slate-600 bg-slate-50 border-slate-200';
+            case 'ok': return 'text-green-600 bg-white border-green-200';
+            case 'warning': return 'text-amber-600 bg-white border-amber-200';
+            case 'critical': return 'text-red-600 bg-white border-red-200';
+            default: return 'text-slate-600 bg-white border-slate-200';
         }
     };
 
     const getRiskColor = (risk: string) => {
         switch (risk) {
-            case 'low': return 'text-green-600 bg-green-100';
-            case 'medium': return 'text-amber-600 bg-amber-100';
-            case 'high': return 'text-orange-600 bg-orange-100';
-            case 'critical': return 'text-red-600 bg-red-100';
-            default: return 'text-slate-600 bg-slate-100';
+            case 'low': return 'text-green-600 bg-white';
+            case 'medium': return 'text-amber-600 bg-white';
+            case 'high': return 'text-orange-600 bg-white';
+            case 'critical': return 'text-red-600 bg-white';
+            default: return 'text-slate-600 bg-white';
         }
     };
 
@@ -215,7 +215,7 @@ export function DomainRisk({ domainRisk, isPro }: DomainRiskProps) {
 
             {/* Phishing Alerts */}
             {domainRisk.phishingRisk.alerts.length > 0 && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="bg-white border border-red-200 rounded-lg p-4">
                     <h4 className="font-semibold text-red-800 mb-2">⚠️ Phishing Risk Alerts</h4>
                     <ul className="space-y-1">
                         {domainRisk.phishingRisk.alerts.map((alert, idx) => (
@@ -229,7 +229,7 @@ export function DomainRisk({ domainRisk, isPro }: DomainRiskProps) {
             )}
 
             {/* Info Banner */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm">
+            <div className="bg-white border border-amber-200 rounded-lg p-4 text-sm">
                 <p className="text-amber-800">
                     <strong>💡 Why this matters:</strong> Domain expiration or hijacking can cause complete loss of your website, email, and business identity.
                     Typosquatting domains are often used for phishing attacks against your customers.

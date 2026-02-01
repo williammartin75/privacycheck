@@ -62,11 +62,11 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
 
     const getGradeColor = (grade: string) => {
         switch (grade) {
-            case 'A': return 'bg-green-500 text-white';
+            case 'A': return 'bg-white0 text-white';
             case 'B': return 'bg-green-400 text-white';
-            case 'C': return 'bg-amber-500 text-white';
+            case 'C': return 'bg-white0 text-white';
             case 'D': return 'bg-orange-500 text-white';
-            case 'F': return 'bg-red-500 text-white';
+            case 'F': return 'bg-white0 text-white';
             default: return 'bg-slate-500 text-white';
         }
     };
@@ -99,9 +99,9 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
 
     const getPriorityColor = (priority: string) => {
         switch (priority) {
-            case 'high': return 'border-red-200 bg-red-50';
-            case 'medium': return 'border-amber-200 bg-amber-50';
-            case 'low': return 'border-blue-200 bg-blue-50';
+            case 'high': return 'border-red-200 bg-white';
+            case 'medium': return 'border-amber-200 bg-white';
+            case 'low': return 'border-blue-200 bg-white';
             default: return 'border-slate-200 bg-slate-50';
         }
     };
@@ -138,7 +138,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
             {/* SPF/DKIM/DMARC Status Grid */}
             <div className="grid md:grid-cols-3 gap-4">
                 {/* SPF Card */}
-                <div className={`p-4 rounded-lg border ${emailDeliverability.spf.exists ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
+                <div className={`p-4 rounded-lg border ${emailDeliverability.spf.exists ? 'border-green-200 bg-white' : 'border-red-200 bg-white'}`}>
                     <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold text-slate-800">SPF</h4>
                         {getStatusBadge(emailDeliverability.spf.exists, emailDeliverability.spf.exists ? 'Found' : 'Missing')}
@@ -161,7 +161,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                 </div>
 
                 {/* DKIM Card */}
-                <div className={`p-4 rounded-lg border ${emailDeliverability.dkim.exists ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
+                <div className={`p-4 rounded-lg border ${emailDeliverability.dkim.exists ? 'border-green-200 bg-white' : 'border-red-200 bg-white'}`}>
                     <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold text-slate-800">DKIM</h4>
                         {getStatusBadge(emailDeliverability.dkim.exists, emailDeliverability.dkim.exists ? 'Found' : 'Missing')}
@@ -184,7 +184,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                 </div>
 
                 {/* DMARC Card */}
-                <div className={`p-4 rounded-lg border ${emailDeliverability.dmarc.exists ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
+                <div className={`p-4 rounded-lg border ${emailDeliverability.dmarc.exists ? 'border-green-200 bg-white' : 'border-red-200 bg-white'}`}>
                     <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold text-slate-800">DMARC</h4>
                         {getStatusBadge(emailDeliverability.dmarc.exists, emailDeliverability.dmarc.exists ? 'Found' : 'Missing')}
@@ -209,7 +209,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
 
             {/* Alerts */}
             {emailDeliverability.alerts.length > 0 && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="bg-white border border-red-200 rounded-lg p-4">
                     <h4 className="font-semibold text-red-800 mb-3">🚨 Deliverability Alerts</h4>
                     <div className="space-y-2">
                         {emailDeliverability.alerts.map((alert, idx) => (
@@ -227,7 +227,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
 
             {/* Recommendations - Blurred for non-Pro */}
             {emailDeliverability.recommendations.length > 0 && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-white border border-blue-200 rounded-lg p-4">
                     <h4 className="font-semibold text-blue-800 mb-3">💡 Recommendations</h4>
 
                     {isPro ? (

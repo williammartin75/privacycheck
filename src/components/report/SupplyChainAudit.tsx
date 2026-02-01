@@ -114,7 +114,7 @@ export function SupplyChainAudit({ supplyChain, isPro }: SupplyChainAuditProps) 
 
             {/* Critical Dependencies */}
             {supplyChain.criticalDependencies.length > 0 && (
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div className="bg-white border border-amber-200 rounded-lg p-4">
                     <h4 className="font-semibold text-amber-800 mb-2">⚠️ Critical Dependencies</h4>
                     <p className="text-sm text-amber-700 mb-2">
                         These scripts are critical to your site's functionality. Monitor them closely.
@@ -180,7 +180,7 @@ export function SupplyChainAudit({ supplyChain, isPro }: SupplyChainAuditProps) 
 
             {/* Recommendations */}
             {supplyChain.recommendations.length > 0 && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-white border border-blue-200 rounded-lg p-4">
                     <h4 className="font-semibold text-blue-800 mb-2">💡 Recommendations</h4>
                     <ul className="space-y-1">
                         {supplyChain.recommendations.map((rec, idx) => (
@@ -195,7 +195,7 @@ export function SupplyChainAudit({ supplyChain, isPro }: SupplyChainAuditProps) 
 
             {/* CDN Usage */}
             {supplyChain.cdnUsage.count > 0 && (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <div className="bg-white border border-green-200 rounded-lg p-4">
                     <h4 className="font-semibold text-green-800 mb-2">✓ Trusted CDN Usage</h4>
                     <p className="text-sm text-green-700">
                         Using {supplyChain.cdnUsage.count} scripts from established CDNs: {supplyChain.cdnUsage.providers.join(', ')}
