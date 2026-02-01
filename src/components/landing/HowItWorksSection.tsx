@@ -5,44 +5,49 @@ const steps = [
         number: 1,
         title: "Paste your website",
         highlight: "We do the hard work for you",
-        subtitle: "Our platform crawls up to 1,000 pages of your site and runs 25+ security checks.",
+        subtitle: "Our platform crawls up to 1,000 pages and runs 50+ security & compliance checks.",
         items: [
-            "Find all cookies and trackers on your site",
-            "Check your consent banner works correctly",
-            "Analyze 80+ third-party services for privacy risks",
-            "Detect security vulnerabilities hackers target",
-            "Verify WCAG 2.1 AA accessibility compliance (EAA 2025)",
-            "Monitor domain expiry and typosquatting risks"
+            "Find all cookies, trackers & fingerprinting scripts",
+            "Verify consent banner behavior (reject all test)",
+            "Detect dark patterns & manipulative UI",
+            "Analyze 80+ third-party vendors for privacy risks",
+            "Check WCAG 2.1 AA accessibility (EAA 2025)",
+            "Audit AI systems for EU AI Act compliance",
+            "Scan email deliverability (SPF, DKIM, DMARC)",
+            "Monitor domain expiry & typosquatting risks"
         ]
     },
     {
         number: 2,
         title: "Get your full report",
-        highlight: "A complete risk assessment",
-        subtitle: "We produce a detailed report showing every issue, ranked by urgency, with the actual risk to your business.",
+        highlight: "12 audit modules, one score",
+        subtitle: "A comprehensive risk assessment covering legal, security, and operational risks.",
         items: [
             "Privacy score from 0 to 100%",
-            "Issues sorted by severity (critical → low)",
-            "Which laws apply: GDPR, CCPA, and 50+ others",
-            "Estimated fine if you don't fix it (Pro+)"
+            "Issues sorted by severity (legal → operational)",
+            "Which laws apply: GDPR, CCPA, EAA, AI Act & 50+",
+            "Regulatory exposure estimate (Pro+)",
+            "Data breach history for your vendors",
+            "Supply chain & technology stack vulnerabilities"
         ]
     },
     {
         number: 3,
         title: "Fix everything step-by-step",
         highlight: "Clear instructions, no tech jargon",
-        subtitle: "We don't just find problems — we tell you exactly how to fix them in a simple way your team can follow.",
+        subtitle: "We don't just find problems — we tell you exactly how to fix them.",
         items: [
             "Step-by-step guide for each issue",
             "PDF report to share with your team",
             "One-click cookie banner to install",
-            "Alerts if your compliance changes later"
+            "Alerts if your compliance changes later",
+            "Weekly monitoring & drift detection (Pro)"
         ]
     }
 ];
 
 const stats = [
-    { number: "30+", label: "Privacy & accessibility checks" },
+    { number: "50+", label: "Privacy & security checks" },
     { number: "80+", label: "Vendors analyzed" },
     { number: "50+", label: "Regulations covered" },
     { number: "60s", label: "Average scan time" }
