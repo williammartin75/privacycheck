@@ -3,7 +3,7 @@
 const faqData = [
     {
         question: "What does PrivacyChecker scan?",
-        answer: "We run 25+ security and privacy checks on your website: cookies, consent banners, privacy policy, security settings, and hidden trackers. For Pro+ users, we also estimate potential fines, detect data breaches, and analyze third-party risks from 80+ services like Google, Facebook, and others."
+        answer: "We run 50+ security, privacy, and accessibility checks across 12 audit modules: cookies & trackers, consent behavior, dark patterns, accessibility (EAA 2025), AI systems (EU AI Act), email deliverability, domain security, supply chain, technology stack, and more. For Pro+ users, we also provide regulatory exposure estimates, data breach detection, and vendor risk analysis from 80+ services."
     },
     {
         question: "Is the audit really free?",
@@ -15,11 +15,11 @@ const faqData = [
     },
     {
         question: "What regulations do you check?",
-        answer: "We check compliance with GDPR (Europe), CCPA (California), and 50+ other privacy laws worldwide. Your results show which laws apply to your site based on where your visitors come from."
+        answer: "We check compliance with GDPR (Europe), CCPA (California), EAA 2025 (EU Accessibility), EU AI Act (2024), and 50+ other privacy laws worldwide. Your results show which laws apply to your site based on where your visitors come from and what technologies you use."
     },
     {
         question: "What's included in Pro and Pro+?",
-        answer: "Pro (€19/mo): 50 scans, step-by-step fix guides, PDF reports, email alerts, auto-scans, and a Cookie Banner Widget. Pro+ (€29/mo): everything in Pro plus data breach detection, regulatory exposure estimates, vendor risk scores, and weekly monitoring."
+        answer: "Pro (€19/mo): 50 scans, step-by-step fix guides, PDF reports, email alerts, auto-scans, and a Cookie Banner Widget. Pro+ (€29/mo): everything in Pro plus data breach detection, regulatory exposure estimates, vendor risk scores, AI compliance audit, technology stack security, dark patterns detection, and weekly monitoring."
     },
     {
         question: "What is the Cookie Banner Widget?",
