@@ -15,6 +15,7 @@ import { analyzeFormSecurity, FormSecurityResult } from '@/lib/form-security';
 import { analyzeAccessibility, AccessibilityResult } from '@/lib/accessibility-audit';
 import { analyzeDomainRisk, DomainRiskResult } from '@/lib/domain-risk';
 import { analyzeSupplyChain, SupplyChainResult } from '@/lib/supply-chain-audit';
+import { analyzeHiddenCosts, HiddenCostsResult } from '@/lib/hidden-costs-audit';
 
 interface Cookie {
     name: string;
@@ -126,6 +127,8 @@ interface AuditResult {
         domainRisk?: DomainRiskResult;
         // Supply Chain Security (Pro/Pro+)
         supplyChain?: SupplyChainResult;
+        // Hidden Costs Audit (Pro/Pro+)
+        hiddenCosts?: HiddenCostsResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -894,6 +897,9 @@ export async function POST(request: NextRequest) {
         // Supply Chain Security (Pro/Pro+) - External Dependencies
         const supplyChain = analyzeSupplyChain(combinedHtml, url);
 
+        // Hidden Costs Audit (Pro/Pro+) - SaaS Cost Estimation
+        const hiddenCosts = analyzeHiddenCosts(supplyChain.scripts, allTrackers);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -1124,6 +1130,24 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Supply Chain Security', points: 0, passed: true });
         }
 
+        // Hidden Costs penalty - up to 10 points
+        let hiddenCostsPenalty = 0;
+        hiddenCostsPenalty += hiddenCosts.redundancies.length * 3;  // Redundancy penalty
+        if (hiddenCosts.potentialSavings > 100) hiddenCostsPenalty += 3;  // High savings opportunity
+        if (hiddenCosts.performanceImpact.totalScriptSize > 500) hiddenCostsPenalty += 2; // Too many scripts
+        hiddenCostsPenalty = Math.min(hiddenCostsPenalty, 10);
+
+        if (hiddenCostsPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Cost Inefficiency (€${hiddenCosts.potentialSavings}/mo savings)`,
+                points: -hiddenCostsPenalty,
+                passed: false
+            });
+            score -= hiddenCostsPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Cost Efficiency', points: 0, passed: true });
+        }
+
         // Trackers penalty
         const trackerPenalty = Math.min(allTrackers.length * 2, 8);
         if (trackerPenalty > 0) {
@@ -1286,6 +1310,8 @@ export async function POST(request: NextRequest) {
                 domainRisk,
                 // Supply Chain Security (Pro/Pro+)
                 supplyChain,
+                // Hidden Costs Audit (Pro/Pro+)
+                hiddenCosts,
             },
             regulations,
             scoreBreakdown,

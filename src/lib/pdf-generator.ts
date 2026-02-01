@@ -910,6 +910,59 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ==========================================
+    // CATEGORY: HIDDEN COSTS AUDIT
+    // ==========================================
+    drawCategoryHeader('Hidden Costs Audit');
+
+    if (result.issues.hiddenCosts) {
+        const hc = result.issues.hiddenCosts;
+        const hcColor = hc.score >= 80 ? COLORS.green : hc.score >= 50 ? COLORS.gold : COLORS.red;
+
+        // Cost Overview
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(hcColor[0], hcColor[1], hcColor[2]);
+        doc.text(`Cost Efficiency Score: ${hc.score}/100`, 20, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`Estimated: ${hc.currency}${hc.estimatedMonthlyCost}/mo | Savings: ${hc.currency}${hc.potentialSavings}/mo | Services: ${hc.services.length}`, 20, y);
+        y += 8;
+
+        // Redundancies warning
+        if (hc.redundancies.length > 0) {
+            y += 2;
+            doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
+            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+            doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
+            doc.setFontSize(7);
+            const redundancyText = hc.redundancies.map(r => `${r.category}: ${r.services.join(', ')}`).slice(0, 2).join(' | ');
+            doc.text(`⚠ Redundant: ${redundancyText.substring(0, 80)}`, 20, y + 2);
+            y += 12;
+        }
+
+        // Recommendations
+        if (hc.recommendations.length > 0) {
+            drawSubHeader('Cost Recommendations');
+            hc.recommendations.slice(0, 3).forEach(rec => {
+                checkNewPage(5);
+                doc.setFontSize(7);
+                doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                const savings = rec.savings > 0 ? ` (Save ${hc.currency}${rec.savings}/mo)` : '';
+                doc.text(`• ${rec.description.substring(0, 70)}${savings}`, 20, y);
+                y += 5;
+            });
+        }
+    } else {
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+        doc.text('Cost analysis data not available', 20, y);
+        y += 10;
+    }
+
+    // ==========================================
     // CATEGORY: COOKIES & TRACKING
     // ==========================================
     drawCategoryHeader('Cookies & Tracking');

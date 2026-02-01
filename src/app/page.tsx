@@ -47,6 +47,7 @@ import { ReportSection } from '@/components/report/ReportSection';
 import { AccessibilityAudit } from '@/components/report/AccessibilityAudit';
 import { DomainRisk } from '@/components/report/DomainRisk';
 import { SupplyChainAudit } from '@/components/report/SupplyChainAudit';
+import { HiddenCostsAudit } from '@/components/report/HiddenCostsAudit';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -967,6 +968,18 @@ export default function Home() {
                     >
                       <SupplyChainAudit
                         supplyChain={result.issues.supplyChain}
+                        isPro={isPro}
+                      />
+                    </ReportSection>
+
+                    {/* ========== HIDDEN COSTS AUDIT GROUP ========== */}
+                    <ReportSection
+                      title="Hidden Costs Audit"
+                      defaultOpen={false}
+                      score={result.issues.hiddenCosts?.score}
+                    >
+                      <HiddenCostsAudit
+                        hiddenCosts={result.issues.hiddenCosts}
                         isPro={isPro}
                       />
                     </ReportSection>

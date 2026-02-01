@@ -42,6 +42,10 @@ const faqData = [
         answer: "We analyze all external scripts and third-party dependencies on your website. This includes identifying unknown origins, flagging compromised libraries (like the Polyfill.io attack), categorizing dependencies (analytics, payment, advertising), and alerting when critical scripts change. Supply chain attacks can inject malware or steal customer data."
     },
     {
+        question: "What is the Hidden Costs Audit?",
+        answer: "We analyze your external SaaS tools (analytics, chat, monitoring, etc.) to estimate your monthly costs and identify redundancies. Many businesses pay for multiple similar tools without realizing it. We detect duplicates, suggest consolidations, and show potential monthly savings."
+    },
+    {
         question: "Can I cancel my subscription anytime?",
         answer: "Yes, cancel anytime from your Dashboard. Your access continues until the end of your billing period. No fees, no questions asked."
     }

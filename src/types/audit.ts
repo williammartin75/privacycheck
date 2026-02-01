@@ -370,6 +370,46 @@ export interface AuditResult {
             cdnUsage: { count: number; providers: string[] };
             recommendations: string[];
         };
+        // Hidden Costs Audit (Pro/Pro+)
+        hiddenCosts?: {
+            score: number;
+            estimatedMonthlyCost: number;
+            currency: string;
+            services: {
+                name: string;
+                category: 'analytics' | 'advertising' | 'chat' | 'crm' | 'payment' | 'monitoring' | 'cdn' | 'other';
+                estimatedCost: number;
+                pricingTier: 'free' | 'starter' | 'pro' | 'enterprise' | 'usage-based';
+                isEssential: boolean;
+                domain: string;
+            }[];
+            redundancies: {
+                category: string;
+                services: string[];
+                wastedCost: number;
+                recommendation: string;
+            }[];
+            performanceImpact: {
+                totalScriptSize: number;
+                estimatedLoadTime: number;
+                blockingScripts: number;
+                costPerSecond: number;
+            };
+            potentialSavings: number;
+            recommendations: {
+                type: 'remove' | 'consolidate' | 'downgrade' | 'optimize';
+                description: string;
+                savings: number;
+                priority: 'high' | 'medium' | 'low';
+            }[];
+            breakdown: {
+                analytics: number;
+                advertising: number;
+                chat: number;
+                monitoring: number;
+                other: number;
+            };
+        };
     };
     regulations: string[];
     scoreBreakdown?: { item: string; points: number; passed: boolean }[];
