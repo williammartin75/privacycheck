@@ -223,7 +223,7 @@ export function HiddenCostsAudit({ hiddenCosts, isPro }: HiddenCostsAuditProps) 
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="bg-emerald-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium">
-                                    🔒 Upgrade to Pro for full cost breakdown
+                                    🔒 Upgrade to Pro+ for full cost breakdown
                                 </div>
                             </div>
                         </div>

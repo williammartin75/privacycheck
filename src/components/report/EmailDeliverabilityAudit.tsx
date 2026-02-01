@@ -147,7 +147,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                         <>
                             <div className="text-sm text-slate-600 mb-1">
                                 Policy: <span className={`font-medium ${emailDeliverability.spf.policy === 'hardfail' ? 'text-green-700' :
-                                        emailDeliverability.spf.policy === 'softfail' ? 'text-amber-700' : 'text-red-700'
+                                    emailDeliverability.spf.policy === 'softfail' ? 'text-amber-700' : 'text-red-700'
                                     }`}>{emailDeliverability.spf.policy}</span>
                             </div>
                             <div className="text-sm text-slate-500">
@@ -173,7 +173,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                             </div>
                             <div className="text-sm text-slate-500">
                                 Key: <span className={`capitalize ${emailDeliverability.dkim.keyLength === 'strong' ? 'text-green-600' :
-                                        emailDeliverability.dkim.keyLength === 'weak' ? 'text-red-600' : 'text-slate-600'
+                                    emailDeliverability.dkim.keyLength === 'weak' ? 'text-red-600' : 'text-slate-600'
                                     }`}>{emailDeliverability.dkim.keyLength}</span>
                             </div>
                         </>
@@ -193,7 +193,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                         <>
                             <div className="text-sm text-slate-600 mb-1">
                                 Policy: <span className={`font-medium ${emailDeliverability.dmarc.policy === 'reject' ? 'text-green-700' :
-                                        emailDeliverability.dmarc.policy === 'quarantine' ? 'text-amber-700' : 'text-red-700'
+                                    emailDeliverability.dmarc.policy === 'quarantine' ? 'text-amber-700' : 'text-red-700'
                                     }`}>p={emailDeliverability.dmarc.policy}</span>
                             </div>
                             <div className="text-sm text-slate-500">
@@ -214,7 +214,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                     <div className="space-y-2">
                         {emailDeliverability.alerts.map((alert, idx) => (
                             <div key={idx} className={`flex items-start gap-2 p-2 rounded ${alert.severity === 'critical' ? 'bg-red-100' :
-                                    alert.severity === 'warning' ? 'bg-amber-100' : 'bg-blue-100'
+                                alert.severity === 'warning' ? 'bg-amber-100' : 'bg-blue-100'
                                 }`}>
                                 <span>{getSeverityIcon(alert.severity)}</span>
                                 <span>{getProviderIcon(alert.provider)}</span>
@@ -237,8 +237,8 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                                     <div className="flex items-center justify-between mb-1">
                                         <span className="font-medium text-slate-800">{rec.title}</span>
                                         <span className={`px-2 py-0.5 text-xs rounded uppercase ${rec.priority === 'high' ? 'bg-red-200 text-red-700' :
-                                                rec.priority === 'medium' ? 'bg-amber-200 text-amber-700' :
-                                                    'bg-blue-200 text-blue-700'
+                                            rec.priority === 'medium' ? 'bg-amber-200 text-amber-700' :
+                                                'bg-blue-200 text-blue-700'
                                             }`}>{rec.priority}</span>
                                     </div>
                                     <p className="text-sm text-slate-600 mb-1">{rec.description}</p>
@@ -257,7 +257,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium">
-                                    🔒 Upgrade to Pro for full recommendations
+                                    🔒 Upgrade to Pro+ for full recommendations
                                 </div>
                             </div>
                         </div>

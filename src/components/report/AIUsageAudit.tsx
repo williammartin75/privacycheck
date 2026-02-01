@@ -199,7 +199,7 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium">
-                                    🔒 Upgrade to Pro for full AI inventory
+                                    🔒 Upgrade to Pro+ for full AI inventory
                                 </div>
                             </div>
                         </div>
@@ -214,7 +214,7 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
                     <div className="space-y-2">
                         {aiUsage.alerts.map((alert, idx) => (
                             <div key={idx} className={`p-3 rounded-lg ${alert.severity === 'critical' || alert.severity === 'high'
-                                    ? 'bg-red-100' : 'bg-amber-100'
+                                ? 'bg-red-100' : 'bg-amber-100'
                                 }`}>
                                 <div className="flex items-start justify-between">
                                     <span className="text-sm text-slate-700">{alert.message}</span>
@@ -238,9 +238,9 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
                                     <div className="flex items-center justify-between mb-1">
                                         <span className="font-medium text-slate-800">{rec.title}</span>
                                         <span className={`px-2 py-0.5 text-xs rounded uppercase ${rec.priority === 'critical' ? 'bg-red-200 text-red-700' :
-                                                rec.priority === 'high' ? 'bg-orange-200 text-orange-700' :
-                                                    rec.priority === 'medium' ? 'bg-amber-200 text-amber-700' :
-                                                        'bg-blue-200 text-blue-700'
+                                            rec.priority === 'high' ? 'bg-orange-200 text-orange-700' :
+                                                rec.priority === 'medium' ? 'bg-amber-200 text-amber-700' :
+                                                    'bg-blue-200 text-blue-700'
                                             }`}>{rec.priority}</span>
                                     </div>
                                     <p className="text-sm text-slate-600 mb-1">{rec.description}</p>
@@ -259,7 +259,7 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium">
-                                    🔒 Upgrade to Pro for full recommendations
+                                    🔒 Upgrade to Pro+ for full recommendations
                                 </div>
                             </div>
                         </div>

@@ -96,15 +96,11 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
-                            Email alerts if score drops
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <CheckIcon className="w-5 h-5 text-blue-200" />
                             Monthly auto-scan
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
-                            WordPress Plugin
+                            Cookies & Trackers Analysis
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
@@ -112,47 +108,15 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
-                            Email Security
+                            Vendor Risk Assessment
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
-                            Exposed Emails Detection
+                            Technology Stack Detection
                         </li>
                         <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Step-by-step fix recommendations</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Cookie Banner Widget</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Google Consent Mode v2</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Accessibility Audit (EAA 2025)</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Domain Security Monitor</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Supply Chain Security</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Hidden Costs Audit</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Email Deliverability</strong>
-                        </li>
-                        <li className="flex items-center gap-2 text-white">
-                            <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>AI Compliance (EU AI Act)</strong>
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            WordPress Plugin
                         </li>
                     </ul>
                     <button onClick={() => onCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-white transition text-center mt-auto">
@@ -185,28 +149,32 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             <strong>Weekly</strong> auto-scan
                         </li>
                         <li className="flex items-center gap-2 text-white">
-                            <CheckIcon className="w-5 h-5 text-cyan-200" />
-                            Compliance Drift Detection
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Domain Security Monitor</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Data Breach Detection</strong>
+                            <strong>Supply Chain Security</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>AI Risk Predictor</strong>
+                            <strong>Hidden Costs Audit (ROI)</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Vendor Risk Score</strong>
+                            <strong>Email Deliverability</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Attack Surface Scanner</strong>
+                            <strong>AI Compliance (EU AI Act)</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>Accessibility Audit (EAA 2025)</strong>
+                            <strong>Accessibility (EAA 2025)</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Step-by-step fix guides</strong>
                         </li>
                     </ul>
                     <button onClick={() => onCheckout('pro_plus')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">

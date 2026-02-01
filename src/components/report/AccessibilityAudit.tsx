@@ -139,7 +139,7 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
                                                 </p>
                                                 <div className="absolute inset-0 flex items-center justify-center">
                                                     <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-medium">
-                                                        Upgrade to Pro to see details
+                                                        Upgrade to Pro+ to see details
                                                     </span>
                                                 </div>
                                             </div>

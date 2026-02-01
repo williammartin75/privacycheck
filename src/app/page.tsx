@@ -947,7 +947,7 @@ export default function Home() {
                     >
                       <AccessibilityAudit
                         accessibility={result.issues.accessibility}
-                        isPro={isPro}
+                        isPro={isProPlus}
                       />
                     </ReportSection>
 
@@ -959,7 +959,7 @@ export default function Home() {
                     >
                       <DomainRisk
                         domainRisk={result.issues.domainRisk}
-                        isPro={isPro}
+                        isPro={isProPlus}
                       />
                     </ReportSection>
 
@@ -971,7 +971,7 @@ export default function Home() {
                     >
                       <SupplyChainAudit
                         supplyChain={result.issues.supplyChain}
-                        isPro={isPro}
+                        isPro={isProPlus}
                       />
                     </ReportSection>
 
@@ -983,7 +983,7 @@ export default function Home() {
                     >
                       <HiddenCostsAudit
                         hiddenCosts={result.issues.hiddenCosts}
-                        isPro={isPro}
+                        isPro={isProPlus}
                       />
                     </ReportSection>
 
@@ -995,7 +995,7 @@ export default function Home() {
                     >
                       <EmailDeliverabilityAudit
                         emailDeliverability={result.issues.emailDeliverability}
-                        isPro={isPro}
+                        isPro={isProPlus}
                       />
                     </ReportSection>
 
@@ -1007,7 +1007,7 @@ export default function Home() {
                     >
                       <AIUsageAudit
                         aiUsage={result.issues.aiUsage}
-                        isPro={isPro}
+                        isPro={isProPlus}
                       />
                     </ReportSection>
 

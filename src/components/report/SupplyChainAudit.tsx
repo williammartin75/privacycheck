@@ -170,7 +170,7 @@ export function SupplyChainAudit({ supplyChain, isPro }: SupplyChainAuditProps) 
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium">
-                                    🔒 Upgrade to Pro to see all scripts
+                                    🔒 Upgrade to Pro+ to see all scripts
                                 </div>
                             </div>
                         </div>
