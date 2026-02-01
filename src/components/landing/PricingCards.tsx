@@ -58,7 +58,7 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-gray-700">
                             <CheckIcon className="w-5 h-5 text-blue-600" />
-                            Cookies & trackers list
+                            Cookies & trackers count
                         </li>
                         <li className="flex items-center gap-2 text-gray-400">
                             <LockIcon className="w-5 h-5" />
