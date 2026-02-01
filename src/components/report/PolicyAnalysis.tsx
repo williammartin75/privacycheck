@@ -67,10 +67,10 @@ function getStatusLabel(status: string): React.ReactNode {
 
 function getStatusMessage(status: string): string {
     switch (status) {
-        case 'compliant': return 'Privacy Policy is GDPR Compliant';
+        case 'compliant': return 'Privacy Policy Meets Key GDPR Requirements';
         case 'partial': return 'Privacy Policy Needs Improvement';
         case 'not-found': return 'No Privacy Policy Found';
-        default: return 'Privacy Policy is Non-Compliant';
+        default: return 'Privacy Policy Has Issues to Address';
     }
 }
 

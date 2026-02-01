@@ -19,7 +19,7 @@ const faqData = [
     },
     {
         question: "What's included in Pro and Pro+?",
-        answer: "Pro (€19/mo): 50 scans, step-by-step fix guides, PDF reports, email alerts, auto-scans, and a Cookie Banner Widget. Pro+ (€29/mo): everything in Pro plus data breach detection, AI-powered fine estimation, vendor risk scores, and weekly monitoring."
+        answer: "Pro (€19/mo): 50 scans, step-by-step fix guides, PDF reports, email alerts, auto-scans, and a Cookie Banner Widget. Pro+ (€29/mo): everything in Pro plus data breach detection, regulatory exposure estimates, vendor risk scores, and weekly monitoring."
     },
     {
         question: "What is the Cookie Banner Widget?",

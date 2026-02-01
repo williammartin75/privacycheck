@@ -129,7 +129,7 @@ export function generatePDF(result: AuditResult): void {
     doc.text('/100', pageWidth - 30, 26);
 
     // Risk label
-    const riskLabel = result.score >= 80 ? 'LOW RISK' : result.score >= 50 ? 'MEDIUM RISK' : 'HIGH RISK';
+    const riskLabel = result.score >= 80 ? 'LOW RISK' : result.score >= 50 ? 'MEDIUM RISK' : 'ELEVATED RISK';
     doc.setFontSize(6);
     doc.text(riskLabel, pageWidth - 48, 34);
 
@@ -228,7 +228,7 @@ export function generatePDF(result: AuditResult): void {
 
     // ============ GDPR FINE ESTIMATION ============
     if (result.riskPrediction) {
-        drawSectionHeader('GDPR FINE ESTIMATION');
+        drawSectionHeader('POTENTIAL REGULATORY EXPOSURE');
 
         const riskColor = result.riskPrediction.riskLevel === 'critical' ? COLORS.red :
             result.riskPrediction.riskLevel === 'high' ? COLORS.orange :

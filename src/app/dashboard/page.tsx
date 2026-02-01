@@ -343,7 +343,7 @@ export default function DashboardPage() {
                             </div>
                             <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                                <span className="text-gray-600">Non-Compliant (&lt;50%)</span>
+                                <span className="text-gray-600">Issues Detected (&lt;50%)</span>
                             </div>
                         </div>
                     </div>

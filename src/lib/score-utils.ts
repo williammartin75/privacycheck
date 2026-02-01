@@ -26,8 +26,8 @@ export const getScoreLabel = (score: number): {
         text: 'text-amber-600'
     };
     return {
-        label: 'Non-Compliant',
-        sublabel: 'High Risk',
+        label: 'Issues Detected',
+        sublabel: 'Elevated Risk',
         bg: 'border border-red-600',
         text: 'text-red-600'
     };

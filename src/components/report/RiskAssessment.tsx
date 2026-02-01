@@ -58,7 +58,7 @@ export function RiskAssessment({
         <div className="mb-4">
             <button onClick={onToggle} className="section-btn">
                 <span className="flex items-center gap-2">
-                    <span className="section-btn-title">GDPR Fine Estimation</span>
+                    <span className="section-btn-title">Potential Regulatory Exposure</span>
                     <span className={getBadgeClass(riskPrediction.riskLevel)}>
                         {fineRange}
                     </span>
@@ -78,7 +78,7 @@ export function RiskAssessment({
                     {/* Fine Estimation Header */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <div>
-                            <p className="text-sm font-medium text-gray-500 mb-1">Potential GDPR Fine Range</p>
+                            <p className="text-sm font-medium text-gray-500 mb-1">Estimated Regulatory Exposure</p>
                             <p className={`text-3xl font-bold ${getRiskColor(riskPrediction.riskLevel)}`}>
                                 {fineRange}
                             </p>
@@ -153,8 +153,9 @@ export function RiskAssessment({
                     </div>
 
                     <p className="text-xs text-slate-400 mt-3">
-                        * Estimates based on GDPR enforcement patterns and detected violations.
-                        Actual fines depend on DPA discretion, company size, and specifics of the case.
+                        * This is an indicative estimate only, not legal advice. Actual regulatory outcomes
+                        depend on DPA discretion, company size, remediation efforts, and case specifics.
+                        Consult a qualified legal professional for compliance assessment.
                     </p>
                 </div>
             )}
