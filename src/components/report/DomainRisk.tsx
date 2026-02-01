@@ -159,9 +159,19 @@ export function DomainRisk({ domainRisk, isPro }: DomainRiskProps) {
                         { label: 'DMARC', value: domainRisk.dnsSecurity.dmarc },
                         { label: 'DNSSEC', value: domainRisk.dnsSecurity.dnssec },
                     ].map(item => (
-                        <div key={item.label} className={`text-center py-2 rounded ${item.value ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                            <div className="text-lg">{item.value ? '✓' : '✗'}</div>
-                            <div className="text-xs font-medium">{item.label}</div>
+                        <div key={item.label} className={`text-center py-2 rounded bg-white border ${item.value ? 'text-green-700 border-green-200' : 'text-red-700 border-red-200'}`}>
+                            <div className="flex justify-center">
+                                {item.value ? (
+                                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                ) : (
+                                    <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                )}
+                            </div>
+                            <div className="text-xs font-medium mt-1">{item.label}</div>
                         </div>
                     ))}
                 </div>
@@ -171,16 +181,21 @@ export function DomainRisk({ domainRisk, isPro }: DomainRiskProps) {
             {domainRisk.typosquatting.detected > 0 && (
                 <div className="bg-white rounded-lg border border-slate-200 p-4">
                     <div className="flex items-center justify-between mb-3">
-                        <div>
-                            <h4 className="font-semibold text-slate-800">⚠️ Typosquatting Detected</h4>
-                            <p className="text-sm text-slate-500">{domainRisk.typosquatting.detected} similar domain(s) found</p>
+                        <div className="flex items-center gap-2">
+                            <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <div>
+                                <h4 className="font-semibold text-slate-800">Typosquatting Detected</h4>
+                                <p className="text-sm text-slate-500">{domainRisk.typosquatting.detected} similar domain(s) found</p>
+                            </div>
                         </div>
                     </div>
 
                     {isPro ? (
                         <div className="space-y-2 max-h-64 overflow-y-auto">
                             {domainRisk.typosquatting.domains.map((domain, idx) => (
-                                <div key={idx} className="flex items-center justify-between p-2 bg-slate-50 rounded">
+                                <div key={idx} className="flex items-center justify-between p-2 bg-white border border-slate-200 rounded">
                                     <div>
                                         <span className="font-mono text-sm text-slate-800">{domain.domain}</span>
                                         <span className="ml-2 text-xs text-slate-500">({domain.type})</span>
@@ -228,12 +243,16 @@ export function DomainRisk({ domainRisk, isPro }: DomainRiskProps) {
                 </div>
             )}
 
-            {/* Info Banner */}
             <div className="bg-white border border-amber-200 rounded-lg p-4 text-sm">
-                <p className="text-amber-800">
-                    <strong>💡 Why this matters:</strong> Domain expiration or hijacking can cause complete loss of your website, email, and business identity.
-                    Typosquatting domains are often used for phishing attacks against your customers.
-                </p>
+                <div className="flex gap-3">
+                    <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    <p className="text-amber-800">
+                        <strong>Why this matters:</strong> Domain expiration or hijacking can cause complete loss of your website, email, and business identity.
+                        Typosquatting domains are often used for phishing attacks against your customers.
+                    </p>
+                </div>
             </div>
         </div>
     );
