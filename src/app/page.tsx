@@ -666,7 +666,9 @@ export default function Home() {
 
                 return (
                   <>
-                    {/* ========== COMPLIANCE GROUP ========== */}
+                    {/* ========== TIER 1: LEGAL RISKS ========== */}
+
+                    {/* Compliance */}
                     <ReportSection title="Compliance" defaultOpen={true} score={complianceScore}>
                       {/* Risk Assessment */}
                       {result.riskPrediction && (
@@ -740,7 +742,7 @@ export default function Home() {
                       )}
                     </ReportSection>
 
-                    {/* ========== CONSENT & PRIVACY GROUP ========== */}
+                    {/* Consent & Privacy */}
                     <ReportSection title="Consent & Privacy" defaultOpen={false} score={consentScore}>
                       {/* Consent Behavior Test */}
                       {result.issues.consentBehavior && (
@@ -790,7 +792,7 @@ export default function Home() {
                       )}
                     </ReportSection>
 
-                    {/* ========== COOKIES & TRACKING GROUP ========== */}
+                    {/* Cookies & Tracking */}
                     <ReportSection title="Cookies & Tracking" defaultOpen={false} score={cookieScore}>
                       {/* Cookies Section */}
                       <CookieList
@@ -830,50 +832,21 @@ export default function Home() {
                       />
                     </ReportSection>
 
-                    {/* ========== VENDORS & DATA FLOW GROUP ========== */}
-                    <ReportSection title="Vendors & Data Flow" defaultOpen={false} score={vendorsScore}>
-                      {/* Vendor Risk Assessment */}
-                      {result.issues.vendorRisks && (
-                        <VendorRisk
-                          vendorRisks={result.issues.vendorRisks}
-                          isOpen={showVendorRisk}
-                          onToggle={() => setShowVendorRisk(!showVendorRisk)}
-                          isPro={isPro}
-                          onUpgrade={() => handleCheckout()}
-                        />
-                      )}
-
-                      {/* Data Transfers Outside EU */}
-                      {result.issues.vendorRisks && (
-                        <DataTransfers
-                          vendorRisks={result.issues.vendorRisks}
-                          isOpen={showDataTransfers}
-                          onToggle={() => setShowDataTransfers(!showDataTransfers)}
-                          isPro={isPro}
-                        />
-                      )}
-
-                      {/* Data Breaches */}
-                      <DataBreaches
-                        dataBreaches={result.issues.dataBreaches}
-                        domain={result.domain}
-                        isOpen={showDataBreaches}
-                        onToggle={() => setShowDataBreaches(!showDataBreaches)}
+                    {/* Accessibility (EAA 2025) */}
+                    <ReportSection
+                      title="Accessibility (EAA 2025)"
+                      defaultOpen={false}
+                      score={result.issues.accessibility?.score}
+                    >
+                      <AccessibilityAudit
+                        accessibility={result.issues.accessibility}
+                        isPro={isProPlus}
                       />
-
-                      {/* Email Exposure Warning */}
-                      {result.issues.exposedEmails && (
-                        <EmailExposure
-                          exposedEmails={result.issues.exposedEmails}
-                          isOpen={showEmailExposure}
-                          onToggle={() => setShowEmailExposure(!showEmailExposure)}
-                          isPro={isPro}
-                          onUpgrade={() => handleCheckout()}
-                        />
-                      )}
                     </ReportSection>
 
-                    {/* ========== SECURITY GROUP ========== */}
+                    {/* ========== TIER 2: SECURITY RISKS ========== */}
+
+                    {/* Security */}
                     <ReportSection title="Security" defaultOpen={false} score={securityScore}>
                       {/* Security Exposure Analysis */}
                       {result.attackSurface && result.attackSurface.totalFindings > 0 && (
@@ -939,31 +912,7 @@ export default function Home() {
                       )}
                     </ReportSection>
 
-                    {/* ========== ACCESSIBILITY GROUP (EAA 2025) ========== */}
-                    <ReportSection
-                      title="Accessibility (EAA 2025)"
-                      defaultOpen={false}
-                      score={result.issues.accessibility?.score}
-                    >
-                      <AccessibilityAudit
-                        accessibility={result.issues.accessibility}
-                        isPro={isProPlus}
-                      />
-                    </ReportSection>
-
-                    {/* ========== DOMAIN SECURITY GROUP ========== */}
-                    <ReportSection
-                      title="Domain Security"
-                      defaultOpen={false}
-                      score={result.issues.domainRisk?.score}
-                    >
-                      <DomainRisk
-                        domainRisk={result.issues.domainRisk}
-                        isPro={isProPlus}
-                      />
-                    </ReportSection>
-
-                    {/* ========== SUPPLY CHAIN SECURITY GROUP ========== */}
+                    {/* Supply Chain Security */}
                     <ReportSection
                       title="Supply Chain Security"
                       defaultOpen={false}
@@ -975,43 +924,19 @@ export default function Home() {
                       />
                     </ReportSection>
 
-                    {/* ========== HIDDEN COSTS AUDIT GROUP ========== */}
+                    {/* Domain Security */}
                     <ReportSection
-                      title="Hidden Costs Audit"
+                      title="Domain Security"
                       defaultOpen={false}
-                      score={result.issues.hiddenCosts?.score}
+                      score={result.issues.domainRisk?.score}
                     >
-                      <HiddenCostsAudit
-                        hiddenCosts={result.issues.hiddenCosts}
+                      <DomainRisk
+                        domainRisk={result.issues.domainRisk}
                         isPro={isProPlus}
                       />
                     </ReportSection>
 
-                    {/* ========== EMAIL DELIVERABILITY AUDIT GROUP ========== */}
-                    <ReportSection
-                      title="Email Deliverability"
-                      defaultOpen={false}
-                      score={result.issues.emailDeliverability?.score}
-                    >
-                      <EmailDeliverabilityAudit
-                        emailDeliverability={result.issues.emailDeliverability}
-                        isPro={isProPlus}
-                      />
-                    </ReportSection>
-
-                    {/* ========== AI USAGE & COMPLIANCE AUDIT GROUP ========== */}
-                    <ReportSection
-                      title="AI Compliance"
-                      defaultOpen={false}
-                      score={result.issues.aiUsage?.score}
-                    >
-                      <AIUsageAudit
-                        aiUsage={result.issues.aiUsage}
-                        isPro={isProPlus}
-                      />
-                    </ReportSection>
-
-                    {/* ========== TECHNOLOGY STACK SECURITY GROUP ========== */}
+                    {/* Technology Security */}
                     <ReportSection
                       title="Technology Security"
                       defaultOpen={false}
@@ -1023,7 +948,90 @@ export default function Home() {
                       />
                     </ReportSection>
 
-                    {/* ========== SCAN DETAILS GROUP ========== */}
+                    {/* ========== TIER 3: EMERGING RISKS ========== */}
+
+                    {/* AI Compliance */}
+                    <ReportSection
+                      title="AI Compliance"
+                      defaultOpen={false}
+                      score={result.issues.aiUsage?.score}
+                    >
+                      <AIUsageAudit
+                        aiUsage={result.issues.aiUsage}
+                        isPro={isProPlus}
+                      />
+                    </ReportSection>
+
+                    {/* Vendors & Data Flow */}
+                    <ReportSection title="Vendors & Data Flow" defaultOpen={false} score={vendorsScore}>
+                      {/* Vendor Risk Assessment */}
+                      {result.issues.vendorRisks && (
+                        <VendorRisk
+                          vendorRisks={result.issues.vendorRisks}
+                          isOpen={showVendorRisk}
+                          onToggle={() => setShowVendorRisk(!showVendorRisk)}
+                          isPro={isPro}
+                          onUpgrade={() => handleCheckout()}
+                        />
+                      )}
+
+                      {/* Data Transfers Outside EU */}
+                      {result.issues.vendorRisks && (
+                        <DataTransfers
+                          vendorRisks={result.issues.vendorRisks}
+                          isOpen={showDataTransfers}
+                          onToggle={() => setShowDataTransfers(!showDataTransfers)}
+                          isPro={isPro}
+                        />
+                      )}
+
+                      {/* Data Breaches */}
+                      <DataBreaches
+                        dataBreaches={result.issues.dataBreaches}
+                        domain={result.domain}
+                        isOpen={showDataBreaches}
+                        onToggle={() => setShowDataBreaches(!showDataBreaches)}
+                      />
+
+                      {/* Email Exposure Warning */}
+                      {result.issues.exposedEmails && (
+                        <EmailExposure
+                          exposedEmails={result.issues.exposedEmails}
+                          isOpen={showEmailExposure}
+                          onToggle={() => setShowEmailExposure(!showEmailExposure)}
+                          isPro={isPro}
+                          onUpgrade={() => handleCheckout()}
+                        />
+                      )}
+                    </ReportSection>
+
+                    {/* ========== TIER 4: OPERATIONAL ========== */}
+
+                    {/* Email Deliverability */}
+                    <ReportSection
+                      title="Email Deliverability"
+                      defaultOpen={false}
+                      score={result.issues.emailDeliverability?.score}
+                    >
+                      <EmailDeliverabilityAudit
+                        emailDeliverability={result.issues.emailDeliverability}
+                        isPro={isProPlus}
+                      />
+                    </ReportSection>
+
+                    {/* Hidden Costs Audit */}
+                    <ReportSection
+                      title="Hidden Costs Audit"
+                      defaultOpen={false}
+                      score={result.issues.hiddenCosts?.score}
+                    >
+                      <HiddenCostsAudit
+                        hiddenCosts={result.issues.hiddenCosts}
+                        isPro={isProPlus}
+                      />
+                    </ReportSection>
+
+                    {/* ========== SCAN DETAILS ========== */}
                     <ReportSection title="Scan Details" defaultOpen={false}>
                       {/* Pages Scanned */}
                       <PagesScanned
