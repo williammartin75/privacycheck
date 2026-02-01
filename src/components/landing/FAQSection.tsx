@@ -30,6 +30,10 @@ const faqData = [
         answer: "It watches your site for changes that could cause privacy problems. If your score drops or new trackers appear, we send you an email alert so you can fix it quickly."
     },
     {
+        question: "What is the European Accessibility Act (EAA 2025)?",
+        answer: "The EAA is a new EU law that came into effect on June 28, 2025. It requires websites selling products or services in the EU to meet WCAG 2.1 AA accessibility standards. Non-compliance can result in fines up to €30,000. Our accessibility audit checks your site against 15+ WCAG criteria including images, forms, headings, links, color contrast, and ARIA attributes."
+    },
+    {
         question: "Can I cancel my subscription anytime?",
         answer: "Yes, cancel anytime from your Dashboard. Your access continues until the end of your billing period. No fees, no questions asked."
     }

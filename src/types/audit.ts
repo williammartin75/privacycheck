@@ -296,6 +296,25 @@ export interface AuditResult {
             compliant: boolean;
             recommendations: string[];
         };
+        // Accessibility Audit (EAA 2025 / WCAG 2.1 AA)
+        accessibility?: {
+            score: number;
+            totalIssues: number;
+            criticalCount: number;
+            seriousCount: number;
+            moderateCount: number;
+            minorCount: number;
+            violations: {
+                id: string;
+                impact: 'critical' | 'serious' | 'moderate' | 'minor';
+                description: string;
+                helpUrl: string;
+                nodes: number;
+                wcagCriteria: string;
+                category: string;
+            }[];
+            passes: string[];
+        };
     };
     regulations: string[];
     scoreBreakdown?: { item: string; points: number; passed: boolean }[];

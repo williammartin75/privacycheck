@@ -44,6 +44,7 @@ import { CookieList } from '@/components/report/CookieList';
 import { PagesScanned } from '@/components/report/PagesScanned';
 import { TrackersList } from '@/components/report/TrackersList';
 import { ReportSection } from '@/components/report/ReportSection';
+import { AccessibilityAudit } from '@/components/report/AccessibilityAudit';
 
 export default function Home() {
   const [url, setUrl] = useState('');
@@ -930,6 +931,18 @@ export default function Home() {
                           isPro={isPro}
                         />
                       )}
+                    </ReportSection>
+
+                    {/* ========== ACCESSIBILITY GROUP (EAA 2025) ========== */}
+                    <ReportSection
+                      title="Accessibility (EAA 2025)"
+                      defaultOpen={false}
+                      score={result.issues.accessibility?.score}
+                    >
+                      <AccessibilityAudit
+                        accessibility={result.issues.accessibility}
+                        isPro={isPro}
+                      />
                     </ReportSection>
 
                     {/* ========== SCAN DETAILS GROUP ========== */}

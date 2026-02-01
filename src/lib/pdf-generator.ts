@@ -694,6 +694,71 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ==========================================
+    // CATEGORY: ACCESSIBILITY (EAA 2025)
+    // ==========================================
+    drawCategoryHeader('Accessibility (EAA 2025)');
+
+    if (result.issues.accessibility) {
+        const acc = result.issues.accessibility;
+        const accColor = acc.score >= 80 ? COLORS.green : acc.score >= 50 ? COLORS.gold : COLORS.red;
+
+        // Score Overview
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(accColor[0], accColor[1], accColor[2]);
+        doc.text(`WCAG 2.1 AA Score: ${acc.score}/100`, 20, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+        doc.text(`Critical: ${acc.criticalCount} | Serious: ${acc.seriousCount} | Moderate: ${acc.moderateCount} | Minor: ${acc.minorCount}`, 20, y);
+        y += 8;
+
+        // Violations
+        if (acc.violations.length > 0) {
+            drawSubHeader('Issues Found');
+            acc.violations.slice(0, 8).forEach(violation => {
+                checkNewPage(6);
+                const impactColor = violation.impact === 'critical' ? COLORS.red :
+                    violation.impact === 'serious' ? COLORS.orange : COLORS.gold;
+                doc.setTextColor(impactColor[0], impactColor[1], impactColor[2]);
+                doc.setFontSize(8);
+                doc.text(`• [${violation.impact.toUpperCase()}] ${violation.description}`, 20, y);
+                doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+                doc.setFontSize(7);
+                doc.text(`WCAG ${violation.wcagCriteria} | ${violation.nodes} element(s)`, 25, y + 4);
+                y += 9;
+            });
+        }
+
+        // Passed checks
+        if (acc.passes.length > 0) {
+            y += 3;
+            drawSubHeader('Checks Passed');
+            doc.setTextColor(COLORS.green[0], COLORS.green[1], COLORS.green[2]);
+            doc.setFontSize(7);
+            const passedText = acc.passes.slice(0, 5).map(p => `✓ ${p.substring(0, 30)}`).join(' | ');
+            doc.text(passedText, 20, y);
+            y += 6;
+        }
+
+        // EAA Warning
+        y += 3;
+        doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
+        doc.rect(15, y - 3, pageWidth - 30, 10, 'F');
+        doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
+        doc.setFontSize(7);
+        doc.text('⚠ European Accessibility Act (EAA) requires WCAG 2.1 AA compliance. Non-compliance can result in fines up to €30,000.', 20, y + 3);
+        y += 15;
+    } else {
+        doc.setFontSize(9);
+        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+        doc.text('Accessibility data not available', 20, y);
+        y += 10;
+    }
+
+    // ==========================================
     // CATEGORY: COOKIES & TRACKING
     // ==========================================
     drawCategoryHeader('Cookies & Tracking');

@@ -10,7 +10,8 @@ const steps = [
             "Find all cookies and trackers on your site",
             "Check your consent banner works correctly",
             "Analyze 80+ third-party services for privacy risks",
-            "Detect security vulnerabilities hackers target"
+            "Detect security vulnerabilities hackers target",
+            "Verify WCAG 2.1 AA accessibility compliance (EAA 2025)"
         ]
     },
     {
@@ -40,7 +41,7 @@ const steps = [
 ];
 
 const stats = [
-    { number: "25+", label: "Privacy checks" },
+    { number: "30+", label: "Privacy & accessibility checks" },
     { number: "80+", label: "Vendors analyzed" },
     { number: "50+", label: "Regulations covered" },
     { number: "60s", label: "Average scan time" }

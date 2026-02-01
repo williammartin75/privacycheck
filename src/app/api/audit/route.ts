@@ -12,6 +12,7 @@ import { analyzeSecurityHeaders, SecurityHeadersResult } from '@/lib/security-he
 import { analyzeStorageUsage, StorageAuditResult } from '@/lib/storage-audit';
 import { detectMixedContent, MixedContentResult } from '@/lib/mixed-content';
 import { analyzeFormSecurity, FormSecurityResult } from '@/lib/form-security';
+import { analyzeAccessibility, AccessibilityResult } from '@/lib/accessibility-audit';
 
 interface Cookie {
     name: string;
@@ -117,6 +118,8 @@ interface AuditResult {
         mixedContent?: MixedContentResult;
         // Form Security Scan
         formSecurity?: FormSecurityResult;
+        // Accessibility Audit (EAA 2025)
+        accessibility?: AccessibilityResult;
     };
     regulations: string[];
     scoreBreakdown: { item: string; points: number; passed: boolean }[];
@@ -876,6 +879,9 @@ export async function POST(request: NextRequest) {
         // Form Security Scan
         const formSecurity = analyzeFormSecurity(combinedHtml, url);
 
+        // Accessibility Audit (EAA 2025 / WCAG 2.1 AA)
+        const accessibility = analyzeAccessibility(combinedHtml);
+
         // Calculate score with breakdown
         // Weights adjusted to sum to 100 with new consent behavior test
         let score = 100;
@@ -1044,6 +1050,24 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Forms Secure', points: 0, passed: true });
         }
 
+        // Accessibility (EAA 2025) penalty - up to 15 points
+        const accessibilityPenalty = Math.min(
+            accessibility.criticalCount * 5 +
+            accessibility.seriousCount * 3 +
+            accessibility.moderateCount * 1,
+            15
+        );
+        if (accessibilityPenalty > 0) {
+            scoreBreakdown.push({
+                item: `Accessibility Issues (${accessibility.totalIssues})`,
+                points: -accessibilityPenalty,
+                passed: false
+            });
+            score -= accessibilityPenalty;
+        } else {
+            scoreBreakdown.push({ item: 'Accessibility (EAA 2025)', points: 0, passed: true });
+        }
+
         // Trackers penalty
         const trackerPenalty = Math.min(allTrackers.length * 2, 8);
         if (trackerPenalty > 0) {
@@ -1200,6 +1224,8 @@ export async function POST(request: NextRequest) {
                 mixedContent,
                 // Form Security
                 formSecurity,
+                // Accessibility Audit (EAA 2025)
+                accessibility,
             },
             regulations,
             scoreBreakdown,
