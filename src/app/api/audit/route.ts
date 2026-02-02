@@ -706,15 +706,22 @@ export async function POST(request: NextRequest) {
         const pages: PageScan[] = [];
         let combinedHtml = '';
 
-        // Fetch main page
+        // Fetch page with 10 second timeout to prevent hanging on slow pages
         const fetchPage = async (pageUrl: string): Promise<{ html: string; cookies: string | null; headers: Headers } | null> => {
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
                 const response = await fetch(pageUrl, {
                     headers: {
                         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36 PrivacyCheck/1.0',
                     },
                     redirect: 'follow',
+                    signal: controller.signal,
                 });
+
+                clearTimeout(timeoutId);
+
                 return {
                     html: await response.text(),
                     cookies: response.headers.get('set-cookie'),
