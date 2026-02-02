@@ -34,11 +34,14 @@ export function ScanForm({ url, onUrlChange, onSubmit, loading, onCancel, atLimi
     return (
         <form onSubmit={handleClick} className="max-w-2xl mx-auto mb-12">
             <div className="flex flex-col sm:flex-row gap-4">
+                <label htmlFor="scan-url-input" className="sr-only">Website URL</label>
                 <input
+                    id="scan-url-input"
                     type="text"
                     value={url}
                     onChange={(e) => onUrlChange(e.target.value)}
                     placeholder="Enter your website URL (e.g., https://example.com)"
+                    aria-label="Website URL to scan"
                     className="flex-1 px-6 py-4 rounded-md bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
                     required
                     disabled={atLimit || loading}
