@@ -121,16 +121,7 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
         );
     }
 
-    const getGradeColor = (grade: string) => {
-        switch (grade) {
-            case 'A': return 'bg-green-500 text-white';
-            case 'B': return 'bg-green-400 text-white';
-            case 'C': return 'bg-amber-500 text-white';
-            case 'D': return 'bg-orange-500 text-white';
-            case 'F': return 'bg-red-500 text-white';
-            default: return 'bg-slate-500 text-white';
-        }
-    };
+    // Grade function removed - no longer displaying letter grades
 
     const getSeverityIcon = (severity: string) => {
         switch (severity) {
@@ -170,8 +161,8 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
 
     return (
         <div className="space-y-6">
-            {/* Grade Overview */}
-            <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border border-slate-200">
+            {/* Score Overview - Clean white card without grade */}
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                         <EmailIcon />
@@ -180,20 +171,15 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                             <p className="text-sm text-slate-500">{emailDeliverability.summary}</p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                        <div className={`w-16 h-16 rounded-xl flex items-center justify-center text-3xl font-bold ${getGradeColor(emailDeliverability.grade)}`}>
-                            {emailDeliverability.grade}
-                        </div>
-                        <div className="text-right">
-                            <div className="text-2xl font-bold text-slate-800">{emailDeliverability.score}/100</div>
-                            <div className="text-xs text-slate-500">Deliverability Score</div>
-                        </div>
+                    <div className="text-right">
+                        <div className="text-3xl font-bold text-slate-800">{emailDeliverability.score}/100</div>
+                        <div className="text-xs text-slate-500">Deliverability Score</div>
                     </div>
                 </div>
 
                 {/* Provider Info */}
                 {emailDeliverability.mxRecords.provider && (
-                    <div className="mt-3 px-3 py-2 bg-white rounded-lg border border-slate-200 text-sm">
+                    <div className="mt-3 px-3 py-2 bg-slate-50 rounded-lg border border-slate-200 text-sm">
                         <span className="text-slate-500">Email Provider:</span>{' '}
                         <span className="font-medium text-slate-800">{emailDeliverability.mxRecords.provider}</span>
                     </div>
