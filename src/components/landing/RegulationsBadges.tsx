@@ -22,7 +22,7 @@ export function RegulationsBadges() {
                 </div>
 
                 {/* Mobile: Same badges.png but scaled to fit all badges */}
-                <div className="flex sm:hidden justify-center -my-16">
+                <div className="flex sm:hidden justify-center -my-20">
                     <img
                         src="/badges.png"
                         alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
