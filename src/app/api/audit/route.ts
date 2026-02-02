@@ -1011,19 +1011,19 @@ export async function POST(request: NextRequest) {
             if (!condition) score -= points;
         };
 
-        deduct(isHttps, 'HTTPS Enabled', 7);
-        deduct(hasConsentBanner, 'Cookie Consent Banner', 6);
-        deduct(hasPrivacyPolicy, 'Privacy Policy', 7);
-        deduct(hasLegalMentions, 'Legal Mentions', 5);
-        deduct(hasDpoContact, 'DPO Contact', 5);
-        deduct(hasDataDeleteLink, 'Data Deletion Option', 4);
-        deduct(hasSecureForms || !combinedHtml.includes('<form'), 'Secure Forms', 3);
-        deduct(hasOptOutMechanism, 'Opt-out Mechanism', 5);
-        deduct(hasCookiePolicy, 'Cookie Policy', 3);
+        deduct(isHttps, 'HTTPS Enabled', 5);
+        deduct(hasConsentBanner, 'Cookie Consent Banner', 4);
+        deduct(hasPrivacyPolicy, 'Privacy Policy', 5);
+        deduct(hasLegalMentions, 'Legal Mentions', 3);
+        deduct(hasDpoContact, 'DPO Contact', 3);
+        deduct(hasDataDeleteLink, 'Data Deletion Option', 3);
+        deduct(hasSecureForms || !combinedHtml.includes('<form'), 'Secure Forms', 2);
+        deduct(hasOptOutMechanism, 'Opt-out Mechanism', 3);
+        deduct(hasCookiePolicy, 'Cookie Policy', 2);
 
-        // Consent Behavior Test (new) - 10 points max
+        // Consent Behavior Test (new) - 7 points max (reduced from 10)
         const consentBehaviorPassed = consentBehavior.score >= 80;
-        const consentBehaviorPenalty = consentBehaviorPassed ? 0 : Math.min(Math.floor((100 - consentBehavior.score) / 10), 10);
+        const consentBehaviorPenalty = consentBehaviorPassed ? 0 : Math.min(Math.floor((100 - consentBehavior.score) / 15), 7);
         if (consentBehaviorPenalty > 0) {
             scoreBreakdown.push({
                 item: `Consent Behavior (${consentBehavior.issues.length} issues)`,
@@ -1035,9 +1035,9 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Consent Behavior', points: 0, passed: true });
         }
 
-        // Privacy Policy Analysis (new) - up to 8 points penalty
+        // Privacy Policy Analysis (new) - up to 5 points penalty (reduced from 8)
         const policyAnalysisPassed = policyAnalysis.overallScore >= 70;
-        const policyAnalysisPenalty = policyAnalysisPassed ? 0 : Math.min(Math.floor((70 - policyAnalysis.overallScore) / 10), 8);
+        const policyAnalysisPenalty = policyAnalysisPassed ? 0 : Math.min(Math.floor((70 - policyAnalysis.overallScore) / 15), 5);
         if (policyAnalysisPenalty > 0) {
             scoreBreakdown.push({
                 item: `Privacy Policy Quality (${policyAnalysis.missingElements.length} missing)`,
@@ -1057,7 +1057,7 @@ export async function POST(request: NextRequest) {
                 darkPatterns.bySeverity.high * 2 +      // Reduced from 3
                 darkPatterns.bySeverity.medium * 1 +    // Reduced from 2
                 darkPatterns.bySeverity.low * 0,        // Low patterns don't count (often false positives)
-                10  // Max penalty reduced from 15
+                7  // Max penalty reduced from 10
             )
             : 0;
         // Only apply penalty if score is significant (>=3), ignore minor detections
@@ -1075,7 +1075,7 @@ export async function POST(request: NextRequest) {
 
         // Opt-in Forms penalty (new) - up to 10 points
         const optInPenalty = optInForms.totalIssues > 0
-            ? Math.min(optInForms.preCheckedCount * 5 + optInForms.hiddenConsentCount * 3 + optInForms.bundledConsentCount * 2, 10)
+            ? Math.min(optInForms.preCheckedCount * 3 + optInForms.hiddenConsentCount * 2 + optInForms.bundledConsentCount * 1, 7)
             : 0;
         if (optInPenalty > 0) {
             scoreBreakdown.push({
@@ -1089,7 +1089,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Cookie Lifespan penalty - up to 8 points
-        const cookieLifespanPenalty = Math.min(cookieLifespan.issuesCount * 3, 8);
+        const cookieLifespanPenalty = Math.min(cookieLifespan.issuesCount * 2, 5);
         if (cookieLifespanPenalty > 0) {
             scoreBreakdown.push({
                 item: `Cookie Lifespan Issues (${cookieLifespan.issuesCount})`,
@@ -1118,8 +1118,8 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'No Fingerprinting', points: 0, passed: true });
         }
 
-        // Security Headers Extended penalty - up to 10 points
-        const secHeadersPenalty = Math.max(0, Math.min((100 - securityHeadersExtended.score) / 10, 10));
+        // Security Headers Extended penalty - up to 7 points (reduced from 10)
+        const secHeadersPenalty = Math.max(0, Math.min((100 - securityHeadersExtended.score) / 15, 7));
         if (secHeadersPenalty > 2) {
             scoreBreakdown.push({
                 item: `Security Headers (${securityHeadersExtended.score}/100)`,
@@ -1131,8 +1131,8 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: `Security Headers (${securityHeadersExtended.score}/100)`, points: 0, passed: true });
         }
 
-        // Storage Audit penalty - up to 6 points
-        const storagePenalty = Math.min(storageAudit.issues.filter(i => i.risk === 'critical' || i.risk === 'high').length * 3, 6);
+        // Storage Audit penalty - up to 4 points (reduced from 6)
+        const storagePenalty = Math.min(storageAudit.issues.filter(i => i.risk === 'critical' || i.risk === 'high').length * 2, 4);
         if (storagePenalty > 0) {
             scoreBreakdown.push({
                 item: `Storage Issues (${storageAudit.issues.length})`,
@@ -1144,8 +1144,8 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Client Storage Compliant', points: 0, passed: true });
         }
 
-        // Mixed Content penalty - up to 15 points (very serious)
-        const mixedContentPenalty = Math.min(mixedContent.blockedCount * 5 + mixedContent.warningCount * 2, 15);
+        // Mixed Content penalty - up to 10 points (reduced from 15)
+        const mixedContentPenalty = Math.min(mixedContent.blockedCount * 3 + mixedContent.warningCount * 1, 10);
         if (mixedContentPenalty > 0) {
             scoreBreakdown.push({
                 item: `Mixed Content (${mixedContent.totalIssues} issues)`,
@@ -1157,10 +1157,10 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'No Mixed Content', points: 0, passed: true });
         }
 
-        // Form Security penalty - up to 10 points
+        // Form Security penalty - up to 7 points (reduced from 10)
         const formPenalty = formSecurity.compliant ? 0 :
-            Math.min(formSecurity.issues.filter(i => i.severity === 'critical').length * 5 +
-                formSecurity.issues.filter(i => i.severity === 'high').length * 3, 10);
+            Math.min(formSecurity.issues.filter(i => i.severity === 'critical').length * 3 +
+                formSecurity.issues.filter(i => i.severity === 'high').length * 2, 7);
         if (formPenalty > 0) {
             scoreBreakdown.push({
                 item: `Form Security Issues (${formSecurity.issuesCount})`,
@@ -1177,8 +1177,8 @@ export async function POST(request: NextRequest) {
         const accessibilityPenalty = Math.min(
             accessibility.criticalCount * 3 +   // Reduced from 5
             accessibility.seriousCount * 2 +    // Reduced from 3
-            accessibility.moderateCount * 0.5,  // Reduced from 1
-            10  // Max penalty reduced from 15
+            accessibility.moderateCount * 0.3,  // Reduced further
+            7  // Max penalty reduced from 10
         );
         if (accessibilityPenalty > 0) {
             scoreBreakdown.push({
@@ -1191,17 +1191,17 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Accessibility (EAA 2025)', points: 0, passed: true });
         }
 
-        // Domain Risk penalty - up to 20 points
+        // Domain Risk penalty - up to 14 points (reduced from 20)
         let domainRiskPenalty = 0;
         // Expiry penalties
         if (domainRisk.domainExpiry.daysUntilExpiry !== null) {
-            if (domainRisk.domainExpiry.daysUntilExpiry < 30) domainRiskPenalty += 10;
-            else if (domainRisk.domainExpiry.daysUntilExpiry < 90) domainRiskPenalty += 5;
+            if (domainRisk.domainExpiry.daysUntilExpiry < 30) domainRiskPenalty += 7;
+            else if (domainRisk.domainExpiry.daysUntilExpiry < 90) domainRiskPenalty += 3;
         }
         // Typosquatting penalties
         const highRiskTypos = domainRisk.typosquatting.domains.filter(d => d.risk === 'high').length;
-        domainRiskPenalty += Math.min(highRiskTypos * 3, 10);
-        domainRiskPenalty = Math.min(domainRiskPenalty, 20);
+        domainRiskPenalty += Math.min(highRiskTypos * 2, 7);
+        domainRiskPenalty = Math.min(domainRiskPenalty, 14);
 
         if (domainRiskPenalty > 0) {
             scoreBreakdown.push({
@@ -1214,15 +1214,15 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Domain Security', points: 0, passed: true });
         }
 
-        // Supply Chain penalty - up to 15 points
+        // Supply Chain penalty - up to 10 points (reduced from 15)
         let supplyChainPenalty = 0;
         // Critical dependencies get big penalties
         const criticalScripts = supplyChain.scripts.filter(s => s.risk === 'critical').length;
         const highRiskScripts = supplyChain.scripts.filter(s => s.risk === 'high').length;
-        supplyChainPenalty += criticalScripts * 8;  // Critical like polyfill.io
-        supplyChainPenalty += highRiskScripts * 3;
-        supplyChainPenalty += supplyChain.unknownOrigins * 2;  // Unknown origins
-        supplyChainPenalty = Math.min(supplyChainPenalty, 15);
+        supplyChainPenalty += criticalScripts * 5;  // Critical like polyfill.io
+        supplyChainPenalty += highRiskScripts * 2;
+        supplyChainPenalty += supplyChain.unknownOrigins * 1;  // Unknown origins
+        supplyChainPenalty = Math.min(supplyChainPenalty, 10);
 
         if (supplyChainPenalty > 0) {
             scoreBreakdown.push({
@@ -1235,12 +1235,12 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Supply Chain Security', points: 0, passed: true });
         }
 
-        // Hidden Costs penalty - up to 10 points
+        // Hidden Costs penalty - up to 7 points (reduced from 10)
         let hiddenCostsPenalty = 0;
-        hiddenCostsPenalty += hiddenCosts.redundancies.length * 3;  // Redundancy penalty
-        if (hiddenCosts.potentialSavings > 100) hiddenCostsPenalty += 3;  // High savings opportunity
-        if (hiddenCosts.performanceImpact.totalScriptSize > 500) hiddenCostsPenalty += 2; // Too many scripts
-        hiddenCostsPenalty = Math.min(hiddenCostsPenalty, 10);
+        hiddenCostsPenalty += hiddenCosts.redundancies.length * 2;  // Redundancy penalty
+        if (hiddenCosts.potentialSavings > 100) hiddenCostsPenalty += 2;  // High savings opportunity
+        if (hiddenCosts.performanceImpact.totalScriptSize > 500) hiddenCostsPenalty += 1; // Too many scripts
+        hiddenCostsPenalty = Math.min(hiddenCostsPenalty, 7);
 
         if (hiddenCostsPenalty > 0) {
             scoreBreakdown.push({
@@ -1253,8 +1253,8 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Cost Efficiency', points: 0, passed: true });
         }
 
-        // Trackers penalty - reduced
-        const trackerPenalty = Math.min(allTrackers.length * 1.5, 6);
+        // Trackers penalty - reduced by 30%
+        const trackerPenalty = Math.min(allTrackers.length * 1, 4);
         if (trackerPenalty > 0) {
             scoreBreakdown.push({ item: `Trackers (${allTrackers.length})`, points: -trackerPenalty, passed: false });
             score -= trackerPenalty;
@@ -1262,23 +1262,23 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'No Trackers', points: 0, passed: true });
         }
 
-        // Undeclared cookies penalty
+        // Undeclared cookies penalty - up to 3 (reduced from 5)
         if (undeclaredCookies > 0) {
-            const cookiePenalty = Math.min(undeclaredCookies, 5);
+            const cookiePenalty = Math.min(undeclaredCookies, 3);
             scoreBreakdown.push({ item: `Undeclared Cookies (${undeclaredCookies})`, points: -cookiePenalty, passed: false });
             score -= cookiePenalty;
         }
 
         // Note: Security headers already handled above via securityHeadersExtended
 
-        // Email Deliverability penalty - up to 10 points
+        // Email Deliverability penalty - up to 7 points (reduced from 10)
         let emailPenalty = 0;
-        if (!emailDeliverability.spf.exists) emailPenalty += 3;
-        if (!emailDeliverability.dkim.exists) emailPenalty += 3;
+        if (!emailDeliverability.spf.exists) emailPenalty += 2;
+        if (!emailDeliverability.dkim.exists) emailPenalty += 2;
         if (!emailDeliverability.dmarc.exists) emailPenalty += 2;
         else if (emailDeliverability.dmarc.policy === 'none') emailPenalty += 1;
-        if (emailDeliverability.alerts.some(a => a.severity === 'critical')) emailPenalty += 2;
-        emailPenalty = Math.min(emailPenalty, 10);
+        if (emailDeliverability.alerts.some(a => a.severity === 'critical')) emailPenalty += 1;
+        emailPenalty = Math.min(emailPenalty, 7);
 
         if (emailPenalty > 0) {
             scoreBreakdown.push({
@@ -1291,12 +1291,12 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Email Deliverability', points: 0, passed: true });
         }
 
-        // AI Usage & Compliance penalty - up to 10 points
+        // AI Usage & Compliance penalty - up to 7 points (reduced from 10)
         let aiPenalty = 0;
-        if (aiUsage.riskBreakdown.highRisk > 0) aiPenalty += 5;
-        if (aiUsage.alerts.some(a => a.severity === 'high')) aiPenalty += 3;
-        if (aiUsage.systems.some(s => s.requiresDisclosure)) aiPenalty += 2;
-        aiPenalty = Math.min(aiPenalty, 10);
+        if (aiUsage.riskBreakdown.highRisk > 0) aiPenalty += 3;
+        if (aiUsage.alerts.some(a => a.severity === 'high')) aiPenalty += 2;
+        if (aiUsage.systems.some(s => s.requiresDisclosure)) aiPenalty += 1;
+        aiPenalty = Math.min(aiPenalty, 7);
 
         if (aiPenalty > 0) {
             scoreBreakdown.push({
@@ -1309,15 +1309,15 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'AI Compliance', points: 0, passed: true });
         }
 
-        // Technology Stack Security penalty - up to 8 points
+        // Technology Stack Security penalty - up to 5 points (reduced from 8)
         let techPenalty = 0;
         if (technologyStack.cms?.isOutdated) {
-            if (technologyStack.cms.securityRisk === 'critical') techPenalty += 5;
-            else if (technologyStack.cms.securityRisk === 'high') techPenalty += 3;
+            if (technologyStack.cms.securityRisk === 'critical') techPenalty += 3;
+            else if (technologyStack.cms.securityRisk === 'high') techPenalty += 2;
             else techPenalty += 1;
         }
-        if (technologyStack.alerts.some(a => a.severity === 'critical')) techPenalty += 3;
-        techPenalty = Math.min(techPenalty, 8);
+        if (technologyStack.alerts.some(a => a.severity === 'critical')) techPenalty += 2;
+        techPenalty = Math.min(techPenalty, 5);
 
         if (techPenalty > 0) {
             scoreBreakdown.push({
@@ -1333,25 +1333,9 @@ export async function POST(request: NextRequest) {
         // Email Exposure (excludes same-domain contact emails)
         const exposedEmails = extractExposedEmails(combinedHtml, domain);
         if (exposedEmails.length > 0) {
-            const emailPenalty = Math.min(exposedEmails.length * 2, 10);
+            const emailPenalty = Math.min(exposedEmails.length * 1, 7);
             scoreBreakdown.push({ item: `Exposed Emails (${exposedEmails.length})`, points: -emailPenalty, passed: false });
             score -= emailPenalty;
-        }
-
-        // ========== POSITIVE BONUS FOR PASSED CHECKS ==========
-        // Reward sites that pass multiple checks to make scoring less harsh
-        const passedChecks = scoreBreakdown.filter(item => item.passed).length;
-        const totalChecks = scoreBreakdown.length;
-
-        // Bonus: +1 point per passed check, up to +15 maximum
-        const passedBonus = Math.min(passedChecks, 15);
-        if (passedBonus > 0) {
-            score += passedBonus;
-            scoreBreakdown.push({
-                item: `Good Practices Bonus (${passedChecks}/${totalChecks} checks passed)`,
-                points: passedBonus,
-                passed: true
-            });
         }
 
         // External Resources
