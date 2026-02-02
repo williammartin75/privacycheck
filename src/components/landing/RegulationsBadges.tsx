@@ -7,7 +7,7 @@ export function RegulationsBadges() {
         <section className="py-16">
             <div className="container mx-auto px-6 max-w-[95%] sm:max-w-none">
                 <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
-                <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
+                <p className="text-gray-600 text-center mb-0 sm:mb-4">Comprehensive coverage for global privacy compliance</p>
 
                 {/* Desktop: Original badges.png with cropping effect */}
                 <div className="hidden sm:flex justify-center overflow-hidden" style={{ maxHeight: '95px' }}>
@@ -22,7 +22,7 @@ export function RegulationsBadges() {
                 </div>
 
                 {/* Mobile: Same badges.png but scaled to fit all badges */}
-                <div className="flex sm:hidden justify-center -mb-20">
+                <div className="flex sm:hidden justify-center -mt-4 -mb-24">
                     <img
                         src="/badges.png"
                         alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
@@ -34,7 +34,7 @@ export function RegulationsBadges() {
                 </div>
 
                 {/* Trust Badges */}
-                <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 -mt-16 sm:mt-0">
+                <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 -mt-20 sm:mt-0">
 
                     {/* EU Data Badge */}
                     <div className="flex flex-col items-center group">
