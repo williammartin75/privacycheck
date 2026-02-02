@@ -469,7 +469,7 @@ export default function Home() {
                 </button>
               </div>
             ) : (
-              <Link href="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+              <Link href="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition w-[70px] sm:w-auto text-center text-xs sm:text-base truncate">
                 Sign In
               </Link>
             )}
