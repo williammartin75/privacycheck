@@ -170,7 +170,7 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
-                            <strong>AI Compliance (EU AI Act)</strong>
+                            <strong>AI Detection (EU AI Act)</strong>
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <BoltIcon className="w-5 h-5 text-yellow-300" />

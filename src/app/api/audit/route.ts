@@ -1300,13 +1300,13 @@ export async function POST(request: NextRequest) {
 
         if (aiPenalty > 0) {
             scoreBreakdown.push({
-                item: `AI Compliance (${aiUsage.euAiActStatus})`,
+                item: `AI Detection (${aiUsage.euAiActStatus})`,
                 points: -aiPenalty,
                 passed: false
             });
             score -= aiPenalty;
         } else if (aiUsage.aiSystemsDetected > 0) {
-            scoreBreakdown.push({ item: 'AI Compliance', points: 0, passed: true });
+            scoreBreakdown.push({ item: 'AI Detection', points: 0, passed: true });
         }
 
         // Technology Stack Security penalty - up to 5 points (reduced from 8)

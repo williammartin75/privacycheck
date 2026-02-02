@@ -34,7 +34,7 @@ const CHECK_TOOLTIPS: Record<string, string> = {
     'Domain Security': 'Domain has proper DNS security (SPF, DKIM, DMARC configured).',
     'Cost Efficiency': 'No unnecessary third-party services inflating costs.',
     'No Trackers': 'No known tracking scripts or pixels detected on your site.',
-    'AI Compliance': 'AI systems used comply with EU AI Act requirements.',
+    'AI Detection': 'AI systems detected and analyzed for EU AI Act requirements.',
     'SSL Certificate': 'Valid SSL/TLS certificate is installed and not expiring soon.',
     'SPF Record': 'SPF email authentication is configured for your domain.',
     'DMARC Record': 'DMARC policy is set to protect against email spoofing.',

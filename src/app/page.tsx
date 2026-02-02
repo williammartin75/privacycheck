@@ -959,9 +959,9 @@ export default function Home() {
 
                     {/* ========== TIER 3: EMERGING RISKS ========== */}
 
-                    {/* AI Compliance */}
+                    {/* AI Detection */}
                     <ReportSection
-                      title="AI Compliance"
+                      title="AI Detection"
                       defaultOpen={false}
                       score={result.issues.aiUsage?.score}
                     >

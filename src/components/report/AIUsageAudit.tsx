@@ -190,7 +190,7 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
 
     const getStatusLabel = (status: string) => {
         switch (status) {
-            case 'compliant': return <span className="flex items-center gap-1"><CheckIcon /> Compliant</span>;
+            case 'compliant': return <span className="flex items-center gap-1"><CheckIcon /> Good</span>;
             case 'action-needed': return <span className="flex items-center gap-1"><WarningIcon /> Action Needed</span>;
             case 'high-risk': return <span className="flex items-center gap-1"><WarningIcon /> High Risk</span>;
             case 'critical': return <span className="flex items-center gap-1"><AlertIcon /> Critical</span>;
@@ -254,17 +254,14 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
                     <div className="flex items-center gap-2">
                         <RobotIcon />
                         <div>
-                            <h3 className="text-lg font-semibold text-slate-800">AI Usage &amp; EU AI Act Compliance</h3>
+                            <h3 className="text-lg font-semibold text-slate-800">AI Detection &amp; EU AI Act Overview</h3>
                             <p className="text-sm text-slate-500">{aiUsage.summary}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <span className={`px-4 py-2 rounded-lg font-semibold ${getStatusColor(aiUsage.euAiActStatus)}`}>
-                            {getStatusLabel(aiUsage.euAiActStatus)}
-                        </span>
                         <div className="text-right">
                             <div className="text-2xl font-bold text-slate-800">{aiUsage.score}/100</div>
-                            <div className="text-xs text-slate-500">AI Compliance Score</div>
+                            <div className="text-xs text-slate-500">AI Detection Score</div>
                         </div>
                     </div>
                 </div>
@@ -355,7 +352,7 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
                 <div className="bg-white border border-red-200 rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-3">
                         <AlertIcon />
-                        <h4 className="font-semibold text-red-800">EU AI Act Compliance Alerts</h4>
+                        <h4 className="font-semibold text-red-800">EU AI Act Alerts</h4>
                     </div>
                     <div className="space-y-2">
                         {aiUsage.alerts.map((alert, idx) => (
@@ -377,7 +374,7 @@ export function AIUsageAudit({ aiUsage, isPro }: AIUsageAuditProps) {
                 <div className="bg-white border border-blue-200 rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-3">
                         <LightbulbIcon />
-                        <h4 className="font-semibold text-blue-800">Compliance Recommendations</h4>
+                        <h4 className="font-semibold text-blue-800">Recommendations</h4>
                     </div>
 
                     {isPro ? (

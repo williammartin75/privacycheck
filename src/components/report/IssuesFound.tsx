@@ -83,7 +83,7 @@ const issueTooltips: Record<string, string> = {
     'Exposed Emails': 'Email addresses visible in your HTML source code. Spammers scrape these for phishing and spam campaigns.',
 
     // AI
-    'AI Compliance': 'Your AI systems comply with EU AI Act requirements for disclosure and risk assessment.',
+    'AI Detection': 'Your AI systems have been analyzed for EU AI Act requirements.',
 
     // Technology
     'Technology Security': 'Assessment of your CMS/framework version security. Outdated versions may have known vulnerabilities.',
