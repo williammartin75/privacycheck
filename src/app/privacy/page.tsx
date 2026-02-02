@@ -203,6 +203,10 @@ export default function PrivacyPolicyPage() {
                                 <h4 className="font-medium text-gray-900 mb-2">Right to Object</h4>
                                 <p className="text-gray-600 text-sm">Object to processing based on legitimate interests.</p>
                             </div>
+                            <div className="bg-white border border-gray-200 rounded-lg p-4">
+                                <h4 className="font-medium text-gray-900 mb-2">Right to Automated Decision-Making</h4>
+                                <p className="text-gray-600 text-sm">Not be subject to decisions based solely on automated processing, including profiling (Art. 22 GDPR).</p>
+                            </div>
                         </div>
                         <p className="text-gray-600 mb-4">
                             To exercise these rights, email <a href="mailto:privacy@privacychecker.pro" className="text-blue-600 hover:underline">privacy@privacychecker.pro</a>
@@ -262,16 +266,24 @@ export default function PrivacyPolicyPage() {
                     </section>
 
                     <section className="mb-8">
-                        <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. International Transfers</h2>
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. International Data Transfers</h2>
                         <p className="text-gray-600 mb-4">
-                            Your data is primarily stored in the EU (Frankfurt, Germany). When data is transferred
-                            outside the EEA, we ensure appropriate safeguards:
+                            Your personal data is primarily stored in the European Union (Frankfurt, Germany).
+                            When we transfer data outside the European Economic Area (EEA), we ensure GDPR-compliant
+                            protection through the following safeguards:
                         </p>
                         <ul className="list-disc list-inside text-gray-600 space-y-2 mb-4">
-                            <li>Standard Contractual Clauses (SCCs) approved by the EU Commission</li>
-                            <li>Adequacy decisions where applicable</li>
-                            <li>Supplementary measures per EDPB guidance</li>
+                            <li><strong>Standard Contractual Clauses (SCCs):</strong> EU Commission-approved clauses with all non-EU processors</li>
+                            <li><strong>Adequacy decisions:</strong> Transfers to countries with adequate data protection (where applicable)</li>
+                            <li><strong>Supplementary measures:</strong> Additional technical and organizational measures per EDPB guidance</li>
+                            <li><strong>Transfer Impact Assessments:</strong> We evaluate each international transfer for data protection risks</li>
                         </ul>
+                        <div className="bg-gray-100 rounded-lg p-4">
+                            <p className="text-sm text-gray-700">
+                                <strong>Current international transfers:</strong> Stripe and Render may process data in the US under
+                                Standard Contractual Clauses. All other processing occurs within the EU.
+                            </p>
+                        </div>
                     </section>
 
                     <section className="mb-8">
