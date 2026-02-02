@@ -449,7 +449,7 @@ export default function Home() {
       <header className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
         <nav className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <img src="/logo.png" alt="PrivacyChecker" className="w-6 h-6 sm:w-12 sm:h-12 sm:scale-150" />
+            <img src="/logo.png" alt="PrivacyChecker" className="w-8 h-8 sm:w-12 sm:h-12 sm:scale-150" />
             <span className="text-sm sm:text-2xl font-bold text-gray-900 notranslate">PrivacyChecker</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-6">
