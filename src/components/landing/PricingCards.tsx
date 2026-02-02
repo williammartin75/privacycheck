@@ -1,8 +1,19 @@
 'use client';
 
+import { useState } from 'react';
+
+// Billing period type
+type BillingPeriod = 'monthly' | 'yearly';
+
 interface PricingCardsProps {
-    onCheckout: (tier?: 'pro' | 'pro_plus') => void;
+    onCheckout: (tier?: 'pro' | 'pro_plus', billingPeriod?: BillingPeriod) => void;
 }
+
+// Pricing configuration
+const PRICING = {
+    pro: { monthly: 19, yearly: 15 },
+    pro_plus: { monthly: 29, yearly: 23 },
+};
 
 // Check icon component
 const CheckIcon = ({ className }: { className: string }) => (
@@ -26,10 +37,42 @@ const LockIcon = ({ className }: { className: string }) => (
 );
 
 export function PricingCards({ onCheckout }: PricingCardsProps) {
+    const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('yearly');
+
+    const isYearly = billingPeriod === 'yearly';
+    const proPrice = isYearly ? PRICING.pro.yearly : PRICING.pro.monthly;
+    const proPlusPrice = isYearly ? PRICING.pro_plus.yearly : PRICING.pro_plus.monthly;
+
     return (
         <section id="pricing" className="py-20">
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">Simple pricing</h2>
-            <p className="text-gray-600 text-center mb-12">Free to scan. Upgrade to unlock recommendations.</p>
+            <p className="text-gray-600 text-center mb-8">Free to scan. Upgrade to unlock recommendations.</p>
+
+            {/* Billing Toggle */}
+            <div className="flex justify-center items-center gap-4 mb-12">
+                <span className={`text-sm font-medium ${!isYearly ? 'text-gray-900' : 'text-gray-500'}`}>
+                    Monthly
+                </span>
+                <button
+                    onClick={() => setBillingPeriod(isYearly ? 'monthly' : 'yearly')}
+                    className="relative w-14 h-7 bg-gradient-to-r from-blue-600 to-teal-500 rounded-full p-1 transition-all duration-300"
+                    aria-label={`Switch to ${isYearly ? 'monthly' : 'yearly'} billing`}
+                >
+                    <div
+                        className={`w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${isYearly ? 'translate-x-7' : 'translate-x-0'
+                            }`}
+                    />
+                </button>
+                <span className={`text-sm font-medium ${isYearly ? 'text-gray-900' : 'text-gray-500'}`}>
+                    Yearly
+                </span>
+                {isYearly && (
+                    <span className="ml-2 px-2 py-0.5 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
+                        Save 20%
+                    </span>
+                )}
+            </div>
+
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 {/* Free Tier */}
                 <div className="p-8 bg-white rounded-lg border border-gray-100 flex flex-col">
@@ -76,7 +119,18 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         Most Popular
                     </div>
                     <h3 className="text-xl font-semibold text-white mb-4">Pro</h3>
-                    <p className="text-4xl font-bold text-white mb-6">€19<span className="text-lg text-blue-100">/month</span></p>
+                    <div className="mb-6">
+                        <p className="text-4xl font-bold text-white">
+                            €{proPrice}
+                            <span className="text-lg text-blue-100">/month</span>
+                        </p>
+                        {isYearly && (
+                            <p className="text-sm text-blue-200 mt-1">
+                                <span className="line-through">€{PRICING.pro.monthly}/mo</span>
+                                <span className="ml-2">Billed €{proPrice * 12}/year</span>
+                            </p>
+                        )}
+                    </div>
                     <ul className="space-y-3 mb-8">
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
@@ -123,7 +177,7 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             WordPress Plugin
                         </li>
                     </ul>
-                    <button onClick={() => onCheckout()} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-white transition text-center mt-auto">
+                    <button onClick={() => onCheckout('pro', billingPeriod)} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-center mt-auto">
                         Get Pro Now
                     </button>
                 </div>
@@ -134,7 +188,18 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         Best Value
                     </div>
                     <h3 className="text-xl font-semibold text-white mb-4">Pro+</h3>
-                    <p className="text-4xl font-bold text-white mb-6">€29<span className="text-lg text-cyan-100">/month</span></p>
+                    <div className="mb-6">
+                        <p className="text-4xl font-bold text-white">
+                            €{proPlusPrice}
+                            <span className="text-lg text-cyan-100">/month</span>
+                        </p>
+                        {isYearly && (
+                            <p className="text-sm text-cyan-200 mt-1">
+                                <span className="line-through">€{PRICING.pro_plus.monthly}/mo</span>
+                                <span className="ml-2">Billed €{proPlusPrice * 12}/year</span>
+                            </p>
+                        )}
+                    </div>
                     <ul className="space-y-3 mb-8">
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-cyan-200" />
@@ -181,7 +246,7 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             <strong>Step-by-step fix guides</strong>
                         </li>
                     </ul>
-                    <button onClick={() => onCheckout('pro_plus')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">
+                    <button onClick={() => onCheckout('pro_plus', billingPeriod)} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">
                         Get Pro+ Now
                     </button>
                 </div>

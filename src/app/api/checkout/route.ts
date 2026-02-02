@@ -3,14 +3,35 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
+// Price ID mapping based on tier and billing period
+const getPriceId = (tier: 'pro' | 'pro_plus', billingPeriod: 'monthly' | 'yearly'): string => {
+    const priceMap = {
+        pro: {
+            monthly: process.env.STRIPE_PRICE_ID_PRO_MONTHLY!,
+            yearly: process.env.STRIPE_PRICE_ID_PRO_YEARLY!,
+        },
+        pro_plus: {
+            monthly: process.env.STRIPE_PRICE_ID_PRO_PLUS_MONTHLY!,
+            yearly: process.env.STRIPE_PRICE_ID_PRO_PLUS_YEARLY!,
+        },
+    };
+
+    return priceMap[tier][billingPeriod];
+};
+
 export async function POST(request: NextRequest) {
     try {
-        const { email, tier = 'pro' } = await request.json();
+        const { email, tier = 'pro', billingPeriod = 'yearly' } = await request.json();
 
-        // Select price ID based on tier
-        const priceId = tier === 'pro_plus'
-            ? process.env.STRIPE_PRICE_ID_PRO_PLUS!
-            : process.env.STRIPE_PRICE_ID!;
+        const priceId = getPriceId(tier, billingPeriod);
+
+        if (!priceId) {
+            console.error(`Missing price ID for tier: ${tier}, billing: ${billingPeriod}`);
+            return NextResponse.json(
+                { error: 'Invalid pricing configuration' },
+                { status: 500 }
+            );
+        }
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -27,6 +48,7 @@ export async function POST(request: NextRequest) {
             metadata: {
                 email: email,
                 tier: tier,
+                billingPeriod: billingPeriod,
             },
         });
 
