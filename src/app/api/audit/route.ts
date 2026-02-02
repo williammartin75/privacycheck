@@ -20,6 +20,60 @@ import { analyzeEmailDeliverability, EmailDeliverabilityResult } from '@/lib/ema
 import { analyzeAIUsage, AIUsageResult } from '@/lib/ai-usage-audit';
 import { detectTechnologies, TechnologyResult } from '@/lib/technology-detection';
 
+// ========== CONCURRENCY LIMITER ==========
+// Prevents OOM crashes from too many parallel scans
+const MAX_CONCURRENT_SCANS = 3;  // Max scans running at once
+const MAX_QUEUE_SIZE = 10;       // Max scans waiting in queue
+let activeScans = 0;
+let queuedScans = 0;
+
+async function acquireScanSlot(): Promise<boolean> {
+    // If we have room, start immediately
+    if (activeScans < MAX_CONCURRENT_SCANS) {
+        activeScans++;
+        console.log(`[QUEUE] Scan started. Active: ${activeScans}/${MAX_CONCURRENT_SCANS}, Queued: ${queuedScans}`);
+        return true;
+    }
+
+    // If queue is full, reject
+    if (queuedScans >= MAX_QUEUE_SIZE) {
+        console.log(`[QUEUE] Rejected - queue full. Active: ${activeScans}, Queued: ${queuedScans}`);
+        return false;
+    }
+
+    // Wait in queue
+    queuedScans++;
+    console.log(`[QUEUE] Scan queued. Active: ${activeScans}, Queued: ${queuedScans}`);
+
+    // Poll every 2 seconds for up to 60 seconds
+    const maxWait = 60000;
+    const pollInterval = 2000;
+    let waited = 0;
+
+    while (waited < maxWait) {
+        await new Promise(resolve => setTimeout(resolve, pollInterval));
+        waited += pollInterval;
+
+        if (activeScans < MAX_CONCURRENT_SCANS) {
+            queuedScans--;
+            activeScans++;
+            console.log(`[QUEUE] Scan started from queue. Active: ${activeScans}, Queued: ${queuedScans}`);
+            return true;
+        }
+    }
+
+    // Timeout - remove from queue
+    queuedScans--;
+    console.log(`[QUEUE] Timeout waiting in queue. Active: ${activeScans}, Queued: ${queuedScans}`);
+    return false;
+}
+
+function releaseScanSlot(): void {
+    activeScans = Math.max(0, activeScans - 1);
+    console.log(`[QUEUE] Scan completed. Active: ${activeScans}, Queued: ${queuedScans}`);
+}
+// ========================================
+
 interface Cookie {
     name: string;
     category: 'necessary' | 'analytics' | 'marketing' | 'preferences' | 'unknown';
@@ -669,6 +723,15 @@ function extractTitle(html: string): string {
 
 // Main audit function
 export async function POST(request: NextRequest) {
+    // Try to get a scan slot (may wait in queue)
+    const gotSlot = await acquireScanSlot();
+    if (!gotSlot) {
+        return NextResponse.json(
+            { error: 'Server is busy. Please try again in a few moments.' },
+            { status: 503 }
+        );
+    }
+
     try {
         // Authentication check - require logged-in user
         const { createClient } = await import('@/lib/supabase-server');
@@ -1492,5 +1555,8 @@ export async function POST(request: NextRequest) {
             details: errorMessage,
             timestamp: new Date().toISOString()
         }, { status: 500 });
+    } finally {
+        // Always release the scan slot
+        releaseScanSlot();
     }
 }
