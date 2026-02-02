@@ -375,11 +375,18 @@ export function HiddenCostsAudit({ hiddenCosts, isPro }: HiddenCostsAuditProps) 
             <div className="bg-white border border-slate-200 rounded-lg p-4 text-sm">
                 <div className="flex gap-3">
                     <LightbulbIcon className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-slate-700">
-                        <strong>Why monitor SaaS costs?</strong> Many businesses pay for redundant tools without realizing it.
-                        We analyze your external scripts to identify duplicate services, estimate monthly costs, and suggest optimizations
-                        that can save you money every month.
-                    </p>
+                    <div className="text-slate-700 space-y-2">
+                        <p>
+                            <strong>Why monitor SaaS costs?</strong> Many businesses pay for redundant tools without realizing it.
+                            We analyze your external scripts to identify duplicate services, estimate monthly costs, and suggest optimizations
+                            that can save you money every month.
+                        </p>
+                        <p className="text-slate-500 text-xs border-t border-slate-100 pt-2">
+                            <strong>Calculation method:</strong> Performance savings are estimated using the formula:
+                            <code className="bg-slate-100 px-1 rounded mx-1">(Load Time - 2s) × €50 × 12 months</code>
+                            based on research showing ~7% conversion loss per second of delay beyond 2 seconds.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
