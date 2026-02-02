@@ -67,7 +67,7 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                     Yearly
                 </span>
                 {isYearly && (
-                    <span className="ml-2 px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-cyan-500 to-teal-600 rounded-full shadow-sm">
+                    <span className="ml-2 px-4 py-1.5 text-sm font-semibold text-white bg-gradient-to-r from-cyan-500 to-teal-600 rounded-full shadow-sm">
                         Save 20%
                     </span>
                 )}
