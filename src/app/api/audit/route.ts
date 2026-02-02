@@ -970,16 +970,19 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Privacy Policy Quality', points: 0, passed: true });
         }
 
-        // Dark Patterns Detection (new) - up to 15 points penalty
-        const darkPatternsPenalty = darkPatterns.detected
+        // Dark Patterns Detection - reduced penalties, only flag clear violations
+        // Minor patterns are often false positives from legitimate UI patterns
+        const rawDarkPatternsPenalty = darkPatterns.detected
             ? Math.min(
-                darkPatterns.bySeverity.critical * 5 +
-                darkPatterns.bySeverity.high * 3 +
-                darkPatterns.bySeverity.medium * 2 +
-                darkPatterns.bySeverity.low,
-                15
+                darkPatterns.bySeverity.critical * 4 +  // Reduced from 5
+                darkPatterns.bySeverity.high * 2 +      // Reduced from 3
+                darkPatterns.bySeverity.medium * 1 +    // Reduced from 2
+                darkPatterns.bySeverity.low * 0,        // Low patterns don't count (often false positives)
+                10  // Max penalty reduced from 15
             )
             : 0;
+        // Only apply penalty if score is significant (>=3), ignore minor detections
+        const darkPatternsPenalty = rawDarkPatternsPenalty >= 3 ? rawDarkPatternsPenalty : 0;
         if (darkPatternsPenalty > 0) {
             scoreBreakdown.push({
                 item: `Dark Patterns (${darkPatterns.totalCount} detected)`,
@@ -1090,12 +1093,13 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Forms Secure', points: 0, passed: true });
         }
 
-        // Accessibility (EAA 2025) penalty - up to 15 points
+        // Accessibility (EAA 2025) penalty - reduced for modern frameworks
+        // Modern React/Next.js apps often trigger technical violations that don't affect real accessibility
         const accessibilityPenalty = Math.min(
-            accessibility.criticalCount * 5 +
-            accessibility.seriousCount * 3 +
-            accessibility.moderateCount * 1,
-            15
+            accessibility.criticalCount * 3 +   // Reduced from 5
+            accessibility.seriousCount * 2 +    // Reduced from 3
+            accessibility.moderateCount * 0.5,  // Reduced from 1
+            10  // Max penalty reduced from 15
         );
         if (accessibilityPenalty > 0) {
             scoreBreakdown.push({
