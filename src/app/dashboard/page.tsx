@@ -33,8 +33,31 @@ export default function DashboardPage() {
     const [scans, setScans] = useState<Scan[]>([]);
     const [consentStats, setConsentStats] = useState<ConsentStats | null>(null);
     const [loading, setLoading] = useState(true);
+    const [selectedDomain, setSelectedDomain] = useState<string>('');
     const supabase = createClient();
     const router = useRouter();
+
+    // Compute domain counts and sorted list
+    const domainCounts = scans.reduce((acc, scan) => {
+        acc[scan.domain] = (acc[scan.domain] || 0) + 1;
+        return acc;
+    }, {} as Record<string, number>);
+
+    const sortedDomains = Object.entries(domainCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([domain]) => domain);
+
+    // Set default to most scanned domain
+    useEffect(() => {
+        if (sortedDomains.length > 0 && !selectedDomain) {
+            setSelectedDomain(sortedDomains[0]);
+        }
+    }, [sortedDomains.length]);
+
+    // Filter scans for chart
+    const chartScans = selectedDomain
+        ? scans.filter(s => s.domain === selectedDomain)
+        : scans;
 
     useEffect(() => {
         const checkUser = async () => {
@@ -267,16 +290,31 @@ export default function DashboardPage() {
                 {/* Score History Chart */}
                 {scans.length > 1 && (
                     <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                                </svg>
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h2 className="text-lg font-bold text-gray-900">Score History</h2>
+                                    <p className="text-gray-500 text-sm">Track your compliance progress over time</p>
+                                </div>
                             </div>
-                            <div>
-                                <h2 className="text-lg font-bold text-gray-900">Score History</h2>
-                                <p className="text-gray-500 text-sm">Track your compliance progress over time</p>
-                            </div>
+                            {sortedDomains.length > 1 && (
+                                <select
+                                    value={selectedDomain}
+                                    onChange={(e) => setSelectedDomain(e.target.value)}
+                                    className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    {sortedDomains.map(domain => (
+                                        <option key={domain} value={domain}>
+                                            {domain} ({domainCounts[domain]} scans)
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
                         </div>
 
                         {/* SVG Chart */}
@@ -296,12 +334,11 @@ export default function DashboardPage() {
                                     strokeWidth="3"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    points={scans
+                                    points={chartScans
                                         .slice(0, 20)
                                         .reverse()
                                         .map((scan, i, arr) => {
                                             const x = (i / Math.max(arr.length - 1, 1)) * 780 + 10;
-                                            // Keep scores visible: use 180 range with 10px padding top/bottom
                                             const y = 190 - (scan.score / 100) * 180;
                                             return `${x},${y}`;
                                         })
@@ -309,15 +346,14 @@ export default function DashboardPage() {
                                 />
 
                                 {/* Data points */}
-                                {scans.slice(0, 20).reverse().map((scan, i, arr) => {
+                                {chartScans.slice(0, 20).reverse().map((scan, i, arr) => {
                                     const x = (i / Math.max(arr.length - 1, 1)) * 780 + 10;
-                                    // Keep scores visible: use 180 range with 10px padding top/bottom
                                     const y = 190 - (scan.score / 100) * 180;
                                     const color = scan.score >= 80 ? '#22c55e' : scan.score >= 50 ? '#eab308' : '#ef4444';
                                     return (
                                         <g key={scan.id}>
                                             <circle cx={x} cy={y} r="6" fill={color} stroke="white" strokeWidth="2" />
-                                            <title>{`${scan.domain}: ${scan.score}% - ${new Date(scan.created_at).toLocaleDateString()}`}</title>
+                                            <title>{`${scan.score}% - ${new Date(scan.created_at).toLocaleDateString()}`}</title>
                                         </g>
                                     );
                                 })}
