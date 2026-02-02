@@ -79,8 +79,9 @@ const CONFIRMSHAMING_PATTERNS = [
     { pattern: /i\s+don'?t\s+care\s+about\s+my\s+(privacy|experience|data|security)/gi, severity: 'critical' as const },
     { pattern: /i('?ll|'m going to)\s+(pass|skip|ignore)\s+(this|the)\s+(opportunity|offer|deal)/gi, severity: 'medium' as const },
     { pattern: /no,?\s*maybe\s+later/gi, severity: 'low' as const },
-    // Emojis with shaming
-    { pattern: /😢|😞|😔|💔.*no|decline|reject/gi, severity: 'medium' as const },
+    // Emojis with shaming - must have emoji BEFORE the shaming word
+    // Note: "reject" alone is NOT confirmshaming - it's a valid cookie consent button text
+    { pattern: /(😢|😞|😔|💔)\s*(no thanks|decline|i don't want)/gi, severity: 'medium' as const },
 ];
 
 // ===== PRE-SELECTION PATTERNS =====
