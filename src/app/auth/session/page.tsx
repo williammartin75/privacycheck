@@ -40,7 +40,7 @@ function SessionContent() {
                 if (tierData.tier === 'free') {
                     router.push('/');
                 } else {
-                    router.push('/dashboard');
+                    router.push('/');
                 }
             } catch (err) {
                 console.error('Session setup error:', err);
