@@ -12,7 +12,7 @@ export function RegulationsBadges() {
                     <img
                         src="/badges.png"
                         alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                        className="object-cover h-[360px] sm:h-[440px] -my-[132px] sm:-my-[172px] scale-90 sm:scale-100"
+                        className="object-cover h-[360px] sm:h-[440px] -my-[132px] sm:-my-[172px] w-[90%] sm:w-auto"
                         style={{
                             filter: 'brightness(1.08) contrast(1.1)'
                         }}
