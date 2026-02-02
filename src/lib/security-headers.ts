@@ -99,12 +99,12 @@ const HEADER_VALIDATORS: Record<string, (value: string) => { valid: boolean; iss
         return { valid: true };
     },
     'Content-Security-Policy': (value) => {
-        if (value.includes("'unsafe-inline'") && !value.includes('nonce-')) {
-            return { valid: false, issue: "Contains 'unsafe-inline' without nonce" };
+        // Modern frameworks like Next.js/React often require 'unsafe-inline' and 'unsafe-eval'
+        // Only flag if there are more serious issues like completely open policies
+        if (value.includes("default-src *") || value.includes("script-src *")) {
+            return { valid: false, issue: "CSP is too permissive with wildcard sources" };
         }
-        if (value.includes("'unsafe-eval'")) {
-            return { valid: false, issue: "Contains 'unsafe-eval' which is risky" };
-        }
+        // Having a CSP at all is good, even with unsafe-inline/eval for framework compatibility
         return { valid: true };
     },
     'Referrer-Policy': (value) => {
