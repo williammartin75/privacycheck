@@ -5,7 +5,7 @@ const steps = [
         number: 1,
         title: "Paste your website",
         highlight: "We do the hard work for you",
-        subtitle: "Our platform crawls up to 1,000 pages and runs 50+ security & compliance checks.",
+        subtitle: "Our platform crawls up to 200 pages and runs 50+ security & compliance checks.",
         items: [
             "Find all cookies, trackers & fingerprinting scripts",
             "Verify consent banner behavior (reject all test)",

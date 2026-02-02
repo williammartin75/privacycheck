@@ -776,8 +776,8 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        // Get internal links - limit based on plan (Free: 5, Pro: 20, Pro+: 100)
-        const maxExtraPages = isProPlus ? 999 : (isPro ? 199 : 19); // +1 for main page = 20, 200, or 1000
+        // Get internal links - limit based on plan (Free: 20, Pro: 100, Pro+: 200)
+        const maxExtraPages = isProPlus ? 199 : (isPro ? 99 : 19); // +1 for main page = 20, 100, or 200
         const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
 
         // Debug: Log link extraction results

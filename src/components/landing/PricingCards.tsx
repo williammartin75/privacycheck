@@ -88,7 +88,7 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
-                            <strong>200 pages</strong> scanned
+                            <strong>100 pages</strong> scanned
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-blue-200" />
@@ -146,7 +146,7 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-cyan-200" />
-                            <strong>1,000 pages</strong> scanned
+                            <strong>200 pages</strong> scanned
                         </li>
                         <li className="flex items-center gap-2 text-white">
                             <CheckIcon className="w-5 h-5 text-cyan-200" />

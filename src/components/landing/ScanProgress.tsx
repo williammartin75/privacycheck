@@ -10,8 +10,8 @@ interface ScanProgressProps {
 export function ScanProgress({ current, total, status, tier }: ScanProgressProps) {
     const tierLabels = {
         free: 'Free scan: up to 20 pages',
-        pro: 'Pro scan: up to 200 pages',
-        pro_plus: 'Pro+ scan: up to 1,000 pages'
+        pro: 'Pro scan: up to 100 pages',
+        pro_plus: 'Pro+ scan: up to 200 pages'
     };
 
     const progress = Math.min((current / total) * 100, 100);

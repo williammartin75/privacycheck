@@ -73,12 +73,12 @@ export default function TermsPage() {
                                     <tr className="border-b border-gray-200">
                                         <td className="py-3 px-4 font-medium">Pro</td>
                                         <td className="py-3 px-4">€19/month</td>
-                                        <td className="py-3 px-4">50 scans/month, 200 pages/scan, PDF reports, Cookie Widget</td>
+                                        <td className="py-3 px-4">50 scans/month, 100 pages/scan, PDF reports, Cookie Widget</td>
                                     </tr>
                                     <tr>
                                         <td className="py-3 px-4 font-medium">Pro+</td>
                                         <td className="py-3 px-4">€29/month</td>
-                                        <td className="py-3 px-4">Unlimited scans, 1000 pages/scan, API access, Priority support</td>
+                                        <td className="py-3 px-4">Unlimited scans, 200 pages/scan, API access, Priority support</td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -11,7 +11,7 @@ const faqData = [
     },
     {
         question: "How long does a scan take?",
-        answer: "Usually under 60 seconds. Free scans cover 20 pages, Pro covers 200 pages, and Pro+ scans up to 1,000 pages for a complete site analysis."
+        answer: "Usually under 60 seconds. Free scans cover 20 pages, Pro covers 100 pages, and Pro+ scans up to 200 pages for a complete site analysis."
     },
     {
         question: "What regulations do you check?",
