@@ -883,9 +883,13 @@ export async function POST(request: NextRequest) {
         // Fingerprinting Detection
         const fingerprinting = detectFingerprinting(combinedHtml);
 
-        // Security Headers Extended Analysis
+        // Security Headers Extended Analysis - convert Headers to Record
         const responseHeaders: Record<string, string | undefined> = {};
-        // We'll use the headers from the initial fetch if available
+        if (mainPage && mainPage.headers) {
+            mainPage.headers.forEach((value, key) => {
+                responseHeaders[key.toLowerCase()] = value;
+            });
+        }
         const securityHeadersExtended = analyzeSecurityHeaders(responseHeaders);
 
         // Storage Audit (localStorage/sessionStorage)
