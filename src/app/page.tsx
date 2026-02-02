@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { recommendations } from '@/lib/recommendations';
-import { generatePDF } from '@/lib/pdf-generator';
+import { generatePDF, PdfTier } from '@/lib/pdf-generator';
 import { detectComplianceDrift, DriftReport } from '@/lib/drift-detection';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { MaskedText, MaskedEmail } from '@/components/ProGate';
@@ -544,7 +544,7 @@ export default function Home() {
               {/* PDF Button */}
               <div className="flex justify-center gap-3 mb-8">
                 <button
-                  onClick={() => isPro ? generatePDF(result) : handleCheckout()}
+                  onClick={() => isPro ? generatePDF(result, tier === 'pro_plus' ? 'pro_plus' : 'pro') : handleCheckout()}
                   className={`flex items-center gap-3 px-6 py-3 rounded-lg transition font-semibold text-sm bg-white text-slate-700 hover:bg-slate-50 border border-slate-200`}
                 >
                   {isPro ? (

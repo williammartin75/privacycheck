@@ -1,6 +1,8 @@
 import jsPDF from 'jspdf';
 import type { AuditResult } from '@/types/audit';
 
+// Tier type for Pro/Pro+ differentiation
+export type PdfTier = 'pro' | 'pro_plus';
 
 // Color palette
 const COLORS = {
@@ -23,7 +25,32 @@ function stripParentheses(text: string): string {
     return text.replace(/\s*\([^)]*\)/g, '').trim();
 }
 
-export function generatePDF(result: AuditResult): void {
+// Word-wrap utility function
+function wrapText(doc: jsPDF, text: string, maxWidth: number): string[] {
+    const words = text.split(' ');
+    const lines: string[] = [];
+    let currentLine = '';
+
+    words.forEach(word => {
+        const testLine = currentLine ? `${currentLine} ${word}` : word;
+        const testWidth = doc.getTextWidth(testLine);
+
+        if (testWidth > maxWidth && currentLine) {
+            lines.push(currentLine);
+            currentLine = word;
+        } else {
+            currentLine = testLine;
+        }
+    });
+
+    if (currentLine) {
+        lines.push(currentLine);
+    }
+
+    return lines;
+}
+
+export function generatePDF(result: AuditResult, tier: PdfTier = 'pro'): void {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -95,6 +122,19 @@ export function generatePDF(result: AuditResult): void {
         doc.setFont('helvetica', 'bold');
         doc.text(text, x + 3, yPos);
     };
+
+    // Helper to draw wrapped text with automatic line breaks
+    const drawWrappedText = (text: string, x: number, maxWidth: number = 160, lineHeight: number = 4) => {
+        const lines = wrapText(doc, text, maxWidth);
+        lines.forEach(line => {
+            checkNewPage(lineHeight + 2);
+            doc.text(line, x, y);
+            y += lineHeight;
+        });
+    };
+
+    // Check if Pro+ tier for section gating
+    const isProPlus = tier === 'pro_plus';
 
     // ============ HEADER ============
     doc.setFillColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
@@ -273,8 +313,7 @@ export function generatePDF(result: AuditResult): void {
             y += 5;
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(7);
-            doc.text(finding.description.substring(0, 80), 25, y);
-            y += 6;
+            drawWrappedText(finding.description, 25, 150, 4);
         });
         y += 5;
     }
@@ -392,8 +431,7 @@ export function generatePDF(result: AuditResult): void {
 
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(7);
-            doc.text(pattern.description.substring(0, 80), 25, y);
-            y += 6;
+            drawWrappedText(pattern.description, 25, 150, 4);
         });
         y += 5;
     }
@@ -694,385 +732,387 @@ export function generatePDF(result: AuditResult): void {
     }
 
     // ==========================================
-    // CATEGORY: ACCESSIBILITY (EAA 2025)
+    // CATEGORY: ACCESSIBILITY (EAA 2025) - PRO+ ONLY
     // ==========================================
-    drawCategoryHeader('Accessibility (EAA 2025)');
+    if (isProPlus) {
+        drawCategoryHeader('Accessibility (EAA 2025)');
 
-    if (result.issues.accessibility) {
-        const acc = result.issues.accessibility;
-        const accColor = acc.score >= 80 ? COLORS.green : acc.score >= 50 ? COLORS.gold : COLORS.red;
+        if (result.issues.accessibility) {
+            const acc = result.issues.accessibility;
+            const accColor = acc.score >= 80 ? COLORS.green : acc.score >= 50 ? COLORS.gold : COLORS.red;
 
-        // Score Overview
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(accColor[0], accColor[1], accColor[2]);
-        doc.text(`WCAG 2.1 AA Score: ${acc.score}/100`, 20, y);
-        y += 6;
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-        doc.text(`Critical: ${acc.criticalCount} | Serious: ${acc.seriousCount} | Moderate: ${acc.moderateCount} | Minor: ${acc.minorCount}`, 20, y);
-        y += 8;
-
-        // Violations
-        if (acc.violations.length > 0) {
-            drawSubHeader('Issues Found');
-            acc.violations.slice(0, 8).forEach(violation => {
-                checkNewPage(6);
-                const impactColor = violation.impact === 'critical' ? COLORS.red :
-                    violation.impact === 'serious' ? COLORS.orange : COLORS.gold;
-                doc.setTextColor(impactColor[0], impactColor[1], impactColor[2]);
-                doc.setFontSize(8);
-                doc.text(`• [${violation.impact.toUpperCase()}] ${violation.description}`, 20, y);
-                doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-                doc.setFontSize(7);
-                doc.text(`WCAG ${violation.wcagCriteria} | ${violation.nodes} element(s)`, 25, y + 4);
-                y += 9;
-            });
-        }
-
-        // Passed checks
-        if (acc.passes.length > 0) {
-            y += 3;
-            drawSubHeader('Checks Passed');
-            doc.setTextColor(COLORS.green[0], COLORS.green[1], COLORS.green[2]);
-            doc.setFontSize(7);
-            const passedText = acc.passes.slice(0, 5).map(p => `✓ ${p.substring(0, 30)}`).join(' | ');
-            doc.text(passedText, 20, y);
+            // Score Overview
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(accColor[0], accColor[1], accColor[2]);
+            doc.text(`WCAG 2.1 AA Score: ${acc.score}/100`, 20, y);
             y += 6;
-        }
 
-        // EAA Warning
-        y += 3;
-        doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
-        doc.rect(15, y - 3, pageWidth - 30, 10, 'F');
-        doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
-        doc.setFontSize(7);
-        doc.text('⚠ European Accessibility Act (EAA) requires WCAG 2.1 AA compliance. Non-compliance can result in fines up to €30,000.', 20, y + 3);
-        y += 15;
-    } else {
-        doc.setFontSize(9);
-        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-        doc.text('Accessibility data not available', 20, y);
-        y += 10;
-    }
-
-    // ==========================================
-    // CATEGORY: DOMAIN SECURITY
-    // ==========================================
-    drawCategoryHeader('Domain Security');
-
-    if (result.issues.domainRisk) {
-        const dr = result.issues.domainRisk;
-        const drColor = dr.score >= 80 ? COLORS.green : dr.score >= 50 ? COLORS.gold : COLORS.red;
-
-        // Score Overview
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(drColor[0], drColor[1], drColor[2]);
-        doc.text(`Domain Security Score: ${dr.score}/100`, 20, y);
-        y += 6;
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-        doc.text(`Overall Risk: ${dr.overallRisk.toUpperCase()}`, 20, y);
-        y += 8;
-
-        // Domain Expiry
-        drawSubHeader('Domain Expiry');
-        if (dr.domainExpiry.daysUntilExpiry !== null) {
-            const expiryColor = dr.domainExpiry.status === 'ok' ? COLORS.green :
-                dr.domainExpiry.status === 'warning' ? COLORS.gold : COLORS.red;
-            doc.setTextColor(expiryColor[0], expiryColor[1], expiryColor[2]);
+            doc.setFont('helvetica', 'normal');
             doc.setFontSize(8);
-            doc.text(`${dr.domainExpiry.daysUntilExpiry} days until expiry`, 20, y);
-            if (dr.domainExpiry.registrar) {
-                doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-                doc.text(`Registrar: ${dr.domainExpiry.registrar.substring(0, 40)}`, 80, y);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(`Critical: ${acc.criticalCount} | Serious: ${acc.seriousCount} | Moderate: ${acc.moderateCount} | Minor: ${acc.minorCount}`, 20, y);
+            y += 8;
+
+            // Violations
+            if (acc.violations.length > 0) {
+                drawSubHeader('Issues Found');
+                acc.violations.slice(0, 8).forEach(violation => {
+                    checkNewPage(6);
+                    const impactColor = violation.impact === 'critical' ? COLORS.red :
+                        violation.impact === 'serious' ? COLORS.orange : COLORS.gold;
+                    doc.setTextColor(impactColor[0], impactColor[1], impactColor[2]);
+                    doc.setFontSize(8);
+                    doc.text(`• [${violation.impact.toUpperCase()}] ${violation.description}`, 20, y);
+                    doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+                    doc.setFontSize(7);
+                    doc.text(`WCAG ${violation.wcagCriteria} | ${violation.nodes} element(s)`, 25, y + 4);
+                    y += 9;
+                });
             }
-            y += 6;
+
+            // Passed checks
+            if (acc.passes.length > 0) {
+                y += 3;
+                drawSubHeader('Checks Passed');
+                doc.setTextColor(COLORS.green[0], COLORS.green[1], COLORS.green[2]);
+                doc.setFontSize(7);
+                const passedText = acc.passes.slice(0, 5).map(p => `✓ ${p.substring(0, 30)}`).join(' | ');
+                doc.text(passedText, 20, y);
+                y += 6;
+            }
+
+            // EAA Warning
+            y += 3;
+            doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
+            doc.rect(15, y - 3, pageWidth - 30, 10, 'F');
+            doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
+            doc.setFontSize(7);
+            doc.text('⚠ European Accessibility Act (EAA) requires WCAG 2.1 AA compliance. Non-compliance can result in fines up to €30,000.', 20, y + 3);
+            y += 15;
         } else {
+            doc.setFontSize(9);
             doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-            doc.text('WHOIS data not available', 20, y);
+            doc.text('Accessibility data not available', 20, y);
+            y += 10;
+        }
+
+        // ==========================================
+        // CATEGORY: DOMAIN SECURITY
+        // ==========================================
+        drawCategoryHeader('Domain Security');
+
+        if (result.issues.domainRisk) {
+            const dr = result.issues.domainRisk;
+            const drColor = dr.score >= 80 ? COLORS.green : dr.score >= 50 ? COLORS.gold : COLORS.red;
+
+            // Score Overview
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(drColor[0], drColor[1], drColor[2]);
+            doc.text(`Domain Security Score: ${dr.score}/100`, 20, y);
             y += 6;
-        }
 
-        // DNS Security
-        drawSubHeader('DNS Security');
-        doc.setFontSize(8);
-        const dnsItems = [
-            { label: 'SPF', value: dr.dnsSecurity.spf },
-            { label: 'DKIM', value: dr.dnsSecurity.dkim },
-            { label: 'DMARC', value: dr.dnsSecurity.dmarc },
-            { label: 'DNSSEC', value: dr.dnsSecurity.dnssec },
-        ];
-        let dnsX = 20;
-        dnsItems.forEach(item => {
-            const color = item.value ? COLORS.green : COLORS.red;
-            doc.setTextColor(color[0], color[1], color[2]);
-            doc.text(`${item.value ? '✓' : '✗'} ${item.label}`, dnsX, y);
-            dnsX += 30;
-        });
-        y += 8;
-
-        // Typosquatting
-        if (dr.typosquatting.detected > 0) {
-            drawSubHeader(`Typosquatting Detected (${dr.typosquatting.detected})`);
-            dr.typosquatting.domains.slice(0, 5).forEach(domain => {
-                checkNewPage(6);
-                const riskColor = domain.risk === 'high' ? COLORS.red :
-                    domain.risk === 'medium' ? COLORS.orange : COLORS.gold;
-                doc.setTextColor(riskColor[0], riskColor[1], riskColor[2]);
-                doc.setFontSize(8);
-                doc.text(`• ${domain.domain} [${domain.risk.toUpperCase()}]`, 20, y);
-                y += 5;
-            });
-            y += 3;
-        }
-
-        // Phishing alerts
-        if (dr.phishingRisk.alerts.length > 0) {
-            y += 3;
-            doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
-            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
-            doc.setTextColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
-            doc.setFontSize(7);
-            doc.text(`⚠ ${dr.phishingRisk.alerts[0].substring(0, 80)}`, 20, y + 2);
-            y += 12;
-        }
-    } else {
-        doc.setFontSize(9);
-        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-        doc.text('Domain security data not available', 20, y);
-        y += 10;
-    }
-
-    // ==========================================
-    // CATEGORY: SUPPLY CHAIN SECURITY
-    // ==========================================
-    drawCategoryHeader('Supply Chain Security');
-
-    if (result.issues.supplyChain) {
-        const sc = result.issues.supplyChain;
-        const scColor = sc.score >= 80 ? COLORS.green : sc.score >= 50 ? COLORS.gold : COLORS.red;
-
-        // Score Overview
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(scColor[0], scColor[1], scColor[2]);
-        doc.text(`Supply Chain Score: ${sc.score}/100`, 20, y);
-        y += 6;
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-        doc.text(`Total Scripts: ${sc.totalDependencies} | Unknown Origins: ${sc.unknownOrigins} | Risk: ${sc.riskLevel.toUpperCase()}`, 20, y);
-        y += 8;
-
-        // Category breakdown
-        if (sc.categories.length > 0) {
-            drawSubHeader('Dependency Categories');
-            const catText = sc.categories.map(c => `${c.name}: ${c.count}`).join(' | ');
+            doc.setFont('helvetica', 'normal');
             doc.setFontSize(8);
-            doc.text(catText.substring(0, 100), 20, y);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(`Overall Risk: ${dr.overallRisk.toUpperCase()}`, 20, y);
+            y += 8;
+
+            // Domain Expiry
+            drawSubHeader('Domain Expiry');
+            if (dr.domainExpiry.daysUntilExpiry !== null) {
+                const expiryColor = dr.domainExpiry.status === 'ok' ? COLORS.green :
+                    dr.domainExpiry.status === 'warning' ? COLORS.gold : COLORS.red;
+                doc.setTextColor(expiryColor[0], expiryColor[1], expiryColor[2]);
+                doc.setFontSize(8);
+                doc.text(`${dr.domainExpiry.daysUntilExpiry} days until expiry`, 20, y);
+                if (dr.domainExpiry.registrar) {
+                    doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+                    doc.text(`Registrar: ${dr.domainExpiry.registrar.substring(0, 40)}`, 80, y);
+                }
+                y += 6;
+            } else {
+                doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+                doc.text('WHOIS data not available', 20, y);
+                y += 6;
+            }
+
+            // DNS Security
+            drawSubHeader('DNS Security');
+            doc.setFontSize(8);
+            const dnsItems = [
+                { label: 'SPF', value: dr.dnsSecurity.spf },
+                { label: 'DKIM', value: dr.dnsSecurity.dkim },
+                { label: 'DMARC', value: dr.dnsSecurity.dmarc },
+                { label: 'DNSSEC', value: dr.dnsSecurity.dnssec },
+            ];
+            let dnsX = 20;
+            dnsItems.forEach(item => {
+                const color = item.value ? COLORS.green : COLORS.red;
+                doc.setTextColor(color[0], color[1], color[2]);
+                doc.text(`${item.value ? '✓' : '✗'} ${item.label}`, dnsX, y);
+                dnsX += 30;
+            });
+            y += 8;
+
+            // Typosquatting
+            if (dr.typosquatting.detected > 0) {
+                drawSubHeader(`Typosquatting Detected (${dr.typosquatting.detected})`);
+                dr.typosquatting.domains.slice(0, 5).forEach(domain => {
+                    checkNewPage(6);
+                    const riskColor = domain.risk === 'high' ? COLORS.red :
+                        domain.risk === 'medium' ? COLORS.orange : COLORS.gold;
+                    doc.setTextColor(riskColor[0], riskColor[1], riskColor[2]);
+                    doc.setFontSize(8);
+                    doc.text(`• ${domain.domain} [${domain.risk.toUpperCase()}]`, 20, y);
+                    y += 5;
+                });
+                y += 3;
+            }
+
+            // Phishing alerts
+            if (dr.phishingRisk.alerts.length > 0) {
+                y += 3;
+                doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+                doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+                doc.setTextColor(COLORS.white[0], COLORS.white[1], COLORS.white[2]);
+                doc.setFontSize(7);
+                doc.text(`⚠ ${dr.phishingRisk.alerts[0].substring(0, 80)}`, 20, y + 2);
+                y += 12;
+            }
+        } else {
+            doc.setFontSize(9);
+            doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+            doc.text('Domain security data not available', 20, y);
+            y += 10;
+        }
+
+        // ==========================================
+        // CATEGORY: SUPPLY CHAIN SECURITY
+        // ==========================================
+        drawCategoryHeader('Supply Chain Security');
+
+        if (result.issues.supplyChain) {
+            const sc = result.issues.supplyChain;
+            const scColor = sc.score >= 80 ? COLORS.green : sc.score >= 50 ? COLORS.gold : COLORS.red;
+
+            // Score Overview
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(scColor[0], scColor[1], scColor[2]);
+            doc.text(`Supply Chain Score: ${sc.score}/100`, 20, y);
             y += 6;
-        }
 
-        // Critical scripts
-        if (sc.criticalDependencies.length > 0) {
-            y += 2;
-            doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
-            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
-            doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
-            doc.setFontSize(7);
-            doc.text(`⚠ Critical Dependencies: ${sc.criticalDependencies.slice(0, 5).join(', ')}`, 20, y + 2);
-            y += 12;
-        }
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(`Total Scripts: ${sc.totalDependencies} | Unknown Origins: ${sc.unknownOrigins} | Risk: ${sc.riskLevel.toUpperCase()}`, 20, y);
+            y += 8;
 
-        // Recommendations
-        if (sc.recommendations.length > 0) {
-            drawSubHeader('Recommendations');
-            sc.recommendations.slice(0, 3).forEach(rec => {
-                checkNewPage(5);
+            // Category breakdown
+            if (sc.categories.length > 0) {
+                drawSubHeader('Dependency Categories');
+                const catText = sc.categories.map(c => `${c.name}: ${c.count}`).join(' | ');
+                doc.setFontSize(8);
+                doc.text(catText.substring(0, 100), 20, y);
+                y += 6;
+            }
+
+            // Critical scripts
+            if (sc.criticalDependencies.length > 0) {
+                y += 2;
+                doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
+                doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+                doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
                 doc.setFontSize(7);
-                doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-                doc.text(`• ${rec.substring(0, 80)}`, 20, y);
-                y += 5;
-            });
-        }
-    } else {
-        doc.setFontSize(9);
-        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-        doc.text('Supply chain data not available', 20, y);
-        y += 10;
-    }
+                doc.text(`⚠ Critical Dependencies: ${sc.criticalDependencies.slice(0, 5).join(', ')}`, 20, y + 2);
+                y += 12;
+            }
 
-    // ==========================================
-    // CATEGORY: HIDDEN COSTS AUDIT
-    // ==========================================
-    drawCategoryHeader('Hidden Costs Audit');
-
-    if (result.issues.hiddenCosts) {
-        const hc = result.issues.hiddenCosts;
-        const hcColor = hc.score >= 80 ? COLORS.green : hc.score >= 50 ? COLORS.gold : COLORS.red;
-
-        // Cost Overview
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(hcColor[0], hcColor[1], hcColor[2]);
-        doc.text(`Cost Efficiency Score: ${hc.score}/100`, 20, y);
-        y += 6;
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-        doc.text(`Estimated: ${hc.currency}${hc.estimatedMonthlyCost}/mo | Savings: ${hc.currency}${hc.potentialSavings}/mo | Services: ${hc.services.length}`, 20, y);
-        y += 8;
-
-        // Redundancies warning
-        if (hc.redundancies.length > 0) {
-            y += 2;
-            doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
-            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
-            doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
-            doc.setFontSize(7);
-            const redundancyText = hc.redundancies.map(r => `${r.category}: ${r.services.join(', ')}`).slice(0, 2).join(' | ');
-            doc.text(`⚠ Redundant: ${redundancyText.substring(0, 80)}`, 20, y + 2);
-            y += 12;
+            // Recommendations
+            if (sc.recommendations.length > 0) {
+                drawSubHeader('Recommendations');
+                sc.recommendations.slice(0, 3).forEach(rec => {
+                    checkNewPage(5);
+                    doc.setFontSize(7);
+                    doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                    drawWrappedText(`• ${rec}`, 20, 150, 4);
+                });
+            }
+        } else {
+            doc.setFontSize(9);
+            doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+            doc.text('Supply chain data not available', 20, y);
+            y += 10;
         }
 
-        // Recommendations
-        if (hc.recommendations.length > 0) {
-            drawSubHeader('Cost Recommendations');
-            hc.recommendations.slice(0, 3).forEach(rec => {
-                checkNewPage(5);
-                doc.setFontSize(7);
-                doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-                const savings = rec.savings > 0 ? ` (Save ${hc.currency}${rec.savings}/mo)` : '';
-                doc.text(`• ${rec.description.substring(0, 70)}${savings}`, 20, y);
-                y += 5;
-            });
-        }
-    } else {
-        doc.setFontSize(9);
-        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-        doc.text('Cost analysis data not available', 20, y);
-        y += 10;
-    }
+        // ==========================================
+        // CATEGORY: HIDDEN COSTS AUDIT
+        // ==========================================
+        drawCategoryHeader('Hidden Costs Audit');
 
-    // ==========================================
-    // CATEGORY: EMAIL DELIVERABILITY AUDIT
-    // ==========================================
-    drawCategoryHeader('Email Deliverability');
+        if (result.issues.hiddenCosts) {
+            const hc = result.issues.hiddenCosts;
+            const hcColor = hc.score >= 80 ? COLORS.green : hc.score >= 50 ? COLORS.gold : COLORS.red;
 
-    if (result.issues.emailDeliverability) {
-        const ed = result.issues.emailDeliverability;
-        const edColor = ed.score >= 80 ? COLORS.green : ed.score >= 50 ? COLORS.gold : COLORS.red;
-
-        // Grade and Score
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(edColor[0], edColor[1], edColor[2]);
-        doc.text(`Deliverability Grade: ${ed.grade} (${ed.score}/100)`, 20, y);
-        y += 6;
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-        doc.text(`SPF: ${ed.spf.exists ? '✓' : '✗'} | DKIM: ${ed.dkim.exists ? '✓' : '✗'} | DMARC: ${ed.dmarc.exists ? '✓' : '✗'} | MX: ${ed.mxRecords.exists ? '✓' : '✗'}`, 20, y);
-        y += 6;
-
-        if (ed.mxRecords.provider) {
-            doc.text(`Email Provider: ${ed.mxRecords.provider}`, 20, y);
+            // Cost Overview
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(hcColor[0], hcColor[1], hcColor[2]);
+            doc.text(`Cost Efficiency Score: ${hc.score}/100`, 20, y);
             y += 6;
-        }
 
-        // Alerts
-        if (ed.alerts.length > 0) {
-            y += 2;
-            doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
-            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(7);
-            const alertText = ed.alerts.slice(0, 2).map(a => a.message.substring(0, 50)).join(' | ');
-            doc.text(`⚠ ${alertText}`, 20, y + 2);
-            y += 12;
-        }
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(`Estimated: ${hc.currency}${hc.estimatedMonthlyCost}/mo | Savings: ${hc.currency}${hc.potentialSavings}/mo | Services: ${hc.services.length}`, 20, y);
+            y += 8;
 
-        // Recommendations
-        if (ed.recommendations.length > 0) {
-            drawSubHeader('Recommendations');
-            ed.recommendations.slice(0, 3).forEach(rec => {
-                checkNewPage(5);
+            // Redundancies warning
+            if (hc.redundancies.length > 0) {
+                y += 2;
+                doc.setFillColor(COLORS.gold[0], COLORS.gold[1], COLORS.gold[2]);
+                doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+                doc.setTextColor(COLORS.navy[0], COLORS.navy[1], COLORS.navy[2]);
                 doc.setFontSize(7);
-                doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-                doc.text(`• [${rec.priority.toUpperCase()}] ${rec.title}: ${rec.impact.substring(0, 50)}`, 20, y);
-                y += 5;
-            });
+                const redundancyText = hc.redundancies.map(r => `${r.category}: ${r.services.join(', ')}`).slice(0, 2).join(' | ');
+                doc.text(`⚠ Redundant: ${redundancyText.substring(0, 80)}`, 20, y + 2);
+                y += 12;
+            }
+
+            // Recommendations
+            if (hc.recommendations.length > 0) {
+                drawSubHeader('Cost Recommendations');
+                hc.recommendations.slice(0, 3).forEach(rec => {
+                    checkNewPage(5);
+                    doc.setFontSize(7);
+                    doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                    const savings = rec.savings > 0 ? ` (Save ${hc.currency}${rec.savings}/mo)` : '';
+                    doc.text(`• ${rec.description.substring(0, 70)}${savings}`, 20, y);
+                    y += 5;
+                });
+            }
+        } else {
+            doc.setFontSize(9);
+            doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+            doc.text('Cost analysis data not available', 20, y);
+            y += 10;
         }
-    } else {
-        doc.setFontSize(9);
-        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-        doc.text('Email deliverability data not available', 20, y);
-        y += 10;
-    }
 
-    // ==========================================
-    // CATEGORY: AI USAGE & COMPLIANCE
-    // ==========================================
-    drawCategoryHeader('AI Usage & Compliance');
+        // ==========================================
+        // CATEGORY: EMAIL DELIVERABILITY AUDIT
+        // ==========================================
+        drawCategoryHeader('Email Deliverability');
 
-    if (result.issues.aiUsage) {
-        const ai = result.issues.aiUsage;
-        const aiColor = ai.euAiActStatus === 'compliant' ? COLORS.green :
-            ai.euAiActStatus === 'action-needed' ? COLORS.gold : COLORS.red;
+        if (result.issues.emailDeliverability) {
+            const ed = result.issues.emailDeliverability;
+            const edColor = ed.score >= 80 ? COLORS.green : ed.score >= 50 ? COLORS.gold : COLORS.red;
 
-        // Status and Score
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(aiColor[0], aiColor[1], aiColor[2]);
-        const statusLabel = ai.euAiActStatus === 'compliant' ? '✓ Compliant' :
-            ai.euAiActStatus === 'action-needed' ? '⚠ Action Needed' :
-                ai.euAiActStatus === 'high-risk' ? '🔶 High Risk' : '🚨 Critical';
-        doc.text(`EU AI Act Status: ${statusLabel} (${ai.score}/100)`, 20, y);
-        y += 6;
+            // Grade and Score
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(edColor[0], edColor[1], edColor[2]);
+            doc.text(`Deliverability Grade: ${ed.grade} (${ed.score}/100)`, 20, y);
+            y += 6;
 
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
-        doc.text(`AI Systems Detected: ${ai.aiSystemsDetected} | High-Risk: ${ai.riskBreakdown.highRisk} | Limited: ${ai.riskBreakdown.limitedRisk}`, 20, y);
-        y += 6;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(`SPF: ${ed.spf.exists ? '✓' : '✗'} | DKIM: ${ed.dkim.exists ? '✓' : '✗'} | DMARC: ${ed.dmarc.exists ? '✓' : '✗'} | MX: ${ed.mxRecords.exists ? '✓' : '✗'}`, 20, y);
+            y += 6;
 
-        // Systems list (top 3)
-        if (ai.systems.length > 0) {
-            y += 2;
-            ai.systems.slice(0, 3).forEach(system => {
-                checkNewPage(5);
+            if (ed.mxRecords.provider) {
+                doc.text(`Email Provider: ${ed.mxRecords.provider}`, 20, y);
+                y += 6;
+            }
+
+            // Alerts
+            if (ed.alerts.length > 0) {
+                y += 2;
+                doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+                doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+                doc.setTextColor(255, 255, 255);
                 doc.setFontSize(7);
-                doc.text(`• ${system.name} [${system.riskLevel.toUpperCase()}] - ${system.purpose.substring(0, 40)}`, 20, y);
-                y += 4;
-            });
+                const alertText = ed.alerts.slice(0, 2).map(a => a.message.substring(0, 50)).join(' | ');
+                doc.text(`⚠ ${alertText}`, 20, y + 2);
+                y += 12;
+            }
+
+            // Recommendations
+            if (ed.recommendations.length > 0) {
+                drawSubHeader('Recommendations');
+                ed.recommendations.slice(0, 3).forEach(rec => {
+                    checkNewPage(5);
+                    doc.setFontSize(7);
+                    doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                    doc.text(`• [${rec.priority.toUpperCase()}] ${rec.title}: ${rec.impact.substring(0, 50)}`, 20, y);
+                    y += 5;
+                });
+            }
+        } else {
+            doc.setFontSize(9);
+            doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+            doc.text('Email deliverability data not available', 20, y);
+            y += 10;
         }
 
-        // Alerts
-        if (ai.alerts.length > 0) {
-            y += 2;
-            doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
-            doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(7);
-            const alertText = ai.alerts.slice(0, 2).map(a => a.regulation).join(' | ');
-            doc.text(`⚠ ${alertText}`, 20, y + 2);
-            y += 12;
+        // ==========================================
+        // CATEGORY: AI USAGE & COMPLIANCE
+        // ==========================================
+        drawCategoryHeader('AI Usage & Compliance');
+
+        if (result.issues.aiUsage) {
+            const ai = result.issues.aiUsage;
+            const aiColor = ai.euAiActStatus === 'compliant' ? COLORS.green :
+                ai.euAiActStatus === 'action-needed' ? COLORS.gold : COLORS.red;
+
+            // Status and Score
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(aiColor[0], aiColor[1], aiColor[2]);
+            const statusLabel = ai.euAiActStatus === 'compliant' ? '✓ Compliant' :
+                ai.euAiActStatus === 'action-needed' ? '⚠ Action Needed' :
+                    ai.euAiActStatus === 'high-risk' ? '🔶 High Risk' : '🚨 Critical';
+            doc.text(`EU AI Act Status: ${statusLabel} (${ai.score}/100)`, 20, y);
+            y += 6;
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+            doc.text(`AI Systems Detected: ${ai.aiSystemsDetected} | High-Risk: ${ai.riskBreakdown.highRisk} | Limited: ${ai.riskBreakdown.limitedRisk}`, 20, y);
+            y += 6;
+
+            // Systems list (top 3)
+            if (ai.systems.length > 0) {
+                y += 2;
+                ai.systems.slice(0, 3).forEach(system => {
+                    checkNewPage(5);
+                    doc.setFontSize(7);
+                    doc.text(`• ${system.name} [${system.riskLevel.toUpperCase()}] - ${system.purpose.substring(0, 40)}`, 20, y);
+                    y += 4;
+                });
+            }
+
+            // Alerts
+            if (ai.alerts.length > 0) {
+                y += 2;
+                doc.setFillColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+                doc.rect(15, y - 3, pageWidth - 30, 8, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(7);
+                const alertText = ai.alerts.slice(0, 2).map(a => a.regulation).join(' | ');
+                doc.text(`⚠ ${alertText}`, 20, y + 2);
+                y += 12;
+            }
+        } else {
+            doc.setFontSize(9);
+            doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+            doc.text('AI usage data not available', 20, y);
+            y += 10;
         }
-    } else {
-        doc.setFontSize(9);
-        doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
-        doc.text('AI usage data not available', 20, y);
-        y += 10;
-    }
+
+    } // End of Pro+ only sections
 
     // ==========================================
     // CATEGORY: TECHNOLOGY STACK SECURITY
