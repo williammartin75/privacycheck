@@ -417,9 +417,9 @@ export default function Home() {
           <div className="px-4 pb-4">
             {isPro ? (
               <div className="bg-white rounded-lg p-4 border border-red-100">
-                <h4 className="font-semibold text-gray-900 mb-2">{rec.title}</h4>
+                <p className="font-semibold text-gray-900 mb-2">{rec.title}</p>
                 <p className="text-gray-600 text-sm mb-3">{rec.description}</p>
-                <h5 className="font-medium text-gray-900 mb-2 text-sm">How to fix:</h5>
+                <p className="font-medium text-gray-900 mb-2 text-sm">How to fix:</p>
                 <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
                   {rec.steps.map((step, i) => (
                     <li key={i}>{step}</li>
@@ -1051,7 +1051,7 @@ export default function Home() {
 
               {/* CTA */}
               <div className="mt-8 p-6 bg-blue-600 border border-blue-500 rounded-md text-center">
-                <h4 className="text-lg font-semibold text-white mb-2 uppercase tracking-wider">Get the Full Audit Report</h4>
+                <p className="text-lg font-semibold text-white mb-2 uppercase tracking-wider">Get the Full Audit Report</p>
                 <p className="text-blue-100 text-sm mb-4">Detailed recommendations, PDF export, and continuous monitoring</p>
                 <button onClick={() => handleCheckout()} className="px-6 py-2.5 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-sm">
                   Upgrade to Pro
@@ -1101,7 +1101,7 @@ export default function Home() {
 
             {/* Legal Links */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-4">Legal</h4>
+              <p className="font-semibold text-gray-900 mb-4">Legal</p>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li><Link href="/privacy" className="hover:text-gray-900">Privacy Policy</Link></li>
                 <li><Link href="/terms" className="hover:text-gray-900">Terms of Service</Link></li>
@@ -1113,7 +1113,7 @@ export default function Home() {
 
             {/* Your Rights */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-4">Your Privacy Rights</h4>
+              <p className="font-semibold text-gray-900 mb-4">Your Privacy Rights</p>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>
                   <a href="mailto:privacy@privacychecker.pro?subject=Data%20Deletion%20Request" className="hover:text-gray-900">
@@ -1140,7 +1140,7 @@ export default function Home() {
 
             {/* Contact */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-4">Contact</h4>
+              <p className="font-semibold text-gray-900 mb-4">Contact</p>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>
                   <a href="mailto:privacy@privacychecker.pro" className="hover:text-gray-900">

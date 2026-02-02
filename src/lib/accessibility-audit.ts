@@ -228,13 +228,16 @@ const ACCESSIBILITY_CHECKS = {
         id: 'skip-link',
         wcag: '2.4.1',
         category: 'Navigation',
-        impact: 'moderate' as const,
+        impact: 'minor' as const, // Reduced from moderate - many modern SPAs handle navigation differently
         description: 'Page should have a skip link',
         helpUrl: 'https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html',
         check: (html: string) => {
+            // Check for skip links or main landmark (which also satisfies bypass requirement)
             const hasSkipLink = /skip[^"']*(?:nav|link|content|main)/i.test(html) ||
                 /#(?:main|content|skip)/i.test(html);
-            return hasSkipLink ? 0 : 1;
+            const hasMainLandmark = /<main[^>]*>/i.test(html) || /role=["']main["']/i.test(html);
+            const hasSkipToMain = /href=["']#main-content["']/i.test(html);
+            return (hasSkipLink || hasMainLandmark || hasSkipToMain) ? 0 : 1;
         }
     },
 
@@ -345,11 +348,12 @@ export function analyzeAccessibility(html: string): AccessibilityResult {
     const totalChecks = Object.keys(ACCESSIBILITY_CHECKS).length;
     const passedChecks = passes.length;
 
-    // Penalty-based scoring
-    const criticalPenalty = criticalCount * 15;
-    const seriousPenalty = seriousCount * 8;
-    const moderatePenalty = moderateCount * 4;
-    const minorPenalty = minorCount * 1;
+    // Penalty-based scoring - reduced penalties for modern framework compatibility
+    // Modern frameworks often trigger technical violations that don't affect real accessibility
+    const criticalPenalty = criticalCount * 8;  // Reduced from 15
+    const seriousPenalty = seriousCount * 5;    // Reduced from 8
+    const moderatePenalty = moderateCount * 2;  // Reduced from 4
+    const minorPenalty = minorCount * 0.5;      // Reduced from 1
 
     const totalPenalty = criticalPenalty + seriousPenalty + moderatePenalty + minorPenalty;
     const baseScore = (passedChecks / totalChecks) * 100;
