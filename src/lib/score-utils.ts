@@ -13,21 +13,23 @@ export const getScoreLabel = (score: number): {
     bg: string;
     text: string;
 } => {
+    // Note: We use "Audit Passed" instead of "Compliant" to avoid implying legal certification
+    // Only official authorities (CNIL, DPAs) can certify GDPR compliance
     if (score >= 80) return {
-        label: 'Compliant',
+        label: 'Audit Passed',
         sublabel: 'Low Risk',
         bg: 'border border-green-600',
         text: 'text-green-600'
     };
     if (score >= 50) return {
-        label: 'Improvements Required',
+        label: 'Improvements Needed',
         sublabel: 'Medium Risk',
         bg: 'border border-amber-600',
         text: 'text-amber-600'
     };
     return {
         label: 'Issues Detected',
-        sublabel: 'Elevated Risk',
+        sublabel: 'High Risk',
         bg: 'border border-red-600',
         text: 'text-red-600'
     };
