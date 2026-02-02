@@ -445,6 +445,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Skip Link for Accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-blue-600 focus:text-white">
+        Skip to main content
+      </a>
       {/* Header */}
       <header className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
         <nav className="flex items-center justify-between">
@@ -479,7 +483,7 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <main className="container mx-auto px-6 py-20">
+      <main id="main-content" className="container mx-auto px-6 py-20">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
             Is your website{' '}
