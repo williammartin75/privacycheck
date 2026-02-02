@@ -7,11 +7,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const getPriceId = (tier: 'pro' | 'pro_plus', billingPeriod: 'monthly' | 'yearly'): string => {
     const priceMap = {
         pro: {
-            monthly: process.env.STRIPE_PRICE_ID_PRO_MONTHLY!,
+            monthly: process.env.STRIPE_PRICE_ID!, // existing
             yearly: process.env.STRIPE_PRICE_ID_PRO_YEARLY!,
         },
         pro_plus: {
-            monthly: process.env.STRIPE_PRICE_ID_PRO_PLUS_MONTHLY!,
+            monthly: process.env.STRIPE_PRICE_ID_PRO_PLUS!, // existing
             yearly: process.env.STRIPE_PRICE_ID_PRO_PLUS_YEARLY!,
         },
     };
