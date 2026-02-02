@@ -450,7 +450,7 @@ export default function Home() {
         <nav className="flex items-center justify-between">
           <div className="flex items-center gap-0">
             <img src="/logo.png" alt="PrivacyChecker" className="w-8 h-8 sm:w-12 sm:h-12 sm:scale-150" />
-            <span className="text-sm sm:text-2xl font-bold text-gray-900 notranslate">PrivacyChecker</span>
+            <span className="text-sm sm:text-2xl font-bold text-gray-900 notranslate -ml-1">PrivacyChecker</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-6">
             <a href="#pricing" className="hidden sm:block text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">Pricing</a>
