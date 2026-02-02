@@ -22,11 +22,11 @@ export function RegulationsBadges() {
                 </div>
 
                 {/* Mobile: Same badges.png but scaled to fit all badges */}
-                <div className="flex sm:hidden justify-center px-2 overflow-hidden -my-8">
+                <div className="flex sm:hidden justify-center -my-12">
                     <img
                         src="/badges.png"
                         alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                        className="w-full h-auto object-contain scale-125"
+                        className="w-full h-auto object-contain"
                         style={{
                             filter: 'brightness(1.08) contrast(1.1)'
                         }}
