@@ -779,6 +779,9 @@ export async function POST(request: NextRequest) {
         const maxExtraPages = isProPlus ? 999 : (isPro ? 199 : 19); // +1 for main page = 20, 200, or 1000
         const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
 
+        // Debug: Log link extraction results
+        console.log(`[AUDIT] maxExtraPages: ${maxExtraPages}, internalLinksFound: ${allInternalLinks.length}`);
+
         // For deeper crawl, also get links from the first batch of pages
         const firstBatchLinks = allInternalLinks.slice(0, 5);
         const scannedUrls = new Set<string>([baseUrl.toString()]);
