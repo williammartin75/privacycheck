@@ -684,9 +684,14 @@ export async function POST(request: NextRequest) {
 
         const { url, tier = 'free' } = await request.json();
 
+        // Debug: Log tier information
+        console.log(`[AUDIT] User: ${user.email}, Tier received: ${tier}`);
+
         // Tier-based helpers
         const isPro = tier === 'pro' || tier === 'pro_plus';
         const isProPlus = tier === 'pro_plus';
+
+        console.log(`[AUDIT] isPro: ${isPro}, isProPlus: ${isProPlus}`);
 
         if (!url) {
             return NextResponse.json({ error: 'URL is required' }, { status: 400 });
