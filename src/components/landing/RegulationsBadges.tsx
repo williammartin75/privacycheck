@@ -8,11 +8,11 @@ export function RegulationsBadges() {
             <div className="container mx-auto px-6 max-w-[95%] sm:max-w-none">
                 <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
                 <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
-                <div className="flex justify-center overflow-hidden" style={{ maxHeight: '95px' }}>
+                <div className="flex justify-center overflow-hidden max-h-[60px] sm:max-h-[95px]">
                     <img
                         src="/badges.png"
                         alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                        className="object-contain sm:object-cover h-auto sm:h-[440px] max-h-[95px] sm:max-h-none sm:-my-[172px] w-full sm:w-auto"
+                        className="object-contain sm:object-cover h-auto sm:h-[440px] w-[280px] sm:w-auto sm:-my-[172px]"
                         style={{
                             filter: 'brightness(1.08) contrast(1.1)'
                         }}
