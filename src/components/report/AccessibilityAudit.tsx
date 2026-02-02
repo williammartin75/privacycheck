@@ -191,17 +191,18 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
                 </div>
             )}
 
-            {/* Passed Checks */}
+            {/* Passed Checks - same style as main PassedChecks component */}
             {accessibility.passes.length > 0 && (
                 <div>
-                    <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
-                        <CheckIcon />
+                    <p className="text-sm font-semibold text-slate-700 mb-3">
                         Checks Passed ({accessibility.passes.length})
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
+                    </p>
+                    <div className="flex flex-wrap gap-3">
                         {accessibility.passes.map((pass, index) => (
-                            <span key={index} className="text-xs bg-white text-green-700 px-2 py-1 rounded border border-green-200 flex items-center">
-                                <CheckSmallIcon />
+                            <span key={index} className="flex items-center gap-2 text-xs text-slate-700">
+                                <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
                                 {pass}
                             </span>
                         ))}
