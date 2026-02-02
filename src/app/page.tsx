@@ -242,7 +242,7 @@ export default function Home() {
     setResult(null);
 
     // Initialize progress - page limits by tier
-    const maxPages = isProPlus ? 1000 : (isPro ? 200 : 20);
+    const maxPages = isProPlus ? 200 : (isPro ? 100 : 20);
     setScanProgress({ current: 0, total: maxPages, status: 'Connecting...' });
 
     // Simulate progress during scan

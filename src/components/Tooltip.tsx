@@ -89,4 +89,10 @@ export const termDefinitions: Record<string, string> = {
     'Domain Risk': 'Security issues with your domain: expired SSL, missing DNSSEC, typosquatting domains, or domain expiration warnings.',
     'Supply Chain Risk': 'Third-party scripts and dependencies that could introduce security vulnerabilities or privacy issues to your site.',
     'Email Deliverability': 'Whether your emails reach inboxes or get marked as spam. Depends on SPF, DKIM, and DMARC configuration.',
+    'Form Security': 'Security issues with forms on your site: missing HTTPS submission, no CSRF protection, or forms collecting data without consent.',
+    'Form Security Issues': 'Security issues with forms on your site: missing HTTPS submission, no CSRF protection, or forms collecting data without consent.',
+    'Opt-in Issues': 'Problems with email subscription or marketing opt-in forms. Issues include pre-checked boxes, missing consent, or no double opt-in.',
+    'Opt-in': 'Problems with email subscription or marketing opt-in forms. Issues include pre-checked boxes, missing consent, or no double opt-in.',
+    'Cost Inefficiency': 'Redundant or expensive third-party tools detected. Potential savings from consolidating overlapping services.',
+    'Exposed Emails': 'Email addresses visible in your HTML source code. Spammers scrape these for phishing and spam campaigns.',
 };
