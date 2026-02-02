@@ -24,7 +24,7 @@ export function RegulationsBadges() {
 
                     {/* EU Data Badge */}
                     <div className="flex flex-col items-center group">
-                        <div className="w-20 h-20 relative">
+                        <div className="w-14 h-14 sm:w-20 sm:h-20 relative">
                             <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                                 <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
                                 {euStarAngles.map((angle, i) => (
@@ -46,7 +46,7 @@ export function RegulationsBadges() {
 
                     {/* EAA 2025 Badge - EU flag style */}
                     <div className="flex flex-col items-center group">
-                        <div className="w-20 h-20 relative">
+                        <div className="w-14 h-14 sm:w-20 sm:h-20 relative">
                             <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                                 <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
                                 {euStarAngles.map((angle, i) => (
@@ -68,7 +68,7 @@ export function RegulationsBadges() {
 
                     {/* EU AI Act Badge - EU flag style with yellow A */}
                     <div className="flex flex-col items-center group">
-                        <div className="w-20 h-20 relative">
+                        <div className="w-14 h-14 sm:w-20 sm:h-20 relative">
                             <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                                 <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
                                 {euStarAngles.map((angle, i) => (
@@ -98,7 +98,7 @@ export function RegulationsBadges() {
 
                     {/* 100K Scans Badge */}
                     <div className="flex flex-col items-center group">
-                        <div className="w-20 h-20 relative">
+                        <div className="w-14 h-14 sm:w-20 sm:h-20 relative">
                             <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
                                 <circle cx="50" cy="50" r="48" fill="#1e293b" stroke="#0f172a" strokeWidth="2" />
                                 <text x="50" y="42" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold">100K</text>
