@@ -156,8 +156,8 @@ async function checkDnsSecurity(domain: string): Promise<{
             }
         }
 
-        // Check DKIM (common selector)
-        const selectors = ['default', 'google', 'selector1', 'selector2', 'k1'];
+        // Check DKIM (common selectors including Resend, ImprovMX, Amazon SES)
+        const selectors = ['default', 'google', 'selector1', 'selector2', 'k1', 'resend', 'improvmx', 'mx', 'amazonses', 'ses'];
         for (const selector of selectors) {
             try {
                 const dkimRecords = await resolveTxt(`${selector}._domainkey.${domain}`);

@@ -207,6 +207,9 @@ async function analyzeDkim(domain: string): Promise<DkimAnalysis> {
         'mandrill', 'mailchimp', 'sendgrid', // ESPs
         'pm', 'protonmail', // ProtonMail
         'mxvault', 'everlytickey1', 'turbo-smtp',
+        'resend', // Resend.com
+        'improvmx', 'mx', // ImprovMX
+        'amazonses', 'ses', // Amazon SES
     ];
 
     result.selectorsTested = selectors;
