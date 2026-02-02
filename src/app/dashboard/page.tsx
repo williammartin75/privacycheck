@@ -301,7 +301,8 @@ export default function DashboardPage() {
                                         .reverse()
                                         .map((scan, i, arr) => {
                                             const x = (i / Math.max(arr.length - 1, 1)) * 780 + 10;
-                                            const y = 200 - (scan.score / 100) * 190;
+                                            // Keep scores visible: use 180 range with 10px padding top/bottom
+                                            const y = 190 - (scan.score / 100) * 180;
                                             return `${x},${y}`;
                                         })
                                         .join(' ')}
@@ -310,7 +311,8 @@ export default function DashboardPage() {
                                 {/* Data points */}
                                 {scans.slice(0, 20).reverse().map((scan, i, arr) => {
                                     const x = (i / Math.max(arr.length - 1, 1)) * 780 + 10;
-                                    const y = 200 - (scan.score / 100) * 190;
+                                    // Keep scores visible: use 180 range with 10px padding top/bottom
+                                    const y = 190 - (scan.score / 100) * 180;
                                     const color = scan.score >= 80 ? '#22c55e' : scan.score >= 50 ? '#eab308' : '#ef4444';
                                     return (
                                         <g key={scan.id}>
