@@ -7,7 +7,7 @@ const faqData = [
     },
     {
         question: "Is the audit really free?",
-        answer: "Yes! Free users get 20 scans per month with the full audit. You'll see your privacy score, all issues found, and how serious each one is. Pro unlocks step-by-step fix guides, PDF reports, and automatic monitoring."
+        answer: "Yes! Free users get 10 scans per month with the full audit. You'll see your privacy score, all issues found, and how serious each one is. Pro unlocks step-by-step fix guides, PDF reports, and automatic monitoring."
     },
     {
         question: "How long does a scan take?",
