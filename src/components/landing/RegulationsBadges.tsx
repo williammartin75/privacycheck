@@ -44,26 +44,54 @@ export function RegulationsBadges() {
                         </div>
                     </div>
 
-                    {/* EAA 2025 Badge */}
+                    {/* EAA 2025 Badge - EU flag style */}
                     <div className="flex flex-col items-center group">
                         <div className="w-20 h-20 relative">
                             <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                                <circle cx="50" cy="50" r="48" fill="#059669" stroke="#047857" strokeWidth="2" />
-                                <text x="50" y="38" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">EAA</text>
-                                <text x="50" y="54" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">2025</text>
-                                <text x="50" y="70" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">WCAG 2.1 AA</text>
+                                <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
+                                {euStarAngles.map((angle, i) => (
+                                    <text
+                                        key={`eaa-${i}`}
+                                        x={50 + 35 * Math.cos((angle - 90) * Math.PI / 180)}
+                                        y={50 + 35 * Math.sin((angle - 90) * Math.PI / 180)}
+                                        textAnchor="middle"
+                                        dominantBaseline="middle"
+                                        fill="#FFCC00"
+                                        fontSize="10"
+                                    >★</text>
+                                ))}
+                                <text x="50" y="46" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">EAA</text>
+                                <text x="50" y="60" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">2025</text>
                             </svg>
                         </div>
                     </div>
 
-                    {/* EU AI Act Badge */}
+                    {/* EU AI Act Badge - EU flag style with yellow A */}
                     <div className="flex flex-col items-center group">
                         <div className="w-20 h-20 relative">
                             <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg group-hover:drop-shadow-xl transition">
-                                <circle cx="50" cy="50" r="48" fill="#7c3aed" stroke="#6d28d9" strokeWidth="2" />
-                                <text x="50" y="38" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">EU AI</text>
-                                <text x="50" y="54" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold">ACT</text>
-                                <text x="50" y="70" textAnchor="middle" fill="white" fontSize="8" opacity="0.8">2024</text>
+                                <circle cx="50" cy="50" r="48" fill="#003399" stroke="#002266" strokeWidth="2" />
+                                {euStarAngles.map((angle, i) => (
+                                    <text
+                                        key={`ai-${i}`}
+                                        x={50 + 35 * Math.cos((angle - 90) * Math.PI / 180)}
+                                        y={50 + 35 * Math.sin((angle - 90) * Math.PI / 180)}
+                                        textAnchor="middle"
+                                        dominantBaseline="middle"
+                                        fill="#FFCC00"
+                                        fontSize="10"
+                                    >★</text>
+                                ))}
+                                <text x="50" y="38" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold">EU</text>
+                                <text x="50" y="50" textAnchor="middle" fontSize="8">
+                                    <tspan fill="#FFCC00" fontWeight="bold">A</tspan>
+                                    <tspan fill="white">rtificial</tspan>
+                                </text>
+                                <text x="50" y="60" textAnchor="middle" fontSize="8">
+                                    <tspan fill="#FFCC00" fontWeight="bold">I</tspan>
+                                    <tspan fill="white">ntelligence</tspan>
+                                </text>
+                                <text x="50" y="70" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">Act</text>
                             </svg>
                         </div>
                     </div>
