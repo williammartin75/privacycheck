@@ -110,15 +110,13 @@ const HIDDEN_INFO_PATTERNS = [
 ];
 
 // ===== MISDIRECTION PATTERNS =====
-// Visual design tricks
+// Visual design tricks - only flag when there's clear asymmetry
 const MISDIRECTION_PATTERNS = [
-    // Primary/prominent button for accept, secondary for decline
-    { pattern: /(accept|agree|yes)[\s\S]{0,50}(btn-primary|primary|bg-blue|bg-green|btn-success)/gi, severity: 'medium' as const },
-    { pattern: /(btn-secondary|btn-outline|text-gray|btn-link)[\s\S]{0,50}(decline|reject|refuse|no\s+thanks)/gi, severity: 'medium' as const },
-    // Large accept button, small decline
-    { pattern: /(accept|agree)[\s\S]{0,50}(btn-lg|btn-large|px-8|py-4|text-xl)/gi, severity: 'medium' as const },
-    // Colored accept, gray/invisible decline
-    { pattern: /(decline|reject|refuse)[\s\S]{0,50}(text-gray|text-muted|opacity-50|invisible)/gi, severity: 'high' as const },
+    // Only flag misdirection when decline is explicitly hidden or very de-emphasized
+    // Primary button for accept is normal UX, only flag if decline is actively hidden
+    { pattern: /(decline|reject|refuse)[\s\S]{0,50}(hidden|invisible|display:\s*none|opacity:\s*0(?:.|\;))/gi, severity: 'high' as const },
+    // Colored accept, gray/invisible decline - only clear cases
+    { pattern: /(decline|reject|refuse)[\s\S]{0,30}(text-gray-400|text-gray-300|opacity-25|opacity-10)/gi, severity: 'medium' as const },
 ];
 
 // ===== ROACH MOTEL PATTERNS =====
