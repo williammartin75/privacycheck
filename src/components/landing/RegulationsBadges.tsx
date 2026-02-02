@@ -34,7 +34,7 @@ export function RegulationsBadges() {
                 </div>
 
                 {/* Trust Badges */}
-                <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-4 sm:mt-0">
+                <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-1 sm:mt-0">
 
                     {/* EU Data Badge */}
                     <div className="flex flex-col items-center group">
