@@ -1474,7 +1474,14 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(result);
     } catch (error) {
-        console.error('Audit error:', error);
-        return NextResponse.json({ error: 'Audit failed' }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        const errorStack = error instanceof Error ? error.stack : '';
+        console.error('Audit error:', errorMessage);
+        console.error('Stack trace:', errorStack);
+        return NextResponse.json({
+            error: 'Audit failed',
+            details: errorMessage,
+            timestamp: new Date().toISOString()
+        }, { status: 500 });
     }
 }

@@ -279,7 +279,11 @@ export default function Home() {
         signal: abortControllerRef.current.signal,
       });
 
-      if (!response.ok) throw new Error('Audit failed');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Audit API error:', errorData);
+        throw new Error(errorData.details || 'Audit failed');
+      }
 
       const data = await response.json();
       clearInterval(progressInterval);
@@ -336,10 +340,11 @@ export default function Home() {
           result: data,
         });
       }
-    } catch {
+    } catch (err) {
       clearInterval(progressInterval);
       setScanProgress({ current: 0, total: maxPages, status: 'Error' });
-      setError('Failed to audit site. Please check the URL and try again.');
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      setError(`Failed to audit site: ${errorMsg}. Please check the URL and try again.`);
     } finally {
       setLoading(false);
       abortControllerRef.current = null;
