@@ -87,6 +87,10 @@ const KNOWN_PROVIDERS: Record<string, { name: string; category: ExternalScript['
     'cdn.tailwindcss.com': { name: 'Tailwind CDN', category: 'cdn', risk: 'low', critical: false },
     'fonts.googleapis.com': { name: 'Google Fonts', category: 'cdn', risk: 'low', critical: false },
     'fonts.gstatic.com': { name: 'Google Fonts', category: 'cdn', risk: 'low', critical: false },
+    'translate.googleapis.com': { name: 'Google Translate', category: 'utility', risk: 'low', critical: false },
+    'translate.google.com': { name: 'Google Translate', category: 'utility', risk: 'low', critical: false },
+    'www.gstatic.com': { name: 'Google Static', category: 'cdn', risk: 'low', critical: false },
+    'ssl.gstatic.com': { name: 'Google Static', category: 'cdn', risk: 'low', critical: false },
 
     // Utility / Chat / Support
     'widget.intercom.io': { name: 'Intercom', category: 'utility', risk: 'low', critical: false },
