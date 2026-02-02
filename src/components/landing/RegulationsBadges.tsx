@@ -22,7 +22,7 @@ export function RegulationsBadges() {
                 </div>
 
                 {/* Mobile: Same badges.png but scaled to fit all badges */}
-                <div className="flex sm:hidden justify-center -my-24">
+                <div className="flex sm:hidden justify-center -mb-20">
                     <img
                         src="/badges.png"
                         alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
@@ -34,7 +34,7 @@ export function RegulationsBadges() {
                 </div>
 
                 {/* Trust Badges */}
-                <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-1 sm:mt-0">
+                <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 -mt-16 sm:mt-0">
 
                     {/* EU Data Badge */}
                     <div className="flex flex-col items-center group">
