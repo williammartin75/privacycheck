@@ -247,7 +247,7 @@ export function HiddenCostsAudit({ hiddenCosts, isPro }: HiddenCostsAuditProps) 
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="font-medium text-amber-800">{r.category}</span>
                                     <span className="text-red-600 font-semibold">
-                                        -{hiddenCosts.currency}{r.wastedCost}/mo wasted
+                                        -{hiddenCosts.currency}{r.wastedCost}/month wasted
                                     </span>
                                 </div>
                                 <div className="text-sm text-slate-600 mb-1">
@@ -290,7 +290,7 @@ export function HiddenCostsAudit({ hiddenCosts, isPro }: HiddenCostsAuditProps) 
                                     </div>
                                     <div className="text-right">
                                         <div className="font-semibold text-slate-800">
-                                            {hiddenCosts.currency}{service.estimatedCost}/mo
+                                            {hiddenCosts.currency}{service.estimatedCost}/month
                                         </div>
                                         <span className={`px-1.5 py-0.5 text-xs rounded capitalize ${getTierColor(service.pricingTier)}`}>
                                             {service.pricingTier}
@@ -339,7 +339,7 @@ export function HiddenCostsAudit({ hiddenCosts, isPro }: HiddenCostsAuditProps) 
                                     </div>
                                     {rec.savings > 0 && (
                                         <span className="text-green-600 font-semibold text-sm">
-                                            Save {hiddenCosts.currency}{rec.savings}/mo
+                                            Save {hiddenCosts.currency}{rec.savings}/month
                                         </span>
                                     )}
                                 </div>
