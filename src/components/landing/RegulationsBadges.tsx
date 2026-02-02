@@ -7,7 +7,7 @@ export function RegulationsBadges() {
         <section className="py-16">
             <div className="container mx-auto px-6 max-w-[95%] sm:max-w-none">
                 <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
-                <p className="text-gray-600 text-center mb-0 sm:mb-4">Comprehensive coverage for global privacy compliance</p>
+                <p className="text-gray-600 text-center mb-2 sm:mb-4">Comprehensive coverage for global privacy compliance</p>
 
                 {/* Desktop: Original badges.png with cropping effect */}
                 <div className="hidden sm:flex justify-center overflow-hidden" style={{ maxHeight: '95px' }}>
@@ -21,12 +21,12 @@ export function RegulationsBadges() {
                     />
                 </div>
 
-                {/* Mobile: Same badges.png but scaled to fit all badges */}
-                <div className="flex sm:hidden justify-center -mt-4 -mb-24">
+                {/* Mobile: Cropped badges with fixed visible height */}
+                <div className="flex sm:hidden justify-center overflow-hidden h-[50px] mb-2">
                     <img
                         src="/badges.png"
                         alt="GDPR, CCPA, LGPD, PIPEDA, UK GDPR and 50+ more regulations"
-                        className="w-full h-auto object-contain"
+                        className="w-full object-cover h-[180px] -mt-[65px]"
                         style={{
                             filter: 'brightness(1.08) contrast(1.1)'
                         }}
@@ -34,7 +34,7 @@ export function RegulationsBadges() {
                 </div>
 
                 {/* Trust Badges */}
-                <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 -mt-20 sm:mt-0">
+                <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-0">
 
                     {/* EU Data Badge */}
                     <div className="flex flex-col items-center group">
