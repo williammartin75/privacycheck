@@ -574,7 +574,8 @@ function extractInternalLinks(html: string, baseUrl: URL): string[] {
         }
     }
 
-    return links.slice(0, 10); // Limit to 10 additional pages
+    // Return all found links - the tier-based limit is applied in the crawl loop
+    return links;
 }
 
 // Extract cookies from HTML and headers
