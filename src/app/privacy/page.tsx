@@ -22,14 +22,29 @@ export default function PrivacyPolicyPage() {
                 <p className="text-gray-500 mb-8">Last updated: January 2025 | Version 2.0</p>
 
                 {/* Quick Summary Box */}
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
-                    <h2 className="text-lg font-semibold text-blue-900 mb-3">🔒 Privacy at a Glance</h2>
-                    <ul className="text-blue-800 text-sm space-y-2">
-                        <li>✓ We collect minimal data necessary to provide our service</li>
-                        <li>✓ We never sell your personal data to third parties</li>
-                        <li>✓ Your data is stored securely in the EU (Frankfurt)</li>
-                        <li>✓ You have full control: access, export, or delete your data anytime</li>
-                        <li>✓ We use privacy-friendly analytics (Plausible - no cookies)</li>
+                <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3">Privacy at a Glance</h2>
+                    <ul className="text-gray-600 text-sm space-y-2">
+                        <li className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                            We collect minimal data necessary to provide our service
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                            We never sell your personal data to third parties
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                            Your data is stored securely in the EU (Frankfurt)
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                            You have full control: access, export, or delete your data anytime
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                            We use privacy-friendly analytics (Plausible - no cookies)
+                        </li>
                     </ul>
                 </div>
 
@@ -107,8 +122,8 @@ export default function PrivacyPolicyPage() {
                             <li><strong>Improvement:</strong> To analyze aggregated usage and improve our service</li>
                             <li><strong>Legal Compliance:</strong> To comply with legal obligations and respond to lawful requests</li>
                         </ul>
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                            <p className="text-green-800 text-sm">
+                        <div className="bg-white border border-gray-200 rounded-lg p-4">
+                            <p className="text-gray-700 text-sm">
                                 <strong>We do NOT:</strong> Sell your data, use it for advertising, share it with data brokers,
                                 or profile you for purposes unrelated to our service.
                             </p>
@@ -165,27 +180,27 @@ export default function PrivacyPolicyPage() {
                         </p>
                         <div className="grid md:grid-cols-2 gap-4 mb-4">
                             <div className="bg-white border border-gray-200 rounded-lg p-4">
-                                <h4 className="font-medium text-gray-900 mb-2">🔍 Right of Access</h4>
+                                <h4 className="font-medium text-gray-900 mb-2">Right of Access</h4>
                                 <p className="text-gray-600 text-sm">Request a copy of all personal data we hold about you.</p>
                             </div>
                             <div className="bg-white border border-gray-200 rounded-lg p-4">
-                                <h4 className="font-medium text-gray-900 mb-2">✏️ Right to Rectification</h4>
+                                <h4 className="font-medium text-gray-900 mb-2">Right to Rectification</h4>
                                 <p className="text-gray-600 text-sm">Request correction of inaccurate or incomplete data.</p>
                             </div>
                             <div className="bg-white border border-gray-200 rounded-lg p-4">
-                                <h4 className="font-medium text-gray-900 mb-2">🗑️ Right to Erasure</h4>
+                                <h4 className="font-medium text-gray-900 mb-2">Right to Erasure</h4>
                                 <p className="text-gray-600 text-sm">Request deletion of your data (&quot;Right to be Forgotten&quot;).</p>
                             </div>
                             <div className="bg-white border border-gray-200 rounded-lg p-4">
-                                <h4 className="font-medium text-gray-900 mb-2">📦 Right to Portability</h4>
+                                <h4 className="font-medium text-gray-900 mb-2">Right to Portability</h4>
                                 <p className="text-gray-600 text-sm">Receive your data in a machine-readable format (JSON/CSV).</p>
                             </div>
                             <div className="bg-white border border-gray-200 rounded-lg p-4">
-                                <h4 className="font-medium text-gray-900 mb-2">⏸️ Right to Restriction</h4>
+                                <h4 className="font-medium text-gray-900 mb-2">Right to Restriction</h4>
                                 <p className="text-gray-600 text-sm">Request limitation of processing in certain circumstances.</p>
                             </div>
                             <div className="bg-white border border-gray-200 rounded-lg p-4">
-                                <h4 className="font-medium text-gray-900 mb-2">✋ Right to Object</h4>
+                                <h4 className="font-medium text-gray-900 mb-2">Right to Object</h4>
                                 <p className="text-gray-600 text-sm">Object to processing based on legitimate interests.</p>
                             </div>
                         </div>
