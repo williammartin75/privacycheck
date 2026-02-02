@@ -5,7 +5,7 @@ const euStarAngles = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
 export function RegulationsBadges() {
     return (
         <section className="py-16">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-6 max-w-[95%] sm:max-w-none">
                 <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Regulations We Check</h2>
                 <p className="text-gray-600 text-center mb-4">Comprehensive coverage for global privacy compliance</p>
                 <div className="flex justify-center overflow-hidden" style={{ maxHeight: '95px' }}>
