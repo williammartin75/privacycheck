@@ -1011,15 +1011,15 @@ export async function POST(request: NextRequest) {
             if (!condition) score -= points;
         };
 
-        deduct(isHttps, 'HTTPS Enabled', 10);
-        deduct(hasConsentBanner, 'Cookie Consent Banner', 8);
-        deduct(hasPrivacyPolicy, 'Privacy Policy', 10);
-        deduct(hasLegalMentions, 'Legal Mentions', 6);
-        deduct(hasDpoContact, 'DPO Contact', 6);
-        deduct(hasDataDeleteLink, 'Data Deletion Option', 6);
-        deduct(hasSecureForms || !combinedHtml.includes('<form'), 'Secure Forms', 4);
-        deduct(hasOptOutMechanism, 'Opt-out Mechanism', 6);
-        deduct(hasCookiePolicy, 'Cookie Policy', 4);
+        deduct(isHttps, 'HTTPS Enabled', 7);
+        deduct(hasConsentBanner, 'Cookie Consent Banner', 6);
+        deduct(hasPrivacyPolicy, 'Privacy Policy', 7);
+        deduct(hasLegalMentions, 'Legal Mentions', 5);
+        deduct(hasDpoContact, 'DPO Contact', 5);
+        deduct(hasDataDeleteLink, 'Data Deletion Option', 4);
+        deduct(hasSecureForms || !combinedHtml.includes('<form'), 'Secure Forms', 3);
+        deduct(hasOptOutMechanism, 'Opt-out Mechanism', 5);
+        deduct(hasCookiePolicy, 'Cookie Policy', 3);
 
         // Consent Behavior Test (new) - 10 points max
         const consentBehaviorPassed = consentBehavior.score >= 80;
@@ -1253,8 +1253,8 @@ export async function POST(request: NextRequest) {
             scoreBreakdown.push({ item: 'Cost Efficiency', points: 0, passed: true });
         }
 
-        // Trackers penalty
-        const trackerPenalty = Math.min(allTrackers.length * 2, 8);
+        // Trackers penalty - reduced
+        const trackerPenalty = Math.min(allTrackers.length * 1.5, 6);
         if (trackerPenalty > 0) {
             scoreBreakdown.push({ item: `Trackers (${allTrackers.length})`, points: -trackerPenalty, passed: false });
             score -= trackerPenalty;
@@ -1336,6 +1336,22 @@ export async function POST(request: NextRequest) {
             const emailPenalty = Math.min(exposedEmails.length * 2, 10);
             scoreBreakdown.push({ item: `Exposed Emails (${exposedEmails.length})`, points: -emailPenalty, passed: false });
             score -= emailPenalty;
+        }
+
+        // ========== POSITIVE BONUS FOR PASSED CHECKS ==========
+        // Reward sites that pass multiple checks to make scoring less harsh
+        const passedChecks = scoreBreakdown.filter(item => item.passed).length;
+        const totalChecks = scoreBreakdown.length;
+
+        // Bonus: +1 point per passed check, up to +15 maximum
+        const passedBonus = Math.min(passedChecks, 15);
+        if (passedBonus > 0) {
+            score += passedBonus;
+            scoreBreakdown.push({
+                item: `Good Practices Bonus (${passedChecks}/${totalChecks} checks passed)`,
+                points: passedBonus,
+                passed: true
+            });
         }
 
         // External Resources
