@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Disable X-Powered-By header for security
+  poweredByHeader: false,
+
   // Security Headers for 100% compliance score
   async headers() {
     return [
