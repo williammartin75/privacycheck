@@ -54,6 +54,49 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script defer data-domain="privacychecker.pro" src="https://plausible.io/js/script.js"></script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebApplication",
+                  "name": "PrivacyChecker",
+                  "url": "https://privacychecker.pro",
+                  "applicationCategory": "SecurityApplication",
+                  "operatingSystem": "Web",
+                  "description": "Free privacy compliance scanner for GDPR, CCPA, and website security audits",
+                  "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "EUR"
+                  },
+                  "featureList": [
+                    "GDPR Compliance Audit",
+                    "CCPA Compliance Check",
+                    "Cookie Scanner",
+                    "Security Headers Analysis",
+                    "Accessibility Audit (EAA 2025)",
+                    "AI Detection"
+                  ]
+                },
+                {
+                  "@type": "Organization",
+                  "name": "PrivacyChecker",
+                  "url": "https://privacychecker.pro",
+                  "logo": "https://privacychecker.pro/logo.png",
+                  "sameAs": [],
+                  "contactPoint": {
+                    "@type": "ContactPoint",
+                    "email": "privacy@privacychecker.pro",
+                    "contactType": "customer support"
+                  }
+                }
+              ]
+            })
+          }}
+        />
         <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <script dangerouslySetInnerHTML={{
           __html: `
