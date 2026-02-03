@@ -21,6 +21,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon.png",
     apple: "/favicon.png",
   },
+  manifest: "/manifest.json",
   openGraph: {
     title: "PrivacyChecker - Free GDPR & CCPA Compliance Scanner",
     description: "Scan your website in 60 seconds. Get a detailed privacy audit with 25+ checks covering cookies, trackers, consent banners, and security headers.",
