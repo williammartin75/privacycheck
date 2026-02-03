@@ -12,10 +12,10 @@ const readline = require('readline');
 
 // ============ CONFIGURATION ============
 const CONFIG = {
-    WORKERS: parseInt(process.env.WORKERS || '15'),
-    TIMEOUT_MS: parseInt(process.env.TIMEOUT_MS || '8000'),
-    DNS_TIMEOUT_MS: 2000,
-    BATCH_SIZE: 500,
+    WORKERS: parseInt(process.env.WORKERS || '100'),
+    TIMEOUT_MS: parseInt(process.env.TIMEOUT_MS || '2000'),
+    DNS_TIMEOUT_MS: 1000,
+    BATCH_SIZE: 100,
     USER_AGENT: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36 PrivacyChecker/2.0',
 };
 
@@ -211,7 +211,7 @@ async function crawlPages(baseUrl, maxPages = 20) {
             try {
                 const response = await fetch(`${baseUrl}${page.path}`, {
                     headers: { 'User-Agent': CONFIG.USER_AGENT },
-                    signal: AbortSignal.timeout(5000),
+                    signal: AbortSignal.timeout(2000),
                     redirect: 'follow',
                 });
                 if (response.ok) {
