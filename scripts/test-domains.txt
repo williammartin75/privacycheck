@@ -1,0 +1,10 @@
+google.fr
+lemonde.fr
+amazon.fr
+zalando.fr
+cdiscount.com
+airbnb.fr
+orange.fr
+pagesjaunes.fr
+labanquepostale.fr
+maif.fr
