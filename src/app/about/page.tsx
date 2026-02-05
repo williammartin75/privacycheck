@@ -39,7 +39,7 @@ export default function AboutPage() {
                     <h2 className="text-xl font-semibold text-gray-900 mb-4">Company</h2>
                     <ul className="text-gray-600 space-y-2">
                         <li><strong>Founded:</strong> 2025</li>
-                        <li><strong>Headquarters:</strong> European Union</li>
+                        <li><strong>Headquarters:</strong> 63 Boulevard Saint-Marcel, 75013 Paris, France</li>
                         <li><strong>Focus:</strong> Privacy Compliance & Website Security</li>
                     </ul>
                 </div>

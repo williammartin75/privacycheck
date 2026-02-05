@@ -149,6 +149,18 @@ export default function LegalHubPage() {
                     <p className="text-xs text-gray-400 mt-4">*Via our infrastructure partners (Supabase, Render)</p>
                 </div>
 
+                {/* Legal Information / Mentions Légales */}
+                <div className="bg-white rounded-xl border border-gray-200 p-8 mt-8">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-4">Mentions Légales</h2>
+                    <ul className="text-gray-600 space-y-2">
+                        <li><strong>Raison sociale:</strong> PrivacyChecker</li>
+                        <li><strong>Siège social:</strong> 63 Boulevard Saint-Marcel, 75013 Paris, France</li>
+                        <li><strong>SIRET:</strong> 81259957900024</li>
+                        <li><strong>Contact:</strong> legal@privacychecker.pro</li>
+                        <li><strong>Hébergeur:</strong> Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA</li>
+                    </ul>
+                </div>
+
                 {/* Contact Section */}
                 <div className="mt-12 text-center">
                     <h2 className="text-xl font-semibold text-gray-900 mb-4">Questions?</h2>
