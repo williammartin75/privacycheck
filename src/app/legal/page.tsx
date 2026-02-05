@@ -157,7 +157,7 @@ export default function LegalHubPage() {
                         <li><strong>Siège social:</strong> 63 Boulevard Saint-Marcel, 75013 Paris, France</li>
                         <li><strong>SIRET:</strong> 81259957900024</li>
                         <li><strong>Contact:</strong> legal@privacychecker.pro</li>
-                        <li><strong>Hébergeur:</strong> Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA</li>
+                        <li><strong>Hébergeur:</strong> Render Services, Inc., 525 Brannan Street, Suite 300, San Francisco, CA 94107, USA - <a href="https://render.com" className="text-blue-600 hover:underline">render.com</a></li>
                     </ul>
                 </div>
 
