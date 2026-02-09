@@ -10,6 +10,7 @@ interface ScoreBreakdownItem {
 
 interface PassedChecksProps {
     scoreBreakdown?: ScoreBreakdownItem[];
+    isPro?: boolean;
 }
 
 // Tooltip descriptions for each check
@@ -54,17 +55,23 @@ function getTooltip(itemName: string): string {
     return CHECK_TOOLTIPS[cleanName] || `This check passed successfully.`;
 }
 
-export function PassedChecks({ scoreBreakdown }: PassedChecksProps) {
+const FREE_VISIBLE_COUNT = 3;
+
+export function PassedChecks({ scoreBreakdown, isPro = false }: PassedChecksProps) {
     const passedItems = scoreBreakdown?.filter(b => b.passed) || [];
     const [activeTooltip, setActiveTooltip] = useState<number | null>(null);
 
     if (passedItems.length === 0) return null;
 
+    const visibleItems = isPro ? passedItems : passedItems.slice(0, FREE_VISIBLE_COUNT);
+    const blurredItems = isPro ? [] : passedItems.slice(FREE_VISIBLE_COUNT);
+
     return (
         <div className="mb-6 p-4 bg-white rounded-lg border border-slate-300">
-            <p className="text-sm font-semibold text-slate-700 mb-3">Checks Passed</p>
+            <p className="text-sm font-semibold text-slate-700 mb-3">Checks Passed ({passedItems.length})</p>
             <div className="flex flex-wrap gap-3">
-                {passedItems.map((item, index) => {
+                {/* Visible items (always clear) */}
+                {visibleItems.map((item, index) => {
                     const cleanName = item.item.replace(/\s*\([^)]*\)/g, '');
                     const tooltip = getTooltip(item.item);
 
@@ -94,6 +101,43 @@ export function PassedChecks({ scoreBreakdown }: PassedChecksProps) {
                         </span>
                     );
                 })}
+
+                {/* Blurred items (free users only) */}
+                {blurredItems.length > 0 && (
+                    <div className="relative w-full">
+                        <div className="flex flex-wrap gap-3 blur-[6px] select-none pointer-events-none" aria-hidden="true">
+                            {blurredItems.map((item, index) => {
+                                const cleanName = item.item.replace(/\s*\([^)]*\)/g, '');
+                                return (
+                                    <span
+                                        key={index + FREE_VISIBLE_COUNT}
+                                        className="flex items-center gap-2 text-xs text-slate-700"
+                                    >
+                                        <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        {cleanName}
+                                        <svg className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </span>
+                                );
+                            })}
+                        </div>
+                        {/* Upgrade overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <a
+                                href="#pricing"
+                                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-teal-500 text-white text-xs font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                            >
+                                <svg className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                Unlock all {passedItems.length} checks — Upgrade to Pro
+                            </a>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
