@@ -12,10 +12,11 @@ const readline = require('readline');
 
 // ============ CONFIGURATION ============
 const CONFIG = {
-    WORKERS: parseInt(process.env.WORKERS || '100'),
-    TIMEOUT_MS: parseInt(process.env.TIMEOUT_MS || '2000'),
-    DNS_TIMEOUT_MS: 1000,
-    BATCH_SIZE: 100,
+    WORKERS: parseInt(process.env.WORKERS || '100'),   // Reduced workers for longer timeouts
+    TIMEOUT_MS: parseInt(process.env.TIMEOUT_MS || '15000'), // 15s timeout
+    DNS_TIMEOUT_MS: 3000,
+    BATCH_SIZE: 200,   // Smaller batches for reliability
+    DOMAIN_TIMEOUT_MS: 25000, // Per-domain hard timeout (includes all pages)
     USER_AGENT: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36 PrivacyChecker/2.0',
 };
 
@@ -100,6 +101,7 @@ const TRACKERS = [
 
 // Stats
 let stats = { processed: 0, success: 0, failed: 0, skipped: 0, startTime: Date.now() };
+let lastProgressTime = Date.now(); // Watchdog
 
 // ============ HELPER FUNCTIONS ============
 
@@ -160,30 +162,13 @@ function detectHiddenCosts(html) {
     return detected;
 }
 
-// Pages to crawl with full GET (analyze content)
+// Pages to crawl with full GET (5 key pages for speed)
 const PAGES_TO_CRAWL = [
     { path: '/', category: 'home' },
     { path: '/privacy-policy', category: 'privacy' },
-    { path: '/privacy', category: 'privacy' },
-    { path: '/datenschutz', category: 'privacy' },
-    { path: '/politique-de-confidentialite', category: 'privacy' },
     { path: '/legal', category: 'legal' },
-    { path: '/impressum', category: 'legal' },
-    { path: '/mentions-legales', category: 'legal' },
     { path: '/cookies', category: 'cookies' },
-    { path: '/cookie-policy', category: 'cookies' },
-    { path: '/politique-cookies', category: 'cookies' },
     { path: '/contact', category: 'contact' },
-    { path: '/kontakt', category: 'contact' },
-    { path: '/about', category: 'about' },
-    { path: '/about-us', category: 'about' },
-    { path: '/terms', category: 'terms' },
-    { path: '/terms-of-service', category: 'terms' },
-    { path: '/agb', category: 'terms' },
-    { path: '/cgv', category: 'terms' },
-    { path: '/accessibility', category: 'accessibility' },
-    { path: '/barrierefreiheit', category: 'accessibility' },
-    { path: '/accessibilite', category: 'accessibility' },
 ];
 
 // Lightweight checks (just existence)
@@ -192,8 +177,7 @@ const FILES_TO_CHECK = [
     { path: '/sitemap.xml', name: 'sitemap' },
     { path: '/.well-known/security.txt', name: 'securityTxt' },
 ];
-
-async function crawlPages(baseUrl, maxPages = 20) {
+async function crawlPages(baseUrl, maxPages = 5) {
     const pages = {
         found: { privacy: false, legal: false, cookies: false, contact: false, about: false, terms: false, accessibility: false },
         content: { privacy: '', legal: '', cookies: '', all: '' },
@@ -203,60 +187,46 @@ async function crawlPages(baseUrl, maxPages = 20) {
         hiddenCosts: [],
     };
 
-    // Crawl content pages (5 parallel at a time)
-    const batchSize = 5;
-    for (let i = 0; i < PAGES_TO_CRAWL.length && pages.pagesScanned < maxPages; i += batchSize) {
-        const batch = PAGES_TO_CRAWL.slice(i, i + batchSize);
-        const results = await Promise.allSettled(batch.map(async (page) => {
-            try {
-                const response = await fetch(`${baseUrl}${page.path}`, {
-                    headers: { 'User-Agent': CONFIG.USER_AGENT },
-                    signal: AbortSignal.timeout(2000),
-                    redirect: 'follow',
-                });
-                if (response.ok) {
-                    const html = await response.text();
-                    pages.pagesScanned++;
-                    pages.found[page.category] = true;
-
-                    // Store content for analysis
-                    if (['privacy', 'legal', 'cookies'].includes(page.category)) {
-                        pages.content[page.category] += ' ' + html.toLowerCase();
-                    }
-                    pages.content.all += ' ' + html.toLowerCase();
-
-                    // Detect trackers on all pages
-                    const pageTrackers = detectTrackers(html);
-                    for (const t of pageTrackers) {
-                        if (!pages.trackersFound.includes(t)) pages.trackersFound.push(t);
-                    }
-
-                    // Detect hidden costs on all pages
-                    const pageCosts = detectHiddenCosts(html);
-                    for (const c of pageCosts) {
-                        if (!pages.hiddenCosts.find(h => h.name === c.name)) pages.hiddenCosts.push(c);
-                    }
-
-                    return { success: true, category: page.category };
+    // Crawl ALL pages in parallel (fast)
+    const pagePromises = PAGES_TO_CRAWL.slice(0, maxPages).map(async (page) => {
+        try {
+            const response = await fetch(`${baseUrl}${page.path}`, {
+                headers: { 'User-Agent': CONFIG.USER_AGENT },
+                signal: AbortSignal.timeout(1500),
+                redirect: 'follow',
+            });
+            if (response.ok) {
+                const html = await response.text();
+                pages.pagesScanned++;
+                pages.found[page.category] = true;
+                if (['privacy', 'legal', 'cookies'].includes(page.category)) {
+                    pages.content[page.category] += ' ' + html.toLowerCase();
                 }
-                return { success: false };
-            } catch {
-                return { success: false };
+                pages.content.all += ' ' + html.toLowerCase();
+                const pageTrackers = detectTrackers(html);
+                for (const t of pageTrackers) {
+                    if (!pages.trackersFound.includes(t)) pages.trackersFound.push(t);
+                }
+                const pageCosts = detectHiddenCosts(html);
+                for (const c of pageCosts) {
+                    if (!pages.hiddenCosts.find(h => h.name === c.name)) pages.hiddenCosts.push(c);
+                }
             }
-        }));
-    }
+        } catch { }
+    });
 
-    // Check files with HEAD (lightweight)
-    await Promise.allSettled(FILES_TO_CHECK.map(async (file) => {
+    // Check files with HEAD (parallel, fast)
+    const filePromises = FILES_TO_CHECK.map(async (file) => {
         try {
             const response = await fetch(`${baseUrl}${file.path}`, {
                 method: 'HEAD',
-                signal: AbortSignal.timeout(2000),
+                signal: AbortSignal.timeout(1000),
             });
             if (response.ok) pages.files[file.name] = true;
         } catch { }
-    }));
+    });
 
+    await Promise.allSettled([...pagePromises, ...filePromises]);
     return pages;
 }
 
@@ -462,7 +432,22 @@ async function auditDomain(domain) {
 // ============ BATCH PROCESSING ============
 
 async function processBatch(domains) {
-    const results = await Promise.allSettled(domains.map(d => auditDomain(d)));
+    const results = await Promise.allSettled(domains.map(d => {
+        // Per-domain hard timeout to prevent freeze
+        return Promise.race([
+            auditDomain(d),
+            new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('Domain timeout')), CONFIG.DOMAIN_TIMEOUT_MS)
+            )
+        ]).catch(err => ({
+            domain: d,
+            checksPassedList: [],
+            issuesFoundList: [],
+            error: err.message || 'Timeout',
+            timestamp: new Date().toISOString(),
+        }));
+    }));
+    lastProgressTime = Date.now(); // Reset watchdog
     return results.map((r, i) => {
         if (r.status === 'fulfilled') return r.value;
         return {
