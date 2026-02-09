@@ -37,6 +37,35 @@ const LockIcon = ({ className }: { className: string }) => (
     </svg>
 );
 
+// Shared feature lists so one-time and subscription always match
+const PRO_FEATURES = [
+    { icon: 'check', text: 'Everything in Free' },
+    { icon: 'check', text: '<strong>50 scans</strong>/month', oneTimeText: 'Full compliance audit' },
+    { icon: 'check', text: '<strong>100 pages</strong> scanned' },
+    { icon: 'check', text: 'PDF compliance report' },
+    { icon: 'check', text: 'Monthly auto-scan', oneTimeText: '<strong>Step-by-step fix guides</strong>' },
+    { icon: 'check', text: 'Email alerts if score drops', oneTimeText: '<strong>Detailed issue breakdown</strong>' },
+    { icon: 'check', text: 'Cookies &amp; Trackers Analysis' },
+    { icon: 'check', text: 'Security Headers Analysis' },
+    { icon: 'check', text: 'Vendor Risk Assessment' },
+    { icon: 'check', text: 'Technology Stack Detection' },
+    { icon: 'check', text: 'WordPress Plugin' },
+];
+
+const PRO_PLUS_FEATURES = [
+    { icon: 'check', text: 'Everything in Pro' },
+    { icon: 'check', text: '<strong>200 scans</strong>/month', oneTimeText: 'Everything in Pro Report' },
+    { icon: 'check', text: '<strong>200 pages</strong> scanned' },
+    { icon: 'check', text: '<strong>Weekly</strong> auto-scan', oneTimeText: '<strong>Compliance certificate PDF</strong>' },
+    { icon: 'bolt', text: '<strong>Domain Security Monitor</strong>' },
+    { icon: 'bolt', text: '<strong>Supply Chain Security</strong>' },
+    { icon: 'bolt', text: '<strong>Hidden Costs Audit (ROI)</strong>' },
+    { icon: 'bolt', text: '<strong>Email Deliverability</strong>' },
+    { icon: 'bolt', text: '<strong>AI Detection (EU AI Act)</strong>' },
+    { icon: 'bolt', text: '<strong>Accessibility (EAA 2025)</strong>' },
+    { icon: 'bolt', text: '<strong>Step-by-step fix guides</strong>' },
+];
+
 export function PricingCards({ onCheckout }: PricingCardsProps) {
     const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('yearly');
     const [purchaseMode, setPurchaseMode] = useState<PurchaseMode>('subscription');
@@ -105,333 +134,247 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                 </p>
             )}
 
-            {/* ============ ONE-TIME CARDS ============ */}
-            {isOneTime ? (
-                <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    {/* Free Tier (same) */}
-                    <div className="p-8 bg-white rounded-lg border border-gray-100 flex flex-col">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">Free</h3>
-                        <p className="text-4xl font-bold text-gray-900 mb-6">&euro;0</p>
-                        <ul className="space-y-3 mb-8">
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                1 scan
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                Privacy score
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                Issues detected (summary)
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                Cookies &amp; trackers count
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-400">
-                                <LockIcon className="w-5 h-5" />
-                                How to fix? Get the report
-                            </li>
-                        </ul>
-                        <a href="/signup" className="block w-full py-3 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition font-semibold text-center mt-auto">
-                            Start Free Scan
-                        </a>
-                    </div>
-
-                    {/* One-time Pro — €49 */}
-                    <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-lg border border-blue-400 relative shadow-xl flex flex-col">
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-blue-200 rounded-full text-sm font-medium text-blue-700 shadow-sm">
-                            Most Popular
-                        </div>
-                        <h3 className="text-xl font-semibold text-white mb-4">Pro Report</h3>
-                        <div className="mb-6">
-                            <p className="text-4xl font-bold text-white">
-                                &euro;{PRICING.pro.one_time}
-                                <span className="text-lg text-blue-200 ml-1">one-time</span>
-                            </p>
-                            <p className="text-sm text-blue-200 mt-1">
-                                vs &euro;{PRICING.pro.monthly}/mo subscription
-                            </p>
-                        </div>
-                        <ul className="space-y-3 mb-8">
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Full compliance audit
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                <strong>Detailed issue breakdown</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                <strong>Step-by-step fix guides</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                PDF compliance report
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Cookies &amp; Trackers Analysis
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Security Headers Analysis
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Vendor Risk Assessment
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Technology Stack Detection
-                            </li>
-                        </ul>
-                        <button onClick={() => onCheckout('pro', billingPeriod, 'one_time')} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-center mt-auto">
-                            Get Pro Report &mdash; &euro;{PRICING.pro.one_time}
-                        </button>
-                    </div>
-
-                    {/* One-time Pro+ — €99 */}
-                    <div className="p-8 bg-gradient-to-b from-cyan-500 to-teal-600 rounded-lg border border-cyan-400 relative shadow-xl flex flex-col">
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-teal-200 rounded-full text-sm font-medium text-teal-700 shadow-sm">
-                            Best Value
-                        </div>
-                        <h3 className="text-xl font-semibold text-white mb-4">Pro+ Report</h3>
-                        <div className="mb-6">
-                            <p className="text-4xl font-bold text-white">
-                                &euro;{PRICING.pro_plus.one_time}
-                                <span className="text-lg text-cyan-200 ml-1">one-time</span>
-                            </p>
-                            <p className="text-sm text-cyan-200 mt-1">
-                                vs &euro;{PRICING.pro_plus.monthly}/mo subscription
-                            </p>
-                        </div>
-                        <ul className="space-y-3 mb-8">
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-cyan-200" />
-                                Everything in Pro Report
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Domain Security Monitor</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Supply Chain Security</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Hidden Costs Audit (ROI)</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Email Deliverability</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>AI Detection (EU AI Act)</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Accessibility (EAA 2025)</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Compliance certificate PDF</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>1 free re-scan (30 days)</strong>
-                            </li>
-                        </ul>
-                        <button onClick={() => onCheckout('pro_plus', billingPeriod, 'one_time')} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">
-                            Get Pro+ Report &mdash; &euro;{PRICING.pro_plus.one_time}
-                        </button>
-                    </div>
+            {/* ============ PRICING CARDS ============ */}
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                {/* Free Tier */}
+                <div className="p-8 bg-white rounded-lg border border-gray-100 flex flex-col">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Free</h3>
+                    <p className="text-4xl font-bold text-gray-900 mb-6">&euro;0</p>
+                    <ul className="space-y-3 mb-8">
+                        <li className="flex items-center gap-2 text-gray-700">
+                            <CheckIcon className="w-5 h-5 text-blue-600" />
+                            {isOneTime ? '1 scan' : '10 scans/month'}
+                        </li>
+                        <li className="flex items-center gap-2 text-gray-700">
+                            <CheckIcon className="w-5 h-5 text-blue-600" />
+                            {isOneTime ? 'Privacy score' : '20 pages scanned'}
+                        </li>
+                        <li className="flex items-center gap-2 text-gray-700">
+                            <CheckIcon className="w-5 h-5 text-blue-600" />
+                            {isOneTime ? 'Issues detected (summary)' : 'Full compliance audit'}
+                        </li>
+                        <li className="flex items-center gap-2 text-gray-700">
+                            <CheckIcon className="w-5 h-5 text-blue-600" />
+                            {isOneTime ? 'Cookies & trackers count' : 'Privacy score'}
+                        </li>
+                        {!isOneTime && (
+                            <>
+                                <li className="flex items-center gap-2 text-gray-700">
+                                    <CheckIcon className="w-5 h-5 text-blue-600" />
+                                    Issues detected
+                                </li>
+                                <li className="flex items-center gap-2 text-gray-700">
+                                    <CheckIcon className="w-5 h-5 text-blue-600" />
+                                    Cookies &amp; trackers count
+                                </li>
+                            </>
+                        )}
+                        <li className="flex items-center gap-2 text-gray-400">
+                            <LockIcon className="w-5 h-5" />
+                            {isOneTime ? 'How to fix? Get the report' : 'How to fix? Upgrade to Pro'}
+                        </li>
+                    </ul>
+                    <a href="/signup" className="block w-full py-3 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition font-semibold text-center mt-auto">
+                        {isOneTime ? 'Start Free Scan' : 'Start Free Audit'}
+                    </a>
                 </div>
-            ) : (
-                /* ============ SUBSCRIPTION CARDS (existing) ============ */
-                <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    {/* Free Tier */}
-                    <div className="p-8 bg-white rounded-lg border border-gray-100 flex flex-col">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">Free</h3>
-                        <p className="text-4xl font-bold text-gray-900 mb-6">&euro;0</p>
-                        <ul className="space-y-3 mb-8">
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                10 scans/month
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                20 pages scanned
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                Full compliance audit
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                Privacy score
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                Issues detected
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-700">
-                                <CheckIcon className="w-5 h-5 text-blue-600" />
-                                Cookies &amp; trackers count
-                            </li>
-                            <li className="flex items-center gap-2 text-gray-400">
-                                <LockIcon className="w-5 h-5" />
-                                How to fix? Upgrade to Pro
-                            </li>
-                        </ul>
-                        <a href="/signup" className="block w-full py-3 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition font-semibold text-center mt-auto">
-                            Start Free Audit
-                        </a>
-                    </div>
 
-                    {/* Pro Tier */}
-                    <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-lg border border-blue-400 relative shadow-xl flex flex-col">
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-blue-200 rounded-full text-sm font-medium text-blue-700 shadow-sm">
-                            Most Popular
-                        </div>
-                        <h3 className="text-xl font-semibold text-white mb-4">Pro</h3>
-                        <div className="mb-6">
-                            <p className="text-4xl font-bold text-white">
-                                &euro;{proPrice}
-                                <span className="text-lg text-blue-100">/month</span>
-                            </p>
-                            {isYearly && (
-                                <p className="text-sm text-blue-200 mt-1">
-                                    <span className="line-through">&euro;{PRICING.pro.monthly}/mo</span>
-                                    <span className="ml-2">Billed &euro;{proPrice * 12}/year</span>
+                {/* Pro / Pro Report */}
+                <div className="p-8 bg-gradient-to-b from-blue-600 to-blue-700 rounded-lg border border-blue-400 relative shadow-xl flex flex-col">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-blue-200 rounded-full text-sm font-medium text-blue-700 shadow-sm">
+                        Most Popular
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-4">{isOneTime ? 'Pro Report' : 'Pro'}</h3>
+                    <div className="mb-6">
+                        {isOneTime ? (
+                            <>
+                                <p className="text-4xl font-bold text-white">
+                                    &euro;{PRICING.pro.one_time}
+                                    <span className="text-lg text-blue-200 ml-1">one-time</span>
                                 </p>
-                            )}
-                        </div>
-                        <ul className="space-y-3 mb-8">
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Everything in Free
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                <strong>50 scans</strong>/month
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                <strong>100 pages</strong> scanned
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                PDF compliance report
-                            </li>
+                                <p className="text-sm text-blue-200 mt-1">
+                                    vs &euro;{PRICING.pro.monthly}/mo subscription
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-4xl font-bold text-white">
+                                    &euro;{proPrice}
+                                    <span className="text-lg text-blue-100">/month</span>
+                                </p>
+                                {isYearly && (
+                                    <p className="text-sm text-blue-200 mt-1">
+                                        <span className="line-through">&euro;{PRICING.pro.monthly}/mo</span>
+                                        <span className="ml-2">Billed &euro;{proPrice * 12}/year</span>
+                                    </p>
+                                )}
+                            </>
+                        )}
+                    </div>
+                    <ul className="space-y-3 mb-8">
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            Everything in Free
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            {isOneTime ? 'Full compliance audit' : <><strong>50 scans</strong>/month</>}
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            <strong>100 pages</strong> scanned
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            <strong>Detailed issue breakdown</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            <strong>Step-by-step fix guides</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            PDF compliance report
+                        </li>
+                        {!isOneTime && (
                             <li className="flex items-center gap-2 text-white">
                                 <CheckIcon className="w-5 h-5 text-blue-200" />
                                 Monthly auto-scan
                             </li>
+                        )}
+                        {!isOneTime && (
                             <li className="flex items-center gap-2 text-white">
                                 <CheckIcon className="w-5 h-5 text-blue-200" />
                                 Email alerts if score drops
                             </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Cookies &amp; Trackers Analysis
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Security Headers Analysis
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Vendor Risk Assessment
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                Technology Stack Detection
-                            </li>
+                        )}
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            Cookies &amp; Trackers Analysis
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            Security Headers Analysis
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            Vendor Risk Assessment
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            Technology Stack Detection
+                        </li>
+                        {!isOneTime && (
                             <li className="flex items-center gap-2 text-white">
                                 <CheckIcon className="w-5 h-5 text-blue-200" />
                                 WordPress Plugin
                             </li>
-                        </ul>
-                        <button onClick={() => onCheckout('pro', billingPeriod)} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-center mt-auto">
-                            Get Pro Now
-                        </button>
-                    </div>
+                        )}
+                    </ul>
+                    <button onClick={() => onCheckout('pro', billingPeriod, isOneTime ? 'one_time' : undefined)} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-center mt-auto">
+                        {isOneTime ? `Get Pro Report \u2014 \u20AC${PRICING.pro.one_time}` : 'Get Pro Now'}
+                    </button>
+                </div>
 
-                    {/* Pro+ Tier */}
-                    <div className="p-8 bg-gradient-to-b from-cyan-500 to-teal-600 rounded-lg border border-cyan-400 relative shadow-xl flex flex-col">
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-teal-200 rounded-full text-sm font-medium text-teal-700 shadow-sm">
-                            Best Value
-                        </div>
-                        <h3 className="text-xl font-semibold text-white mb-4">Pro+</h3>
-                        <div className="mb-6">
-                            <p className="text-4xl font-bold text-white">
-                                &euro;{proPlusPrice}
-                                <span className="text-lg text-cyan-100">/month</span>
-                            </p>
-                            {isYearly && (
-                                <p className="text-sm text-cyan-200 mt-1">
-                                    <span className="line-through">&euro;{PRICING.pro_plus.monthly}/mo</span>
-                                    <span className="ml-2">Billed &euro;{proPlusPrice * 12}/year</span>
+                {/* Pro+ / Pro+ Report */}
+                <div className="p-8 bg-gradient-to-b from-cyan-500 to-teal-600 rounded-lg border border-cyan-400 relative shadow-xl flex flex-col">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white border border-teal-200 rounded-full text-sm font-medium text-teal-700 shadow-sm">
+                        Best Value
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-4">{isOneTime ? 'Pro+ Report' : 'Pro+'}</h3>
+                    <div className="mb-6">
+                        {isOneTime ? (
+                            <>
+                                <p className="text-4xl font-bold text-white">
+                                    &euro;{PRICING.pro_plus.one_time}
+                                    <span className="text-lg text-cyan-200 ml-1">one-time</span>
                                 </p>
-                            )}
-                        </div>
-                        <ul className="space-y-3 mb-8">
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-cyan-200" />
-                                Everything in Pro
-                            </li>
+                                <p className="text-sm text-cyan-200 mt-1">
+                                    vs &euro;{PRICING.pro_plus.monthly}/mo subscription
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-4xl font-bold text-white">
+                                    &euro;{proPlusPrice}
+                                    <span className="text-lg text-cyan-100">/month</span>
+                                </p>
+                                {isYearly && (
+                                    <p className="text-sm text-cyan-200 mt-1">
+                                        <span className="line-through">&euro;{PRICING.pro_plus.monthly}/mo</span>
+                                        <span className="ml-2">Billed &euro;{proPlusPrice * 12}/year</span>
+                                    </p>
+                                )}
+                            </>
+                        )}
+                    </div>
+                    <ul className="space-y-3 mb-8">
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-cyan-200" />
+                            {isOneTime ? 'Everything in Pro Report' : 'Everything in Pro'}
+                        </li>
+                        {!isOneTime && (
                             <li className="flex items-center gap-2 text-white">
                                 <CheckIcon className="w-5 h-5 text-cyan-200" />
                                 <strong>200 scans</strong>/month
                             </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-cyan-200" />
-                                <strong>200 pages</strong> scanned
-                            </li>
+                        )}
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-cyan-200" />
+                            <strong>200 pages</strong> scanned
+                        </li>
+                        {!isOneTime && (
                             <li className="flex items-center gap-2 text-white">
                                 <CheckIcon className="w-5 h-5 text-cyan-200" />
                                 <strong>Weekly</strong> auto-scan
                             </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Domain Security Monitor</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Supply Chain Security</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Hidden Costs Audit (ROI)</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Email Deliverability</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>AI Detection (EU AI Act)</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Accessibility (EAA 2025)</strong>
-                            </li>
-                            <li className="flex items-center gap-2 text-white">
-                                <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                <strong>Step-by-step fix guides</strong>
-                            </li>
-                        </ul>
-                        <button onClick={() => onCheckout('pro_plus', billingPeriod)} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">
-                            Get Pro+ Now
-                        </button>
-                    </div>
+                        )}
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Domain Security Monitor</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Supply Chain Security</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Hidden Costs Audit (ROI)</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Email Deliverability</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>AI Detection (EU AI Act)</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Accessibility (EAA 2025)</strong>
+                        </li>
+                        <li className="flex items-center gap-2 text-white">
+                            <BoltIcon className="w-5 h-5 text-yellow-300" />
+                            <strong>Step-by-step fix guides</strong>
+                        </li>
+                        {isOneTime && (
+                            <>
+                                <li className="flex items-center gap-2 text-white">
+                                    <BoltIcon className="w-5 h-5 text-yellow-300" />
+                                    <strong>Compliance certificate PDF</strong>
+                                </li>
+                                <li className="flex items-center gap-2 text-white">
+                                    <BoltIcon className="w-5 h-5 text-yellow-300" />
+                                    <strong>1 free re-scan (30 days)</strong>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                    <button onClick={() => onCheckout('pro_plus', billingPeriod, isOneTime ? 'one_time' : undefined)} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">
+                        {isOneTime ? `Get Pro+ Report \u2014 \u20AC${PRICING.pro_plus.one_time}` : 'Get Pro+ Now'}
+                    </button>
                 </div>
-            )}
+            </div>
         </section>
     );
 }
