@@ -7,7 +7,7 @@ const faqData = [
     },
     {
         question: "Is the audit really free?",
-        answer: "Yes! Free users get 10 scans per month with the full audit. You'll see your privacy score, all issues found, and how serious each one is. Pro unlocks step-by-step fix guides, PDF reports, and automatic monitoring."
+        answer: "Yes! Free users get 10 scans per month with the full audit. You'll see your privacy score, top issues found, and how serious each one is. Pro unlocks all checks, step-by-step fix guides, PDF reports, and automatic monitoring. You can also buy a one-time report without subscribing."
     },
     {
         question: "How long does a scan take?",
@@ -19,7 +19,7 @@ const faqData = [
     },
     {
         question: "What's included in Pro and Pro+?",
-        answer: "Pro (€15/mo yearly or €19/mo): 50 scans, step-by-step fix guides, PDF reports, email alerts, auto-scans, and a Cookie Banner Widget. Pro+ (€23/mo yearly or €29/mo): everything in Pro plus data breach detection, regulatory exposure estimates, vendor risk scores, AI compliance audit, technology stack security, dark patterns detection, and weekly monitoring. Save 20% with yearly billing!"
+        answer: "Pro (€15/mo yearly or €19/mo): 50 scans, step-by-step fix guides, PDF reports, email alerts, auto-scans, and a Cookie Banner Widget. Pro+ (€23/mo yearly or €29/mo): everything in Pro plus data breach detection, regulatory exposure estimates, vendor risk scores, AI compliance audit, technology stack security, dark patterns detection, and weekly monitoring. Save 20% with yearly billing! You can also get a one-time Pro Report (€49) or Pro+ Report (€99) with no subscription required."
     },
     {
         question: "What is the Cookie Banner Widget?",
@@ -56,6 +56,10 @@ const faqData = [
     {
         question: "Can I cancel my subscription anytime?",
         answer: "Yes, cancel anytime from your Dashboard. Your access continues until the end of your billing period. No fees, no questions asked."
+    },
+    {
+        question: "Can I buy a one-time report instead of subscribing?",
+        answer: "Absolutely! If you prefer not to subscribe, you can purchase a one-time Pro Report (€49) or Pro+ Report (€99). You get the same full compliance audit with all fix instructions and PDF export — just without ongoing monitoring or recurring billing. Toggle between 'Subscription' and 'One-Time Report' on the pricing cards above."
     }
 ];
 
