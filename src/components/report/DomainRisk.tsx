@@ -219,8 +219,8 @@ export function DomainRisk({ domainRisk, isPro }: DomainRiskProps) {
                                 ))}
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium">
-                                    🔒 Upgrade to Pro+ to see all domains
+                                <div className="bg-gradient-to-r from-cyan-500 to-teal-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium">
+                                    Upgrade to Pro+
                                 </div>
                             </div>
                         </div>

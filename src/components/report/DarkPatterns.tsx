@@ -212,13 +212,13 @@ export function DarkPatterns({
                             ) : (
                                 <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 text-center">
                                     <p className="text-slate-600 text-sm mb-3">
-                                        Upgrade to Pro to see detailed recommendations for removing dark patterns
+                                        Unlock detailed recommendations for removing dark patterns
                                     </p>
                                     <button
                                         onClick={onUpgrade}
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+                                        className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-600 text-white rounded-lg text-sm font-medium hover:from-cyan-600 hover:to-teal-700 transition"
                                     >
-                                        Upgrade to Pro - €19/mo
+                                        Upgrade to Pro+
                                     </button>
                                 </div>
                             )}

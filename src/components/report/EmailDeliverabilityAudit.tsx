@@ -316,9 +316,9 @@ export function EmailDeliverabilityAudit({ emailDeliverability, isPro }: EmailDe
                                 ))}
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2">
+                                <div className="bg-gradient-to-r from-cyan-500 to-teal-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2">
                                     <LockIcon />
-                                    Upgrade to Pro+ for full recommendations
+                                    Upgrade to Pro+
                                 </div>
                             </div>
                         </div>

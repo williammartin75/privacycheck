@@ -359,9 +359,9 @@ export function TechnologyStack({ technologyStack, isPro }: TechnologyStackProps
                                 ))}
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2">
+                                <div className="bg-gradient-to-r from-cyan-500 to-teal-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2">
                                     <LockSmallIcon />
-                                    Upgrade to Pro for full inventory
+                                    Upgrade to Pro+
                                 </div>
                             </div>
                         </div>

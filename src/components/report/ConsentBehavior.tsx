@@ -284,9 +284,9 @@ function RecommendationBox({ recommendation, borderColor }: { recommendation: Re
 function UpgradePrompt({ onUpgrade }: { onUpgrade: () => void }) {
     return (
         <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 text-center">
-            <p className="text-slate-600 text-xs mb-2">Upgrade to Pro for step-by-step fix instructions</p>
-            <button onClick={onUpgrade} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 transition">
-                Upgrade - €19/mo
+            <p className="text-slate-600 text-xs mb-2">Unlock step-by-step fix instructions</p>
+            <button onClick={onUpgrade} className="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-teal-600 text-white rounded text-xs font-medium hover:from-cyan-600 hover:to-teal-700 transition">
+                Upgrade to Pro+
             </button>
         </div>
     );
