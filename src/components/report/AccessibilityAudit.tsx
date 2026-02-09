@@ -198,7 +198,8 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
                         Checks Passed ({accessibility.passes.length})
                     </p>
                     <div className="flex flex-wrap gap-3">
-                        {accessibility.passes.map((pass, index) => (
+                        {/* First 3 visible for everyone */}
+                        {(isPro ? accessibility.passes : accessibility.passes.slice(0, 3)).map((pass, index) => (
                             <span key={index} className="flex items-center gap-2 text-xs text-slate-700">
                                 <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -206,6 +207,33 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
                                 {pass}
                             </span>
                         ))}
+
+                        {/* Blurred items for free users */}
+                        {!isPro && accessibility.passes.length > 3 && (
+                            <div className="relative w-full">
+                                <div className="flex flex-wrap gap-3 blur-[6px] select-none pointer-events-none" aria-hidden="true">
+                                    {accessibility.passes.slice(3).map((pass, index) => (
+                                        <span key={index + 3} className="flex items-center gap-2 text-xs text-slate-700">
+                                            <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            {pass}
+                                        </span>
+                                    ))}
+                                </div>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <a
+                                        href="#pricing"
+                                        className="px-4 py-2 bg-gradient-to-r from-blue-600 to-teal-500 text-white text-xs font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                                    >
+                                        <svg className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                        Unlock all {accessibility.passes.length} checks — Upgrade to Pro
+                                    </a>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
