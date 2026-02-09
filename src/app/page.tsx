@@ -208,35 +208,6 @@ export default function Home() {
       return;
     }
 
-    // Check scan limit for all tiers (Free: 10, Pro: 50, Pro+: 200 per month)
-    const scanLimits = { free: 10, pro: 50, pro_plus: 200 };
-    const scanLimit = scanLimits[tier];
-    const scanCountKey = `${tier}ScanCount`;
-    const scanMonthKey = `${tier}ScanMonth`;
-    const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
-    const storedMonth = localStorage.getItem(scanMonthKey);
-    let scanCount = parseInt(localStorage.getItem(scanCountKey) || '0', 10);
-
-    // Reset counter if new month
-    if (storedMonth !== currentMonth) {
-      scanCount = 0;
-      localStorage.setItem(scanMonthKey, currentMonth);
-      localStorage.setItem(scanCountKey, '0');
-    }
-
-    if (scanCount >= scanLimit) {
-      const upgradeMsg = tier === 'free'
-        ? 'Upgrade to Pro for 50 scans/month!'
-        : tier === 'pro'
-          ? 'Upgrade to Pro+ for 200 scans/month!'
-          : 'Contact us for enterprise plans.';
-      setError(`You have reached your ${scanLimit} scans this month. ${upgradeMsg}`);
-      return;
-    }
-
-    // Increment scan count
-    localStorage.setItem(scanCountKey, (scanCount + 1).toString());
-
     // Optimistically update the scan counter UI
     if (scanCountInfo) {
       setScanCountInfo({
@@ -291,6 +262,14 @@ export default function Home() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        // Handle rate limit (429) with user-friendly message
+        if (response.status === 429) {
+          // Revert optimistic update
+          if (scanCountInfo) {
+            setScanCountInfo(scanCountInfo);
+          }
+          throw new Error(errorData.error || 'Scan limit reached');
+        }
         console.error('Audit API error:', errorData);
         throw new Error(errorData.details || 'Audit failed');
       }

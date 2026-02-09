@@ -745,11 +745,45 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Server-side scan rate limiting (single source of truth)
+        const { data: subscription } = await supabase
+            .from('subscriptions')
+            .select('tier')
+            .eq('user_id', user.id)
+            .single();
+
+        const userTier = subscription?.tier || 'free';
+        const scanLimits: Record<string, number> = { free: 10, pro: 50, pro_plus: 200 };
+        const scanLimit = scanLimits[userTier] || 10;
+
+        // Count scans this month from scan_history
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
+
+        const { count: monthlyScans, error: countError } = await supabase
+            .from('scan_history')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_id', user.id)
+            .gte('created_at', startOfMonth.toISOString());
+
+        if (!countError && (monthlyScans || 0) >= scanLimit) {
+            const upgradeMsg = userTier === 'free'
+                ? 'Upgrade to Pro for 50 scans/month!'
+                : userTier === 'pro'
+                    ? 'Upgrade to Pro+ for 200 scans/month!'
+                    : 'Contact us for enterprise plans.';
+            return NextResponse.json(
+                { error: `You have reached your ${scanLimit} scans this month. ${upgradeMsg}` },
+                { status: 429 }
+            );
+        }
+
 
         const { url, tier = 'free' } = await request.json();
 
         // Debug: Log tier information
-        console.log(`[AUDIT] User: ${user.email}, Tier received: ${tier}`);
+        console.log(`[AUDIT] User: ${user.email}, Tier received: ${tier}, DB tier: ${userTier}`);
 
         // Tier-based helpers
         const isPro = tier === 'pro' || tier === 'pro_plus';
