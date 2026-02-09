@@ -125,7 +125,7 @@ export function DarkPatterns({
                     <div className="flex items-center justify-between gap-4 p-3 rounded-lg mb-4 bg-white">
                         <div className="flex items-center gap-3">
                             <span className={`text-sm font-bold uppercase tracking-wider ${getStatusBadgeClass(darkPatterns.score)}`}>
-                                {!darkPatterns.detected ? 'OK' :
+                                {!darkPatterns.detected ? 'PASS' :
                                     hasCritical ? 'CRITICAL' :
                                         hasHigh ? 'ALERT' : 'INFO'}
                             </span>
