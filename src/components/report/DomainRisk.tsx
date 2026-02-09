@@ -78,7 +78,7 @@ export function DomainRisk({ domainRisk, isPro }: DomainRiskProps) {
     return (
         <div className="space-y-6">
             {/* Overall Score */}
-            <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border border-slate-200">
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
                 <div className="flex items-center justify-between mb-4">
                     <div>
                         <h3 className="text-lg font-semibold text-slate-800">Domain Security Score</h3>

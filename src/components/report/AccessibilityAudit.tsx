@@ -98,7 +98,7 @@ export function AccessibilityAudit({ accessibility, isPro }: AccessibilityAuditP
     return (
         <div className="space-y-6">
             {/* Score Overview */}
-            <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border border-slate-200">
+            <div className="bg-white rounded-xl p-6 border border-slate-200">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                         <AccessibilityIcon />
