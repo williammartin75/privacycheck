@@ -23,5 +23,5 @@ export const MaskedText = ({ text, show }: { text: string; show: boolean }) => {
 export const MaskedEmail = ({ email, show }: { email: string; show: boolean }) => {
     if (show) return <>{email}</>;
     const [user, domain] = email.split('@');
-    return <span className="text-slate-400 select-none">{'█'.repeat(user?.length || 4)}@{'█'.repeat(domain?.length || 6)}</span>;
+    return <span className="text-slate-400 select-none blur-[3px]">{'█'.repeat(user?.length || 4)}@{'█'.repeat(domain?.length || 6)}</span>;
 };

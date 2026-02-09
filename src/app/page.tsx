@@ -237,6 +237,16 @@ export default function Home() {
     // Increment scan count
     localStorage.setItem(scanCountKey, (scanCount + 1).toString());
 
+    // Optimistically update the scan counter UI
+    if (scanCountInfo) {
+      setScanCountInfo({
+        ...scanCountInfo,
+        count: scanCountInfo.count + 1,
+        remaining: Math.max(0, scanCountInfo.remaining - 1),
+        atLimit: scanCountInfo.remaining - 1 <= 0,
+      });
+    }
+
     setLoading(true);
     setError('');
     setResult(null);
@@ -339,6 +349,17 @@ export default function Home() {
           pages_scanned: data.pagesScanned,
           result: data,
         });
+      }
+
+      // Refresh scan count from API after successful scan
+      if (user) {
+        try {
+          const scanCountRes = await fetch('/api/scan-count');
+          const scanCountData = await scanCountRes.json();
+          setScanCountInfo(scanCountData);
+        } catch (e) {
+          console.error('Failed to refresh scan count:', e);
+        }
       }
     } catch (err) {
       clearInterval(progressInterval);
