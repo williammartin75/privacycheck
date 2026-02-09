@@ -357,18 +357,6 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             <BoltIcon className="w-5 h-5 text-yellow-300" />
                             <strong>Step-by-step fix guides</strong>
                         </li>
-                        {isOneTime && (
-                            <>
-                                <li className="flex items-center gap-2 text-white">
-                                    <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                    <strong>Compliance certificate PDF</strong>
-                                </li>
-                                <li className="flex items-center gap-2 text-white">
-                                    <BoltIcon className="w-5 h-5 text-yellow-300" />
-                                    <strong>1 free re-scan (30 days)</strong>
-                                </li>
-                            </>
-                        )}
                     </ul>
                     <button onClick={() => onCheckout('pro_plus', billingPeriod, isOneTime ? 'one_time' : undefined)} className="block w-full py-3 bg-white text-teal-600 font-semibold rounded-md hover:bg-teal-50 transition text-center mt-auto">
                         {isOneTime ? `Get Pro+ Report \u2014 \u20AC${PRICING.pro_plus.one_time}` : 'Get Pro+ Now'}
