@@ -177,7 +177,7 @@ export default function Home() {
     setUser(null);
   };
 
-  const handleCheckout = async (tier: 'pro' | 'pro_plus' = 'pro', billingPeriod: 'monthly' | 'yearly' = 'yearly') => {
+  const handleCheckout = async (tier: 'pro' | 'pro_plus' = 'pro', billingPeriod: 'monthly' | 'yearly' = 'yearly', purchaseMode: 'one_time' | 'subscription' = 'subscription') => {
     if (!user) {
       window.location.href = '/login';
       return;
@@ -187,7 +187,7 @@ export default function Home() {
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user.email, tier, billingPeriod }),
+        body: JSON.stringify({ email: user.email, tier, billingPeriod, purchaseMode }),
       });
 
       const data = await response.json();

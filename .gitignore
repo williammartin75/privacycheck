@@ -39,3 +39,32 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# scanner / bulk data (too large for GitHub)
+/chunks/
+/rescan-results/
+/spintax-langs/
+*.ndjson
+alive-domains.txt
+dead-domains.txt
+sample-domains.txt
+test-chunk.txt
+*.sh
+/scripts/
+bulk-scanner.js
+clean-email-lists.js
+dedup-emails.js
+filter-low-issues.js
+final-audit.js
+final-cleanup.js
+patch-emails.js
+patch-missing-issues.js
+peek-ndjson.js
+sample-check.js
+sample-emails.js
+spintax-engine.js
+add-rescan-leads.js
+add-scores.js
+test-domains-alive.js
+update-lang-files.js
+deploy-rescan.ps1

@@ -3,8 +3,20 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-// Price ID mapping based on tier and billing period
-const getPriceId = (tier: 'pro' | 'pro_plus', billingPeriod: 'monthly' | 'yearly'): string => {
+// Price ID mapping based on tier, billing period, and purchase mode
+const getPriceId = (
+    tier: 'pro' | 'pro_plus',
+    billingPeriod: 'monthly' | 'yearly',
+    purchaseMode: 'one_time' | 'subscription' = 'subscription'
+): string => {
+    if (purchaseMode === 'one_time') {
+        const oneTimePriceMap = {
+            pro: process.env.STRIPE_PRICE_ID_PRO_ONETIME!,
+            pro_plus: process.env.STRIPE_PRICE_ID_PRO_PLUS_ONETIME!,
+        };
+        return oneTimePriceMap[tier];
+    }
+
     const priceMap = {
         pro: {
             monthly: process.env.STRIPE_PRICE_ID!, // existing
@@ -21,17 +33,19 @@ const getPriceId = (tier: 'pro' | 'pro_plus', billingPeriod: 'monthly' | 'yearly
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, tier = 'pro', billingPeriod = 'yearly' } = await request.json();
+        const { email, tier = 'pro', billingPeriod = 'yearly', purchaseMode = 'subscription' } = await request.json();
 
-        const priceId = getPriceId(tier, billingPeriod);
+        const priceId = getPriceId(tier, billingPeriod, purchaseMode);
 
         if (!priceId) {
-            console.error(`Missing price ID for tier: ${tier}, billing: ${billingPeriod}`);
+            console.error(`Missing price ID for tier: ${tier}, billing: ${billingPeriod}, mode: ${purchaseMode}`);
             return NextResponse.json(
                 { error: 'Invalid pricing configuration' },
                 { status: 500 }
             );
         }
+
+        const isOneTime = purchaseMode === 'one_time';
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -41,7 +55,7 @@ export async function POST(request: NextRequest) {
                     quantity: 1,
                 },
             ],
-            mode: 'subscription',
+            mode: isOneTime ? 'payment' : 'subscription',
             success_url: `${request.headers.get('origin')}/?success=true`,
             cancel_url: `${request.headers.get('origin')}/?canceled=true`,
             customer_email: email,
@@ -49,6 +63,7 @@ export async function POST(request: NextRequest) {
                 email: email,
                 tier: tier,
                 billingPeriod: billingPeriod,
+                purchaseMode: purchaseMode,
             },
         });
 
