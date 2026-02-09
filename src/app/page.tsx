@@ -566,7 +566,10 @@ export default function Home() {
               <div className="flex justify-center gap-3 mb-8">
                 <button
                   onClick={() => isPro ? generatePDF(result, tier === 'pro_plus' ? 'pro_plus' : 'pro') : handleCheckout()}
-                  className={`flex items-center gap-3 px-6 py-3 rounded-lg transition font-semibold text-sm bg-white text-slate-700 hover:bg-slate-50 border border-slate-200`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${isPro
+                    ? 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 font-semibold gap-3 px-6 py-3'
+                    : 'bg-slate-100 text-slate-400 border border-slate-200 cursor-pointer hover:bg-slate-50 font-medium'
+                    }`}
                 >
                   {isPro ? (
                     <>
@@ -577,10 +580,11 @@ export default function Home() {
                     </>
                   ) : (
                     <>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
-                      Download PDF Compliance Report (Pro)
+                      Download PDF Report
+                      <span className="text-xs px-1.5 py-0.5 bg-white text-blue-700 border border-blue-300 rounded">Pro</span>
                     </>
                   )}
                 </button>
@@ -631,11 +635,11 @@ export default function Home() {
               </div>
 
               {/* Passed Checks List */}
-              <PassedChecks scoreBreakdown={result.scoreBreakdown} />
+              <PassedChecks scoreBreakdown={result.scoreBreakdown} isPro={isPro} />
 
               {/* Issues Found */}
               {result.scoreBreakdown && (
-                <IssuesFound issues={result.scoreBreakdown} />
+                <IssuesFound issues={result.scoreBreakdown} isPro={isPro} />
               )}
 
               {/* Score Breakdown */}

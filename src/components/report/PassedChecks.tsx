@@ -55,7 +55,7 @@ function getTooltip(itemName: string): string {
     return CHECK_TOOLTIPS[cleanName] || `This check passed successfully.`;
 }
 
-const FREE_VISIBLE_COUNT = 3;
+const FREE_VISIBLE_COUNT = 5;
 
 export function PassedChecks({ scoreBreakdown, isPro = false }: PassedChecksProps) {
     const passedItems = scoreBreakdown?.filter(b => b.passed) || [];

@@ -4,6 +4,7 @@ import { Tooltip } from '@/components/Tooltip';
 
 interface IssuesFoundProps {
     issues: Array<{ item: string; points: number }>;
+    isPro?: boolean;
 }
 
 // Remove parentheses and their content for cleaner display
@@ -110,16 +111,21 @@ function getTooltip(item: string): string | null {
     return 'This issue may affect your privacy compliance or security posture. Click to see details in the full report.';
 }
 
-export function IssuesFound({ issues }: IssuesFoundProps) {
+const FREE_VISIBLE_COUNT = 5;
+
+export function IssuesFound({ issues, isPro = false }: IssuesFoundProps) {
     const failedItems = issues.filter(b => b.points < 0);
 
     if (failedItems.length === 0) return null;
+
+    const visibleItems = isPro ? failedItems : failedItems.slice(0, FREE_VISIBLE_COUNT);
+    const blurredItems = isPro ? [] : failedItems.slice(FREE_VISIBLE_COUNT);
 
     return (
         <div className="mb-6 p-4 rounded-lg border border-slate-300">
             <h4 className="text-sm font-semibold text-red-600 mb-3">Issues Found</h4>
             <div className="flex flex-wrap gap-3">
-                {failedItems.map((item, i) => {
+                {visibleItems.map((item, i) => {
                     const label = stripParentheses(item.item);
                     const tooltip = getTooltip(item.item);
                     return (
@@ -131,6 +137,37 @@ export function IssuesFound({ issues }: IssuesFoundProps) {
                         </span>
                     );
                 })}
+
+                {/* Blurred items (free users only) */}
+                {blurredItems.length > 0 && (
+                    <div className="relative w-full">
+                        <div className="flex flex-wrap gap-3 blur-[6px] select-none pointer-events-none" aria-hidden="true">
+                            {blurredItems.map((item, i) => {
+                                const label = stripParentheses(item.item);
+                                return (
+                                    <span key={i + FREE_VISIBLE_COUNT} className="flex items-center gap-1.5 px-2 py-1 text-xs text-red-600">
+                                        <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        {label}
+                                    </span>
+                                );
+                            })}
+                        </div>
+                        {/* Upgrade overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <a
+                                href="#pricing"
+                                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-teal-500 text-white text-xs font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                            >
+                                <svg className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                Upgrade to Pro
+                            </a>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

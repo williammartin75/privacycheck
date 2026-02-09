@@ -22,7 +22,7 @@ export const recommendations: Record<string, Recommendation> = {
         title: 'Add Cookie Consent Banner',
         description: 'Your site needs a cookie consent banner to comply with GDPR and ePrivacy regulations.',
         steps: [
-            'Choose a consent management platform (CMP) like Cookiebot, OneTrust, or open-source alternatives',
+            'Choose a consent management platform (CMP) like OneTrust, Didomi, or open-source alternatives',
             'Configure the banner to block non-essential cookies until consent is given',
             'Categorize your cookies (necessary, analytics, marketing, preferences)',
             'Add clear accept/reject buttons - avoid dark patterns',

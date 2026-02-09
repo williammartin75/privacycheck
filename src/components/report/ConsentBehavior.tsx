@@ -95,7 +95,7 @@ export function ConsentBehavior({
                             <div>
                                 <p className="font-semibold text-slate-800">Consent Implementation Quality</p>
                                 <p className="text-sm text-slate-500">
-                                    {consentBehavior.consentProvider ? `Using ${consentBehavior.consentProvider}` : 'Consent banner detected'}
+                                    Consent banner detected
                                 </p>
                             </div>
                         </div>
