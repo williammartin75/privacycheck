@@ -264,12 +264,10 @@ export function PricingCards({ onCheckout }: PricingCardsProps) {
                             <CheckIcon className="w-5 h-5 text-blue-200" />
                             Technology Stack Detection
                         </li>
-                        {!isOneTime && (
-                            <li className="flex items-center gap-2 text-white">
-                                <CheckIcon className="w-5 h-5 text-blue-200" />
-                                WordPress Plugin
-                            </li>
-                        )}
+                        <li className="flex items-center gap-2 text-white">
+                            <CheckIcon className="w-5 h-5 text-blue-200" />
+                            WordPress Plugin
+                        </li>
                     </ul>
                     <button onClick={() => onCheckout('pro', billingPeriod, isOneTime ? 'one_time' : undefined)} className="block w-full py-3 bg-white text-blue-600 font-semibold rounded-md hover:bg-blue-50 transition text-center mt-auto">
                         {isOneTime ? `Get Pro Report \u2014 \u20AC${PRICING.pro.one_time}` : 'Get Pro Now'}
