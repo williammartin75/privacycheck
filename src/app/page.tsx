@@ -466,7 +466,7 @@ export default function Home() {
             <a href="#faq" className="hidden sm:block text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">FAQ</a>
             {user ? (
               <div className="flex items-center gap-4">
-                <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition text-sm">
+                <Link href="/dashboard" className="hidden sm:inline text-gray-600 hover:text-gray-900 transition text-sm">
                   Dashboard
                 </Link>
                 <span className="text-gray-600 text-sm">{user.email}</span>
