@@ -877,11 +877,14 @@ export async function POST(request: NextRequest) {
         const maxExtraPages = isProPlus ? 199 : (isPro ? 99 : 19); // +1 for main page = 20, 100, or 200
         const allInternalLinks = extractInternalLinks(mainPage.html, baseUrl);
 
+        // For free users, truncate links immediately — no need to discover 174 links when only 19 will be crawled
+        if (!isPro) {
+            allInternalLinks.length = Math.min(allInternalLinks.length, maxExtraPages);
+        }
+
         // Debug: Log link extraction results
         console.log(`[AUDIT] maxExtraPages: ${maxExtraPages}, internalLinksFound: ${allInternalLinks.length}`);
 
-        // For deeper crawl, also get links from the first batch of pages
-        const firstBatchLinks = allInternalLinks.slice(0, 5);
         const scannedUrls = new Set<string>([baseUrl.toString()]);
 
         // Parallel batch crawl function
@@ -921,11 +924,13 @@ export async function POST(request: NextRequest) {
                     }
                 }
 
-                // Collect more links from scanned pages
-                const newLinks = extractInternalLinks(pageResult.html, baseUrl);
-                for (const newLink of newLinks) {
-                    if (!scannedUrls.has(newLink) && allInternalLinks.length < maxExtraPages * 2) {
-                        allInternalLinks.push(newLink);
+                // Only discover deeper links for Pro/Pro+ users
+                if (isPro) {
+                    const newLinks = extractInternalLinks(pageResult.html, baseUrl);
+                    for (const newLink of newLinks) {
+                        if (!scannedUrls.has(newLink) && allInternalLinks.length < maxExtraPages * 2) {
+                            allInternalLinks.push(newLink);
+                        }
                     }
                 }
             }
@@ -938,7 +943,7 @@ export async function POST(request: NextRequest) {
         const batchSize = isPro || isProPlus ? 10 : 20; // Free: all at once, Pro/Pro+: batches of 10
         let linkIndex = 0;
 
-        // Process links as they are discovered (allInternalLinks grows during crawl)
+        // Process links as they are discovered (allInternalLinks grows during crawl for Pro/Pro+)
         while (linkIndex < allInternalLinks.length && pages.length < maxPages) {
             const remainingSlots = maxPages - pages.length;
             const batch = allInternalLinks.slice(linkIndex, linkIndex + Math.min(batchSize, remainingSlots));
