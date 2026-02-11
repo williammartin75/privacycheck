@@ -1,0 +1,11 @@
+const fs = require('fs');
+const dir = 'C:\\Users\\willi\\OneDrive\\Bureau\\Mails\\All unique mails\\Professional mails\\URLS\\Cleaned Chunks analysis\\Domains with issues\\Emails to contact\\By languages\\Real emails\\Strategy';
+const csv = fs.readFileSync(dir + '\\ditlead_all_mailboxes.csv', 'utf-8');
+const lines = csv.split('\n');
+const header = lines[0];
+const data = lines.slice(1).filter(l => l.trim());
+fs.writeFileSync(dir + '\\ditlead_batch_1.csv', header + '\n' + data.slice(0, 300).join('\n'), 'utf-8');
+fs.writeFileSync(dir + '\\ditlead_batch_2.csv', header + '\n' + data.slice(300).join('\n'), 'utf-8');
+console.log('Batch 1:', data.slice(0, 300).length, 'rows');
+console.log('Batch 2:', data.slice(300).length, 'rows');
+console.log('Done!');

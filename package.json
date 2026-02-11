@@ -27,7 +27,21 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
+    "ssh2": "^1.17.0",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "description": "> **Free GDPR & CCPA Compliance Scanner for Websites**",
+  "main": "add-rescan-leads.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/williammartin75/privacycheck.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/williammartin75/privacycheck/issues"
+  },
+  "homepage": "https://github.com/williammartin75/privacycheck#readme"
 }

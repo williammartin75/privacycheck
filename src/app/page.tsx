@@ -94,6 +94,22 @@ export default function Home() {
   const [showMixedContent, setShowMixedContent] = useState(false);
   const [showFormSecurity, setShowFormSecurity] = useState(false);
 
+  // Checkout feedback state
+  const [checkoutStatus, setCheckoutStatus] = useState<'success' | 'canceled' | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true') {
+      setCheckoutStatus('success');
+      window.history.replaceState({}, '', '/');
+      setTimeout(() => setCheckoutStatus(null), 8000);
+    } else if (params.get('canceled') === 'true') {
+      setCheckoutStatus('canceled');
+      window.history.replaceState({}, '', '/');
+      setTimeout(() => setCheckoutStatus(null), 6000);
+    }
+  }, []);
+
   // Cookie consent banner state
   const [showCookieConsent, setShowCookieConsent] = useState(false);
 
@@ -450,6 +466,42 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Checkout feedback toast */}
+      {checkoutStatus && (
+        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 px-6 py-4 rounded-xl shadow-2xl border backdrop-blur-sm transition-all duration-500 ${checkoutStatus === 'success'
+          ? 'bg-green-50/95 border-green-200 text-green-800'
+          : 'bg-amber-50/95 border-amber-200 text-amber-800'
+          }`}>
+          <div className="flex items-center gap-3">
+            {checkoutStatus === 'success' ? (
+              <>
+                <svg className="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <p className="font-semibold">Payment successful!</p>
+                  <p className="text-sm opacity-80">Your Pro features are now active. Thank you!</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <svg className="w-6 h-6 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+                <div>
+                  <p className="font-semibold">Payment cancelled</p>
+                  <p className="text-sm opacity-80">No worries — you can upgrade anytime.</p>
+                </div>
+              </>
+            )}
+            <button onClick={() => setCheckoutStatus(null)} className="ml-4 opacity-50 hover:opacity-100">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
       {/* Skip Link for Accessibility */}
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-blue-600 focus:text-white">
         Skip to main content

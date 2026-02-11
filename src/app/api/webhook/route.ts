@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
             case 'checkout.session.completed': {
                 const session = event.data.object as Stripe.Checkout.Session;
 
-                if (session.mode === 'subscription' && session.customer_email) {
+                if (session.customer_email) {
                     // Get user by email
                     const { data: users } = await supabase.auth.admin.listUsers();
                     const user = users?.users.find(u => u.email === session.customer_email);
@@ -40,18 +40,37 @@ export async function POST(request: NextRequest) {
                     if (user) {
                         // Extract tier from metadata (default to 'pro')
                         const tier = (session.metadata?.tier === 'pro_plus') ? 'pro_plus' : 'pro';
+                        const purchaseMode = session.metadata?.purchaseMode || (session.mode === 'subscription' ? 'subscription' : 'one_time');
 
-                        // Create or update subscription
-                        await supabase.from('subscriptions').upsert({
-                            user_id: user.id,
-                            stripe_customer_id: session.customer as string,
-                            stripe_subscription_id: session.subscription as string,
-                            status: 'active',
-                            tier: tier,
-                            updated_at: new Date().toISOString(),
-                        }, {
-                            onConflict: 'user_id'
-                        });
+                        if (session.mode === 'subscription') {
+                            // Recurring subscription
+                            await supabase.from('subscriptions').upsert({
+                                user_id: user.id,
+                                stripe_customer_id: session.customer as string,
+                                stripe_subscription_id: session.subscription as string,
+                                status: 'active',
+                                tier: tier,
+                                updated_at: new Date().toISOString(),
+                            }, {
+                                onConflict: 'user_id'
+                            });
+                        } else if (session.mode === 'payment') {
+                            // One-time payment — grant lifetime access
+                            await supabase.from('subscriptions').upsert({
+                                user_id: user.id,
+                                stripe_customer_id: session.customer as string,
+                                stripe_subscription_id: `onetime_${session.id}`,
+                                status: 'active',
+                                tier: tier,
+                                updated_at: new Date().toISOString(),
+                            }, {
+                                onConflict: 'user_id'
+                            });
+                        }
+
+                        console.log(`[WEBHOOK] Checkout completed: ${session.customer_email}, tier=${tier}, mode=${purchaseMode}`);
+                    } else {
+                        console.error(`[WEBHOOK] User not found for email: ${session.customer_email}`);
                     }
                 }
                 break;
