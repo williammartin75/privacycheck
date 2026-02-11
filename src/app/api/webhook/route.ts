@@ -68,6 +68,11 @@ export async function POST(request: NextRequest) {
                             });
                         }
 
+                        // Sync tier into user app_metadata (visible in Supabase Auth dashboard)
+                        await supabase.auth.admin.updateUserById(user.id, {
+                            app_metadata: { tier, purchaseMode, stripe_customer_id: session.customer as string }
+                        });
+
                         console.log(`[WEBHOOK] Checkout completed: ${session.customer_email}, tier=${tier}, mode=${purchaseMode}`);
                     } else {
                         console.error(`[WEBHOOK] User not found for email: ${session.customer_email}`);
@@ -90,10 +95,19 @@ export async function POST(request: NextRequest) {
             case 'customer.subscription.deleted': {
                 const subscription = event.data.object as Stripe.Subscription;
 
-                await supabase.from('subscriptions').update({
-                    status: 'inactive',
-                    updated_at: new Date().toISOString(),
-                }).eq('stripe_subscription_id', subscription.id);
+                // Downgrade in subscriptions table
+                const { data: subRow } = await supabase.from('subscriptions')
+                    .update({ status: 'inactive', updated_at: new Date().toISOString() })
+                    .eq('stripe_subscription_id', subscription.id)
+                    .select('user_id')
+                    .single();
+
+                // Also downgrade app_metadata so Auth dashboard reflects it
+                if (subRow?.user_id) {
+                    await supabase.auth.admin.updateUserById(subRow.user_id, {
+                        app_metadata: { tier: 'free', purchaseMode: null }
+                    });
+                }
                 break;
             }
         }
