@@ -13,21 +13,33 @@ export function ArticleLayout({ post, children }: ArticleLayoutProps) {
 
     const jsonLd = {
         '@context': 'https://schema.org',
-        '@type': 'Article',
+        '@type': 'BlogPosting',
         headline: post.title,
         description: post.description,
         datePublished: post.date,
         dateModified: post.date,
         author: { '@type': 'Organization', name: 'PrivacyChecker', url: 'https://privacychecker.pro' },
-        publisher: { '@type': 'Organization', name: 'PrivacyChecker', url: 'https://privacychecker.pro' },
+        publisher: { '@type': 'Organization', name: 'PrivacyChecker', url: 'https://privacychecker.pro', logo: { '@type': 'ImageObject', url: 'https://privacychecker.pro/logo.png' } },
         mainEntityOfPage: `https://privacychecker.pro/blog/${post.slug}`,
+        image: 'https://privacychecker.pro/og-image.png',
         keywords: post.keywords.join(', '),
+    };
+
+    const breadcrumbLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://privacychecker.pro' },
+            { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://privacychecker.pro/blog' },
+            { '@type': 'ListItem', position: 3, name: post.title, item: `https://privacychecker.pro/blog/${post.slug}` },
+        ],
     };
 
     return (
         <div className="min-h-screen bg-white">
             {/* JSON-LD */}
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
             {/* Header */}
             <header className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">

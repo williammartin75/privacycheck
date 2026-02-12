@@ -3,6 +3,14 @@ import Link from 'next/link';
 export const metadata = {
     title: 'Terms of Service | PrivacyChecker',
     description: 'Terms of Service for PrivacyChecker - subscription terms, acceptable use policy, and service level agreement.',
+    openGraph: {
+        title: 'Terms of Service | PrivacyChecker',
+        description: 'Subscription terms, acceptable use policy, and service level agreement for PrivacyChecker.',
+        url: 'https://privacychecker.pro/terms',
+    },
+    alternates: {
+        canonical: 'https://privacychecker.pro/terms',
+    },
 };
 
 export default function TermsPage() {

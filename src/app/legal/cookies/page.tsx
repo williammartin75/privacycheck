@@ -3,6 +3,14 @@ import Link from 'next/link';
 export const metadata = {
     title: 'Cookie Policy | PrivacyChecker',
     description: 'Cookie Policy for PrivacyChecker - Information about cookies and tracking technologies used on our website.',
+    openGraph: {
+        title: 'Cookie Policy | PrivacyChecker',
+        description: 'Information about cookies and tracking technologies used on privacychecker.pro.',
+        url: 'https://privacychecker.pro/legal/cookies',
+    },
+    alternates: {
+        canonical: 'https://privacychecker.pro/legal/cookies',
+    },
 };
 
 export default function CookiePolicyPage() {

@@ -1,8 +1,20 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
 
-export const metadata = {
-    title: 'About | PrivacyChecker',
-    description: 'About PrivacyChecker - An independent privacy compliance platform helping businesses achieve GDPR and CCPA compliance.',
+export const metadata: Metadata = {
+    title: 'About PrivacyChecker | Privacy Compliance Platform — GDPR & CCPA',
+    description: 'PrivacyChecker is an independent privacy compliance platform. 50+ automated checks for GDPR, CCPA, EAA 2025, and EU AI Act. Founded in Paris, data stored in the EU.',
+    keywords: ['about PrivacyChecker', 'privacy compliance platform', 'GDPR scanner', 'CCPA compliance tool', 'website privacy audit'],
+    openGraph: {
+        title: 'About PrivacyChecker — Privacy Compliance Platform',
+        description: 'Independent privacy compliance platform with 50+ automated checks. Founded in Paris, EU-hosted data.',
+        url: 'https://privacychecker.pro/about',
+        siteName: 'PrivacyChecker',
+        type: 'website',
+    },
+    alternates: {
+        canonical: 'https://privacychecker.pro/about',
+    },
 };
 
 export default function AboutPage() {

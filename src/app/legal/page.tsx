@@ -1,8 +1,16 @@
 import Link from 'next/link';
 
 export const metadata = {
-    title: 'Legal | PrivacyChecker',
+    title: 'Legal Center | PrivacyChecker',
     description: 'Legal documents for PrivacyChecker - Terms of Service, Privacy Policy, Data Processing Agreement, and more.',
+    openGraph: {
+        title: 'Legal Center | PrivacyChecker',
+        description: 'All legal documents governing the use of PrivacyChecker services. GDPR compliant.',
+        url: 'https://privacychecker.pro/legal',
+    },
+    alternates: {
+        canonical: 'https://privacychecker.pro/legal',
+    },
 };
 
 export default function LegalHubPage() {

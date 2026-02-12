@@ -3,6 +3,14 @@ import Link from 'next/link';
 export const metadata = {
     title: 'Data Processing Agreement (DPA) | PrivacyChecker',
     description: 'Data Processing Agreement for PrivacyChecker - GDPR-compliant terms for processing personal data on behalf of our customers.',
+    openGraph: {
+        title: 'Data Processing Agreement | PrivacyChecker',
+        description: 'GDPR Article 28 compliant DPA for business customers. Sub-processors, security measures, and data handling.',
+        url: 'https://privacychecker.pro/legal/dpa',
+    },
+    alternates: {
+        canonical: 'https://privacychecker.pro/legal/dpa',
+    },
 };
 
 export default function DPAPage() {

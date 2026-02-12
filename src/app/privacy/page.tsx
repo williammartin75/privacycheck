@@ -3,6 +3,14 @@ import Link from 'next/link';
 export const metadata = {
     title: 'Privacy Policy | PrivacyChecker',
     description: 'Privacy Policy for PrivacyChecker - How we collect, use, and protect your data. GDPR compliant.',
+    openGraph: {
+        title: 'Privacy Policy | PrivacyChecker',
+        description: 'How we collect, use, and protect your data. GDPR compliant.',
+        url: 'https://privacychecker.pro/privacy',
+    },
+    alternates: {
+        canonical: 'https://privacychecker.pro/privacy',
+    },
 };
 
 export default function PrivacyPolicyPage() {
