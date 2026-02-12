@@ -1,0 +1,82 @@
+[
+  {
+    "i": 51,
+    "email": "audit4@privacy-audit.cloud",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 133,
+    "email": "report2@privacyauditmail.cloud",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 167,
+    "email": "info4@mailprivacyaudit.online",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 189,
+    "email": "hello2@mailprivacyaudit.online",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 210,
+    "email": "audit3@mailprivacyaudit.cloud",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 257,
+    "email": "team2@mailprivacyaudit.site",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 260,
+    "email": "sales1@mailprivacyaudit.site",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 261,
+    "email": "sales2@mailprivacyaudit.site",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 262,
+    "email": "sales3@mailprivacyaudit.site",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 263,
+    "email": "sales4@mailprivacyaudit.site",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 279,
+    "email": "gdpr4@mailprivacyaudit.site",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 281,
+    "email": "contact2@mailprivacycheck.online",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 299,
+    "email": "team4@mailprivacycheck.online",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 301,
+    "email": "sales2@mailprivacycheck.online",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 302,
+    "email": "sales3@mailprivacycheck.online",
+    "error": "TIMEOUT"
+  },
+  {
+    "i": 303,
+    "email": "sales4@mailprivacycheck.online",
+    "error": "TIMEOUT"
+  }
+]

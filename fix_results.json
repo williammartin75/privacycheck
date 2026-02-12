@@ -1,0 +1,282 @@
+[
+  {
+    "id": 1,
+    "ip": "107.174.93.156",
+    "hostname": "mail.privacy-checker-pro.online",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.privacy-checker-pro.online.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 2,
+    "ip": "198.12.71.145",
+    "hostname": "mail.privacy-checker-pro.site",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.privacy-checker-pro.site.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 3,
+    "ip": "206.217.139.115",
+    "hostname": "mail.mailprivacycheckerpro.site",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.mailprivacycheckerpro.site.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 4,
+    "ip": "206.217.139.116",
+    "hostname": "mail.mailprivacycheckerpro.cloud",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.mailprivacycheckerpro.cloud.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 5,
+    "ip": "23.95.242.32",
+    "hostname": "mail.mailprivacycheckerpro.website",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.mailprivacycheckerpro.website.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 6,
+    "ip": "192.3.86.156",
+    "hostname": "mail.mail-privacy-checker-pro.site",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.mail-privacy-checker-pro.site.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 7,
+    "ip": "107.175.83.186",
+    "hostname": "mail.mail-privacy-checker-pro.website",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.mail-privacy-checker-pro.website.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 8,
+    "ip": "23.226.135.153",
+    "hostname": "mail.reviewprivacycheckerpro.cloud",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.reviewprivacycheckerpro.cloud.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 9,
+    "ip": "64.188.29.151",
+    "hostname": "mail.reviewprivacycheckerpro.site",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.reviewprivacycheckerpro.site.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 10,
+    "ip": "23.94.240.173",
+    "hostname": "mail.reviewprivacycheckerpro.online",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail.reviewprivacycheckerpro.online.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 11,
+    "ip": "107.174.93.166",
+    "hostname": "mail.privacycheckermailpro.cloud",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "107-174-93-166-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 12,
+    "ip": "23.94.103.173",
+    "hostname": "mail.privacycheckermailpro.website",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "myriadnerd.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 13,
+    "ip": "23.95.37.92",
+    "hostname": "mail.privacycheckermailpro.icu",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "23-95-37-92-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 14,
+    "ip": "23.94.103.174",
+    "hostname": "mail.privacy-checker-mail-pro.cloud",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "3362-harden.myriadnerd.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 15,
+    "ip": "192.227.193.17",
+    "hostname": "mail.privacy-checker-mail-pro.space",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "jsovrpa.cn.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 16,
+    "ip": "107.174.93.172",
+    "hostname": "mail.privacy-checker-mail-pro.icu",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "107-174-93-172-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 17,
+    "ip": "107.174.88.210",
+    "hostname": "mail.theprivacycheckerpro.cloud",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail5.amazeusz.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 18,
+    "ip": "23.95.215.19",
+    "hostname": "mail.theprivacycheckerpro.site",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "23-95-215-19-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 19,
+    "ip": "107.175.214.243",
+    "hostname": "mail.theprivacycheckerpro.online",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "107-175-214-243-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 20,
+    "ip": "107.172.30.53",
+    "hostname": "mail.theprivacycheckerpro.website",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mta0.cllcq8.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 21,
+    "ip": "192.227.234.211",
+    "hostname": "mail.privacyaudit.online",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "192-227-234-211-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 22,
+    "ip": "172.245.57.166",
+    "hostname": "mail.privacyaudit.cloud",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "mail6.haztetrillonario.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 23,
+    "ip": "192.227.137.91",
+    "hostname": "mail.mailprivacyaudit.online",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "sharpbreakboys.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 24,
+    "ip": "107.174.93.184",
+    "hostname": "mail.mailprivacyaudit.site",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "107-174-93-184-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 25,
+    "ip": "107.174.252.122",
+    "hostname": "mail.mailprivacycheck.cloud",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "107-174-252-122-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 26,
+    "ip": "23.94.102.141",
+    "hostname": "mail.mailprivacyreview.info",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "23-94-102-141-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 27,
+    "ip": "64.188.28.154",
+    "hostname": "mail.mailprivacyreview.site",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "none",
+    "fixes": [],
+    "ok": true
+  },
+  {
+    "id": 28,
+    "ip": "69.12.85.166",
+    "hostname": "mail.mail-privacy-checker.info",
+    "dkim": "active",
+    "postfix": "active",
+    "ptr": "69-12-85-166-host.colocrossing.com.",
+    "fixes": [],
+    "ok": true
+  }
+]

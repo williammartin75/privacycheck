@@ -1,0 +1,1397 @@
+[
+  {
+    "vps": 1,
+    "ip": "107.174.93.156",
+    "domain": "privacy-checker-pro.online",
+    "avgScore": 74,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 1,
+    "ip": "107.174.93.156",
+    "domain": "privacy-checker-pro.cloud",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 2,
+    "ip": "198.12.71.145",
+    "domain": "privacy-checker-pro.site",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 2,
+    "ip": "198.12.71.145",
+    "domain": "privacy-checker-pro.website",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 3,
+    "ip": "206.217.139.115",
+    "domain": "mailprivacycheckerpro.site",
+    "avgScore": 85,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "C",
+      "score": 84
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 3,
+    "ip": "206.217.139.115",
+    "domain": "mailprivacycheckerpro.icu",
+    "avgScore": 71,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "C",
+      "score": 84
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 4,
+    "ip": "206.217.139.116",
+    "domain": "mailprivacycheckerpro.cloud",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 4,
+    "ip": "206.217.139.116",
+    "domain": "mailprivacycheckerpro.space",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 5,
+    "ip": "23.95.242.32",
+    "domain": "mailprivacycheckerpro.website",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 5,
+    "ip": "23.95.242.32",
+    "domain": "mail-privacy-checker-pro.cloud",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 6,
+    "ip": "192.3.86.156",
+    "domain": "mail-privacy-checker-pro.site",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 7,
+    "ip": "107.175.83.186",
+    "domain": "mail-privacy-checker-pro.website",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 8,
+    "ip": "23.226.135.153",
+    "domain": "reviewprivacycheckerpro.cloud",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 9,
+    "ip": "64.188.29.151",
+    "domain": "reviewprivacycheckerpro.site",
+    "avgScore": 88,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "C",
+      "score": 85
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 10,
+    "ip": "23.94.240.173",
+    "domain": "reviewprivacycheckerpro.online",
+    "avgScore": 74,
+    "dns": {
+      "grade": "D",
+      "score": 72
+    },
+    "auth": {
+      "grade": "D",
+      "score": 71
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 11,
+    "ip": "107.174.93.166",
+    "domain": "privacycheckermailpro.cloud",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 11,
+    "ip": "107.174.93.166",
+    "domain": "privacycheckermailpro.site",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 12,
+    "ip": "23.94.103.173",
+    "domain": "privacycheckermailpro.website",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 12,
+    "ip": "23.94.103.173",
+    "domain": "privacycheckermailpro.space",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 13,
+    "ip": "23.95.37.92",
+    "domain": "privacycheckermailpro.icu",
+    "avgScore": 70,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 13,
+    "ip": "23.95.37.92",
+    "domain": "privacy-checker-mail-pro.online",
+    "avgScore": 70,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 14,
+    "ip": "23.94.103.174",
+    "domain": "privacy-checker-mail-pro.cloud",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 14,
+    "ip": "23.94.103.174",
+    "domain": "privacy-checker-mail-pro.site",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 15,
+    "ip": "192.227.193.17",
+    "domain": "privacy-checker-mail-pro.space",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 15,
+    "ip": "192.227.193.17",
+    "domain": "privacy-checker-mail-pro.website",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 16,
+    "ip": "107.174.93.172",
+    "domain": "privacy-checker-mail-pro.icu",
+    "avgScore": 70,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 17,
+    "ip": "107.174.88.210",
+    "domain": "theprivacycheckerpro.cloud",
+    "avgScore": 79,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "C",
+      "score": 84
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 18,
+    "ip": "23.95.215.19",
+    "domain": "theprivacycheckerpro.site",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 19,
+    "ip": "107.175.214.243",
+    "domain": "theprivacycheckerpro.online",
+    "avgScore": 70,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 20,
+    "ip": "107.172.30.53",
+    "domain": "theprivacycheckerpro.website",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 21,
+    "ip": "192.227.234.211",
+    "domain": "privacyaudit.online",
+    "avgScore": 70,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 21,
+    "ip": "192.227.234.211",
+    "domain": "privacy-audit.cloud",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 22,
+    "ip": "172.245.57.166",
+    "domain": "privacyaudit.cloud",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 22,
+    "ip": "172.245.57.166",
+    "domain": "privacyauditmail.cloud",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 23,
+    "ip": "192.227.137.91",
+    "domain": "mailprivacyaudit.online",
+    "avgScore": 70,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 23,
+    "ip": "192.227.137.91",
+    "domain": "mailprivacyaudit.cloud",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 24,
+    "ip": "107.174.93.184",
+    "domain": "mailprivacyaudit.site",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 24,
+    "ip": "107.174.93.184",
+    "domain": "mailprivacycheck.online",
+    "avgScore": 70,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 25,
+    "ip": "107.174.252.122",
+    "domain": "mailprivacycheck.cloud",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 25,
+    "ip": "107.174.252.122",
+    "domain": "mailprivacyreview.online",
+    "avgScore": 70,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 26,
+    "ip": "23.94.102.141",
+    "domain": "mailprivacyreview.info",
+    "avgScore": 84,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "C",
+      "score": 87
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 26,
+    "ip": "23.94.102.141",
+    "domain": "mailprivacyreview.cloud",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "A",
+      "score": 100
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 27,
+    "ip": "64.188.28.154",
+    "domain": "mailprivacyreview.site",
+    "avgScore": 77,
+    "dns": {
+      "grade": "E",
+      "score": 52
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "D",
+      "score": 72
+    },
+    "blacklist": {
+      "grade": "C",
+      "score": 84
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 27,
+    "ip": "64.188.28.154",
+    "domain": "mail-privacy-checker.online",
+    "avgScore": 65,
+    "dns": {
+      "grade": "E",
+      "score": 52
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "F",
+      "score": 0
+    },
+    "blacklist": {
+      "grade": "C",
+      "score": 84
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  },
+  {
+    "vps": 28,
+    "ip": "69.12.85.166",
+    "domain": "mail-privacy-checker.info",
+    "avgScore": 82,
+    "dns": {
+      "grade": "E",
+      "score": 62
+    },
+    "auth": {
+      "grade": "E",
+      "score": 56
+    },
+    "spam": {
+      "grade": "C",
+      "score": 87
+    },
+    "blacklist": {
+      "grade": "C",
+      "score": 84
+    },
+    "content": {
+      "grade": "A",
+      "score": 100
+    },
+    "headers": {
+      "grade": "A",
+      "score": 100
+    },
+    "spamDetails": {}
+  }
+]
