@@ -45,6 +45,9 @@ export const metadata: Metadata = {
     images: ["https://privacychecker.pro/og-image.png"],
   },
   metadataBase: new URL("https://privacychecker.pro"),
+  verification: {
+    google: "NmfWlawWX20rs8aA2StcgEocD3lxYBXlzttI85l4Bwo",
+  },
 };
 
 export default function RootLayout({

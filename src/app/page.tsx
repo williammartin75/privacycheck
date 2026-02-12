@@ -516,7 +516,6 @@ export default function Home() {
           <div className="flex items-center gap-3 sm:gap-6">
             <a href="#pricing" className="hidden sm:block text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">Pricing</a>
             <a href="#faq" className="hidden sm:block text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">FAQ</a>
-            <Link href="/blog" className="hidden sm:block text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">Blog</Link>
             {user ? (
               <div className="flex items-center gap-4">
                 <Link href="/dashboard" className="hidden sm:inline text-gray-600 hover:text-gray-900 transition text-sm">
