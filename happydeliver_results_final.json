@@ -1,0 +1,116 @@
+{
+  "tests": [
+    {
+      "id": "lrvlz3s-imfhqvc-y45xgax-d6vwm",
+      "domain": "privacyaudit.online",
+      "vps": 21,
+      "email": "test-lrvlz3s-imfhqvc-y45xgax-d6vwm@emailtester.local"
+    },
+    {
+      "id": "b46fjst-l5bawvk-hilib3n-c6pli",
+      "domain": "privacyaudit.info",
+      "vps": 21,
+      "email": "test-b46fjst-l5bawvk-hilib3n-c6pli@emailtester.local"
+    },
+    {
+      "id": "gbazwkp-tr5fxnj-z2e3kwc-wjbii",
+      "domain": "mailprivacychecker.space",
+      "vps": 31,
+      "email": "test-gbazwkp-tr5fxnj-z2e3kwc-wjbii@emailtester.local"
+    },
+    {
+      "id": "b57cwov-omfdtvf-hdy3k65-q4iua",
+      "domain": "mailprivacychecker.website",
+      "vps": 31,
+      "email": "test-b57cwov-omfdtvf-hdy3k65-q4iua@emailtester.local"
+    },
+    {
+      "id": "deaok3f-dqzaojk-beje6x3-exqcm",
+      "domain": "contactprivacychecker.info",
+      "vps": 32,
+      "email": "test-deaok3f-dqzaojk-beje6x3-exqcm@emailtester.local"
+    },
+    {
+      "id": "nieypwc-wmvbtde-kalektk-35hkm",
+      "domain": "contactprivacychecker.cloud",
+      "vps": 33,
+      "email": "test-nieypwc-wmvbtde-kalektk-35hkm@emailtester.local"
+    },
+    {
+      "id": "sw4rov6-o2fftpd-mmou2ew-scmum",
+      "domain": "contactprivacychecker.site",
+      "vps": 34,
+      "email": "test-sw4rov6-o2fftpd-mmou2ew-scmum@emailtester.local"
+    },
+    {
+      "id": "5nimz7t-mafhcpk-h2jeo2q-qqo24",
+      "domain": "contactprivacychecker.website",
+      "vps": 34,
+      "email": "test-5nimz7t-mafhcpk-h2jeo2q-qqo24@emailtester.local"
+    },
+    {
+      "id": "cofx36t-jbfbtlk-hqtloe2-6iu7i",
+      "domain": "reportprivacychecker.info",
+      "vps": 35,
+      "email": "test-cofx36t-jbfbtlk-hqtloe2-6iu7i@emailtester.local"
+    },
+    {
+      "id": "l5z2szk-wfjamvf-ujs4tcz-zltem",
+      "domain": "reportprivacychecker.cloud",
+      "vps": 35,
+      "email": "test-l5z2szk-wfjamvf-ujs4tcz-zltem@emailtester.local"
+    },
+    {
+      "id": "dfbcd3n-x5rdmjp-ot7jl7f-bnaai",
+      "domain": "reportprivacychecker.site",
+      "vps": 36,
+      "email": "test-dfbcd3n-x5rdmjp-ot7jl7f-bnaai@emailtester.local"
+    },
+    {
+      "id": "a4kksix-hsvbttk-q4tuyun-gctu4",
+      "domain": "reportprivacychecker.website",
+      "vps": 36,
+      "email": "test-a4kksix-hsvbttk-q4tuyun-gctu4@emailtester.local"
+    },
+    {
+      "id": "hptregk-aefgelk-wswhlmd-bo36q",
+      "domain": "checkprivacychecker.info",
+      "vps": 37,
+      "email": "test-hptregk-aefgelk-wswhlmd-bo36q@emailtester.local"
+    },
+    {
+      "id": "u6wjtvq-mhvdinj-2esdgz2-wsf3q",
+      "domain": "checkprivacychecker.cloud",
+      "vps": 37,
+      "email": "test-u6wjtvq-mhvdinj-2esdgz2-wsf3q@emailtester.local"
+    },
+    {
+      "id": "ru7dyjp-lsrfj3b-foz45ko-2gqc4",
+      "domain": "checkprivacychecker.site",
+      "vps": 38,
+      "email": "test-ru7dyjp-lsrfj3b-foz45ko-2gqc4@emailtester.local"
+    },
+    {
+      "id": "wukzwzq-j2fhs5n-qcrurf6-j6wha",
+      "domain": "checkprivacychecker.space",
+      "vps": 39,
+      "email": "test-wukzwzq-j2fhs5n-qcrurf6-j6wha@emailtester.local"
+    },
+    {
+      "id": "shp526b-z4fac5e-z7ghi5w-l2pzy",
+      "domain": "checkprivacychecker.website",
+      "vps": 40,
+      "email": "test-shp526b-z4fac5e-z7ghi5w-l2pzy@emailtester.local"
+    }
+  ],
+  "categories": {
+    "dns": [],
+    "auth": [],
+    "spam": [],
+    "bl": [],
+    "hdr": [],
+    "cnt": []
+  },
+  "graded": 0,
+  "avgScore": 0
+}

@@ -1,0 +1,224 @@
+{
+  "tests": [
+    {
+      "id": "knsucni-meze2bi-y6y27gg-jescu",
+      "domain": "privacyaudit.online",
+      "vps": 21,
+      "success": false
+    },
+    {
+      "id": "n6jrydh-eg5grff-jsm2hcs-rdhz4",
+      "domain": "privacyaudit.info",
+      "vps": 21,
+      "success": false
+    },
+    {
+      "id": "vcei6yb-7srhexc-vptjr63-xsj7u",
+      "domain": "mailprivacychecker.space",
+      "vps": 31,
+      "success": false
+    },
+    {
+      "id": "3oosi37-555bn5p-nrbezcj-7qhru",
+      "domain": "mailprivacychecker.website",
+      "vps": 31,
+      "success": false
+    },
+    {
+      "id": "ikv5rxh-uhbbmvn-hnzziev-b4lwe",
+      "domain": "contactprivacychecker.info",
+      "vps": 32,
+      "success": false
+    },
+    {
+      "id": "nyh755c-2yfd35m-l2jniue-4j65m",
+      "domain": "contactprivacychecker.cloud",
+      "vps": 33,
+      "success": false
+    },
+    {
+      "id": "glf35qz-ll5cmtj-s64rgfu-peiqu",
+      "domain": "contactprivacychecker.site",
+      "vps": 34,
+      "success": false
+    },
+    {
+      "id": "oiusedb-oc5dtll-xagwv73-q3ana",
+      "domain": "contactprivacychecker.website",
+      "vps": 34,
+      "success": false
+    },
+    {
+      "id": "xmbkwje-72jg7hk-et5r27v-f7cgi",
+      "domain": "reportprivacychecker.info",
+      "vps": 35,
+      "success": false
+    },
+    {
+      "id": "6ktjog2-3bnbb5f-6ex7ktv-eqyny",
+      "domain": "reportprivacychecker.cloud",
+      "vps": 35,
+      "success": false
+    },
+    {
+      "id": "kaynzr3-akjb7ho-th2h2lh-74icm",
+      "domain": "reportprivacychecker.site",
+      "vps": 36,
+      "success": false
+    },
+    {
+      "id": "su6gixo-7nrhita-qb4sc2b-car6q",
+      "domain": "reportprivacychecker.website",
+      "vps": 36,
+      "success": false
+    },
+    {
+      "id": "won5njb-skbb6xk-cdgbkpq-4ua24",
+      "domain": "checkprivacychecker.info",
+      "vps": 37,
+      "success": false
+    },
+    {
+      "id": "ajlwzcx-mrzar5h-pnznrec-2pyra",
+      "domain": "checkprivacychecker.cloud",
+      "vps": 37,
+      "success": false
+    },
+    {
+      "id": "dgj5seq-ggrcb5o-rzanr7k-robsy",
+      "domain": "checkprivacychecker.site",
+      "vps": 38,
+      "success": false
+    },
+    {
+      "id": "3txirns-4urffnb-f2iatom-rfqhm",
+      "domain": "checkprivacychecker.space",
+      "vps": 39,
+      "success": false
+    },
+    {
+      "id": "2vsmwtc-vhfeedi-cpdrmk3-5clmq",
+      "domain": "checkprivacychecker.website",
+      "vps": 40,
+      "success": false
+    }
+  ],
+  "categories": {
+    "dns": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "auth": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "spam": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "bl": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "hdr": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "cnt": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "graded": 17,
+  "avgScore": null
+}

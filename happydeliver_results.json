@@ -1,0 +1,325 @@
+[
+  {
+    "vps": 21,
+    "domain": "privacyaudit.online",
+    "score": 74,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "F",
+      "spam_score": 0
+    }
+  },
+  {
+    "vps": 21,
+    "domain": "privacyaudit.info",
+    "score": 76,
+    "summary": {
+      "authentication_grade": "F",
+      "authentication_score": 41,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "F",
+      "dns_score": 20,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "B",
+      "spam_score": 92
+    }
+  },
+  {
+    "vps": 31,
+    "domain": "mailprivacychecker.space",
+    "score": 82,
+    "summary": {
+      "authentication_grade": "E",
+      "authentication_score": 56,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "E",
+      "dns_score": 62,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "D",
+      "spam_score": 72
+    }
+  },
+  {
+    "vps": 31,
+    "domain": "mailprivacychecker.website",
+    "score": 82,
+    "summary": {
+      "authentication_grade": "E",
+      "authentication_score": 56,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "E",
+      "dns_score": 62,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "D",
+      "spam_score": 72
+    }
+  },
+  {
+    "vps": 32,
+    "domain": "contactprivacychecker.info",
+    "score": 91,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "A",
+      "spam_score": 100
+    }
+  },
+  {
+    "vps": 33,
+    "domain": "contactprivacychecker.cloud",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 34,
+    "domain": "contactprivacychecker.site",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 34,
+    "domain": "contactprivacychecker.website",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 35,
+    "domain": "reportprivacychecker.info",
+    "score": 91,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "A",
+      "spam_score": 100
+    }
+  },
+  {
+    "vps": 35,
+    "domain": "reportprivacychecker.cloud",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 36,
+    "domain": "reportprivacychecker.site",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 36,
+    "domain": "reportprivacychecker.website",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 37,
+    "domain": "checkprivacychecker.info",
+    "score": 91,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "A",
+      "spam_score": 100
+    }
+  },
+  {
+    "vps": 37,
+    "domain": "checkprivacychecker.cloud",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 38,
+    "domain": "checkprivacychecker.site",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 39,
+    "domain": "checkprivacychecker.space",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  },
+  {
+    "vps": 40,
+    "domain": "checkprivacychecker.website",
+    "score": 88,
+    "summary": {
+      "authentication_grade": "D",
+      "authentication_score": 71,
+      "blacklist_grade": "A",
+      "blacklist_score": 100,
+      "content_grade": "A",
+      "content_score": 100,
+      "dns_grade": "D",
+      "dns_score": 72,
+      "header_grade": "A",
+      "header_score": 100,
+      "spam_grade": "C",
+      "spam_score": 85
+    }
+  }
+]

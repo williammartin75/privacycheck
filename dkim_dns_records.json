@@ -1,0 +1,121 @@
+[
+  {
+    "domain": "privacyaudit.online",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.privacyaudit.online",
+    "value": "v=DKIM1;h=sha256;k=rsa;s=email;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtbTkYNblaxeP2jsP8d45Pd0n0iF8YnjIv0qY4L0WO7jhl21WLdw/JyjAmMdoGD7Yrjwal1a4sIcH/jUen43LzF4OfzOQ3SOgZpwCYkT606OIZzHZyQjC6EjUm3kHkkvCgnip6Onds7ERQzuFbyswRpbdA44M51l05Q5TB2KgnqYASbbrPCYvLFlbSQMKsvddWhrVFWrotLwXOoEz8lGQqrSy1jUEJEpepVU2UGLJhKJhZekv3GBj1IegvuA6itYUUoxr6sIRuH1cfHu5rk3f6gr3NN4SBAKlcpnKvJvIshInMXcBhBgpMLcwpbhILeOe1xpVyTFAsZjc3IeGyzIZnQIDAQAB"
+  },
+  {
+    "domain": "privacyaudit.info",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.privacyaudit.info",
+    "value": "v=DKIM1;h=sha256;k=rsa;s=email;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApikSEjyIc/Y1BhLyzFcNOgArZN/22BDN+ATT4+3Znpkatv0PzAbo1BlWgy92WAxtZBN9RgGOpSGJaFm3plsCroZQv+YIpt9XxOv/rRFnmwt3jlZzuMXtFBBiGeOE8IP+A9GsFiXG/O7/+hWLb9IcFE/MU1PhpSAGJBTM6OycVJ9X41fiGNrUsPxQsPZv6tWkUacSe3E2XngvXiRezstLypptBkP9NFvRNQwPS47XUcJLkiw5soCW+P4yPkk9Y+v837DgRY6v/7cwaAbcEfKDVmJGH79aedYC7wLQfjT3gtZjmTO+2mJNwJ6ess/xAlswVSg/MWsIDN8x65Pe26s1wwIDAQAB"
+  },
+  {
+    "domain": "mailprivacychecker.space",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.mailprivacychecker.space",
+    "value": "v=DKIM1;h=sha256;k=rsa;s=email;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAorGspFiW+7HWo0ybE5h1ttY9E/hSOrdU+zsAnQOBogxKBpbuxeODGqqYGMexp8dnq+4JwzTPDYgOyT8yXes9SjbV709t+vnaPXqOnBPmXrymR3KLwHFCmPyP5Y+qU//sSvP02hmByTRmeIIhTDa4ll1Ov14CDjtQku4uOTCaeLe0cs3vcuJfdnc/j6zg+NzUGxuA+HJvyyA5fV+ISVqrcSRHCqYDdsCclGbD2cch6wewK6KAdcxjQ29hO7kPVZoY5epbmBkNFgRiJq0QxIUF+fCaCNDlhVpNLA+vYdmuxvTBYrwUHoJXLvnA71sEoZ4Vd1Tf+WXn4bmPlddNfEPZSwIDAQAB"
+  },
+  {
+    "domain": "mailprivacychecker.website",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.mailprivacychecker.website",
+    "value": "v=DKIM1;h=sha256;k=rsa;s=email;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3BC4PO8JBAUoZdNabna0bGiPyN9sAg/furqzuERSh/A3wifGTRBdu2Q28u5L9ho6+UCLgwoTITK7Erv610q5wcpZXY9bRzfBVxuW+XTUFVT4yxaLBEavUuJ/PRvh35koPyyVaHEbONthTOkBqVhcpZVaRyphhskcdCxREFajq46jeDB3KuKlXrdgyZWv47t+5tZL4Jyn3+wbVQ+ubsU3vU5oZJzz5PeMs86s2nECsIFI7zXZNFcKRCqjcS0k4TUYk0C3CaSLwQAbUEY3dq4MKeyd09khYwzJ3aqk8z4v+EXiJII2rIgUDSDJX6UXAnKBoho4wQslc9XLoQG5NdZgAwIDAQAB"
+  },
+  {
+    "domain": "contactprivacychecker.info",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.contactprivacychecker.info",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuzWdFzkxjylW1pA1RE4e0QK/G2lXYq5vWlwp3fEtjQIXp4NYHjowosf7OettY/VYn4mePSS81GgqIQdL/VH82zGq1N+hwBy6tAx965XS/GIEPn7nm2il2agGnRgIB9WLpr6SYs+1rOR59va2bhVfbgzBYPZJJ4i+2CNHpHwIPAaSk/m/BNQI2zwVKRhjnKChMAcEYPf2GKoYbiT/ouQhzKgEP4bzOqVjRLkp57dzfWmp3Q4hp6XMMXyhIDjaaiQVUKrRu7v+ToP5Wu4Qe4jpL57xHC89IdVGLd6S7AJ+20cBrL68ZMRzNOHD8Mg6+zNI3j73g0fDT4Sod/NEto91kQIDAQAB"
+  },
+  {
+    "domain": "contactprivacychecker.cloud",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.contactprivacychecker.cloud",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnmDzWGkGKpgZzVzNVoYYeuIGuXZxg77q898ntdBfufy2xl/xi/wPH6idhbqVMgfDEGhUcYgdr60al+o8QPYoM+EmaKvl3AbmexXyEqbsFc0hOgFDutobSMif52c5eV8Qqq/g7Jw+1oBshhugUmbmnSaGE/YrnLpZYRXwx18+YnxPqp/tnfvf8r9yQdoHjeBInBpbsQPga9Vfb5epM2iiuzrDxNBUW0zQrPVY5+JOuOHwPMEzTa//C/e46gvPvi3XbqPgJcO8DJrfgs94R5/vwwtxcOefLu6i8Qe9QZNvX6JTO0WR1/ICevHkrf+rczzdiIdB9x5S6saEFhsxhSw7TwIDAQAB"
+  },
+  {
+    "domain": "contactprivacychecker.site",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.contactprivacychecker.site",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyqlk1wZaP2m9dzbLry3pplnKVoFFc2/IqKwkdnmJ+DsdzuHnAXlGY4f/y+8/RBauW+Cu0CpE+2B5c3OX0rgoZ9TLdCXKyjccFEJQcL6mnLBvi8kBZrt0T1vCL7D1BIWz4jArldHV3K6fuL1PtskrXQDMvckn98+BHEWhLb1dIFY0s6D0R9o6JVNBPDTa2TJ0s35zuj0cQzrI1ng4I0FWXWy9QIf8HeepuoiWCDAQfQT6pOV0n//HwWu7XTZNcnWtJrARYl/No+Q7/1BAjSRyBt16Nq+ZgoVz1T9LiFAWaK2DyXDoow6Gx739XP43SAXIsKDhcuYgPh+yCafj4SaL6wIDAQAB"
+  },
+  {
+    "domain": "contactprivacychecker.website",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.contactprivacychecker.website",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn7lJ2HBRcU3E9IwfoLQJfKl16ve3hiIVcZi4zvfhpHHwtyw1z1mXpz7soHesoscBkf6NJaqn5PjsNPzDYNXxkWfOSWi6CdsqN6bVq/VxmSkfWTeg0qGhnxr0e79A16rxD3VWhBryEP0Fc4EXZQbWfLjExuHffChqzsiaRNvqEprhgNhjKd15AbyrxuJ6YF7cZLzeOnw/CKs7SIaSTdx5aJQZOTWcYGRCFAXHg7FxxPW8mYHkHxYt6Kywnri40Pp3q+V5nmTdlJ2mKG6ZW4AGpl7yb6XxHIR1aG01dGAXHAUymejd4te5O0aJ9I+amVemuVIBXFQ5DZXqWiCS0JvFLwIDAQAB"
+  },
+  {
+    "domain": "reportprivacychecker.info",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.reportprivacychecker.info",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzmwrnrfhAAuDY0825j7Odz1ZISpTmrQAqz1UZZbB0brM5E95+iA45QNAL467DWObshhwCitZSF5hVQKSzs0Dkc1vwb6Tj5XU6z2HJygqlYWIbDZLZhmqBfqWjRDOkZpBSEbzp7jVE75WZvyavbMChD0Y9Li7HyhLD4pxc7MN96ToMcaeeYs4laoAvTdA6rqtc5SMwCT3d1H7aZNlRkhXglHA0LfLAkEPi/eX14YKeQQVoR79ugTKMCzTk8zE4yxd/s8t0fCK9fTAW2l1lo5gWEDKbq+QSSoB1brWOazz5i4AIXgjZno06aSn9Hf8Xr7KDdEXlm3bF7gczSj0r67dJQIDAQAB"
+  },
+  {
+    "domain": "reportprivacychecker.cloud",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.reportprivacychecker.cloud",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApS7wbxOKCRghpaF9hu9skH+MoHT/Yclsj06iX1tHICXfBteDLqp9rzOtgyR6ZNFy/HBHCdX81a0vZM7oSnTaJgW6/c6XnNcG1setozfiadJWAuFhYn7D+PqunZwrQGGESYZTerpiN7D1wp1CQ6Z92lT2vKNYHfrbBVT6tCBssEDGcf9AN/85erEH+lxFPtTRQYa8C/k0r5CpAWxfw63sNIfAjJhinZac918gx+JfHIrZnblbyWo33OwdvkqmUNnoDVbKpZ6mMU5BDr0jxk9OwGdvbdL+u9kpgCbHPVLfItvyKeV1X5JewHsQ2AxlPRMNBIjaDHFvQPWH2NtPLspvVQIDAQAB"
+  },
+  {
+    "domain": "reportprivacychecker.site",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.reportprivacychecker.site",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0hWd9T81aiSI+vUJcb+zWbUDXPphGBScg5wGOzGEzsZ5C6TH8kwykVp5TupgkM00We0zahW2PhOocmfNowCjJI35lTlswghvgGic678oZ+rqXIDzrk1+uj/ipMN/XYFVrUMeIwZdnElSCIWh2nsKrhRAU141yUj1JN8q1NQhZqSN5ob2k5s7GrX0ayJoIhR332shZ8T+Tf4NT4NRCgyNO9gKtaZ1CIOfOVkvnx3ycOd0BeNqiaEXWC4GtroopqzzlqTzwVwkhYuzNfiFVliCdOhJbpigQXov5ypU4n73mOTEmNt+3r9Ajp8lgusGRt2cDjpUdNOofhdpdTrh/znWWwIDAQAB"
+  },
+  {
+    "domain": "reportprivacychecker.website",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.reportprivacychecker.website",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7VFLX3/yksBBoX/OtV2R9w30Nk7vQnKWec1jleVo1hmNz6KDtNJ2AYVfNeBooHGQxJ/KKQruhnFYUa/rX5SR5gMd8BxFPFJ4xXs9T4sbM/x+6Nm3LGtHuHeapl6gFuFJSb051+BceYW3ctenVA8EOBUc810LgbuKb/PMZgyspAhIs3pvbGzy1DAbvNv7U643YIr3/nbKpIoz4aDyYc2tGtIndFMkWkrRsQfXU/rGYf2xgsA8xWklIKi71A/BvHYdPT0AHpVRn3kFa8plgNpnlLDE63xvydNspYkZ0jIO2aHCgyrhrgyHg+pdp/AUDpyrcE8xMSsfDLG5dwa/IZUlnwIDAQAB"
+  },
+  {
+    "domain": "checkprivacychecker.info",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.checkprivacychecker.info",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1SNfTo6GLPiMgjWCUkfbeOFCh3hVi+NVGiww+em9KnTuw396EBoxZ6RWcjpa9z5enM7S0dE/k5GGOTiz1tjop93uBJuk3jGEFxa5wa1D/2z9eo10UlQjmrwdpKG3JBXoQ3P4hd0sPH9QhL7LAK/AH5xc73j4cqExsdKoFqyNP6AVJx5/uFeMRekI4K4TI4Qnz8iQrxqRBV7N/okGBaUXvrXWsv9HRX8rH0kRdAVlHOaj7QdWyc52KBSJXuW0di992a6iQxnZjZcW96WOegdr6NhvRWMQGeWa0gC4lXnq/lSZYiUPXJ+tYra4CabwUzZWooqioTzyDd+F9IEq/PjKEwIDAQAB"
+  },
+  {
+    "domain": "checkprivacychecker.cloud",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.checkprivacychecker.cloud",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqxvdnoe0x8aDKMWwy6iJMYiwpmbsQz2HnERh3I/Jt7tYuW5CXObwzfCm/TFr9jt64WhBG95GHX4QQuQcCfoHmVyzFrTXgCwoBHXoae60VdamZbFoFy7EjOuyYMLnxazBnCFpSNHHdofYDO/fv2qrllr2sopXzwlGQulTf0eX42PrcnKDWs5laTY4xgNwPH3RM1uvJV94VOLC8MqcsfOfrXiasbOA1/JBMbgNITig7yZMuILXHNgDyieB+E4Y5QDDjdfMAof+62SoR3QPUtnLgtnyqihCTbpBRCwHQTsB7I1yE3goo/xnt/eofUdNykrh2klxa2sojclbaaObtjRzkwIDAQAB"
+  },
+  {
+    "domain": "checkprivacychecker.site",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.checkprivacychecker.site",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqFAfO74k5jNqMNL56+WFShsINIuY5N5EBWCbYm/X1wp8jsWmrRle08bRSzYP3J2vMIVdVYrU0Q4aiDrpFAOCZdc2obNB7Xt/hsPg8zgt63WgFjQq3W2Ar71z1n6tEUduWfAaKuLlXS5N0mnubB+3xC/qzhW9l1eKrJnOx71yRGI9PBX3uqCTpTq/VQAxOYAlv2XOEjFkHTk5XE/pmX7Zkmkb8/L088NedNwhuMlqNPVttrGxa+wsyPmaaH50Q7Tmy1efdaAkFl+QyOVBrQXQUwYX+djulTdTjMLuoQYjgb+d5zrvBs0pVxtZIOuQ75ki8yyG2MJzpM/d115NjAPlswIDAQAB"
+  },
+  {
+    "domain": "checkprivacychecker.space",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.checkprivacychecker.space",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxLMPn2h4ZGqaR7sqiCbuq/436mIVbYm83dUnBdhNtixQ/USw34h+NndvJW+j9Ij9/uYAI3NzcZ/Pf0hlscAUezXSIbTgLT01PTrmuMMomSDTZkj9CGM+1C9kLUd9CDJVXmJVIF3fMVpV4Lm75wBcsN3Pvb/uekSzzR6F/sVVHO94+EQDqOWsZysyadioAM0ZnZCyqrA1eOz+oSk22aDg6ZYZYrojMmBD8dEkWyGK6f2ly2Ir34cBbAz1ZPxxuTguMLxqTT0uXS7jy9SYTYPL+EOq6pWu6NO/pqH7KtvkyNEdA7bbUFwEcCgYQkG1HqWoA74nAqLqZYl/t5DTYS/CZQIDAQAB"
+  },
+  {
+    "domain": "checkprivacychecker.website",
+    "selector": "mail",
+    "type": "TXT",
+    "record": "mail._domainkey.checkprivacychecker.website",
+    "value": "v=DKIM1;h=sha256;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6Ktsd/gtsoel8IEAi0MXpQwQUKXDMnK5FHQ561R1oQa4uuxhmGX4BHWrVqZPCa6sDrfArftQ85T0ZFMUrrtddsj7UkW9HxuQidIEW/mYazENWBe7ZceOxHcj+PUjHhU/FO1ygXiOC7kNgbCd669WwheCbB6FVW7A6dOjMOMI3jhPCac8k9mpvXAxIFQBrUJa4TesLcMOpPwWM6cgv27u833/XyCrEbi8jZnZ5TUjc3Lo2sa1xLIqVxFs0nceZotTnP11Kcgxz4dPbB5jQ5a1ivvOLlCbsSvQ77d5jGfOSTaDGgiNyem1mIep3uzmnm631KZcnIbJfnFaSxs8S/3iOwIDAQAB"
+  }
+]

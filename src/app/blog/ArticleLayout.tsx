@@ -87,18 +87,7 @@ export function ArticleLayout({ post, children }: ArticleLayoutProps) {
                 </div>
 
                 {/* Content */}
-                <article className="prose prose-lg prose-gray max-w-none
-          prose-headings:font-bold prose-headings:text-gray-900
-          prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
-          prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-          prose-p:text-gray-600 prose-p:leading-relaxed
-          prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
-          prose-li:text-gray-600
-          prose-strong:text-gray-900
-          prose-table:text-sm
-          prose-th:bg-gray-50 prose-th:text-left prose-th:p-3
-          prose-td:p-3 prose-td:border-t
-        ">
+                <article className="blog-article max-w-none">
                     {children}
                 </article>
 

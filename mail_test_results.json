@@ -1,467 +1,312 @@
 [
   {
     "vps": 21,
-    "ip": "192.227.234.211",
     "domain": "privacyaudit.online",
-    "avgScore": 70,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "F",
-      "score": 0
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": "<** 535 5.7.8 Error: authentication failed: (reason unavaila"
   },
   {
     "vps": 21,
-    "ip": "192.227.234.211",
-    "domain": "privacy-audit.cloud",
-    "avgScore": 82,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "D",
-      "score": 72
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "privacyaudit.info",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": "<** 535 5.7.8 Error: authentication failed: (reason unavaila"
   },
   {
     "vps": 22,
-    "ip": "172.245.57.166",
-    "domain": "privacyaudit.cloud",
-    "avgScore": 82,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "D",
-      "score": 72
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "privacyaudit.click",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
   },
   {
     "vps": 22,
-    "ip": "172.245.57.166",
-    "domain": "privacyauditmail.cloud",
-    "avgScore": 82,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "D",
-      "score": 72
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "privacyaudit.site",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
   },
   {
     "vps": 23,
-    "ip": "192.227.137.91",
-    "domain": "mailprivacyaudit.online",
-    "avgScore": 70,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "F",
-      "score": 0
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "privacyscanner.site",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: connect ECONNREFUSED 192.3.253.120:22"
   },
   {
     "vps": 23,
-    "ip": "192.227.137.91",
-    "domain": "mailprivacyaudit.cloud",
-    "avgScore": 82,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "D",
-      "score": 72
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "privacyscanner.online",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: connect ECONNREFUSED 192.3.253.120:22"
   },
   {
     "vps": 24,
-    "ip": "107.174.93.184",
-    "domain": "mailprivacyaudit.site",
-    "avgScore": 82,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "D",
-      "score": 72
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "privacyscanner.click",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
   },
   {
     "vps": 24,
-    "ip": "107.174.93.184",
-    "domain": "mailprivacycheck.online",
-    "avgScore": 70,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "F",
-      "score": 0
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "privacyscanner.info",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
   },
   {
     "vps": 25,
-    "ip": "107.174.252.122",
-    "domain": "mailprivacycheck.cloud",
-    "avgScore": 82,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "D",
-      "score": 72
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "checkprivacy.site",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: connect ECONNREFUSED 198.23.143.41:22"
   },
   {
     "vps": 25,
-    "ip": "107.174.252.122",
-    "domain": "mailprivacyreview.online",
-    "avgScore": 70,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "F",
-      "score": 0
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "checkprivacy.click",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: connect ECONNREFUSED 198.23.143.41:22"
   },
   {
     "vps": 26,
-    "ip": "23.94.102.141",
-    "domain": "mailprivacyreview.info",
-    "avgScore": 84,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "C",
-      "score": 87
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "checkprivacy.online",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
   },
   {
     "vps": 26,
-    "ip": "23.94.102.141",
-    "domain": "mailprivacyreview.cloud",
-    "avgScore": 82,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "D",
-      "score": 72
-    },
-    "blacklist": {
-      "grade": "A",
-      "score": 100
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "checkprivacy.info",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
   },
   {
     "vps": 27,
-    "ip": "64.188.28.154",
-    "domain": "mailprivacyreview.site",
-    "avgScore": 77,
-    "dns": {
-      "grade": "E",
-      "score": 52
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "D",
-      "score": 72
-    },
-    "blacklist": {
-      "grade": "C",
-      "score": 84
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "checkmyprivacy.click",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
   },
   {
     "vps": 27,
-    "ip": "64.188.28.154",
-    "domain": "mail-privacy-checker.online",
-    "avgScore": 65,
-    "dns": {
-      "grade": "E",
-      "score": 52
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "F",
-      "score": 0
-    },
-    "blacklist": {
-      "grade": "C",
-      "score": 84
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "checkmyprivacy.online",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
   },
   {
     "vps": 28,
-    "ip": "69.12.85.166",
-    "domain": "mail-privacy-checker.info",
-    "avgScore": 82,
-    "dns": {
-      "grade": "E",
-      "score": 62
-    },
-    "auth": {
-      "grade": "E",
-      "score": 56
-    },
-    "spam": {
-      "grade": "C",
-      "score": 87
-    },
-    "blacklist": {
-      "grade": "C",
-      "score": 84
-    },
-    "content": {
-      "grade": "A",
-      "score": 100
-    },
-    "headers": {
-      "grade": "A",
-      "score": 100
-    },
-    "spamDetails": {}
+    "domain": "checkmyprivacy.info",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
+  },
+  {
+    "vps": 28,
+    "domain": "checkmyprivacy.site",
+    "ssh": false,
+    "smtp": false,
+    "imap": false,
+    "dkim": false,
+    "postfix": false,
+    "error": "SSH_ERR: Timed out while waiting for handshake"
+  },
+  {
+    "vps": 31,
+    "domain": "mailprivacychecker.space",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 31,
+    "domain": "mailprivacychecker.website",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 32,
+    "domain": "contactprivacychecker.info",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 33,
+    "domain": "contactprivacychecker.cloud",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 34,
+    "domain": "contactprivacychecker.site",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 34,
+    "domain": "contactprivacychecker.website",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 35,
+    "domain": "reportprivacychecker.info",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 35,
+    "domain": "reportprivacychecker.cloud",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 36,
+    "domain": "reportprivacychecker.site",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 36,
+    "domain": "reportprivacychecker.website",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 37,
+    "domain": "checkprivacychecker.info",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 37,
+    "domain": "checkprivacychecker.cloud",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 38,
+    "domain": "checkprivacychecker.site",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 39,
+    "domain": "checkprivacychecker.space",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
+  },
+  {
+    "vps": 40,
+    "domain": "checkprivacychecker.website",
+    "ssh": true,
+    "smtp": false,
+    "imap": true,
+    "dkim": false,
+    "postfix": true,
+    "smtpDetail": ""
   }
 ]
