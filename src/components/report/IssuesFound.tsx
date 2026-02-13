@@ -158,11 +158,8 @@ export function IssuesFound({ issues, isPro = false }: IssuesFoundProps) {
                         <div className="absolute inset-0 flex items-center justify-center">
                             <a
                                 href="#pricing"
-                                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-teal-500 text-white text-xs font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
                             >
-                                <svg className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
                                 Upgrade to Pro
                             </a>
                         </div>
