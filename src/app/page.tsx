@@ -1223,6 +1223,11 @@ export default function Home() {
                     Blog
                   </Link>
                 </li>
+                <li>
+                  <Link href="/glossary" className="hover:text-gray-900">
+                    Privacy Glossary
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
