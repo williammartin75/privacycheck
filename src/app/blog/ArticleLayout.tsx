@@ -35,11 +35,27 @@ export function ArticleLayout({ post, children }: ArticleLayoutProps) {
         ],
     };
 
+    const faqLd = post.faq && post.faq.length > 0 ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: post.faq.map(f => ({
+            '@type': 'Question',
+            name: f.question,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: f.answer,
+            },
+        })),
+    } : null;
+
     return (
         <div className="min-h-screen bg-white">
             {/* JSON-LD */}
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+            {faqLd && (
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+            )}
 
             {/* Header */}
             <header className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">

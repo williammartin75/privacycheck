@@ -9,17 +9,23 @@ export interface BlogPost {
     category: string;
     keywords: string[];
     image?: string;
+    faq?: { question: string; answer: string }[];
 }
 
 export const blogPosts: BlogPost[] = [
     {
         slug: 'gdpr-compliance-checklist-2026',
         title: 'GDPR Compliance Checklist 2026: 10 Steps to Avoid Fines',
-        description: 'A practical checklist to verify your website meets GDPR requirements in 2026. Cover consent, data processing, cookies, privacy policies, and security measures.',
-        date: '2026-02-12',
+        description: 'A step-by-step GDPR compliance checklist for 2026. Learn the 10 critical steps every website owner must take to avoid hefty fines and protect user data.',
+        date: '2026-01-15',
         readTime: '8 min',
         category: 'Regulations',
-        keywords: ['GDPR compliance', 'GDPR checklist', 'GDPR 2026', 'website compliance', 'data protection'],
+        keywords: ['GDPR compliance', 'GDPR checklist', 'GDPR 2026', 'data protection', 'privacy compliance', 'GDPR fines'],
+        faq: [
+            { question: 'What is GDPR compliance?', answer: 'GDPR compliance means meeting all requirements of the EU General Data Protection Regulation, including obtaining consent for data processing, providing a privacy policy, implementing security measures, and respecting data subject rights.' },
+            { question: 'What are the GDPR fines for non-compliance?', answer: 'GDPR fines can reach up to €20 million or 4% of global annual revenue, whichever is higher. In 2025 alone, over €1.2 billion in fines were issued across the EU.' },
+            { question: 'How do I check if my website is GDPR compliant?', answer: 'Use a free tool like PrivacyChecker to scan your website. It checks cookie consent, privacy policy, security headers, third-party trackers, and more in under 60 seconds.' },
+        ],
     },
     {
         slug: 'ccpa-vs-gdpr-differences',
