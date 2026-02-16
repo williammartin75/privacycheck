@@ -381,6 +381,49 @@ export const blogPosts: BlogPost[] = [
         category: 'How-To',
         keywords: ['website privacy checklist', 'GDPR checklist website', 'privacy compliance checklist', 'website launch checklist', 'privacy audit checklist 2026'],
     },
+    // --- Batch 5: Priority gap-fill articles ---
+    {
+        slug: 'pipeda-canada-privacy-law',
+        title: 'PIPEDA Explained: Canada\'s Privacy Law & How It Compares to GDPR',
+        description: 'PIPEDA is Canada\'s federal privacy law governing data collection, consent, and breach notification. Learn the 10 Fair Information Principles, how it compares to GDPR, and how to comply.',
+        date: '2026-02-16',
+        readTime: '9 min',
+        category: 'Regulations',
+        keywords: ['PIPEDA', 'Canada privacy law', 'PIPEDA vs GDPR', 'Canadian data protection', 'PIPEDA compliance', 'CPPA', 'Quebec Law 25'],
+        faq: [
+            { question: 'Does PIPEDA apply if my business is not in Canada?', answer: 'Yes. If you collect data from individuals in Canada through commercial activity, PIPEDA applies — regardless of where your business is based.' },
+            { question: 'Do I need a cookie banner for Canadian visitors?', answer: 'For tracking and marketing cookies, yes. The OPC expects meaningful consent for non-essential cookies under PIPEDA.' },
+            { question: 'What are the fines for PIPEDA non-compliance?', answer: 'Current fines are up to CAD $100,000 per violation. The proposed CPPA would increase this to 5% of global revenue or CAD $25 million.' },
+        ],
+    },
+    {
+        slug: 'us-state-privacy-laws-2026',
+        title: 'US State Privacy Laws 2026: Beyond California — VCDPA, CPA, CTDPA & 16 More',
+        description: '19 US states now have comprehensive privacy laws. Compare CCPA, VCDPA, CPA, CTDPA, UCPA, TDPSA, and more — with thresholds, consent models, GPC requirements, and a practical compliance strategy.',
+        date: '2026-02-16',
+        readTime: '10 min',
+        category: 'Regulations',
+        keywords: ['US privacy laws', 'VCDPA', 'Colorado Privacy Act', 'CTDPA', 'UCPA', 'state privacy laws 2026', 'US data protection', 'Global Privacy Control'],
+        faq: [
+            { question: 'How many US states have privacy laws?', answer: 'As of 2026, 19 states have enacted comprehensive privacy legislation, with more expected to follow.' },
+            { question: 'Do US state privacy laws apply to businesses outside the US?', answer: 'Yes. These laws apply based on where the consumer is located, not where the business is based — similar to GDPR\'s extraterritorial scope.' },
+            { question: 'What is Global Privacy Control (GPC)?', answer: 'GPC is a browser signal that tells websites the user does not want their data sold or shared. California, Colorado, Texas, and many other states require honoring it.' },
+        ],
+    },
+    {
+        slug: 'browser-fingerprinting-privacy',
+        title: 'Browser Fingerprinting: The Invisible Tracker GDPR Wants You to Stop',
+        description: 'Browser fingerprinting tracks users without cookies using canvas, WebGL, and AudioContext APIs. Learn how it works, why GDPR requires consent, how regulators have ruled, and how to detect it on your site.',
+        date: '2026-02-16',
+        readTime: '9 min',
+        category: 'Features',
+        keywords: ['browser fingerprinting', 'canvas fingerprinting', 'fingerprinting GDPR', 'device fingerprint', 'FingerprintJS', 'WebGL fingerprint', 'tracking without cookies'],
+        faq: [
+            { question: 'Does GDPR apply to browser fingerprinting?', answer: 'Yes. GDPR Recital 30 explicitly mentions device fingerprints as personal data. The ePrivacy Directive also requires consent for any access to device information.' },
+            { question: 'Does incognito mode prevent fingerprinting?', answer: 'No. Incognito mode only prevents cookie storage. Your fingerprint remains the same because it\'s based on device characteristics, not stored data.' },
+            { question: 'How do I detect fingerprinting on my website?', answer: 'Use PrivacyChecker to scan your website. It detects canvas, WebGL, AudioContext fingerprinting, and known fingerprinting libraries like FingerprintJS.' },
+        ],
+    },
 ];
 
 export function generateBlogMetadata(post: BlogPost): Metadata {
