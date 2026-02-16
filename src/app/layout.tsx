@@ -58,8 +58,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Umami Analytics (self-hosted, privacy-friendly, no cookies) */}
-        <script defer src="http://23.95.222.204:3000/pctrack.js" data-website-id="c906568d-b464-48ec-83a6-c6ee82e24c01"></script>
+        {/* Umami Analytics (self-hosted, proxied through our domain) */}
+        <script defer src="/pctrack.js" data-website-id="c906568d-b464-48ec-83a6-c6ee82e24c01"></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
