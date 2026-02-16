@@ -11,6 +11,25 @@ interface PreConsentCookie {
     violation: boolean;
 }
 
+interface ConsentModeV2Data {
+    detected: boolean;
+    hasDefaultConsent: boolean;
+    hasConsentUpdate: boolean;
+    defaultStates: {
+        ad_storage: 'granted' | 'denied' | 'missing';
+        ad_user_data: 'granted' | 'denied' | 'missing';
+        ad_personalization: 'granted' | 'denied' | 'missing';
+        analytics_storage: 'granted' | 'denied' | 'missing';
+    };
+    requiredParamsPresent: boolean;
+    missingParams: string[];
+    waitForUpdate: boolean;
+    googleTagsPresent: boolean;
+    googleTagTypes: string[];
+    issues: string[];
+    score: number;
+}
+
 interface ConsentBehaviorData {
     score: number;
     detected: boolean;
@@ -19,6 +38,7 @@ interface ConsentBehaviorData {
     darkPatterns: DarkPattern[];
     preConsentCookies: PreConsentCookie[];
     issues: string[];
+    consentModeV2?: ConsentModeV2Data;
 }
 
 interface Recommendation {
@@ -190,6 +210,123 @@ export function ConsentBehavior({
                                 recommendation={recommendations.missingRejectButton}
                                 borderColor="red"
                             />
+                        </div>
+                    )}
+
+                    {/* Google Consent Mode V2 */}
+                    {consentBehavior.consentModeV2 && (
+                        <div className="mt-5 pt-5 border-t border-slate-200">
+                            <div className="flex items-center gap-2 mb-3">
+                                <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                <p className="font-semibold text-slate-800">Google Consent Mode V2</p>
+                                {consentBehavior.consentModeV2.googleTagsPresent && (
+                                    <span className={getBadgeClass(consentBehavior.consentModeV2.score)}>
+                                        {consentBehavior.consentModeV2.score}/100
+                                    </span>
+                                )}
+                            </div>
+
+                            {!consentBehavior.consentModeV2.googleTagsPresent ? (
+                                <div className="flex items-center gap-2 bg-slate-50 px-4 py-3 rounded-lg">
+                                    <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span className="text-sm text-slate-500">Not applicable — no Google tags detected</span>
+                                </div>
+                            ) : (
+                                <>
+                                    {/* Google Tags Detected */}
+                                    <div className="mb-3">
+                                        <p className="text-xs text-slate-500 mb-1">Google Tags Found:</p>
+                                        <div className="flex flex-wrap gap-1">
+                                            {consentBehavior.consentModeV2.googleTagTypes.map((tag, i) => (
+                                                <span key={i} className="text-xs px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200">{tag}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* V2 Quick Checks */}
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+                                        <CheckIndicator passed={consentBehavior.consentModeV2.hasDefaultConsent} label="Default Consent" isPro={isPro} />
+                                        <CheckIndicator passed={consentBehavior.consentModeV2.requiredParamsPresent} label="4 Required Params" isPro={isPro} />
+                                        <CheckIndicator
+                                            passed={
+                                                consentBehavior.consentModeV2.defaultStates.ad_storage === 'denied' &&
+                                                consentBehavior.consentModeV2.defaultStates.ad_user_data === 'denied' &&
+                                                consentBehavior.consentModeV2.defaultStates.ad_personalization === 'denied' &&
+                                                consentBehavior.consentModeV2.defaultStates.analytics_storage === 'denied'
+                                            }
+                                            label="Denied by Default"
+                                            isPro={isPro}
+                                        />
+                                        <CheckIndicator passed={consentBehavior.consentModeV2.hasConsentUpdate} label="Consent Update" isPro={isPro} />
+                                        <CheckIndicator passed={consentBehavior.consentModeV2.waitForUpdate} label="Wait for Update" isPro={isPro} />
+                                    </div>
+
+                                    {/* Parameter Status Table */}
+                                    <div className={`mb-4 ${!isPro ? 'blur-sm select-none' : ''}`}>
+                                        <p className="text-xs font-semibold text-slate-600 mb-2">Parameter Defaults:</p>
+                                        <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+                                            <table className="w-full text-sm">
+                                                <thead>
+                                                    <tr className="bg-slate-50">
+                                                        <th className="text-left px-3 py-2 text-xs font-medium text-slate-500">Parameter</th>
+                                                        <th className="text-left px-3 py-2 text-xs font-medium text-slate-500">Default</th>
+                                                        <th className="text-left px-3 py-2 text-xs font-medium text-slate-500">Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {(['ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage'] as const).map((param) => {
+                                                        const state = consentBehavior.consentModeV2!.defaultStates[param];
+                                                        const isOk = state === 'denied';
+                                                        const isMissing = state === 'missing';
+                                                        return (
+                                                            <tr key={param} className="border-t border-slate-100">
+                                                                <td className="px-3 py-2 font-mono text-xs text-slate-700">{param}</td>
+                                                                <td className="px-3 py-2">
+                                                                    <span className={`text-xs px-2 py-0.5 rounded ${isOk ? 'bg-green-50 text-green-700' :
+                                                                            isMissing ? 'bg-gray-100 text-gray-500' :
+                                                                                'bg-red-50 text-red-700'
+                                                                        }`}>
+                                                                        {state}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="px-3 py-2">
+                                                                    <svg className={`w-4 h-4 ${isOk ? 'text-green-500' : 'text-red-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOk ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'} />
+                                                                    </svg>
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    {/* V2 Issues */}
+                                    {consentBehavior.consentModeV2.issues.length > 0 && (
+                                        <div className="mb-3">
+                                            <p className="text-xs font-semibold text-slate-600 mb-2">Consent Mode V2 Issues:</p>
+                                            <div className={`space-y-1 ${!isPro ? 'blur-sm select-none' : ''}`}>
+                                                {consentBehavior.consentModeV2.issues.map((issue, i) => (
+                                                    <div key={i} className="flex items-start gap-2 bg-white px-3 py-2 rounded-lg border border-red-100">
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 flex-shrink-0"></span>
+                                                        <span className="text-xs text-red-700">{issue}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            {!isPro && <UpgradePrompt onUpgrade={onUpgrade} />}
+                                        </div>
+                                    )}
+                                </>
+                            )}
+
+                            <p className="text-[10px] text-slate-400 mt-2">
+                                Mandatory since March 2024 for Google Ads/GA4 in the EEA/UK. Without Consent Mode V2, ad conversions are not measured.
+                            </p>
                         </div>
                     )}
 

@@ -359,6 +359,79 @@ export function generatePDF(result: AuditResult, tier: PdfTier = 'pro'): void {
                 y += 5;
             });
         }
+
+        // Google Consent Mode V2
+        if (cb.consentModeV2) {
+            y += 5;
+            drawSubHeader('Google Consent Mode V2');
+            const v2 = cb.consentModeV2;
+
+            if (!v2.googleTagsPresent) {
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(COLORS.gray[0], COLORS.gray[1], COLORS.gray[2]);
+                doc.text('Not applicable — no Google tags detected', 20, y);
+                y += 6;
+            } else {
+                const v2Color = v2.score >= 80 ? COLORS.green : v2.score >= 50 ? COLORS.gold : COLORS.red;
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(v2Color[0], v2Color[1], v2Color[2]);
+                doc.text(`Score: ${v2.score}/100`, 20, y);
+                y += 6;
+
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                doc.text(`Google Tags: ${v2.googleTagTypes.join(', ')}`, 20, y);
+                y += 6;
+
+                drawCheck('Default Consent', v2.hasDefaultConsent);
+                drawCheck('All 4 Required Parameters', v2.requiredParamsPresent);
+                drawCheck('Consent Update', v2.hasConsentUpdate);
+                drawCheck('Wait for Update', v2.waitForUpdate);
+
+                // Parameter defaults table
+                y += 2;
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7);
+                doc.text('Parameter', 25, y);
+                doc.text('Default', 80, y);
+                doc.text('Status', 120, y);
+                y += 4;
+
+                doc.setFont('helvetica', 'normal');
+                const params = ['ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage'] as const;
+                params.forEach(param => {
+                    checkNewPage(5);
+                    const state = v2.defaultStates[param];
+                    const isOk = state === 'denied';
+                    doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                    doc.text(param, 25, y);
+                    const stateColor = isOk ? COLORS.green : state === 'missing' ? COLORS.gray : COLORS.red;
+                    doc.setTextColor(stateColor[0], stateColor[1], stateColor[2]);
+                    doc.text(state, 80, y);
+                    doc.text(isOk ? '✓' : '✕', 120, y);
+                    y += 4;
+                });
+
+                if (v2.issues.length > 0) {
+                    y += 2;
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(8);
+                    doc.setTextColor(COLORS.darkGray[0], COLORS.darkGray[1], COLORS.darkGray[2]);
+                    doc.text('Consent Mode V2 Issues:', 20, y);
+                    y += 5;
+                    doc.setFont('helvetica', 'normal');
+                    v2.issues.slice(0, 5).forEach(issue => {
+                        checkNewPage(5);
+                        doc.setTextColor(COLORS.red[0], COLORS.red[1], COLORS.red[2]);
+                        doc.text(`• ${issue.substring(0, 70)}`, 25, y);
+                        y += 5;
+                    });
+                }
+            }
+        }
         y += 5;
     }
 

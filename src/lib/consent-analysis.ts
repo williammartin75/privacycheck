@@ -3,6 +3,25 @@
  * Analyzes cookie consent banner implementation for GDPR compliance
  */
 
+export interface ConsentModeV2Analysis {
+    detected: boolean;                    // Whether any Consent Mode V2 implementation was found
+    hasDefaultConsent: boolean;           // gtag('consent', 'default', {...}) present
+    hasConsentUpdate: boolean;            // gtag('consent', 'update', {...}) present
+    defaultStates: {                     // Default state for each parameter
+        ad_storage: 'granted' | 'denied' | 'missing';
+        ad_user_data: 'granted' | 'denied' | 'missing';
+        ad_personalization: 'granted' | 'denied' | 'missing';
+        analytics_storage: 'granted' | 'denied' | 'missing';
+    };
+    requiredParamsPresent: boolean;       // All 4 required params exist
+    missingParams: string[];             // Which required params are missing
+    waitForUpdate: boolean;              // wait_for_update parameter present
+    googleTagsPresent: boolean;          // Whether Google tags are detected at all
+    googleTagTypes: string[];            // Which Google tag types found (GA4, Ads, GTM)
+    issues: string[];
+    score: number; // 0-100
+}
+
 export interface ConsentBannerAnalysis {
     detected: boolean;
     hasRejectButton: boolean;
@@ -14,6 +33,7 @@ export interface ConsentBannerAnalysis {
     consentProvider: string | null;
     score: number; // 0-100
     issues: string[];
+    consentModeV2?: ConsentModeV2Analysis;
 }
 
 export interface DarkPattern {
@@ -310,6 +330,160 @@ function detectPreConsentCookies(html: string, setCookieHeader: string | null): 
 }
 
 /**
+ * Analyze Google Consent Mode V2 implementation
+ */
+function analyzeConsentModeV2(html: string): ConsentModeV2Analysis {
+    const issues: string[] = [];
+    let score = 100;
+
+    // Detect Google tags
+    const googleTagPatterns: { name: string; patterns: string[] }[] = [
+        { name: 'Google Analytics 4', patterns: ['gtag/js?id=G-', 'gtag/js?id=UA-', 'google-analytics.com/analytics.js', 'googletagmanager.com/gtag'] },
+        { name: 'Google Ads', patterns: ['gtag/js?id=AW-', 'googleadservices.com', 'googlesyndication.com', 'google_conversion'] },
+        { name: 'Google Tag Manager', patterns: ['googletagmanager.com/gtm.js', 'googletagmanager.com/ns.html'] },
+    ];
+
+    const googleTagTypes: string[] = [];
+    const htmlLower = html.toLowerCase();
+
+    for (const tag of googleTagPatterns) {
+        for (const pattern of tag.patterns) {
+            if (htmlLower.includes(pattern.toLowerCase())) {
+                if (!googleTagTypes.includes(tag.name)) {
+                    googleTagTypes.push(tag.name);
+                }
+                break;
+            }
+        }
+    }
+
+    const googleTagsPresent = googleTagTypes.length > 0;
+
+    // If no Google tags, return N/A result
+    if (!googleTagsPresent) {
+        return {
+            detected: false,
+            hasDefaultConsent: false,
+            hasConsentUpdate: false,
+            defaultStates: {
+                ad_storage: 'missing',
+                ad_user_data: 'missing',
+                ad_personalization: 'missing',
+                analytics_storage: 'missing',
+            },
+            requiredParamsPresent: false,
+            missingParams: [],
+            waitForUpdate: false,
+            googleTagsPresent: false,
+            googleTagTypes: [],
+            issues: [],
+            score: 100, // N/A = no penalty
+        };
+    }
+
+    // Parse gtag('consent', 'default', {...}) calls
+    // Match various formatting patterns for the consent default call
+    const consentDefaultRegex = /gtag\s*\(\s*['"]consent['"]\s*,\s*['"]default['"]\s*,\s*(\{[\s\S]*?\})\s*\)/gi;
+    const consentUpdateRegex = /gtag\s*\(\s*['"]consent['"]\s*,\s*['"]update['"]\s*,\s*(\{[\s\S]*?\})\s*\)/gi;
+
+    // Also check for dataLayer.push patterns used by some CMPs
+    const dataLayerDefaultRegex = /dataLayer\.push\s*\(\s*\[\s*['"]consent['"]\s*,\s*['"]default['"]\s*,\s*(\{[\s\S]*?\})\s*\]\s*\)/gi;
+    const dataLayerUpdateRegex = /dataLayer\.push\s*\(\s*\[\s*['"]consent['"]\s*,\s*['"]update['"]\s*,\s*(\{[\s\S]*?\})\s*\]\s*\)/gi;
+
+    let defaultMatch = consentDefaultRegex.exec(html) || dataLayerDefaultRegex.exec(html);
+    const hasDefaultConsent = !!defaultMatch;
+
+    let updateMatch = consentUpdateRegex.exec(html) || dataLayerUpdateRegex.exec(html);
+    const hasConsentUpdate = !!updateMatch;
+
+    // Initialize default states
+    const defaultStates: ConsentModeV2Analysis['defaultStates'] = {
+        ad_storage: 'missing',
+        ad_user_data: 'missing',
+        ad_personalization: 'missing',
+        analytics_storage: 'missing',
+    };
+
+    const requiredParams = ['ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage'] as const;
+    const missingParams: string[] = [];
+
+    if (defaultMatch) {
+        const configBlock = defaultMatch[1];
+
+        // Extract parameter values from the config object
+        for (const param of requiredParams) {
+            const paramRegex = new RegExp(`['"]?${param}['"]?\\s*:\\s*['"]?(granted|denied)['"]?`, 'i');
+            const paramMatch = paramRegex.exec(configBlock);
+            if (paramMatch) {
+                defaultStates[param] = paramMatch[1].toLowerCase() as 'granted' | 'denied';
+            } else {
+                defaultStates[param] = 'missing';
+                missingParams.push(param);
+            }
+        }
+    } else {
+        // No default consent at all — all params are missing
+        missingParams.push(...requiredParams);
+    }
+
+    const requiredParamsPresent = missingParams.length === 0;
+
+    // Check for wait_for_update
+    const waitForUpdateRegex = /wait_for_update\s*:\s*(\d+)/i;
+    const waitForUpdate = waitForUpdateRegex.test(html);
+
+    // Detected = has at least default consent or consent update
+    const detected = hasDefaultConsent || hasConsentUpdate;
+
+    // --- Scoring ---
+    if (!hasDefaultConsent) {
+        score -= 40;
+        issues.push('Missing gtag("consent", "default") — Google tags fire without consent');
+    }
+
+    // Penalty for each missing required parameter
+    for (const param of missingParams) {
+        score -= 10;
+        issues.push(`Required parameter "${param}" is missing from consent defaults`);
+    }
+
+    // Penalty for params defaulting to 'granted' (should be 'denied' in EEA/UK)
+    for (const param of requiredParams) {
+        if (defaultStates[param] === 'granted') {
+            score -= 8;
+            issues.push(`"${param}" defaults to "granted" — should be "denied" for EEA/UK users`);
+        }
+    }
+
+    if (!hasConsentUpdate) {
+        score -= 5;
+        issues.push('No gtag("consent", "update") found — consent changes may not propagate to Google');
+    }
+
+    if (!waitForUpdate && hasDefaultConsent) {
+        // Minor best-practice penalty
+        score -= 3;
+        issues.push('Missing "wait_for_update" — tags may fire before CMP loads');
+    }
+
+    score = Math.max(0, score);
+
+    return {
+        detected,
+        hasDefaultConsent,
+        hasConsentUpdate,
+        defaultStates,
+        requiredParamsPresent,
+        missingParams,
+        waitForUpdate,
+        googleTagsPresent,
+        googleTagTypes,
+        issues,
+        score,
+    };
+}
+
+/**
  * Main function to analyze consent banner behavior
  */
 export function analyzeConsentBanner(html: string, setCookieHeader: string | null): ConsentBannerAnalysis {
@@ -352,6 +526,9 @@ export function analyzeConsentBanner(html: string, setCookieHeader: string | nul
     // Detect pre-consent cookies
     const preConsentCookies = detectPreConsentCookies(html, setCookieHeader);
 
+    // Google Consent Mode V2 analysis
+    const consentModeV2 = analyzeConsentModeV2(html);
+
     // Calculate score and issues
     let score = 100;
 
@@ -391,6 +568,7 @@ export function analyzeConsentBanner(html: string, setCookieHeader: string | nul
         consentProvider,
         score,
         issues,
+        consentModeV2,
     };
 }
 

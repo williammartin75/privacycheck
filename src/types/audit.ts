@@ -100,6 +100,24 @@ export interface AuditResult {
             consentProvider: string | null;
             score: number;
             issues: string[];
+            consentModeV2?: {
+                detected: boolean;
+                hasDefaultConsent: boolean;
+                hasConsentUpdate: boolean;
+                defaultStates: {
+                    ad_storage: 'granted' | 'denied' | 'missing';
+                    ad_user_data: 'granted' | 'denied' | 'missing';
+                    ad_personalization: 'granted' | 'denied' | 'missing';
+                    analytics_storage: 'granted' | 'denied' | 'missing';
+                };
+                requiredParamsPresent: boolean;
+                missingParams: string[];
+                waitForUpdate: boolean;
+                googleTagsPresent: boolean;
+                googleTagTypes: string[];
+                issues: string[];
+                score: number;
+            };
         };
         // Privacy Policy AI Analysis
         policyAnalysis?: {
