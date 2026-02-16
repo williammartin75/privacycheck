@@ -283,6 +283,52 @@ export const blogPosts: BlogPost[] = [
         category: 'How-To',
         keywords: ['checkout privacy', 'PCI DSS compliance', 'e-commerce GDPR', 'payment data protection', 'data minimization'],
     },
+    // --- Batch 3: ChatGPT SEO optimized articles ---
+    {
+        slug: 'free-gdpr-compliance-checker',
+        title: 'Free GDPR Compliance Checker: Scan Your Website in 60 Seconds',
+        description: 'Check if your website is GDPR compliant with a free automated scanner. Audit cookies, consent banners, privacy policies, trackers, and security headers instantly.',
+        date: '2026-02-16',
+        readTime: '7 min',
+        category: 'How-To',
+        keywords: ['GDPR compliance checker', 'free GDPR scanner', 'website compliance check', 'GDPR audit tool', 'privacy compliance scanner', 'is my website GDPR compliant'],
+    },
+    {
+        slug: 'do-you-need-a-cookie-banner',
+        title: 'Do You Need a Cookie Banner? Decision Guide by Country (2026)',
+        description: 'Find out if your website legally requires a cookie consent banner. Country-by-country rules for the EU, US, UK, Canada, Brazil, and more — with a simple decision flowchart.',
+        date: '2026-02-16',
+        readTime: '8 min',
+        category: 'Regulations',
+        keywords: ['do I need a cookie banner', 'cookie banner requirements', 'cookie consent required', 'cookie law by country', 'when is a cookie banner needed'],
+    },
+    {
+        slug: 'biggest-gdpr-fines-2025-2026',
+        title: 'Biggest GDPR Fines 2025–2026: Lessons From €1.2 Billion in Penalties',
+        description: 'An analysis of the largest GDPR fines issued in 2025 and 2026. Learn what violations triggered them, which companies were fined, and how to avoid the same mistakes.',
+        date: '2026-02-16',
+        readTime: '9 min',
+        category: 'Regulations',
+        keywords: ['GDPR fines', 'biggest GDPR fines', 'GDPR penalties 2025', 'GDPR enforcement', 'data protection fines', 'GDPR fine examples'],
+    },
+    {
+        slug: 'find-cookies-on-your-website',
+        title: 'How to Find Every Cookie on Your Website (Free Scanner)',
+        description: 'Most websites set cookies they don\'t know about. Learn how to scan, identify, and categorize every cookie on your site — including hidden third-party trackers.',
+        date: '2026-02-16',
+        readTime: '6 min',
+        category: 'How-To',
+        keywords: ['find cookies on website', 'website cookie scanner', 'what cookies does my site use', 'cookie audit', 'identify website cookies', 'cookie checker'],
+    },
+    {
+        slug: 'google-analytics-4-gdpr-legal',
+        title: 'Google Analytics 4 and GDPR: Is GA4 Legal in Europe? (2026 Update)',
+        description: 'The legality of Google Analytics in Europe has been challenged by multiple DPAs. Learn the current legal status of GA4 by country, what changed, and compliant alternatives.',
+        date: '2026-02-16',
+        readTime: '8 min',
+        category: 'Regulations',
+        keywords: ['Google Analytics GDPR', 'is Google Analytics legal in Europe', 'GA4 GDPR', 'Google Analytics banned', 'Google Analytics alternatives GDPR', 'GA4 compliance'],
+    },
 ];
 
 export function generateBlogMetadata(post: BlogPost): Metadata {

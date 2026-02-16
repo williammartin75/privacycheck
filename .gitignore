@@ -68,3 +68,5 @@ add-scores.js
 test-domains-alive.js
 update-lang-files.js
 deploy-rescan.ps1
+
+cc-pipeline/node_modules/
