@@ -329,6 +329,52 @@ export const blogPosts: BlogPost[] = [
         category: 'Regulations',
         keywords: ['Google Analytics GDPR', 'is Google Analytics legal in Europe', 'GA4 GDPR', 'Google Analytics banned', 'Google Analytics alternatives GDPR', 'GA4 compliance'],
     },
+    // --- Batch 4: ChatGPT-optimized Phase 2 articles ---
+    {
+        slug: 'ai-crawlers-robots-txt',
+        title: 'AI Crawlers and robots.txt: How to Control GPTBot, ClaudeBot, and Others',
+        description: 'AI companies crawl websites to train LLMs. Learn how to control GPTBot, ChatGPT-User, Google-Extended, ClaudeBot, and other AI crawlers using robots.txt — with copy-paste examples.',
+        date: '2026-02-16',
+        readTime: '9 min',
+        category: 'Features',
+        keywords: ['AI crawlers', 'robots.txt AI', 'block GPTBot', 'ChatGPT crawler', 'Google-Extended', 'ClaudeBot', 'AI web scraping', 'block AI training'],
+    },
+    {
+        slug: 'saas-gdpr-compliance-guide',
+        title: 'SaaS GDPR Compliance Guide: DPA, Sub-Processors, and Data Retention',
+        description: 'A comprehensive GDPR compliance guide for SaaS companies. Covers Data Processing Agreements, sub-processor management, DSARs, security requirements, and how GDPR compliance drives enterprise sales.',
+        date: '2026-02-16',
+        readTime: '10 min',
+        category: 'How-To',
+        keywords: ['SaaS GDPR', 'GDPR compliance SaaS', 'SaaS DPA', 'SaaS data processing agreement', 'GDPR for startups', 'SaaS privacy requirements'],
+    },
+    {
+        slug: 'lgpd-vs-gdpr-brazil',
+        title: 'LGPD vs GDPR: Brazil\'s Data Protection Law Explained (2026)',
+        description: 'Compare LGPD (Brazil) and GDPR (EU) side by side. Key differences in legal bases, DPO requirements, fines, consent rules, and what to do if you serve users in both regions.',
+        date: '2026-02-16',
+        readTime: '8 min',
+        category: 'Regulations',
+        keywords: ['LGPD', 'LGPD vs GDPR', 'Brazil data protection', 'Brazilian privacy law', 'ANPD', 'LGPD compliance'],
+    },
+    {
+        slug: 'ai-privacy-policy-requirements',
+        title: 'AI Privacy Policy: What You Must Disclose When Using ChatGPT, Gemini, or Claude',
+        description: 'If your app uses AI APIs (OpenAI, Google, Anthropic), your privacy policy needs specific disclosures. Learn the GDPR and EU AI Act requirements for AI data processing transparency.',
+        date: '2026-02-16',
+        readTime: '9 min',
+        category: 'Regulations',
+        keywords: ['AI privacy policy', 'ChatGPT privacy policy', 'AI GDPR', 'EU AI Act privacy', 'AI data processing', 'automated decision making GDPR'],
+    },
+    {
+        slug: 'website-privacy-checklist-2026',
+        title: 'Website Privacy Checklist 2026: 30 Checks Before You Launch',
+        description: 'A complete 30-point privacy compliance checklist for websites in 2026. Covers cookies, consent banners, privacy policies, security headers, third-party scripts, AI disclosures, and accessibility.',
+        date: '2026-02-16',
+        readTime: '7 min',
+        category: 'How-To',
+        keywords: ['website privacy checklist', 'GDPR checklist website', 'privacy compliance checklist', 'website launch checklist', 'privacy audit checklist 2026'],
+    },
 ];
 
 export function generateBlogMetadata(post: BlogPost): Metadata {
