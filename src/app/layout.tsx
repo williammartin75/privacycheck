@@ -59,7 +59,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Umami Analytics (self-hosted, privacy-friendly, no cookies) */}
-        <script defer src="http://23.95.222.204:3000/pctrack.js" data-website-id="9ec0b8aa-46c7-4bf1-879d-ddd123a5505e"></script>
+        <script defer src="http://23.95.222.204:3000/pctrack.js" data-website-id="c906568d-b464-48ec-83a6-c6ee82e24c01"></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
