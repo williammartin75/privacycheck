@@ -73,6 +73,14 @@ export async function GET(request: NextRequest) {
             return NextResponse.redirect(`${baseUrl}/login?error=no_session`);
         }
 
+        // Update last_sign_in_at in public.users table
+        if (data.user) {
+            await supabaseAdmin
+                .from('users')
+                .update({ last_sign_in_at: new Date().toISOString() })
+                .eq('user_id', data.user.id);
+        }
+
         // Redirect to a client-side handler that will set the session
         const sessionParams = new URLSearchParams({
             access_token: session.access_token,
