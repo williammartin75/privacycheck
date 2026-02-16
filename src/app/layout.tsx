@@ -103,17 +103,31 @@ export default function RootLayout({
             })
           }}
         />
-        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <script dangerouslySetInnerHTML={{
           __html: `
-            function googleTranslateElementInit() {
-              new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'en,fr,de,es,it,pt,nl,pl,ro,cs,hu,el,sv,da,fi,no,bg,sk,hr,sl,lt,lv,et,uk,ru,tr,ja,ko,zh-CN,th',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-              }, 'google_translate_element');
-            }
+            // Lazy-load Google Translate only after user interaction (scroll/click/touch)
+            (function() {
+              var loaded = false;
+              function loadGT() {
+                if (loaded) return;
+                loaded = true;
+                window.googleTranslateElementInit = function() {
+                  new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: 'en,fr,de,es,it,pt,nl,pl,ro,cs,hu,el,sv,da,fi,no,bg,sk,hr,sl,lt,lv,et,uk,ru,tr,ja,ko,zh-CN,th',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                    autoDisplay: false
+                  }, 'google_translate_element');
+                };
+                var s = document.createElement('script');
+                s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                document.head.appendChild(s);
+                ['scroll','click','touchstart'].forEach(function(e){document.removeEventListener(e,loadGT)});
+              }
+              ['scroll','click','touchstart'].forEach(function(e){document.addEventListener(e,loadGT,{once:true,passive:true})});
+              // Also load after 5s idle as fallback
+              setTimeout(loadGT, 5000);
+            })();
           `
         }} />
         <style dangerouslySetInnerHTML={{
