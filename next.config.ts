@@ -6,16 +6,18 @@ const nextConfig: NextConfig = {
 
   // Proxy Umami analytics through our domain (avoids mixed content + adblockers)
   async rewrites() {
-    return [
-      {
-        source: '/pctrack.js',
-        destination: 'http://23.95.222.204:3000/pctrack.js',
-      },
-      {
-        source: '/api/send',
-        destination: 'http://23.95.222.204:3000/api/send',
-      },
-    ];
+    return {
+      beforeFiles: [
+        {
+          source: '/pctrack.js',
+          destination: 'http://23.95.222.204:3000/pctrack.js',
+        },
+        {
+          source: '/api/send',
+          destination: 'http://23.95.222.204:3000/api/send',
+        },
+      ],
+    };
   },
 
 
