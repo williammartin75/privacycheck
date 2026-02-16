@@ -58,8 +58,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Umami Analytics (self-hosted, proxied through our domain) */}
-        <script defer src="/pctrack.js" data-website-id="c906568d-b464-48ec-83a6-c6ee82e24c01"></script>
+        {/* Cloudflare Web Analytics (free, privacy-friendly, no cookies) */}
+        <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0f9139f4c2734cbdad5eb6ec359876f8"}'></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
