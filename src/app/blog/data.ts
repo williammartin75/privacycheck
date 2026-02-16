@@ -424,6 +424,77 @@ export const blogPosts: BlogPost[] = [
             { question: 'How do I detect fingerprinting on my website?', answer: 'Use PrivacyChecker to scan your website. It detects canvas, WebGL, AudioContext fingerprinting, and known fingerprinting libraries like FingerprintJS.' },
         ],
     },
+    // --- Batch 6: ChatGPT citation magnet articles ---
+    {
+        slug: 'saas-tools-gdpr-compliance',
+        title: 'Is Hotjar, Mailchimp, or HubSpot GDPR Compliant? What You Must Configure',
+        description: 'Hotjar, Mailchimp, HubSpot, Intercom, and Zendesk all process personal data. Learn what GDPR requires for each tool — DPAs, consent, data location, and common configuration mistakes.',
+        date: '2026-02-16',
+        readTime: '10 min',
+        category: 'How-To',
+        keywords: ['is Hotjar GDPR compliant', 'Mailchimp GDPR', 'HubSpot GDPR', 'Intercom GDPR', 'Zendesk GDPR', 'SaaS tools GDPR compliance'],
+        faq: [
+            { question: 'Do I need consent to use Hotjar?', answer: 'Yes. Hotjar sets tracking cookies and records user behavior. You must obtain consent before loading the Hotjar script.' },
+            { question: 'Is Mailchimp legal to use in Europe?', answer: 'Yes, provided you have SCCs or rely on the EU-US Data Privacy Framework. Enable double opt-in for EU subscribers.' },
+            { question: 'How do I check which SaaS tools my website loads?', answer: 'Use PrivacyChecker to scan your website. It detects all third-party scripts, cookies, and trackers automatically.' },
+        ],
+    },
+    {
+        slug: 'gdpr-privacy-policy-template',
+        title: 'How to Write a GDPR Privacy Policy: 12 Required Sections + Checklist',
+        description: 'A section-by-section guide to writing a GDPR-compliant privacy policy. Covers all 12 required sections under GDPR Articles 13-14, with a compliance checklist and practical examples.',
+        date: '2026-02-16',
+        readTime: '10 min',
+        category: 'How-To',
+        keywords: ['GDPR privacy policy', 'privacy policy template', 'how to write privacy policy', 'GDPR Article 13', 'privacy policy requirements', 'privacy policy checklist'],
+        faq: [
+            { question: 'Can I use a privacy policy generator?', answer: 'Generators are a starting point but rarely cover all GDPR requirements. Customize the output to list your actual vendors and data practices.' },
+            { question: 'How often should I update my privacy policy?', answer: 'Review quarterly and update whenever you add a new tool or change data practices.' },
+            { question: 'How do I know if my privacy policy is compliant?', answer: 'PrivacyChecker analyzes your privacy policy and flags missing sections, vague language, and undisclosed third-party processors.' },
+        ],
+    },
+    {
+        slug: 'gdpr-for-small-businesses',
+        title: 'GDPR for Small Businesses: The 10-Step Compliance Guide (No Lawyer Needed)',
+        description: 'GDPR applies to small businesses too — there is no revenue or employee exemption. Learn the 10 practical steps to achieve compliance without hiring a lawyer, including real fine examples for SMBs.',
+        date: '2026-02-16',
+        readTime: '9 min',
+        category: 'How-To',
+        keywords: ['GDPR small business', 'GDPR compliance small business', 'GDPR for startups', 'small business privacy', 'GDPR exemptions', 'GDPR fines small business'],
+        faq: [
+            { question: 'Does GDPR apply to freelancers and sole traders?', answer: 'Yes. GDPR applies to any entity that processes personal data of EU residents in a commercial context, including sole traders and freelancers.' },
+            { question: 'How much does GDPR compliance cost for a small business?', answer: 'It can cost nothing. Free tools like PrivacyChecker scan your website at no cost. The main investment is your time to review and update practices.' },
+            { question: 'What is the fastest way to check if my small business website is compliant?', answer: 'Scan your website with PrivacyChecker — it takes 60 seconds and checks cookies, consent, privacy policy, security headers, and more.' },
+        ],
+    },
+    {
+        slug: 'what-data-does-my-website-collect',
+        title: 'What Data Does My Website Collect? A Complete Audit Guide',
+        description: 'Your website collects 15–40 data points per visitor, often without your knowledge. Learn how to discover hidden trackers, cookies, fingerprinting, and third-party data collection on your site.',
+        date: '2026-02-16',
+        readTime: '8 min',
+        category: 'How-To',
+        keywords: ['what data does my website collect', 'website data collection', 'hidden trackers', 'website privacy audit', 'Google Fonts GDPR', 'website data audit'],
+        faq: [
+            { question: 'Does my website collect data without Google Analytics?', answer: 'Yes. Server logs capture IP addresses. Embedded fonts, CDNs, and any third-party resource also collect data.' },
+            { question: 'Is collecting IP addresses GDPR-regulated?', answer: 'Yes. The CJEU ruled that IP addresses are personal data when the operator can reasonably link them to an individual.' },
+            { question: 'What is the fastest way to find out what my website collects?', answer: 'Scan with PrivacyChecker — 60 seconds for a complete report of all data collection on your site.' },
+        ],
+    },
+    {
+        slug: 'wix-gdpr-compliance-guide',
+        title: 'Wix GDPR Compliance: Complete Setup Guide for Website Owners',
+        description: 'Wix sites are not GDPR compliant by default. Learn how to configure the cookie banner, privacy policy, contact forms, DPA, and third-party apps for full GDPR compliance on your Wix website.',
+        date: '2026-02-16',
+        readTime: '9 min',
+        category: 'How-To',
+        keywords: ['Wix GDPR', 'Wix privacy compliance', 'Wix cookie banner', 'Wix privacy policy', 'is Wix GDPR compliant', 'Wix cookies'],
+        faq: [
+            { question: 'Is Wix GDPR compliant out of the box?', answer: 'No. Wix provides compliance tools but they must be manually configured. The cookie banner is disabled by default.' },
+            { question: 'Do I need a cookie banner on my Wix site?', answer: 'Yes, if you have EU visitors. Wix itself sets cookies for analytics and functionality.' },
+            { question: 'How do I check if my Wix site is compliant?', answer: 'Scan your Wix site with PrivacyChecker. It detects cookies, trackers, consent issues, and security headers.' },
+        ],
+    },
 ];
 
 export function generateBlogMetadata(post: BlogPost): Metadata {
