@@ -58,7 +58,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script defer data-domain="privacychecker.pro" src="https://plausible.io/js/script.js"></script>
+        {/* Umami Analytics (self-hosted, privacy-friendly, no cookies) */}
+        <script defer src="http://23.95.222.204:3000/pctrack.js" data-website-id="9ec0b8aa-46c7-4bf1-879d-ddd123a5505e"></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
