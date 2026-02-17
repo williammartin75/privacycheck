@@ -565,6 +565,62 @@ export const blogPosts: BlogPost[] = [
             { question: 'What if my country hasn\'t transposed NIS2 yet?', answer: 'The deadline was Oct 17, 2024. Some states are delayed, but the requirements are fixed. Organizations should prepare now as enforcement will be retroactive.' },
         ],
     },
+    {
+        slug: 'swiss-ndsg-compliance-guide',
+        title: 'Swiss nDSG Compliance Guide: How It Differs from GDPR',
+        description: 'Complete guide to Switzerland\'s revised data protection law (nDSG/revDSG). Covers key differences from GDPR: criminal liability for individuals, no mandatory DPO, cross-border transfer rules, and a 10-point compliance checklist.',
+        date: '2026-02-17',
+        readTime: '10 min',
+        category: 'Regulations',
+        keywords: ['Swiss nDSG', 'nDSG compliance', 'Swiss data protection', 'nDSG vs GDPR', 'revDSG', 'Switzerland privacy law', 'FDPIC', 'Swiss GDPR equivalent', 'nDSG checklist'],
+        faq: [
+            { question: 'Does the nDSG apply to my company if I\'m based in the EU?', answer: 'Yes, if your data processing has effects in Switzerland — targeting Swiss customers, having Swiss users, or processing data of Swiss residents. You may need a representative in Switzerland.' },
+            { question: 'Do I need a DPO under the nDSG?', answer: 'No. Unlike GDPR, a Data Protection Advisor is voluntary under the nDSG. However, appointing one provides advantages for DPIA consultation and demonstrates good faith compliance.' },
+            { question: 'How do I check if my website complies with the nDSG?', answer: 'Use PrivacyChecker to scan your website. It checks privacy policy completeness, cookie consent, third-party transfers, and security headers — covering both GDPR and nDSG requirements.' },
+        ],
+    },
+    {
+        slug: 'uk-gdpr-post-brexit-differences',
+        title: 'UK GDPR vs EU GDPR: Key Differences After Brexit (2026 Update)',
+        description: 'How UK GDPR is diverging from EU GDPR through the DPDI Act. Covers cookie consent relaxation, DPO vs SRI changes, legitimate interest shortcuts, and the EU adequacy decision expiration risk.',
+        date: '2026-02-17',
+        readTime: '11 min',
+        category: 'Regulations',
+        keywords: ['UK GDPR', 'UK GDPR vs EU GDPR', 'DPDI Act', 'UK data protection', 'post-Brexit GDPR', 'UK cookie consent', 'ICO guidance', 'UK adequacy decision', 'UK GDPR differences 2026'],
+        faq: [
+            { question: 'Do I need to comply with both UK GDPR and EU GDPR?', answer: 'Yes, if you serve users in both the UK and EU. Complying with EU GDPR (stricter) generally satisfies UK GDPR. Exceptions: UK-specific rules like SRI requirements and UK transfer mechanisms (IDTAs).' },
+            { question: 'Is the UK still considered adequate by the EU?', answer: 'The adequacy decision from June 2021 was for 4 years. Renewal discussions are underway. The European Commission has flagged concerns about UK divergence through the DPDI Act.' },
+            { question: 'Can I use Google Analytics on a UK-only website without consent?', answer: 'The DPDI Act may allow analytics cookies without consent for aggregate statistics, but Google Analytics collects more than aggregate data. The ICO still recommends consent for GA.' },
+        ],
+    },
+    {
+        slug: 'kvkk-turkey-privacy-law-guide',
+        title: 'KVKK: Complete Guide to Turkey\'s Privacy Law (2026 Update)',
+        description: 'Everything you need to know about KVKK (Turkey\'s data protection law). Covers KVKK vs GDPR differences, 2024 amendments bringing it closer to GDPR, VERBIS registration, and a 10-point compliance checklist.',
+        date: '2026-02-17',
+        readTime: '10 min',
+        category: 'Regulations',
+        keywords: ['KVKK', 'Turkey privacy law', 'KVKK compliance', 'KVKK vs GDPR', 'Turkish data protection', 'VERBIS registration', 'KVKK 2024 amendments', 'Turkey GDPR', 'KVKK checklist'],
+        faq: [
+            { question: 'Does KVKK apply to my business if I\'m based in the EU?', answer: 'Yes, if you process personal data of individuals in Turkey — targeting Turkish users, accepting Turkish customers, or monitoring behavior of people in Turkey. You must register with VERBIS as a foreign data controller.' },
+            { question: 'Is Turkey considered adequate under GDPR?', answer: 'No. Turkey does not have an EU adequacy decision. EU→Turkey transfers require SCCs or another GDPR mechanism. The 2024 KVKK amendments aim to improve Turkey\'s chances of obtaining adequacy.' },
+            { question: 'How do I check if my website complies with KVKK?', answer: 'PrivacyChecker scans for cookie consent, privacy policy completeness, third-party transfers, and security headers — covering core KVKK requirements alongside GDPR and CCPA.' },
+        ],
+    },
+    {
+        slug: 'thailand-pdpa-vs-gdpr',
+        title: 'Thailand PDPA vs GDPR: Key Differences & Compliance Guide (2026)',
+        description: 'Side-by-side comparison of Thailand\'s PDPA and EU GDPR. Covers criminal penalties (up to 1 year imprisonment), punitive damages (2x actual), cross-border transfer complexity, and a 10-point compliance checklist.',
+        date: '2026-02-17',
+        readTime: '11 min',
+        category: 'Regulations',
+        keywords: ['Thailand PDPA', 'PDPA vs GDPR', 'Thailand data protection', 'PDPA compliance', 'Thailand privacy law', 'PDPA checklist', 'PDPC Thailand', 'Thai GDPR', 'PDPA penalties'],
+        faq: [
+            { question: 'Does the PDPA apply to my business if I\'m based in Europe?', answer: 'Yes, if you offer goods/services to individuals in Thailand, monitor their behavior, or process their personal data. The PDPA has extraterritorial reach similar to GDPR.' },
+            { question: 'Is Thailand considered adequate under GDPR?', answer: 'No. Thailand does not have an EU adequacy decision. EU→Thailand transfers require SCCs, BCRs, or another GDPR transfer mechanism.' },
+            { question: 'If I comply with GDPR, am I PDPA compliant?', answer: 'Mostly (80-90%), but not automatically. Main gaps: Thai-language privacy notice, criminal liability provisions, punitive damages exposure, and less developed cross-border transfer mechanisms.' },
+        ],
+    },
 ];
 
 export function generateBlogMetadata(post: BlogPost): Metadata {
