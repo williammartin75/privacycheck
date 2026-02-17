@@ -13,11 +13,9 @@ const CRON_SECRET = process.env.CRON_SECRET || 'your-cron-secret-key';
 
 export async function GET(request: Request) {
     try {
-        // Verify cron secret
-        const { searchParams } = new URL(request.url);
-        const secret = searchParams.get('secret');
-
-        if (secret !== CRON_SECRET) {
+        // Verify cron secret via Authorization header (never use querystring — secrets leak into logs/referers)
+        const authHeader = request.headers.get('authorization');
+        if (authHeader !== `Bearer ${CRON_SECRET}`) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
