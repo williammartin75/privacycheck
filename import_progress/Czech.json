@@ -1,0 +1,55 @@
+{
+  "lastLine": 40800,
+  "success": 39350,
+  "failed": 745,
+  "rateLimited": 0,
+  "lists": [
+    {
+      "publicId": "2eb60db3-db42-495e-9ae4-9348a2882e83",
+      "name": "Czech Privacy Leads",
+      "count": 4900
+    },
+    {
+      "publicId": "5814073b-fc09-4828-88a2-1fd60e1ed435",
+      "name": "Czech Privacy Leads (Part 2)",
+      "count": 4900
+    },
+    {
+      "publicId": "c8f29790-1913-499e-8e6d-8a573fb06979",
+      "name": "Czech Privacy Leads (Part 3)",
+      "count": 4900
+    },
+    {
+      "publicId": "3a13f6bf-5ac8-4923-8fd8-ff8f39b49d09",
+      "name": "Czech Privacy Leads (Part 4)",
+      "count": 4900
+    },
+    {
+      "publicId": "6f03b9b9-7d30-4133-9386-519a3030060e",
+      "name": "Czech Privacy Leads (Part 5)",
+      "count": 4900
+    },
+    {
+      "publicId": "24403442-918a-4fd2-8d23-9828a7c2d0e5",
+      "name": "Czech Privacy Leads (Part 6)",
+      "count": 4900
+    },
+    {
+      "publicId": "5e4c8597-58dc-41d7-8189-358bb8a19cb5",
+      "name": "Czech Privacy Leads (Part 7)",
+      "count": 4900
+    },
+    {
+      "publicId": "89816322-d181-44c2-886b-45c1eee7f6da",
+      "name": "Czech Privacy Leads (Part 8)",
+      "count": 4900
+    },
+    {
+      "publicId": "bc9501c9-ea7a-4a73-af7c-39c9c5d238ec",
+      "name": "Czech Privacy Leads (Part 9)",
+      "count": 150
+    }
+  ],
+  "currentListIndex": 8,
+  "currentListCount": 150
+}

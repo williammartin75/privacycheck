@@ -1,0 +1,85 @@
+{
+  "lastLine": 72675,
+  "success": 69124,
+  "failed": 2483,
+  "rateLimited": 0,
+  "lists": [
+    {
+      "publicId": "63e49c1a-99b0-4f66-919e-1cc3c25c56dd",
+      "name": "Chinese Privacy Leads",
+      "count": 4900
+    },
+    {
+      "publicId": "e86747f1-c35f-438e-9063-3d2383e25780",
+      "name": "Chinese Privacy Leads (Part 2)",
+      "count": 4900
+    },
+    {
+      "publicId": "77e8f9e1-2bd7-4d1b-8d56-eb3c52a01178",
+      "name": "Chinese Privacy Leads (Part 3)",
+      "count": 4900
+    },
+    {
+      "publicId": "04a5ca7f-5d20-4410-9dfd-bbce0df632b3",
+      "name": "Chinese Privacy Leads (Part 4)",
+      "count": 4900
+    },
+    {
+      "publicId": "8f814a6b-2aac-4c6e-b50c-71713cf6b913",
+      "name": "Chinese Privacy Leads (Part 5)",
+      "count": 4900
+    },
+    {
+      "publicId": "e0f73d21-c3ad-48fa-8749-d53ed7a042ca",
+      "name": "Chinese Privacy Leads (Part 6)",
+      "count": 4900
+    },
+    {
+      "publicId": "e475abb9-8858-4433-a579-2b7f52671c19",
+      "name": "Chinese Privacy Leads (Part 7)",
+      "count": 4900
+    },
+    {
+      "publicId": "cbaa02ee-6dff-43c7-8471-898270e27ae1",
+      "name": "Chinese Privacy Leads (Part 8)",
+      "count": 4900
+    },
+    {
+      "publicId": "4e6d810a-cbb5-4d8f-b1e0-78679756bd54",
+      "name": "Chinese Privacy Leads (Part 9)",
+      "count": 4900
+    },
+    {
+      "publicId": "84b3b02d-2fb3-4d41-9e60-151930823294",
+      "name": "Chinese Privacy Leads (Part 10)",
+      "count": 4900
+    },
+    {
+      "publicId": "11550926-7756-45c7-a16a-ad4f474b3886",
+      "name": "Chinese Privacy Leads (Part 11)",
+      "count": 4900
+    },
+    {
+      "publicId": "7f569089-3b79-4e33-9eb9-31dcbadd1c85",
+      "name": "Chinese Privacy Leads (Part 12)",
+      "count": 4900
+    },
+    {
+      "publicId": "acf1294e-db34-462a-87cc-91324d1e25a9",
+      "name": "Chinese Privacy Leads (Part 13)",
+      "count": 4900
+    },
+    {
+      "publicId": "b8c12fbb-5123-4c9a-9b77-82c40739b025",
+      "name": "Chinese Privacy Leads (Part 14)",
+      "count": 4900
+    },
+    {
+      "publicId": "837c339b-6b70-4fa3-87a6-278c48da6753",
+      "name": "Chinese Privacy Leads (Part 15)",
+      "count": 524
+    }
+  ],
+  "currentListIndex": 14,
+  "currentListCount": 524
+}

@@ -790,6 +790,34 @@ export const blogPosts: BlogPost[] = [
             { question: 'Should I use server-side or client-side consent handling?', answer: 'Both. Use Next.js middleware to read the consent cookie on every request and strip tracking headers/cookies server-side. Use client-side state to conditionally load scripts. This belt-and-suspenders approach prevents accidental tracking.' },
         ],
     },
+    {
+        slug: 'ai-crawling-gdpr-legal',
+        title: 'AI Crawling and GDPR: Is AI Training on Your Website Data Legal?',
+        description: 'AI companies crawl websites to train models, but is this legal under GDPR? Explore the legal basis for AI crawling, enforcement actions, EU AI Act requirements, and how to protect your website data from unauthorized AI training.',
+        date: '2026-02-17',
+        readTime: '11 min',
+        category: 'Regulations',
+        keywords: ['AI crawling GDPR', 'AI training data legal', 'AI web scraping law', 'AI privacy', 'AI data protection', 'GPTBot legal', 'AI crawling opt-out', 'EU AI Act crawling'],
+        faq: [
+            { question: 'Can I sue an AI company for crawling my website?', answer: 'Potentially, yes. Under GDPR, you can lodge a complaint with your local DPA and seek compensation under Article 82. Several class-action lawsuits are underway. The strength of your case depends on whether the AI company violated your robots.txt directives and processed personal data without a valid legal basis.' },
+            { question: 'Does the GDPR apply to AI crawlers from non-EU companies?', answer: 'Yes. GDPR applies to any entity processing data of EU residents, regardless of where the company is based (Article 3(2)). OpenAI, Anthropic, and others must comply when crawling EU websites.' },
+            { question: 'Is blocking AI crawlers enough to comply with GDPR?', answer: 'Blocking AI crawlers protects your content and visitors\' data, but GDPR compliance requires broader measures including cookie consent, privacy policies, and security headers. Use PrivacyChecker to identify all privacy gaps.' },
+        ],
+    },
+    {
+        slug: 'cookie-banner-requirements-2026',
+        title: 'Cookie Banner Requirements by Country: EU, UK, US, Brazil (2026)',
+        description: 'Cookie consent rules differ dramatically by country. This guide covers cookie banner requirements for the EU, UK, US (California, Virginia, Colorado), Brazil, Canada, and more — with comparison tables and enforcement examples.',
+        date: '2026-02-17',
+        readTime: '12 min',
+        category: 'Regulations',
+        keywords: ['cookie banner requirements', 'cookie consent by country', 'cookie banner UK', 'cookie banner requirements UK', 'GDPR cookie banner', 'cookie consent EU', 'cookie law USA', 'CCPA cookies', 'LGPD cookies', 'cookie compliance'],
+        faq: [
+            { question: 'Do I need a cookie banner if I only use essential cookies?', answer: 'If your website only uses strictly necessary cookies (session, security, preferences), you do not need a consent banner in most jurisdictions. However, you should still provide a cookie policy. Most websites use analytics or marketing tools that require consent.' },
+            { question: 'Can I use a cookie wall to deny access?', answer: 'In the EU, cookie walls are generally not allowed. The EDPB has stated that consent is not freely given if the user has no real choice. Some DPAs allow limited exceptions, but the safest approach is to never use cookie walls.' },
+            { question: 'How often should I re-ask for cookie consent?', answer: 'Best practice is every 6 to 12 months. The CNIL recommends re-obtaining consent every 13 months maximum. You must also re-ask whenever you add new cookie categories or change processing purposes.' },
+        ],
+    },
 ];
 
 export function generateBlogMetadata(post: BlogPost): Metadata {

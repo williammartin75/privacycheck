@@ -1,0 +1,16 @@
+{
+    "name": "cc-pipeline",
+    "version": "1.0.0",
+    "description": "Common Crawl CC-MAIN-2026-04 distributed email extraction pipeline",
+    "scripts": {
+        "distribute": "node distribute.js",
+        "distribute:deploy": "node distribute.js --deploy-only",
+        "distribute:launch": "node distribute.js --launch-only",
+        "status": "node distribute.js --status",
+        "collect": "node collect.js",
+        "collect:skip-dl": "node collect.js --skip-download"
+    },
+    "dependencies": {
+        "ssh2": "^1.16.0"
+    }
+}

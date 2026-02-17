@@ -1,0 +1,25 @@
+{
+  "lastLine": 14861,
+  "success": 14082,
+  "failed": 495,
+  "rateLimited": 0,
+  "lists": [
+    {
+      "publicId": "df65bf98-c71e-418f-aa1f-c26d3265e7be",
+      "name": "Bulgarian Privacy Leads",
+      "count": 4900
+    },
+    {
+      "publicId": "bf719190-b136-4865-bb9b-ef5b53e6700b",
+      "name": "Bulgarian Privacy Leads (Part 2)",
+      "count": 4900
+    },
+    {
+      "publicId": "57a3c176-f3ba-4270-8889-1a03681640ad",
+      "name": "Bulgarian Privacy Leads (Part 3)",
+      "count": 4282
+    }
+  ],
+  "currentListIndex": 2,
+  "currentListCount": 4282
+}
