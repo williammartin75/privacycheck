@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createServiceClient } from '@/lib/supabase-server';
 import { getVendorRisk, getRiskLabel, VendorRisk } from '@/lib/vendor-risk';
 import { calculateRiskPrediction, RiskPrediction } from '@/lib/risk-predictor';
 import { scanAttackSurface, AttackSurfaceResult } from '@/lib/attack-surface';
@@ -1569,8 +1570,10 @@ export async function POST(request: NextRequest) {
         };
 
         // Log scan to scan_history for rate limiting and analytics
+        // Use service client to bypass RLS policies
         try {
-            await supabase.from('scan_history').insert({
+            const serviceClient = createServiceClient();
+            const { error: insertError } = await serviceClient.from('scan_history').insert({
                 user_id: user.id,
                 user_email: user.email,
                 url: url,
@@ -1579,11 +1582,21 @@ export async function POST(request: NextRequest) {
                 pages_scanned: pages.length,
                 score: result.score,
             });
+            if (insertError) {
+                console.error('[AUDIT] scan_history insert failed:', insertError.message, insertError.details);
+            } else {
+                console.log('[AUDIT] scan_history logged successfully for', user.email);
+            }
         } catch (logError) {
-            // Silent fail - don't log scan tracking errors
+            console.error('[AUDIT] scan_history insert threw:', logError instanceof Error ? logError.message : logError);
         }
 
-        return NextResponse.json(result);
+        const jsonResult = JSON.stringify(result);
+        console.log(`[AUDIT] Response size: ${jsonResult.length} bytes for ${url}`);
+        return new NextResponse(jsonResult, {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         const errorStack = error instanceof Error ? error.stack : '';
