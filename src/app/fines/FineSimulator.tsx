@@ -10,44 +10,72 @@ interface RegulationDef {
     id: string;
     name: string;
     region: string;
-    maxFixed: number;       // max fixed amount in EUR
+    maxFixed: number;       // max fixed amount (in regulation currency, but normalised to EUR for display)
     maxPctRevenue: number;  // max % of global annual turnover
+    lowerTierFixed: number; // lower-tier max (e.g. GDPR Art 83(4): €10M / 2%)
+    lowerTierPct: number;
     currency: string;
     currencySymbol: string;
-    per: string;            // "per violation" or "total"
+    per: string;
     note: string;
 }
 
 const regulations: RegulationDef[] = [
-    { id: 'gdpr', name: 'GDPR (EU/EEA)', region: 'Europe', maxFixed: 20000000, maxPctRevenue: 4, currency: 'EUR', currencySymbol: '€', per: 'whichever is higher', note: '€20M or 4% of worldwide annual turnover for serious violations. €10M or 2% for lesser violations.' },
-    { id: 'uk-gdpr', name: 'UK GDPR', region: 'United Kingdom', maxFixed: 17500000, maxPctRevenue: 4, currency: 'GBP', currencySymbol: '£', per: 'whichever is higher', note: '£17.5M or 4% of worldwide annual turnover. £8.7M or 2% for lesser violations.' },
-    { id: 'ccpa', name: 'CCPA / CPRA (California)', region: 'Americas', maxFixed: 7988, maxPctRevenue: 0, currency: 'USD', currencySymbol: '$', per: 'per violation', note: '$2,663 per unintentional violation, $7,988 per intentional violation or involving minors.' },
-    { id: 'lgpd', name: 'LGPD (Brazil)', region: 'Americas', maxFixed: 9000000, maxPctRevenue: 2, currency: 'BRL', currencySymbol: 'R$', per: 'per violation, capped at R$50M', note: '2% of revenue in Brazil, capped at R$50M (~€9M) per violation.' },
-    { id: 'pipeda', name: 'PIPEDA (Canada)', region: 'Americas', maxFixed: 75000, maxPctRevenue: 0, currency: 'CAD', currencySymbol: 'C$', per: 'per violation', note: 'C$100K per violation. Proposed CPPA: C$25M or 5% of global revenue.' },
-    { id: 'pdpa-sg', name: 'PDPA (Singapore)', region: 'Asia-Pacific', maxFixed: 740000, maxPctRevenue: 10, currency: 'SGD', currencySymbol: 'S$', per: 'whichever is higher', note: 'S$1M or 10% of annual turnover in Singapore (if turnover > S$10M).' },
-    { id: 'pipa', name: 'PIPA (South Korea)', region: 'Asia-Pacific', maxFixed: 0, maxPctRevenue: 3, currency: 'KRW', currencySymbol: '₩', per: 'of total sales', note: 'Up to 3% of total sales. Being increased to 10% for severe violations.' },
-    { id: 'privacy-act-au', name: 'Privacy Act (Australia)', region: 'Asia-Pacific', maxFixed: 30000000, maxPctRevenue: 30, currency: 'AUD', currencySymbol: 'A$', per: 'greatest of the three', note: 'A$50M, 3x the benefit obtained, or 30% of adjusted turnover — whichever is greatest.' },
-    { id: 'dpdp', name: 'DPDP Act (India)', region: 'Asia-Pacific', maxFixed: 28000000, maxPctRevenue: 0, currency: 'INR', currencySymbol: '₹', per: 'per violation', note: '₹50 Crore to ₹250 Crore (~€28M) per violation. Enforcement starting 2027.' },
-    { id: 'kvkk', name: 'KVKK (Turkey)', region: 'Middle East', maxFixed: 100000, maxPctRevenue: 0, currency: 'TRY', currencySymbol: '₺', per: 'per violation', note: 'Up to ₺1.9M (~€100K) per violation, updated annually.' },
+    { id: 'gdpr', name: 'GDPR (EU/EEA)', region: 'Europe', maxFixed: 20_000_000, maxPctRevenue: 4, lowerTierFixed: 10_000_000, lowerTierPct: 2, currency: 'EUR', currencySymbol: '€', per: 'whichever is higher', note: '€20M or 4% for serious violations (Art 83(5)). €10M or 2% for lesser violations (Art 83(4)).' },
+    { id: 'uk-gdpr', name: 'UK GDPR', region: 'United Kingdom', maxFixed: 17_500_000, maxPctRevenue: 4, lowerTierFixed: 8_700_000, lowerTierPct: 2, currency: 'GBP', currencySymbol: '£', per: 'whichever is higher', note: '£17.5M or 4% for serious violations. £8.7M or 2% for lesser violations.' },
+    { id: 'ccpa', name: 'CCPA / CPRA (California)', region: 'Americas', maxFixed: 7_988, maxPctRevenue: 0, lowerTierFixed: 2_663, lowerTierPct: 0, currency: 'USD', currencySymbol: '$', per: 'per violation', note: '$2,663 per unintentional, $7,988 per intentional violation or involving minors.' },
+    { id: 'lgpd', name: 'LGPD (Brazil)', region: 'Americas', maxFixed: 9_000_000, maxPctRevenue: 2, lowerTierFixed: 9_000_000, lowerTierPct: 2, currency: 'BRL', currencySymbol: 'R$', per: 'per violation, capped at R$50M', note: '2% of revenue in Brazil, capped at R$50M (~€9M) per violation.' },
+    { id: 'pipeda', name: 'PIPEDA (Canada)', region: 'Americas', maxFixed: 75_000, maxPctRevenue: 0, lowerTierFixed: 75_000, lowerTierPct: 0, currency: 'CAD', currencySymbol: 'C$', per: 'per violation', note: 'C$100K per violation. Proposed CPPA: C$25M or 5% of global revenue.' },
+    { id: 'pdpa-sg', name: 'PDPA (Singapore)', region: 'Asia-Pacific', maxFixed: 740_000, maxPctRevenue: 10, lowerTierFixed: 740_000, lowerTierPct: 10, currency: 'SGD', currencySymbol: 'S$', per: 'whichever is higher', note: 'S$1M or 10% of annual turnover in Singapore (if turnover > S$10M).' },
+    { id: 'pipa', name: 'PIPA (South Korea)', region: 'Asia-Pacific', maxFixed: 0, maxPctRevenue: 3, lowerTierFixed: 0, lowerTierPct: 3, currency: 'KRW', currencySymbol: '₩', per: 'of total sales', note: 'Up to 3% of total sales. Being increased to 10% for severe violations.' },
+    { id: 'privacy-act-au', name: 'Privacy Act (Australia)', region: 'Asia-Pacific', maxFixed: 30_000_000, maxPctRevenue: 30, lowerTierFixed: 30_000_000, lowerTierPct: 30, currency: 'AUD', currencySymbol: 'A$', per: 'greatest of the three', note: 'A$50M, 3x benefit obtained, or 30% of adjusted turnover — whichever is greatest.' },
+    { id: 'dpdp', name: 'DPDP Act (India)', region: 'Asia-Pacific', maxFixed: 28_000_000, maxPctRevenue: 0, lowerTierFixed: 5_600_000, lowerTierPct: 0, currency: 'INR', currencySymbol: '₹', per: 'per violation', note: '₹50 Crore to ₹250 Crore (~€28M) per violation. Enforcement starting 2027.' },
+    { id: 'kvkk', name: 'KVKK (Turkey)', region: 'Middle East', maxFixed: 100_000, maxPctRevenue: 0, lowerTierFixed: 100_000, lowerTierPct: 0, currency: 'TRY', currencySymbol: '₺', per: 'per violation', note: 'Up to ₺1.9M (~€100K) per violation, updated annually.' },
 ];
 
-const violationTypes = [
-    { id: 'insufficient-basis', label: 'Insufficient legal basis for processing', severityMultiplier: 1.0 },
-    { id: 'data-transfer', label: 'Unlawful international data transfers', severityMultiplier: 0.9 },
-    { id: 'security-breach', label: 'Inadequate security measures / data breach', severityMultiplier: 0.85 },
-    { id: 'data-subject-rights', label: 'Failure to respect data subject rights', severityMultiplier: 0.6 },
-    { id: 'cookie-consent', label: 'Cookie/consent violations', severityMultiplier: 0.5 },
-    { id: 'transparency', label: 'Transparency / privacy notice failures', severityMultiplier: 0.4 },
-    { id: 'dpo-record', label: 'DPO / record-keeping failures', severityMultiplier: 0.25 },
-    { id: 'notification', label: 'Breach notification failure', severityMultiplier: 0.55 },
+/* ──────────────────────────────────────────────
+   Violation types — expanded with tier info
+   ────────────────────────────────────────────── */
+interface ViolationType {
+    id: string;
+    label: string;
+    category: string;
+    severityMultiplier: number;
+    isUpperTier: boolean; // true = Art 83(5) level, false = Art 83(4) level
+    description: string;
+}
+
+const violationTypes: ViolationType[] = [
+    // Upper tier (Art 83(5) / most serious)
+    { id: 'insufficient-basis', label: 'Processing without lawful basis', category: 'Core Principles', severityMultiplier: 1.0, isUpperTier: true, description: 'Processing personal data without valid legal basis (GDPR Art 6). The most common and most heavily fined violation.' },
+    { id: 'consent-invalid', label: 'Invalid or missing consent', category: 'Core Principles', severityMultiplier: 0.9, isUpperTier: true, description: 'Consent not freely given, specific, informed, or unambiguous. Includes pre-ticked boxes and bundled consent.' },
+    { id: 'data-transfer', label: 'Unlawful international data transfers', category: 'Core Principles', severityMultiplier: 0.85, isUpperTier: true, description: 'Transferring data to third countries without adequate safeguards (SCCs, BCRs, adequacy decision).' },
+    { id: 'data-subject-rights', label: 'Failure to respect data subject rights', category: 'Core Principles', severityMultiplier: 0.7, isUpperTier: true, description: 'Not honoring access, erasure, portability, or objection requests within deadlines.' },
+    { id: 'children-data', label: 'Children\'s data processing violations', category: 'Core Principles', severityMultiplier: 0.95, isUpperTier: true, description: 'Processing children\'s data without parental consent or adequate age verification. Attracts highest scrutiny.' },
+    { id: 'profiling-auto', label: 'Unlawful automated decision-making / profiling', category: 'Core Principles', severityMultiplier: 0.8, isUpperTier: true, description: 'Automated decisions with legal effects without proper safeguards or human review (Art 22).' },
+    { id: 'special-category', label: 'Unlawful processing of sensitive / special data', category: 'Core Principles', severityMultiplier: 0.9, isUpperTier: true, description: 'Processing health, biometric, genetic, political, religious, or sexual orientation data without Art 9 exemption.' },
+    { id: 'dpa-non-compliance', label: 'Non-compliance with DPA orders', category: 'Core Principles', severityMultiplier: 1.0, isUpperTier: true, description: 'Failure to comply with a supervisory authority\'s corrective measures or orders. Treated as maximum severity.' },
+
+    // Lower tier (Art 83(4))
+    { id: 'security-breach', label: 'Inadequate security measures / data breach', category: 'Technical & Organizational', severityMultiplier: 0.75, isUpperTier: false, description: 'Insufficient technical and organizational measures leading to unauthorized access, loss, or disclosure.' },
+    { id: 'notification-failure', label: 'Breach notification failure (72h)', category: 'Technical & Organizational', severityMultiplier: 0.55, isUpperTier: false, description: 'Failing to notify the supervisory authority within 72 hours of becoming aware of a data breach.' },
+    { id: 'cookie-consent', label: 'Cookie / tracking consent violations', category: 'Technical & Organizational', severityMultiplier: 0.45, isUpperTier: false, description: 'Setting non-essential cookies without prior consent, misleading cookie banners, or cookie walls.' },
+    { id: 'transparency', label: 'Transparency / privacy notice failures', category: 'Technical & Organizational', severityMultiplier: 0.4, isUpperTier: false, description: 'Incomplete, inaccessible, or misleading privacy notices. Missing required Art 13/14 disclosures.' },
+    { id: 'dpo-failure', label: 'DPO / record-keeping failures', category: 'Technical & Organizational', severityMultiplier: 0.25, isUpperTier: false, description: 'No DPO appointed when required, DPO not independent, or inadequate records of processing activities.' },
+    { id: 'dpia-missing', label: 'Missing or inadequate DPIA', category: 'Technical & Organizational', severityMultiplier: 0.35, isUpperTier: false, description: 'Failing to conduct a Data Protection Impact Assessment for high-risk processing activities.' },
+    { id: 'data-retention', label: 'Excessive data retention', category: 'Technical & Organizational', severityMultiplier: 0.5, isUpperTier: false, description: 'Keeping personal data longer than necessary without defined retention periods or deletion procedures.' },
+    { id: 'employee-monitoring', label: 'Unlawful employee surveillance / monitoring', category: 'Technical & Organizational', severityMultiplier: 0.65, isUpperTier: false, description: 'Monitoring employees via CCTV, email, location, or screen capture without proper legal basis or notice.' },
+    { id: 'marketing-spam', label: 'Direct marketing without consent (spam)', category: 'Technical & Organizational', severityMultiplier: 0.5, isUpperTier: false, description: 'Sending unsolicited marketing emails, SMS, or calls without opt-in consent or ignoring opt-outs.' },
+    { id: 'data-minimization', label: 'Data minimization violations', category: 'Technical & Organizational', severityMultiplier: 0.4, isUpperTier: false, description: 'Collecting more personal data than necessary for the stated purpose. Violates the purpose limitation principle.' },
 ];
 
 const companySizes = [
-    { id: 'startup', label: 'Startup (< €1M revenue)', revenue: 500000 },
-    { id: 'sme-small', label: 'Small business (€1M – €10M)', revenue: 5000000 },
-    { id: 'sme-medium', label: 'Mid-size company (€10M – €100M)', revenue: 50000000 },
-    { id: 'large', label: 'Large enterprise (€100M – €1B)', revenue: 500000000 },
-    { id: 'big-tech', label: 'Big tech / Fortune 500 (> €1B)', revenue: 5000000000 },
+    { id: 'startup', label: 'Startup (< €1M revenue)', revenue: 500_000 },
+    { id: 'sme-small', label: 'Small business (€1M – €10M)', revenue: 5_000_000 },
+    { id: 'sme-medium', label: 'Mid-size company (€10M – €100M)', revenue: 50_000_000 },
+    { id: 'large', label: 'Large enterprise (€100M – €1B)', revenue: 500_000_000 },
+    { id: 'big-tech', label: 'Big tech / Fortune 500 (> €1B)', revenue: 5_000_000_000 },
+    { id: 'mega', label: 'Mega-cap tech (> €10B)', revenue: 50_000_000_000 },
     { id: 'custom', label: 'Custom revenue', revenue: 0 },
 ];
 
@@ -66,6 +94,9 @@ export default function FineSimulator() {
     const [isIntentional, setIsIntentional] = useState(false);
     const [affectedUsers, setAffectedUsers] = useState('10000');
     const [isRepeat, setIsRepeat] = useState(false);
+    const [didCooperate, setDidCooperate] = useState(true);
+    const [durationMonths, setDurationMonths] = useState('6');
+    const [dataSensitivity, setDataSensitivity] = useState('standard');
 
     const regulation = regulations.find(r => r.id === selectedRegulation)!;
     const violation = violationTypes.find(v => v.id === selectedViolation)!;
@@ -75,41 +106,106 @@ export default function FineSimulator() {
         ? parseFloat(customRevenue) || 0
         : companySize.revenue;
 
+    // Group violation types by category for the select
+    const violationCategories = violationTypes.reduce((acc, v) => {
+        if (!acc[v.category]) acc[v.category] = [];
+        acc[v.category].push(v);
+        return acc;
+    }, {} as Record<string, ViolationType[]>);
+
     const result = useMemo(() => {
         const reg = regulation;
         const viol = violation;
 
-        // Base calculation
-        let fixedPenalty = reg.maxFixed;
-        let revenuePenalty = (reg.maxPctRevenue / 100) * revenue;
+        // 1. Determine the penalty ceiling (upper or lower tier)
+        let fixedCeiling: number;
+        let pctCeiling: number;
 
-        // For per-violation regulations like CCPA
+        if (viol.isUpperTier) {
+            fixedCeiling = reg.maxFixed;
+            pctCeiling = reg.maxPctRevenue;
+        } else {
+            fixedCeiling = reg.lowerTierFixed;
+            pctCeiling = reg.lowerTierPct;
+        }
+
+        // 2. For per-violation regulations like CCPA
         const numUsers = parseInt(affectedUsers) || 1;
         let perViolationTotal = 0;
+        let revenuePenalty = (pctCeiling / 100) * revenue;
+        let fixedPenalty = fixedCeiling;
+
         if (reg.id === 'ccpa') {
-            const perViolation = isIntentional ? 7988 : 2663;
+            const perViolation = isIntentional ? 7_988 : 2_663;
             perViolationTotal = perViolation * numUsers;
             fixedPenalty = perViolationTotal;
             revenuePenalty = 0;
         }
 
-        // Choose the higher amount (GDPR-style)
+        // 3. Choose the higher amount (GDPR-style: max of fixed vs pct-of-revenue)
         let maxPotential = Math.max(fixedPenalty, revenuePenalty);
 
-        // Apply severity multiplier based on violation type
+        // 4. Apply violation severity multiplier
         let estimatedFine = maxPotential * viol.severityMultiplier;
 
-        // Aggravating factors
-        if (isIntentional) estimatedFine *= 1.5;
-        if (isRepeat) estimatedFine *= 1.3;
+        // 5. Aggravating factors (additive multipliers, capped)
+        let aggravatingMultiplier = 1.0;
+        const factors: { label: string; effect: string }[] = [];
 
-        // Cap at maximum
+        if (isIntentional) {
+            aggravatingMultiplier += 0.5;
+            factors.push({ label: 'Intentional / negligent', effect: '+50%' });
+        }
+        if (isRepeat) {
+            aggravatingMultiplier += 0.3;
+            factors.push({ label: 'Repeat offender', effect: '+30%' });
+        }
+        if (!didCooperate) {
+            aggravatingMultiplier += 0.2;
+            factors.push({ label: 'No cooperation with DPA', effect: '+20%' });
+        }
+
+        // Duration: longer violations = higher penalty
+        const months = parseInt(durationMonths) || 6;
+        if (months > 12) {
+            aggravatingMultiplier += 0.15;
+            factors.push({ label: 'Duration > 12 months', effect: '+15%' });
+        } else if (months > 24) {
+            aggravatingMultiplier += 0.3;
+            factors.push({ label: 'Duration > 24 months', effect: '+30%' });
+        }
+
+        // Data sensitivity
+        if (dataSensitivity === 'sensitive') {
+            aggravatingMultiplier += 0.25;
+            factors.push({ label: 'Sensitive data involved', effect: '+25%' });
+        } else if (dataSensitivity === 'children') {
+            aggravatingMultiplier += 0.4;
+            factors.push({ label: 'Children\'s data involved', effect: '+40%' });
+        }
+
+        // Mitigating: cooperation
+        if (didCooperate) {
+            aggravatingMultiplier -= 0.1;
+            factors.push({ label: 'Cooperated with DPA', effect: '-10%' });
+        }
+
+        estimatedFine *= aggravatingMultiplier;
+
+        // 6. Cap at maximum potential
         estimatedFine = Math.min(estimatedFine, maxPotential);
 
-        // Calculate ranges
-        const lowEstimate = estimatedFine * 0.3;
-        const midEstimate = estimatedFine * 0.65;
+        // 7. Calculate ranges (based on real DPA behavior: most fines are 10-60% of max)
+        const lowEstimate = estimatedFine * 0.25;
+        const midEstimate = estimatedFine * 0.55;
         const highEstimate = estimatedFine;
+
+        // 8. Determine severity label
+        let severityLabel = 'Low Risk';
+        let severityColor = 'text-green-600';
+        if (midEstimate > 10_000_000) { severityLabel = 'Critical'; severityColor = 'text-red-600'; }
+        else if (midEstimate > 1_000_000) { severityLabel = 'High Risk'; severityColor = 'text-orange-600'; }
+        else if (midEstimate > 100_000) { severityLabel = 'Moderate'; severityColor = 'text-yellow-600'; }
 
         return {
             maxPotential,
@@ -120,8 +216,13 @@ export default function FineSimulator() {
             fixedPenalty,
             perViolationTotal,
             symbol: reg.currencySymbol,
+            violationTier: viol.isUpperTier ? 'Upper tier (most severe)' : 'Lower tier',
+            factors,
+            severityLabel,
+            severityColor,
+            aggravatingMultiplier,
         };
-    }, [regulation, violation, revenue, isIntentional, isRepeat, affectedUsers]);
+    }, [regulation, violation, revenue, isIntentional, isRepeat, affectedUsers, didCooperate, durationMonths, dataSensitivity]);
 
     return (
         <section className="mb-16" id="simulator">
@@ -132,10 +233,10 @@ export default function FineSimulator() {
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
-                        Fine Simulator
+                        GDPR Fine Simulator — Estimate Your Penalty Risk
                     </h2>
                     <p className="text-blue-100 text-sm mt-1 max-w-lg">
-                        Estimate the potential penalty your organization could face based on jurisdiction, violation type, and company size.
+                        Estimate the potential fine your organization could face based on regulation, violation type, company size, and aggravating factors. Based on real DPA enforcement patterns.
                     </p>
                 </div>
 
@@ -157,7 +258,7 @@ export default function FineSimulator() {
                             <p className="text-xs text-gray-400 mt-1">{regulation.note}</p>
                         </div>
 
-                        {/* Violation type */}
+                        {/* Violation type — grouped */}
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Type of Violation</label>
                             <select
@@ -165,10 +266,15 @@ export default function FineSimulator() {
                                 onChange={e => setSelectedViolation(e.target.value)}
                                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                             >
-                                {violationTypes.map(v => (
-                                    <option key={v.id} value={v.id}>{v.label}</option>
+                                {Object.entries(violationCategories).map(([category, violations]) => (
+                                    <optgroup key={category} label={category}>
+                                        {violations.map(v => (
+                                            <option key={v.id} value={v.id}>{v.label}</option>
+                                        ))}
+                                    </optgroup>
                                 ))}
                             </select>
+                            <p className="text-xs text-gray-400 mt-1">{violation.description}</p>
                         </div>
 
                         {/* Company size */}
@@ -211,9 +317,37 @@ export default function FineSimulator() {
                             </div>
                         )}
 
-                        {/* Aggravating factors */}
+                        {/* Data sensitivity */}
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Aggravating Factors</label>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Data Sensitivity</label>
+                            <select
+                                value={dataSensitivity}
+                                onChange={e => setDataSensitivity(e.target.value)}
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                            >
+                                <option value="standard">Standard personal data (name, email, IP)</option>
+                                <option value="sensitive">Sensitive data (health, biometric, financial)</option>
+                                <option value="children">Children&apos;s data (under 16)</option>
+                            </select>
+                        </div>
+
+                        {/* Violation duration */}
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Violation Duration (months)</label>
+                            <input
+                                type="number"
+                                value={durationMonths}
+                                onChange={e => setDurationMonths(e.target.value)}
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                min="1"
+                                max="120"
+                            />
+                            <p className="text-xs text-gray-400 mt-1">Longer violations attract higher penalties.</p>
+                        </div>
+
+                        {/* Aggravating / mitigating factors */}
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Aggravating &amp; Mitigating Factors</label>
                             <div className="space-y-2">
                                 <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
                                     <input
@@ -233,6 +367,15 @@ export default function FineSimulator() {
                                     />
                                     Repeat offender (previous violations)
                                 </label>
+                                <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={didCooperate}
+                                        onChange={e => setDidCooperate(e.target.checked)}
+                                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    Cooperated with supervisory authority
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -241,7 +384,12 @@ export default function FineSimulator() {
                     <div className="flex flex-col">
                         {/* Estimated fine */}
                         <div className="bg-gray-50 rounded-xl p-6 flex-1">
-                            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Estimated Fine Range</h3>
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Estimated Fine Range</h3>
+                                <span className={`text-xs font-bold px-2 py-1 rounded-full ${result.severityColor} bg-opacity-10`} style={{ backgroundColor: result.severityColor === 'text-red-600' ? '#fef2f2' : result.severityColor === 'text-orange-600' ? '#fff7ed' : result.severityColor === 'text-yellow-600' ? '#fefce8' : '#f0fdf4' }}>
+                                    {result.severityLabel}
+                                </span>
+                            </div>
 
                             {/* Main figure */}
                             <div className="text-center mb-6">
@@ -259,9 +407,10 @@ export default function FineSimulator() {
                                     <span>High</span>
                                 </div>
                                 <div className="h-3 rounded-full bg-gray-200 overflow-hidden flex">
-                                    <div className="bg-green-400 h-full" style={{ width: '30%' }} />
-                                    <div className="bg-yellow-400 h-full" style={{ width: '35%' }} />
-                                    <div className="bg-red-400 h-full" style={{ width: '35%' }} />
+                                    <div className="bg-green-400 h-full" style={{ width: '25%' }} />
+                                    <div className="bg-yellow-400 h-full" style={{ width: '30%' }} />
+                                    <div className="bg-orange-400 h-full" style={{ width: '20%' }} />
+                                    <div className="bg-red-400 h-full" style={{ width: '25%' }} />
                                 </div>
                                 <div className="flex justify-between text-xs font-medium text-gray-700 mt-1">
                                     <span>{formatCurrency(result.lowEstimate, result.symbol)}</span>
@@ -271,14 +420,18 @@ export default function FineSimulator() {
                             </div>
 
                             {/* Breakdown */}
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-sm border-t border-gray-200 pt-4">
+                                <div className="flex justify-between text-gray-600">
+                                    <span>Violation tier</span>
+                                    <span className={`font-medium ${violation.isUpperTier ? 'text-red-600' : 'text-yellow-600'}`}>{result.violationTier}</span>
+                                </div>
                                 <div className="flex justify-between text-gray-600">
                                     <span>Max statutory penalty</span>
                                     <span className="font-medium">{formatCurrency(result.maxPotential, result.symbol)}</span>
                                 </div>
                                 {regulation.maxPctRevenue > 0 && (
                                     <div className="flex justify-between text-gray-600">
-                                        <span>{regulation.maxPctRevenue}% of revenue</span>
+                                        <span>{violation.isUpperTier ? regulation.maxPctRevenue : regulation.lowerTierPct}% of revenue</span>
                                         <span className="font-medium">{formatCurrency(result.revenuePenalty, result.symbol)}</span>
                                     </div>
                                 )}
@@ -295,6 +448,21 @@ export default function FineSimulator() {
                                     </div>
                                 )}
                             </div>
+
+                            {/* Factors applied */}
+                            {result.factors.length > 0 && (
+                                <div className="mt-4 border-t border-gray-200 pt-4">
+                                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Factors Applied</p>
+                                    <div className="space-y-1">
+                                        {result.factors.map((f, i) => (
+                                            <div key={i} className="flex justify-between text-xs">
+                                                <span className="text-gray-600">{f.label}</span>
+                                                <span className={`font-medium ${f.effect.startsWith('+') ? 'text-red-500' : 'text-green-500'}`}>{f.effect}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Disclaimer */}
@@ -303,8 +471,16 @@ export default function FineSimulator() {
                                 <svg className="w-4 h-4 inline-block mr-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.072 16.5c-.77.833.192 2.5 1.732 2.5z" />
                                 </svg>
-                                <strong>Disclaimer:</strong> This simulator provides rough estimates based on publicly available penalty frameworks. Actual fines depend on many DPA-specific factors including cooperation, remediation efforts, and precedent. This is not legal advice.
+                                <strong>Disclaimer:</strong> This simulator provides rough estimates based on publicly available penalty frameworks and real DPA enforcement patterns. Actual fines depend on many factors including DPA discretion, remediation efforts, company cooperation, and precedent. This is not legal advice. <a href="/blog/biggest-gdpr-fines-2025-2026" className="underline font-medium">See real fine examples →</a>
                             </p>
+                        </div>
+
+                        {/* CTA */}
+                        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                            <p className="text-sm text-blue-800 font-medium">Don&apos;t risk a fine — scan your website now</p>
+                            <a href="/" className="inline-block mt-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition">
+                                Free Privacy Scan →
+                            </a>
                         </div>
                     </div>
                 </div>

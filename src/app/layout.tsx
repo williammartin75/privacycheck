@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PrivacyChecker - Free Privacy Compliance Checker - GDPR & CCPA",
-  description: "Scan your website for GDPR, CCPA, and privacy compliance issues. Get instant audit reports with step-by-step fix recommendations. Free privacy compliance checker.",
-  keywords: ["GDPR", "CCPA", "privacy compliance", "cookie consent", "website audit", "privacy policy checker", "data protection"],
+  title: "GDPR Checker & Privacy Compliance Scanner — Free Website Audit | PrivacyChecker",
+  description: "Free GDPR checker and privacy compliance scanner. Check website GDPR, CCPA, LGPD compliance in 60 seconds. Audit cookies, consent banners, privacy policy, security headers and trackers instantly.",
+  keywords: ["GDPR checker", "privacy checker", "GDPR website scanner", "check website GDPR", "GDPR compliance checker", "privacy policy checker", "CCPA compliance", "cookie consent", "website privacy audit", "data protection", "free GDPR scanner"],
   authors: [{ name: "PrivacyChecker" }],
   creator: "PrivacyChecker",
   publisher: "PrivacyChecker",
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   openGraph: {
-    title: "PrivacyChecker - Free GDPR & CCPA Compliance Scanner",
-    description: "Scan your website in 60 seconds. Get a detailed privacy audit with 25+ checks covering cookies, trackers, consent banners, and security headers.",
+    title: "GDPR Checker — Free Website Privacy & Compliance Scanner | PrivacyChecker",
+    description: "Check if your website is GDPR compliant for free. Scan cookies, trackers, consent banners, privacy policy and security headers in 60 seconds. 25+ automated checks.",
     url: "https://privacychecker.pro",
     siteName: "PrivacyChecker",
     images: [
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PrivacyChecker - Free GDPR & CCPA Compliance Scanner",
-    description: "Scan your website in 60 seconds. Get a detailed privacy audit with 25+ checks.",
+    title: "GDPR Checker — Free Website Privacy Scanner | PrivacyChecker",
+    description: "Free GDPR checker: scan your website in 60 seconds. Audit cookies, consent banners, privacy policy and 25+ checks.",
     images: ["https://privacychecker.pro/og-image.png"],
   },
   metadataBase: new URL("https://privacychecker.pro"),

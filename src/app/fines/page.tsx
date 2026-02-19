@@ -3,16 +3,17 @@ import { Metadata } from 'next';
 import FineSimulator from './FineSimulator';
 
 export const metadata: Metadata = {
-    title: 'Privacy Fines Database by Jurisdiction | GDPR, CCPA, LGPD Penalties — PrivacyChecker',
-    description: 'Explore the largest privacy fines worldwide. €7.1B+ in GDPR fines, CCPA penalties, UK ICO enforcement, and more. Real enforcement data from 20+ jurisdictions to help you understand the cost of non-compliance.',
+    title: 'GDPR Maximum Fine Amount 2026 — Privacy Fines Database by Jurisdiction | PrivacyChecker',
+    description: 'GDPR maximum fines in 2026: up to €20M or 4% of global turnover. Explore €7.1B+ in enforcement actions across GDPR, CCPA, LGPD, KVKK and 20+ jurisdictions. Interactive fine simulator included.',
     keywords: [
+        'GDPR maximum fine amount', 'GDPR maximum fines 2026', 'GDPR fines 2026', 'GDPR enforcement 2026',
         'GDPR fines', 'CCPA penalties', 'privacy fines database', 'data protection fines',
-        'GDPR enforcement', 'CNIL fines', 'ICO fines', 'DPC fines', 'privacy violations',
+        'GDPR enforcement actions', 'CNIL fines', 'ICO fines', 'DPC fines', 'privacy violations',
         'LGPD fines', 'PIPEDA fines', 'KVKK fines', 'PDPA fines', 'PIPA fines',
-        'data breach penalties', 'cookie consent fines', 'privacy compliance cost'
+        'data breach penalties', 'cookie consent fines', 'fine simulator', 'GDPR penalty calculator'
     ],
     openGraph: {
-        title: 'Privacy Fines Database — €7.1B+ in Enforcement Actions Worldwide',
+        title: 'GDPR Maximum Fine Amount 2026 — €7.1B+ in Enforcement Actions Worldwide',
         description: 'Track the biggest privacy fines across 20+ jurisdictions. GDPR, CCPA, LGPD, and more.',
         url: 'https://privacychecker.pro/fines',
         siteName: 'PrivacyChecker',
