@@ -145,10 +145,24 @@ export default function FineSimulator() {
         // 3. Choose the higher amount (GDPR-style: max of fixed vs pct-of-revenue)
         let maxPotential = Math.max(fixedPenalty, revenuePenalty);
 
-        // 4. Apply violation severity multiplier
-        let estimatedFine = maxPotential * viol.severityMultiplier;
+        // 4. Revenue-proportional dampening
+        // Real DPAs scale fines to what a company can actually pay.
+        // A €500K-revenue company will never get a €20M fine.
+        // We use the revenue-based percentage as the realistic ceiling for small companies.
+        let realisticCeiling = maxPotential;
+        if (revenue > 0 && reg.id !== 'ccpa') {
+            const revenueBasedMax = (pctCeiling / 100) * revenue;
+            // If revenue-based max is much lower than fixed ceiling, use revenue-based
+            // Apply a blend: use whichever is lower between fixed cap and revenue-proportional
+            if (revenueBasedMax < fixedCeiling) {
+                realisticCeiling = Math.max(revenueBasedMax, revenue * 0.02); // at least 2% of revenue
+            }
+        }
 
-        // 5. Aggravating factors (additive multipliers, capped)
+        // 5. Apply violation severity multiplier
+        let estimatedFine = realisticCeiling * viol.severityMultiplier;
+
+        // 6. Aggravating factors (additive multipliers, capped)
         let aggravatingMultiplier = 1.0;
         const factors: { label: string; effect: string }[] = [];
 
@@ -167,12 +181,12 @@ export default function FineSimulator() {
 
         // Duration: longer violations = higher penalty
         const months = parseInt(durationMonths) || 6;
-        if (months > 12) {
-            aggravatingMultiplier += 0.15;
-            factors.push({ label: 'Duration > 12 months', effect: '+15%' });
-        } else if (months > 24) {
+        if (months > 24) {
             aggravatingMultiplier += 0.3;
             factors.push({ label: 'Duration > 24 months', effect: '+30%' });
+        } else if (months > 12) {
+            aggravatingMultiplier += 0.15;
+            factors.push({ label: 'Duration > 12 months', effect: '+15%' });
         }
 
         // Data sensitivity
@@ -192,13 +206,14 @@ export default function FineSimulator() {
 
         estimatedFine *= aggravatingMultiplier;
 
-        // 6. Cap at maximum potential
+        // 7. Cap at maximum statutory potential
         estimatedFine = Math.min(estimatedFine, maxPotential);
 
-        // 7. Calculate ranges (based on real DPA behavior: most fines are 10-60% of max)
-        const lowEstimate = estimatedFine * 0.05;
-        const midEstimate = estimatedFine * 0.15;
-        const highEstimate = estimatedFine * 0.45;
+        // 8. Calculate ranges (based on real DPA behavior)
+        // Most real fines land between 5-30% of what the DPA *could* impose
+        const lowEstimate = estimatedFine * 0.3;
+        const midEstimate = estimatedFine * 0.6;
+        const highEstimate = estimatedFine;
 
         // 8. Determine severity label
         let severityLabel = 'Low Risk';
