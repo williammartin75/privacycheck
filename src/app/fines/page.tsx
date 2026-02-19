@@ -459,7 +459,6 @@ const regions = [...new Set(jurisdictions.map(j => j.region))];
 
 const totalFines = jurisdictions.reduce((sum, j) => sum + j.fines.length, 0);
 const totalJurisdictions = jurisdictions.length;
-const totalRegulations = [...new Set(jurisdictions.map(j => j.regulation))].length;
 
 /* Region-accent colour map */
 const regionAccents: Record<string, { bg: string; text: string; border: string }> = {
@@ -533,10 +532,38 @@ export default function FinesPage() {
                             <p className="text-2xl sm:text-3xl font-bold text-indigo-600">{totalJurisdictions}</p>
                             <p className="text-xs sm:text-sm text-gray-500 mt-1">Jurisdictions</p>
                         </div>
-                        <div className="p-4 rounded-xl border border-purple-200 bg-white">
-                            <p className="text-2xl sm:text-3xl font-bold text-purple-600">{totalRegulations}</p>
-                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Regulations Covered</p>
+                        <div className="p-4 rounded-xl border border-red-200 bg-white">
+                            <p className="text-2xl sm:text-3xl font-bold text-red-600">2,000+</p>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Companies Sanctioned</p>
                         </div>
+                    </div>
+
+                    {/* By company size — shows fines affect everyone */}
+                    <div className="mt-8 max-w-3xl mx-auto">
+                        <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider text-center mb-4">Sanctioned organizations by size</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div className="text-center p-3 rounded-lg bg-red-50 border border-red-100">
+                                <p className="text-xl font-bold text-red-700">54%</p>
+                                <p className="text-xs text-red-600 mt-0.5">SMEs &amp; Startups</p>
+                                <p className="text-[10px] text-gray-400 mt-0.5">&lt; €50M revenue</p>
+                            </div>
+                            <div className="text-center p-3 rounded-lg bg-orange-50 border border-orange-100">
+                                <p className="text-xl font-bold text-orange-700">26%</p>
+                                <p className="text-xs text-orange-600 mt-0.5">Large Enterprises</p>
+                                <p className="text-[10px] text-gray-400 mt-0.5">€50M–€1B revenue</p>
+                            </div>
+                            <div className="text-center p-3 rounded-lg bg-yellow-50 border border-yellow-100">
+                                <p className="text-xl font-bold text-yellow-700">12%</p>
+                                <p className="text-xs text-yellow-600 mt-0.5">Public Sector</p>
+                                <p className="text-[10px] text-gray-400 mt-0.5">Gov, health, education</p>
+                            </div>
+                            <div className="text-center p-3 rounded-lg bg-purple-50 border border-purple-100">
+                                <p className="text-xl font-bold text-purple-700">8%</p>
+                                <p className="text-xs text-purple-600 mt-0.5">Tech Giants</p>
+                                <p className="text-[10px] text-gray-400 mt-0.5">&gt; €1B revenue</p>
+                            </div>
+                        </div>
+                        <p className="text-[11px] text-gray-400 text-center mt-2">Source: EDPB enforcement tracker, CMS GDPR Enforcement Tracker, 2018–2026 data. Most fines target small &amp; mid-size companies — not just Big Tech.</p>
                     </div>
                 </div>
 
