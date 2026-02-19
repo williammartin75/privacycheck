@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
+import FineSimulator from './FineSimulator';
 
 export const metadata: Metadata = {
     title: 'Privacy Fines Database by Jurisdiction | GDPR, CCPA, LGPD Penalties — PrivacyChecker',
@@ -123,6 +124,8 @@ const jurisdictions: Jurisdiction[] = [
         maxPenalty: '€20M or 4% of global annual turnover',
         fines: [
             { company: 'Amazon Europe', amount: '€746M', amountNum: 746000000, violation: 'Advertising targeting without consent', year: '2021', details: "Amazon's behavioral advertising system processed personal data for targeted ads without obtaining valid consent from users. Legal challenge lost in 2025." },
+            { company: 'Amazon Europe', amount: '€2.25M', amountNum: 2250000, violation: 'Data subject access rights failures', year: '2022', details: 'Failed to adequately respond to customer data access requests within the required timeframe under GDPR Article 15.' },
+            { company: 'Satispay Europe', amount: '€180K', amountNum: 180000, violation: 'Marketing without consent', year: '2024', details: 'Fintech company sent promotional communications to users who had not given valid consent for direct marketing purposes.' },
         ],
     },
     {
@@ -194,6 +197,8 @@ const jurisdictions: Jurisdiction[] = [
         fines: [
             { company: 'Posti (postal service)', amount: '€2.4M', amountNum: 2400000, violation: 'Unlawful automatic mailbox creation', year: '2024', details: 'Automatically created electronic mailboxes for citizens without consent, processing personal data unlawfully.' },
             { company: 'Verkkokauppa.com', amount: '€856K', amountNum: 856000, violation: 'No data retention limits', year: '2024', details: 'Failed to define data retention periods and forced customers to create mandatory accounts for online purchases — went beyond what is necessary.' },
+            { company: 'Taksi Helsinki', amount: '€72K', amountNum: 72000, violation: 'Excessive data collection', year: '2021', details: 'Collected and stored excessive personal data from taxi passengers beyond what was necessary for the service provided.' },
+            { company: 'Psykoterapiakeskus Vastaamo', amount: 'Criminal prosecution', amountNum: 0, violation: 'Massive therapy data breach', year: '2023', details: 'Private psychotherapy records of 33,000+ patients were stolen and leaked online due to catastrophically poor security. CEO was criminally charged.' },
         ],
     },
     {
@@ -235,6 +240,8 @@ const jurisdictions: Jurisdiction[] = [
         fines: [
             { company: 'Netcompany Group', amount: '€2.2M', amountNum: 2200000, violation: 'Digital mail service security failures', year: '2024', details: 'Security vulnerabilities in a digital mail service exposed personal data of citizens, referred to police for prosecution.' },
             { company: 'OiSTER Telecom', amount: '€100K', amountNum: 100000, violation: 'Data breach — 247K customers', year: '2025', details: 'Data breach affected 246,748 customers\' personal data. Reported to police with a recommended fine of DKK 750,000.' },
+            { company: 'DSB (Danish State Railways)', amount: '€134K', amountNum: 134000, violation: 'Employee data processing', year: '2022', details: 'Unlawfully processed employee personal data and failed to maintain adequate records of processing activities.' },
+            { company: 'IDdesign A/S', amount: '€200K', amountNum: 200000, violation: 'Data retention violations', year: '2021', details: 'Retained personal data of 385,000 former customers for years beyond what was necessary, with no deletion procedures in place.' },
         ],
     },
     {
@@ -248,6 +255,8 @@ const jurisdictions: Jurisdiction[] = [
         fines: [
             { company: 'Telenor ASA', amount: '€380K', amountNum: 380000, violation: 'Organizational GDPR failures', year: '2025', details: 'Issues with Records of Processing Activities (RoPA) and failure to ensure Data Protection Officer (DPO) independence as required.' },
             { company: 'Grindr LLC', amount: '€6.3M', amountNum: 6300000, violation: 'Sharing sensitive data without consent', year: '2021', details: 'Shared users\' GPS location, device identifiers, and sexual orientation data with advertising partners without valid legal consent.' },
+            { company: 'Municipality of Bergen', amount: '€170K', amountNum: 170000, violation: 'Student data breach', year: '2020', details: 'Personal data of 35,000 students and employees was exposed due to a security flaw in the school administration system.' },
+            { company: 'Stortinget (Parliament)', amount: '€68K', amountNum: 68000, violation: 'Cyberattack security failures', year: '2021', details: 'The Norwegian Parliament suffered a cyberattack exploiting vulnerabilities in Microsoft Exchange, exposing email accounts of elected officials.' },
         ],
     },
     {
@@ -261,6 +270,8 @@ const jurisdictions: Jurisdiction[] = [
         fines: [
             { company: 'Austrian Post', amount: '€9.5M', amountNum: 9500000, violation: 'Failure to fulfill data subject rights', year: '2021', details: 'Created profiles on political preferences of Austrian citizens and sold this data to political parties without adequate consent.' },
             { company: 'Media company (unnamed)', amount: '€15.2K', amountNum: 15200, violation: 'Failure to cooperate with DPA', year: '2024', details: 'Refused to cooperate with the data protection authority during an investigation, obstructing regulatory enforcement.' },
+            { company: 'REWE Group (supermarket)', amount: '€8M', amountNum: 8000000, violation: 'Customer profiling without consent', year: '2023', details: 'Loyalty card program processed customer behavior data for profiling purposes without valid consent under GDPR.' },
+            { company: 'Jö Bonus Club', amount: '€2M', amountNum: 2000000, violation: 'Tracking purchase behavior', year: '2023', details: 'Loyalty program tracked detailed purchase behavior of 4 million Austrians and used it for targeted advertising without adequate consent.' },
         ],
     },
     {
@@ -273,6 +284,8 @@ const jurisdictions: Jurisdiction[] = [
         maxPenalty: '€20M or 4% of global annual turnover',
         fines: [
             { company: 'Instituto Nacional de Estatística', amount: '€4.3M', amountNum: 4300000, violation: 'Unlawful international data transfers', year: '2022', details: 'Census data was transferred to the US via Cloudflare without adequate safeguards and no data protection impact assessment was conducted.' },
+            { company: 'Hospital do Barreiro', amount: '€400K', amountNum: 400000, violation: 'Unauthorized access to patient records', year: '2019', details: 'Hospital allowed non-medical staff to access patient records through falsified doctor profiles. 985 active profiles for only 296 doctors.' },
+            { company: 'Câmara Municipal de Lisboa', amount: '€1.25M', amountNum: 1250000, violation: 'Sharing activist data with embassies', year: '2022', details: 'The Lisbon city council shared personal data of protest organizers with foreign embassies, endangering activists from authoritarian countries.' },
         ],
     },
     /* ═══════ UNITED KINGDOM ═══════ */
@@ -323,6 +336,8 @@ const jurisdictions: Jurisdiction[] = [
         fines: [
             { company: 'Telecom operator (unnamed)', amount: 'R$6.6M', amountNum: 1200000, violation: 'Customer data processing without basis', year: '2024', details: 'Processed customer personal data for commercial purposes without a valid legal basis, affecting millions of subscribers.' },
             { company: 'Telekall Infoservice', amount: 'R$14.4K', amountNum: 2700, violation: 'First-ever LGPD fine', year: '2023', details: 'Microenterprise processed personal data for WhatsApp marketing campaigns without a valid legal basis — the very first LGPD enforcement action.' },
+            { company: 'Instituto Nacional do Seguro Social (INSS)', amount: 'R$3.3M', amountNum: 600000, violation: 'Social security data breach', year: '2024', details: 'Personal data of social security beneficiaries was accessed by unauthorized third parties and used for predatory loan marketing.' },
+            { company: 'Bytedance (TikTok Brazil)', amount: 'R$1.7M', amountNum: 310000, violation: 'Children\'s data processing', year: '2024', details: 'Collected and processed personal data of children under 13 without parental consent and inadequate age verification mechanisms.' },
         ],
     },
     {
@@ -337,6 +352,8 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Clearview AI', amount: 'Order to delete data', amountNum: 0, violation: 'Unlawful facial recognition', year: '2021', details: 'Scraped images of Canadians from the internet for facial recognition without consent. Ordered to cease operations and delete all Canadian data.' },
             { company: 'Equifax', amount: 'Compliance agreement', amountNum: 0, violation: 'Data breach — 19K Canadians', year: '2019', details: 'The 2017 data breach exposed personal data of 19,000 Canadians. Investigation found inadequate security safeguards and poor data governance.' },
             { company: 'Tim Hortons', amount: 'Compliance agreement', amountNum: 0, violation: 'Excessive location tracking', year: '2022', details: 'The Tim Hortons app tracked users\' location data every few minutes even when the app was closed, far exceeding what was necessary.' },
+            { company: 'Home Depot', amount: 'Compliance agreement', amountNum: 0, violation: 'Sharing data without consent', year: '2023', details: 'Shared customer email addresses with Meta for targeted advertising when customers provided receipts, without obtaining meaningful consent.' },
+            { company: 'Aylo (Pornhub/MindGeek)', amount: 'Under investigation', amountNum: 0, violation: 'Non-consensual content', year: '2024', details: 'Investigation into inadequate verification systems that failed to prevent non-consensual intimate images from being uploaded and distributed.' },
         ],
     },
     /* ═══════ ASIA-PACIFIC ═══════ */
@@ -352,6 +369,8 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Clearview AI', amount: 'Cease operations order', amountNum: 0, violation: 'Facial recognition without consent', year: '2021', details: 'Scraped Australian residents\' facial images from social media without knowledge or consent to build a biometric surveillance database.' },
             { company: 'Australian Information Commissioner v HealthEngine', amount: 'A$1.38M', amountNum: 1380000, violation: 'Misleading health data practices', year: '2023', details: 'Shared patient personal information with insurance brokers, lawyers, and advertisers without proper consent or disclosure.' },
             { company: 'Medibank', amount: 'Ongoing litigation', amountNum: 0, violation: 'Massive data breach — 9.7M records', year: '2023', details: 'A 2022 ransomware attack exposed highly sensitive health data of 9.7 million current and former customers due to inadequate cybersecurity.' },
+            { company: 'Optus (SingTel)', amount: 'A$12M settlement', amountNum: 12000000, violation: 'Data breach — 10M customers', year: '2023', details: 'A cyberattack exposed personal data of 10 million customers including passport and driver\'s license numbers due to an exposed API endpoint.' },
+            { company: 'Latitude Financial', amount: 'Under investigation', amountNum: 0, violation: 'Data breach — 14M records', year: '2023', details: 'Hackers stole 14 million customer records including driver\'s license numbers, passport numbers, and financial data from systems dating back to 2005.' },
         ],
     },
     {
@@ -393,6 +412,8 @@ const jurisdictions: Jurisdiction[] = [
         fines: [
             { company: 'LINE Corporation', amount: 'Administrative guidance', amountNum: 0, violation: 'Cross-border data handling failures', year: '2021', details: 'Allowed subsidiary in China to access Japanese user data including messages and payment info without proper user notification.' },
             { company: 'NTT Docomo / dpoint', amount: 'Administrative guidance', amountNum: 0, violation: 'Inadequate third-party data controls', year: '2023', details: 'Failed to maintain adequate oversight of third-party contractors who had access to customer personal information.' },
+            { company: 'Toyota Motor Corporation', amount: 'Administrative guidance', amountNum: 0, violation: 'Cloud misconfiguration data exposure', year: '2023', details: 'Location and vehicle ID data of 2.15 million customers was publicly accessible for over a decade due to a cloud environment misconfiguration.' },
+            { company: 'NTT Communications', amount: 'Administrative guidance', amountNum: 0, violation: 'Unauthorized access — 17K records', year: '2024', details: 'Data breach affected 17,000 corporate customer records after attackers gained unauthorized access to internal systems through compromised VPN credentials.' },
         ],
     },
     {
@@ -405,6 +426,9 @@ const jurisdictions: Jurisdiction[] = [
         maxPenalty: '₹250 Crore (~€28M) per violation',
         fines: [
             { company: '(Enforcement starting 2027)', amount: 'Framework active', amountNum: 0, violation: 'New regulatory framework', year: '2025', details: 'DPDP Rules notified Nov 2025. Penalties range from ₹50 Crore to ₹250 Crore per violation. Full compliance deadline: May 2027.' },
+            { company: 'BigBasket (Tata Digital)', amount: 'IT Act action', amountNum: 0, violation: 'Data breach — 20M users', year: '2021', details: 'Personal data of 20 million users including emails, phone numbers, and hashed passwords was found on sale on the dark web.' },
+            { company: 'Air India', amount: 'IT Act action', amountNum: 0, violation: 'Data breach — 4.5M passengers', year: '2021', details: 'Flight booking data of 4.5 million passengers leaked including passport details, credit card info, and ticket information.' },
+            { company: 'Domino\'s India', amount: 'IT Act action', amountNum: 0, violation: 'Data breach — 180M orders', year: '2021', details: 'Personal data from 180 million pizza orders leaked online including names, phone numbers, addresses, and email IDs.' },
         ],
     },
     /* ═══════ TURKEY & MIDDLE EAST ═══════ */
@@ -419,6 +443,9 @@ const jurisdictions: Jurisdiction[] = [
         fines: [
             { company: 'WhatsApp', amount: '₺1.95M', amountNum: 195000, violation: 'Privacy policy update violations', year: '2021', details: 'Forced users to accept new privacy policy sharing data with Meta companies. Found to violate transparency and informed consent requirements.' },
             { company: 'Meta (Facebook)', amount: '₺1.65M', amountNum: 165000, violation: 'Data breach notification failure', year: '2020', details: 'Failed to notify Turkish authorities about a data breach in a timely manner and inadequate security measures to prevent unauthorized access.' },
+            { company: 'Google LLC', amount: '₺1.96M', amountNum: 196000, violation: 'Cookie policy violations', year: '2023', details: 'Failed to obtain valid consent for cookies and did not provide adequate information about data processing purposes on Google services used in Turkey.' },
+            { company: 'Yemeksepeti (Delivery Hero)', amount: '₺1.9M', amountNum: 190000, violation: 'Data breach — 21.5M users', year: '2021', details: 'Online food delivery platform suffered a massive data breach exposing personal data of 21.5 million users including addresses and phone numbers.' },
+            { company: 'TikTok', amount: '₺1.75M', amountNum: 175000, violation: 'Children\'s data processing', year: '2022', details: 'Insufficient age verification and parental consent mechanisms for Turkish users under 13, violating KVKK requirements for sensitive data.' },
         ],
     },
 ];
@@ -514,6 +541,12 @@ export default function FinesPage() {
 
                 {/* ───── Quick navigation ───── */}
                 <div className="flex flex-wrap justify-center gap-2 mb-12">
+                    <a
+                        href="#simulator"
+                        className="px-4 py-2 rounded-full text-sm font-medium border transition hover:shadow-sm border-orange-200 text-orange-700 bg-white"
+                    >
+                        Fine Simulator
+                    </a>
                     {regions.map(region => (
                         <a
                             key={region}
@@ -524,6 +557,9 @@ export default function FinesPage() {
                         </a>
                     ))}
                 </div>
+
+                {/* ───── Fine Simulator ───── */}
+                <FineSimulator />
 
                 {/* ───── Jurisdictions by region ───── */}
                 {regions.map(region => (
