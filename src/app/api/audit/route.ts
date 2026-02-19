@@ -1580,7 +1580,7 @@ export async function POST(request: NextRequest) {
                 tier: tier,
                 scan_type: 'manual',
                 pages_scanned: pages.length,
-                score: result.score,
+                score: Math.round(result.score),
             });
             if (insertError) {
                 console.error('[AUDIT] scan_history insert failed:', insertError.message, insertError.details);
