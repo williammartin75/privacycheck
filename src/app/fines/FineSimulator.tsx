@@ -196,9 +196,9 @@ export default function FineSimulator() {
         estimatedFine = Math.min(estimatedFine, maxPotential);
 
         // 7. Calculate ranges (based on real DPA behavior: most fines are 10-60% of max)
-        const lowEstimate = estimatedFine * 0.25;
-        const midEstimate = estimatedFine * 0.55;
-        const highEstimate = estimatedFine;
+        const lowEstimate = estimatedFine * 0.05;
+        const midEstimate = estimatedFine * 0.15;
+        const highEstimate = estimatedFine * 0.45;
 
         // 8. Determine severity label
         let severityLabel = 'Low Risk';
