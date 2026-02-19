@@ -1224,6 +1224,11 @@ export default function Home() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/fines" className="hover:text-gray-900">
+                    Fines Database
+                  </Link>
+                </li>
+                <li>
                   <Link href="/glossary" className="hover:text-gray-900">
                     Privacy Glossary
                   </Link>

@@ -1,7 +1,7 @@
 {
-  "lastLine": 40800,
-  "success": 39350,
-  "failed": 745,
+  "lastLine": 178855,
+  "success": 170638,
+  "failed": 5507,
   "rateLimited": 0,
   "lists": [
     {
@@ -47,9 +47,139 @@
     {
       "publicId": "bc9501c9-ea7a-4a73-af7c-39c9c5d238ec",
       "name": "Czech Privacy Leads (Part 9)",
-      "count": 150
+      "count": 4900
+    },
+    {
+      "publicId": "eae200b5-e2bc-4ef4-b67e-001dbb3f6d3c",
+      "name": "Czech Privacy Leads (Part 10)",
+      "count": 4900
+    },
+    {
+      "publicId": "acbf871a-9e19-4cb1-b05f-76b857fbef0c",
+      "name": "Czech Privacy Leads (Part 11)",
+      "count": 4900
+    },
+    {
+      "publicId": "37a80c28-8eed-463e-84c7-93dceafd84e0",
+      "name": "Czech Privacy Leads (Part 12)",
+      "count": 4892
+    },
+    {
+      "publicId": "5998c498-5a0d-4c4c-b99c-b78ce802cfc2",
+      "name": "Czech Privacy Leads (Part 13)",
+      "count": 4900
+    },
+    {
+      "publicId": "41aa2139-3440-4757-bc6b-40b9fc0c947b",
+      "name": "Czech Privacy Leads (Part 14)",
+      "count": 4900
+    },
+    {
+      "publicId": "c7b580c8-9919-4d4e-9f7e-aa9a22a06d28",
+      "name": "Czech Privacy Leads (Part 15)",
+      "count": 4900
+    },
+    {
+      "publicId": "e8e62001-155f-4dfd-8886-8e65f8268ca4",
+      "name": "Czech Privacy Leads (Part 16)",
+      "count": 4900
+    },
+    {
+      "publicId": "33584705-ea7b-4d32-9a3d-0935169212b3",
+      "name": "Czech Privacy Leads (Part 17)",
+      "count": 4900
+    },
+    {
+      "publicId": "bda21f94-79f1-4c36-954c-1be68ee1d38a",
+      "name": "Czech Privacy Leads (Part 18)",
+      "count": 4900
+    },
+    {
+      "publicId": "fae2102e-9a35-4510-aef8-94293e74b650",
+      "name": "Czech Privacy Leads (Part 19)",
+      "count": 4900
+    },
+    {
+      "publicId": "7bf37313-ebf4-401d-9cec-adac3d9c7b11",
+      "name": "Czech Privacy Leads (Part 20)",
+      "count": 4900
+    },
+    {
+      "publicId": "12e9ee84-ac17-48e8-863d-456c64112d08",
+      "name": "Czech Privacy Leads (Part 21)",
+      "count": 4900
+    },
+    {
+      "publicId": "6428495d-1f5d-48ff-b524-d81700bda09c",
+      "name": "Czech Privacy Leads (Part 22)",
+      "count": 4900
+    },
+    {
+      "publicId": "6378f6e9-7793-47f4-91b5-d1eee2b700ed",
+      "name": "Czech Privacy Leads (Part 23)",
+      "count": 4900
+    },
+    {
+      "publicId": "65e7f296-ea43-4bbd-a660-424bc881d3f9",
+      "name": "Czech Privacy Leads (Part 24)",
+      "count": 4900
+    },
+    {
+      "publicId": "485b576c-c580-487b-b19c-0f9ef79dd71c",
+      "name": "Czech Privacy Leads (Part 25)",
+      "count": 4900
+    },
+    {
+      "publicId": "bcaf4cff-cf1b-4147-b4d0-b2b3b4b8ed54",
+      "name": "Czech Privacy Leads (Part 26)",
+      "count": 4900
+    },
+    {
+      "publicId": "2c416d18-980f-43a9-98e8-80bb30ec74c0",
+      "name": "Czech Privacy Leads (Part 27)",
+      "count": 4900
+    },
+    {
+      "publicId": "50f5b3d9-857b-4599-8d98-6b27bbba3917",
+      "name": "Czech Privacy Leads (Part 28)",
+      "count": 4900
+    },
+    {
+      "publicId": "5e815127-f637-4008-a899-299cd0c098f2",
+      "name": "Czech Privacy Leads (Part 29)",
+      "count": 4900
+    },
+    {
+      "publicId": "b451732e-4e61-4133-a125-6beaf4672bad",
+      "name": "Czech Privacy Leads (Part 30)",
+      "count": 4900
+    },
+    {
+      "publicId": "62252ebf-9f5f-4098-b340-33116b4bb2ca",
+      "name": "Czech Privacy Leads (Part 31)",
+      "count": 4900
+    },
+    {
+      "publicId": "ca8e2053-437e-4c2d-b56e-cfe8fa8b442f",
+      "name": "Czech Privacy Leads (Part 32)",
+      "count": 4900
+    },
+    {
+      "publicId": "7ed2ad4c-ea74-46a2-bc51-379a18e9e8bb",
+      "name": "Czech Privacy Leads (Part 33)",
+      "count": 4900
+    },
+    {
+      "publicId": "3296f05a-1b79-415e-822b-99cc037fec81",
+      "name": "Czech Privacy Leads (Part 34)",
+      "count": 4900
+    },
+    {
+      "publicId": "245bb4ee-0d6f-4c9b-b26b-ac0e500b9f48",
+      "name": "Czech Privacy Leads (Part 35)",
+      "count": 4046
     }
   ],
-  "currentListIndex": 8,
-  "currentListCount": 150
+  "currentListIndex": 34,
+  "currentListCount": 4046
 }

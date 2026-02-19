@@ -1,0 +1,384 @@
+=== Ditlead PARALLEL Import v2 (150 concurrent, 4900/list) ===
+Languages: 26
+Progress: C:\Users\willi\OneDrive\Bureau\privacycheck\import_progress
+
+  [Bulgarian] Streaming NDJSON (resuming from line 14861)...
+  [Bulgarian] COMPLETE: 14082 ok | 495 err | 0s | 3 lists
+  [Chinese] Streaming NDJSON (resuming from line 72675)...
+  [Chinese] COMPLETE: 69124 ok | 2483 err | 0s | 15 lists
+  [Czech] Streaming NDJSON (resuming from line 178855)...
+  [Czech] COMPLETE: 170638 ok | 5507 err | 1s | 35 lists
+  [Danish] Streaming NDJSON (resuming from line 80049)...
+  [Danish] 600 done | 76685 ok | 2909 err | 18.3/s | list 17 (600/4900)
+  [Danish] 1050 done | 77085 ok | 2959 err | 15.8/s | list 17 (1050/4900)
+  [Danish] 1500 done | 77535 ok | 2959 err | 16.5/s | list 17 (1500/4900)
+  [Danish] 2100 done | 78082 ok | 3012 err | 16.0/s | list 17 (2100/4900)
+  [Danish] 2550 done | 78532 ok | 3012 err | 16.5/s | list 17 (2550/4900)
+  [Danish] 3000 done | 78960 ok | 3034 err | 15.9/s | list 17 (3000/4900)
+  [Danish] 3600 done | 79560 ok | 3034 err | 16.1/s | list 17 (3600/4900)
+  [Danish] 4050 done | 79967 ok | 3077 err | 15.4/s | list 17 (4050/4900)
+  [Danish] 4500 done | 80417 ok | 3077 err | 15.7/s | list 17 (4500/4900)
+  [Danish] List full (4650), will create new list...
+  [Danish] Creating list: "Danish Privacy Leads (Part 18)"...
+  [Danish] List created: 091e7164-90d4-4625-8c9e-25432a1ab93f (Part 18)
+  [Danish] 5100 done | 80829 ok | 3115 err | 15.4/s | list 18 (450/4900)
+  [Danish] 5550 done | 81278 ok | 3116 err | 15.7/s | list 18 (900/4900)
+  [Danish] 6000 done | 81723 ok | 3121 err | 15.8/s | list 18 (1350/4900)
+  [Danish] 6600 done | 82291 ok | 3153 err | 15.7/s | list 18 (1950/4900)
+  [Danish] 7050 done | 82733 ok | 3161 err | 15.4/s | list 18 (2400/4900)
+  [Danish] 7500 done | 83183 ok | 3161 err | 15.6/s | list 18 (2850/4900)
+  [Danish] 8100 done | 83746 ok | 3198 err | 15.5/s | list 18 (3450/4900)
+  [Danish] 8550 done | 84196 ok | 3198 err | 15.7/s | list 18 (3900/4900)
+  [Danish] 9000 done | 84646 ok | 3198 err | 15.9/s | list 18 (4350/4900)
+  [Danish] 9550 done | 85155 ok | 3239 err | 15.7/s | list 18 (4900/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 19)"...
+  [Danish] List created: 9200e7d9-7137-4526-857c-2017e08f2018 (Part 19)
+  [Danish] 9600 done | 85205 ok | 3239 err | 15.7/s | list 19 (50/4900)
+  [Danish] 10050 done | 85650 ok | 3244 err | 15.9/s | list 19 (500/4900)
+  [Danish] 10500 done | 86065 ok | 3279 err | 15.8/s | list 19 (950/4900)
+  [Danish] 11100 done | 86663 ok | 3281 err | 15.6/s | list 19 (1550/4900)
+  [Danish] 11550 done | 87113 ok | 3281 err | 15.7/s | list 19 (2000/4900)
+  [Danish] 12000 done | 87562 ok | 3282 err | 15.6/s | list 19 (2450/4900)
+  [Danish] 12600 done | 88159 ok | 3285 err | 15.7/s | list 19 (3050/4900)
+  [Danish] 13050 done | 88608 ok | 3286 err | 15.6/s | list 19 (3500/4900)
+  [Danish] 13500 done | 89056 ok | 3288 err | 15.6/s | list 19 (3950/4900)
+  [Danish] 14100 done | 89656 ok | 3288 err | 15.7/s | list 19 (4550/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 20)"...
+  [Danish] List created: 790c99ff-396e-4d84-8754-1f297e60547e (Part 20)
+  [Danish] 14550 done | 90105 ok | 3289 err | 15.7/s | list 20 (100/4900)
+  [Danish] 15000 done | 90548 ok | 3296 err | 15.8/s | list 20 (550/4900)
+  [Danish] 15600 done | 91144 ok | 3300 err | 15.8/s | list 20 (1150/4900)
+  [Danish] 16050 done | 91587 ok | 3307 err | 15.7/s | list 20 (1600/4900)
+  [Danish] 16500 done | 92029 ok | 3315 err | 15.8/s | list 20 (2050/4900)
+  [Danish] 17100 done | 92628 ok | 3316 err | 15.7/s | list 20 (2650/4900)
+  [Danish] 17550 done | 93078 ok | 3316 err | 15.8/s | list 20 (3100/4900)
+  [Danish] 18000 done | 93505 ok | 3339 err | 15.7/s | list 20 (3550/4900)
+  [Danish] 18600 done | 94105 ok | 3339 err | 15.8/s | list 20 (4150/4900)
+  [Danish] 19050 done | 94532 ok | 3362 err | 15.7/s | list 20 (4600/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 21)"...
+  [Danish] List created: 9da90257-2c31-4082-86c2-dcd3b435e169 (Part 21)
+  [Danish] 19500 done | 94982 ok | 3362 err | 15.8/s | list 21 (150/4900)
+  [Danish] 20100 done | 95571 ok | 3373 err | 15.6/s | list 21 (750/4900)
+  [Danish] 20550 done | 96021 ok | 3373 err | 15.7/s | list 21 (1200/4900)
+  [Danish] 21000 done | 96445 ok | 3399 err | 15.6/s | list 21 (1650/4900)
+  [Danish] 21600 done | 97045 ok | 3399 err | 15.7/s | list 21 (2250/4900)
+  [Danish] 22050 done | 97470 ok | 3424 err | 15.5/s | list 21 (2700/4900)
+  [Danish] 22500 done | 97919 ok | 3425 err | 15.6/s | list 21 (3150/4900)
+  [Danish] 23100 done | 98491 ok | 3453 err | 15.5/s | list 21 (3750/4900)
+  [Danish] 23550 done | 98941 ok | 3453 err | 15.6/s | list 21 (4200/4900)
+  [Danish] 24000 done | 99379 ok | 3465 err | 15.5/s | list 21 (4650/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 22)"...
+  [Danish] List created: 78a4f184-f552-4fc8-8dff-d9aa21c07597 (Part 22)
+  [Danish] 24600 done | 99979 ok | 3465 err | 15.6/s | list 22 (350/4900)
+  [Danish] 25050 done | 100414 ok | 3480 err | 15.5/s | list 22 (800/4900)
+  [Danish] 25500 done | 100864 ok | 3480 err | 15.6/s | list 22 (1250/4900)
+  [Danish] 26100 done | 101447 ok | 3497 err | 15.5/s | list 22 (1850/4900)
+  [Danish] 26550 done | 101897 ok | 3497 err | 15.5/s | list 22 (2300/4900)
+  [Danish] 27000 done | 102346 ok | 3498 err | 15.5/s | list 22 (2750/4900)
+  [Danish] 27600 done | 102945 ok | 3499 err | 15.5/s | list 22 (3350/4900)
+  [Danish] 28050 done | 103395 ok | 3499 err | 15.5/s | list 22 (3800/4900)
+  [Danish] 28500 done | 103843 ok | 3501 err | 15.5/s | list 22 (4250/4900)
+  [Danish] 29100 done | 104441 ok | 3503 err | 15.5/s | list 22 (4850/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 23)"...
+  [Danish] List created: 1fae5b5d-c741-448d-acea-630fafbe9e52 (Part 23)
+  [Danish] 29550 done | 104888 ok | 3506 err | 15.5/s | list 23 (400/4900)
+  [Danish] 30000 done | 105338 ok | 3506 err | 15.5/s | list 23 (850/4900)
+  [Danish] 30600 done | 105937 ok | 3507 err | 15.5/s | list 23 (1450/4900)
+  [Danish] 31050 done | 106386 ok | 3508 err | 15.5/s | list 23 (1900/4900)
+  [Danish] 31500 done | 106836 ok | 3508 err | 15.6/s | list 23 (2350/4900)
+  [Danish] 32100 done | 107431 ok | 3513 err | 15.6/s | list 23 (2950/4900)
+  [Danish] 32550 done | 107880 ok | 3514 err | 15.6/s | list 23 (3400/4900)
+  [Danish] 33000 done | 108280 ok | 3564 err | 15.6/s | list 23 (3850/4900)
+  [Danish] 33600 done | 108880 ok | 3564 err | 15.6/s | list 23 (4450/4900)
+  [Danish] 34050 done | 109279 ok | 3615 err | 15.6/s | list 23 (4900/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 24)"...
+  [Danish] List created: 97b99196-4510-409a-b554-c6324d589894 (Part 24)
+  [Danish] 34500 done | 109729 ok | 3615 err | 15.6/s | list 24 (450/4900)
+  [Danish] 35100 done | 110322 ok | 3622 err | 15.6/s | list 24 (1050/4900)
+  [Danish] 35550 done | 110753 ok | 3641 err | 15.6/s | list 24 (1500/4900)
+  [Danish] 36000 done | 111203 ok | 3641 err | 15.6/s | list 24 (1950/4900)
+  [Danish] 36600 done | 111783 ok | 3661 err | 15.6/s | list 24 (2550/4900)
+  [Danish] 37050 done | 112233 ok | 3661 err | 15.6/s | list 24 (3000/4900)
+  [Danish] 37500 done | 112672 ok | 3672 err | 15.6/s | list 24 (3450/4900)
+  [Danish] 38100 done | 113272 ok | 3672 err | 15.6/s | list 24 (4050/4900)
+  [Danish] 38550 done | 113722 ok | 3672 err | 15.6/s | list 24 (4500/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 25)"...
+  [Danish] List created: 7a681a77-ca8d-4523-b3dc-cce8dada7e90 (Part 25)
+  [Danish] 39000 done | 114170 ok | 3674 err | 15.6/s | list 25 (50/4900)
+  [Danish] 39600 done | 114737 ok | 3707 err | 15.6/s | list 25 (650/4900)
+  [Danish] 40050 done | 115187 ok | 3707 err | 15.6/s | list 25 (1100/4900)
+  [Danish] 40500 done | 115600 ok | 3744 err | 15.6/s | list 25 (1550/4900)
+  [Danish] 41100 done | 116179 ok | 3765 err | 15.5/s | list 25 (2150/4900)
+  [Danish] 41550 done | 116625 ok | 3769 err | 15.5/s | list 25 (2600/4900)
+  [Danish] 42000 done | 117075 ok | 3769 err | 15.5/s | list 25 (3050/4900)
+  [Danish] 42600 done | 117624 ok | 3820 err | 15.5/s | list 25 (3650/4900)
+  [Danish] 43050 done | 118074 ok | 3820 err | 15.6/s | list 25 (4100/4900)
+  [Danish] 43500 done | 118516 ok | 3828 err | 15.5/s | list 25 (4550/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 26)"...
+  [Danish] List created: 22727a1a-1053-4a46-b073-22c63ba4f074 (Part 26)
+  [Danish] 44100 done | 119112 ok | 3832 err | 15.6/s | list 26 (250/4900)
+  [Danish] 44550 done | 119520 ok | 3874 err | 15.5/s | list 26 (700/4900)
+  [Danish] 45000 done | 119970 ok | 3874 err | 15.6/s | list 26 (1150/4900)
+  [Danish] 45600 done | 120532 ok | 3912 err | 15.5/s | list 26 (1750/4900)
+  [Danish] 46050 done | 120982 ok | 3912 err | 15.6/s | list 26 (2200/4900)
+  [Danish] 46500 done | 121421 ok | 3923 err | 15.5/s | list 26 (2650/4900)
+  [Danish] 47100 done | 122021 ok | 3923 err | 15.6/s | list 26 (3250/4900)
+  [Danish] 47550 done | 122426 ok | 3968 err | 15.5/s | list 26 (3700/4900)
+  [Danish] 48000 done | 122876 ok | 3968 err | 15.6/s | list 26 (4150/4900)
+  [Danish] 48600 done | 123405 ok | 4039 err | 15.6/s | list 26 (4750/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 27)"...
+  [Danish] List created: 335e0f85-7333-47eb-8595-6825e435c7d6 (Part 27)
+  [Danish] 49050 done | 123855 ok | 4039 err | 15.6/s | list 27 (300/4900)
+  [Danish] 49500 done | 124264 ok | 4080 err | 15.6/s | list 27 (750/4900)
+  [Danish] 50100 done | 124861 ok | 4083 err | 15.6/s | list 27 (1350/4900)
+  [Danish] 50550 done | 125221 ok | 4173 err | 15.5/s | list 27 (1800/4900)
+  [Danish] 51000 done | 125671 ok | 4173 err | 15.6/s | list 27 (2250/4900)
+  [Danish] 51600 done | 126243 ok | 4201 err | 15.6/s | list 27 (2850/4900)
+  [Danish] 52050 done | 126692 ok | 4202 err | 15.6/s | list 27 (3300/4900)
+  [Danish] 52500 done | 127101 ok | 4243 err | 15.6/s | list 27 (3750/4900)
+  [Danish] 53100 done | 127701 ok | 4243 err | 15.6/s | list 27 (4350/4900)
+  [Danish] 53550 done | 128103 ok | 4291 err | 15.6/s | list 27 (4800/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 28)"...
+  [Danish] List created: bca304bb-5abd-4ce2-9353-46af2ea0316d (Part 28)
+  [Danish] 54000 done | 128548 ok | 4296 err | 15.6/s | list 28 (350/4900)
+  [Danish] 54600 done | 129095 ok | 4349 err | 15.6/s | list 28 (950/4900)
+  [Danish] 55050 done | 129544 ok | 4350 err | 15.6/s | list 28 (1400/4900)
+  [Danish] 55500 done | 129942 ok | 4402 err | 15.6/s | list 28 (1850/4900)
+  [Danish] 56100 done | 130542 ok | 4402 err | 15.7/s | list 28 (2450/4900)
+  [Danish] 56550 done | 130942 ok | 4452 err | 15.6/s | list 28 (2900/4900)
+  [Danish] 57000 done | 131391 ok | 4453 err | 15.7/s | list 28 (3350/4900)
+  [Danish] 57600 done | 131924 ok | 4520 err | 15.7/s | list 28 (3950/4900)
+  [Danish] 58050 done | 132374 ok | 4520 err | 15.7/s | list 28 (4400/4900)
+  [Danish] 58500 done | 132774 ok | 4570 err | 15.7/s | list 28 (4850/4900)
+  [Danish] 58550 done | 132824 ok | 4570 err | 15.7/s | list 28 (4900/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 29)"...
+  [Danish] List created: f1ffe706-60eb-4233-8b5c-b8f29f17a308 (Part 29)
+  [Danish] 59100 done | 133374 ok | 4570 err | 15.7/s | list 29 (550/4900)
+  [Danish] 59550 done | 133794 ok | 4600 err | 15.7/s | list 29 (1000/4900)
+  [Danish] 60000 done | 134244 ok | 4600 err | 15.7/s | list 29 (1450/4900)
+  [Danish] 60600 done | 134811 ok | 4633 err | 15.7/s | list 29 (2050/4900)
+  [Danish] 61050 done | 135261 ok | 4633 err | 15.7/s | list 29 (2500/4900)
+  [Danish] 61500 done | 135699 ok | 4645 err | 15.7/s | list 29 (2950/4900)
+  [Danish] 62100 done | 136299 ok | 4645 err | 15.7/s | list 29 (3550/4900)
+  [Danish] 62550 done | 136748 ok | 4646 err | 15.7/s | list 29 (4000/4900)
+  [Danish] 63000 done | 137198 ok | 4646 err | 15.7/s | list 29 (4450/4900)
+  [Danish] Creating list: "Danish Privacy Leads (Part 30)"...
+  [Danish] List created: 000391e1-8aea-4fd4-bbce-83106a6ccfc8 (Part 30)
+  [Danish] 63600 done | 137765 ok | 4679 err | 15.7/s | list 30 (150/4900)
+  [Danish] 64050 done | 138215 ok | 4679 err | 15.7/s | list 30 (600/4900)
+  [Danish] 64500 done | 138633 ok | 4711 err | 15.7/s | list 30 (1050/4900)
+  [Danish] 65100 done | 139232 ok | 4712 err | 15.7/s | list 30 (1650/4900)
+  [Danish] 65550 done | 139645 ok | 4749 err | 15.6/s | list 30 (2100/4900)
+  [Danish] 66000 done | 140093 ok | 4751 err | 15.7/s | list 30 (2550/4900)
+  [Danish] 66600 done | 140684 ok | 4760 err | 15.6/s | list 30 (3150/4900)
+  [Danish] 67050 done | 141115 ok | 4779 err | 15.5/s | list 30 (3600/4900)
+  [Danish] 67500 done | 141563 ok | 4781 err | 15.5/s | list 30 (4050/4900)
+  [Danish] 68016 done | 142071 ok | 4789 err | 15.5/s | list 30 (4566/4900)
+  [Danish] COMPLETE: 142071 ok | 4789 err | 4395s | 30 lists
+  [Dutch] Streaming NDJSON (resuming from line 0)...
+  [Dutch] Creating list: "Dutch Privacy Leads"...
+  [Dutch] List created: d1b9e9be-e586-4488-b032-a289abd3a344 (Part 1)
+  [Dutch] 600 done | 523 ok | 77 err | 11.4/s | list 1 (600/4900)
+  [Dutch] 1050 done | 885 ok | 165 err | 11.6/s | list 1 (1050/4900)
+  [Dutch] 1500 done | 1333 ok | 167 err | 12.3/s | list 1 (1500/4900)
+  [Dutch] 2100 done | 1908 ok | 192 err | 12.1/s | list 1 (2100/4900)
+  [Dutch] 2550 done | 2302 ok | 248 err | 12.0/s | list 1 (2550/4900)
+  [Dutch] 3000 done | 2745 ok | 255 err | 12.0/s | list 1 (3000/4900)
+  [Dutch] 3600 done | 3330 ok | 270 err | 12.0/s | list 1 (3600/4900)
+  [Dutch] 4050 done | 3650 ok | 400 err | 11.7/s | list 1 (4050/4900)
+  [Dutch] 4500 done | 4099 ok | 401 err | 11.9/s | list 1 (4500/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 2)"...
+  [Dutch] List created: 4ba8f98e-b1a7-44a2-aa70-628b766e6b24 (Part 2)
+  [Dutch] 5100 done | 4688 ok | 412 err | 11.9/s | list 2 (200/4900)
+  [Dutch] 5550 done | 5135 ok | 415 err | 11.8/s | list 2 (650/4900)
+  [Dutch] 6000 done | 5582 ok | 418 err | 12.0/s | list 2 (1100/4900)
+  [Dutch] 6600 done | 6160 ok | 440 err | 12.0/s | list 2 (1700/4900)
+  [Dutch] 7050 done | 6543 ok | 507 err | 12.0/s | list 2 (2150/4900)
+  [Dutch] 7500 done | 6993 ok | 507 err | 12.1/s | list 2 (2600/4900)
+  [Dutch] 8100 done | 7540 ok | 560 err | 12.1/s | list 2 (3200/4900)
+  [Dutch] 8550 done | 7946 ok | 604 err | 12.1/s | list 2 (3650/4900)
+  [Dutch] 9000 done | 8396 ok | 604 err | 12.2/s | list 2 (4100/4900)
+  [Dutch] 9600 done | 8941 ok | 659 err | 12.2/s | list 2 (4700/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 3)"...
+  [Dutch] List created: deec8cac-5d4b-40c8-82be-6f8e611cd6cb (Part 3)
+  [Dutch] 10050 done | 9273 ok | 777 err | 12.0/s | list 3 (250/4900)
+  [Dutch] 10500 done | 9722 ok | 778 err | 12.3/s | list 3 (700/4900)
+  [Dutch] 11100 done | 10287 ok | 813 err | 12.4/s | list 3 (1300/4900)
+  [Dutch] 11550 done | 10737 ok | 813 err | 12.6/s | list 3 (1750/4900)
+  [Dutch] 12000 done | 11157 ok | 843 err | 12.5/s | list 3 (2200/4900)
+  [Dutch] 12600 done | 11757 ok | 843 err | 12.8/s | list 3 (2800/4900)
+  [Dutch] 13050 done | 12160 ok | 890 err | 12.8/s | list 3 (3250/4900)
+  [Dutch] 13500 done | 12604 ok | 896 err | 12.9/s | list 3 (3700/4900)
+  [Dutch] 14100 done | 13193 ok | 907 err | 12.9/s | list 3 (4300/4900)
+  [Dutch] 14550 done | 13641 ok | 909 err | 13.1/s | list 3 (4750/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 4)"...
+  [Dutch] List created: e70ab540-3c92-410e-adc4-b6f14736dc64 (Part 4)
+  [Dutch] 15000 done | 14065 ok | 935 err | 13.1/s | list 4 (300/4900)
+  [Dutch] 15600 done | 14663 ok | 937 err | 13.3/s | list 4 (900/4900)
+  [Dutch] 16050 done | 15104 ok | 946 err | 13.2/s | list 4 (1350/4900)
+  [Dutch] 16500 done | 15554 ok | 946 err | 13.3/s | list 4 (1800/4900)
+  [Dutch] 17100 done | 16123 ok | 977 err | 13.3/s | list 4 (2400/4900)
+  [Dutch] 17550 done | 16571 ok | 979 err | 13.5/s | list 4 (2850/4900)
+  [Dutch] 18000 done | 16975 ok | 1025 err | 13.4/s | list 4 (3300/4900)
+  [Dutch] 18600 done | 17575 ok | 1025 err | 13.6/s | list 4 (3900/4900)
+  [Dutch] 19050 done | 17975 ok | 1075 err | 13.6/s | list 4 (4350/4900)
+  [Dutch] 19500 done | 18425 ok | 1075 err | 13.7/s | list 4 (4800/4900)
+  [Dutch] 19600 done | 18525 ok | 1075 err | 13.7/s | list 4 (4900/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 5)"...
+  [Dutch] List created: 35849bda-1d63-445d-9958-a15fb013c476 (Part 5)
+  [Dutch] 20100 done | 19004 ok | 1096 err | 13.7/s | list 5 (500/4900)
+  [Dutch] 20550 done | 19453 ok | 1097 err | 13.8/s | list 5 (950/4900)
+  [Dutch] 21000 done | 19897 ok | 1103 err | 13.7/s | list 5 (1400/4900)
+  [Dutch] 21600 done | 20497 ok | 1103 err | 13.9/s | list 5 (2000/4900)
+  [Dutch] 22050 done | 20890 ok | 1160 err | 13.8/s | list 5 (2450/4900)
+  [Dutch] 22500 done | 21340 ok | 1160 err | 13.9/s | list 5 (2900/4900)
+  [Dutch] 23100 done | 21893 ok | 1207 err | 13.9/s | list 5 (3500/4900)
+  [Dutch] 23550 done | 22343 ok | 1207 err | 14.0/s | list 5 (3950/4900)
+  [Dutch] 24000 done | 22746 ok | 1254 err | 14.0/s | list 5 (4400/4900)
+  [Dutch] 24500 done | 23246 ok | 1254 err | 14.0/s | list 5 (4900/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 6)"...
+  [Dutch] List created: e2520322-4598-4da3-a114-2418b804c51c (Part 6)
+  [Dutch] 24600 done | 23345 ok | 1255 err | 14.1/s | list 6 (100/4900)
+  [Dutch] 25050 done | 23780 ok | 1270 err | 14.1/s | list 6 (550/4900)
+  [Dutch] 25500 done | 24230 ok | 1270 err | 14.1/s | list 6 (1000/4900)
+  [Dutch] 26100 done | 24791 ok | 1309 err | 14.1/s | list 6 (1600/4900)
+  [Dutch] 26550 done | 25241 ok | 1309 err | 14.2/s | list 6 (2050/4900)
+  [Dutch] 27000 done | 25646 ok | 1354 err | 14.2/s | list 6 (2500/4900)
+  [Dutch] 27600 done | 26245 ok | 1355 err | 14.2/s | list 6 (3100/4900)
+  [Dutch] 28050 done | 26662 ok | 1388 err | 14.2/s | list 6 (3550/4900)
+  [Dutch] 28500 done | 27111 ok | 1389 err | 14.3/s | list 6 (4000/4900)
+  [Dutch] 29100 done | 27688 ok | 1412 err | 14.3/s | list 6 (4600/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 7)"...
+  [Dutch] List created: a373f283-298c-4c4c-b084-d885a06b3c9f (Part 7)
+  [Dutch] 29550 done | 28138 ok | 1412 err | 14.3/s | list 7 (150/4900)
+  [Dutch] 30000 done | 28587 ok | 1413 err | 14.4/s | list 7 (600/4900)
+  [Dutch] 30600 done | 29177 ok | 1423 err | 14.4/s | list 7 (1200/4900)
+  [Dutch] 31050 done | 29627 ok | 1423 err | 14.4/s | list 7 (1650/4900)
+  [Dutch] 31500 done | 30052 ok | 1448 err | 14.4/s | list 7 (2100/4900)
+  [Dutch] 32100 done | 30652 ok | 1448 err | 14.4/s | list 7 (2700/4900)
+  [Dutch] 32550 done | 31091 ok | 1459 err | 14.4/s | list 7 (3150/4900)
+  [Dutch] 33000 done | 31541 ok | 1459 err | 14.5/s | list 7 (3600/4900)
+  [Dutch] 33600 done | 32112 ok | 1488 err | 14.5/s | list 7 (4200/4900)
+  [Dutch] 34050 done | 32562 ok | 1488 err | 14.5/s | list 7 (4650/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 8)"...
+  [Dutch] List created: 9346ea7e-5c63-4cf7-974d-5c084940bb0a (Part 8)
+  [Dutch] 34500 done | 33006 ok | 1494 err | 14.5/s | list 8 (200/4900)
+  [Dutch] 35100 done | 33599 ok | 1501 err | 14.5/s | list 8 (800/4900)
+  [Dutch] 35550 done | 34049 ok | 1501 err | 14.4/s | list 8 (1250/4900)
+  [Dutch] 36000 done | 34499 ok | 1501 err | 14.4/s | list 8 (1700/4900)
+  [Dutch] 36600 done | 35099 ok | 1501 err | 14.5/s | list 8 (2300/4900)
+  [Dutch] 37050 done | 35531 ok | 1519 err | 14.5/s | list 8 (2750/4900)
+  [Dutch] 37500 done | 35981 ok | 1519 err | 14.5/s | list 8 (3200/4900)
+  [Dutch] 38100 done | 36568 ok | 1532 err | 14.5/s | list 8 (3800/4900)
+  [Dutch] 38550 done | 37013 ok | 1537 err | 14.5/s | list 8 (4250/4900)
+  [Dutch] 39000 done | 37462 ok | 1538 err | 14.5/s | list 8 (4700/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 9)"...
+  [Dutch] List created: ef72898a-16a8-42d4-af0e-b74f6612008b (Part 9)
+  [Dutch] 39600 done | 38062 ok | 1538 err | 14.4/s | list 9 (400/4900)
+  [Dutch] 40050 done | 38512 ok | 1538 err | 14.5/s | list 9 (850/4900)
+  [Dutch] 40500 done | 38908 ok | 1592 err | 14.4/s | list 9 (1300/4900)
+  [Dutch] 41100 done | 39494 ok | 1606 err | 14.4/s | list 9 (1900/4900)
+  [Dutch] 41550 done | 39944 ok | 1606 err | 14.5/s | list 9 (2350/4900)
+  [Dutch] 42000 done | 40394 ok | 1606 err | 14.5/s | list 9 (2800/4900)
+  [Dutch] 42600 done | 40968 ok | 1632 err | 14.5/s | list 9 (3400/4900)
+  [Dutch] 43050 done | 41418 ok | 1632 err | 14.5/s | list 9 (3850/4900)
+  [Dutch] 43500 done | 41814 ok | 1686 err | 14.5/s | list 9 (4300/4900)
+  [Dutch] 44100 done | 42392 ok | 1708 err | 14.5/s | list 9 (4900/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 10)"...
+  [Dutch] List created: 3636313e-af09-4815-9574-ecafc2f7db82 (Part 10)
+  [Dutch] 44550 done | 42836 ok | 1714 err | 14.6/s | list 10 (450/4900)
+  [Dutch] 45000 done | 43286 ok | 1714 err | 14.6/s | list 10 (900/4900)
+  [Dutch] 45600 done | 43853 ok | 1747 err | 14.6/s | list 10 (1500/4900)
+  [Dutch] 46050 done | 44303 ok | 1747 err | 14.6/s | list 10 (1950/4900)
+  [Dutch] 46500 done | 44704 ok | 1796 err | 14.6/s | list 10 (2400/4900)
+  [Dutch] 47100 done | 45289 ok | 1811 err | 14.6/s | list 10 (3000/4900)
+  [Dutch] 47550 done | 45731 ok | 1819 err | 14.7/s | list 10 (3450/4900)
+  [Dutch] 48000 done | 46180 ok | 1820 err | 14.7/s | list 10 (3900/4900)
+  [Dutch] 48600 done | 46745 ok | 1855 err | 14.7/s | list 10 (4500/4900)
+  [Dutch] 49000 done | 47140 ok | 1860 err | 14.7/s | list 10 (4900/4900)
+  [Dutch] Creating list: "Dutch Privacy Leads (Part 11)"...
+  [Dutch] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Dutch] ERROR: List creation failed
+  [English] Streaming NDJSON (resuming from line 0)...
+  [English] Creating list: "English Privacy Leads"...
+  [English] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [English] ERROR: List creation failed
+  [English_Generic] Streaming NDJSON (resuming from line 0)...
+  [English_Generic] Creating list: "English_Generic Privacy Leads"...
+  [English_Generic] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [English_Generic] ERROR: List creation failed
+  [European_Mixed] Streaming NDJSON (resuming from line 0)...
+  [European_Mixed] Creating list: "European_Mixed Privacy Leads"...
+  [European_Mixed] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [European_Mixed] ERROR: List creation failed
+  [Finnish] Streaming NDJSON (resuming from line 0)...
+  [Finnish] Creating list: "Finnish Privacy Leads"...
+  [Finnish] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Finnish] ERROR: List creation failed
+  [French] Streaming NDJSON (resuming from line 0)...
+  [French] Creating list: "French Privacy Leads"...
+  [French] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [French] ERROR: List creation failed
+  [French_varied] Empty file, skipping
+  [German] Streaming NDJSON (resuming from line 0)...
+  [German] Creating list: "German Privacy Leads"...
+  [German] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [German] ERROR: List creation failed
+  [Greek] Streaming NDJSON (resuming from line 0)...
+  [Greek] Creating list: "Greek Privacy Leads"...
+  [Greek] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Greek] ERROR: List creation failed
+  [Hungarian] Streaming NDJSON (resuming from line 0)...
+  [Hungarian] Creating list: "Hungarian Privacy Leads"...
+  [Hungarian] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Hungarian] ERROR: List creation failed
+  [Italian] Streaming NDJSON (resuming from line 0)...
+  [Italian] Creating list: "Italian Privacy Leads"...
+  [Italian] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Italian] ERROR: List creation failed
+  [Japanese] Streaming NDJSON (resuming from line 0)...
+  [Japanese] Creating list: "Japanese Privacy Leads"...
+  [Japanese] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Japanese] ERROR: List creation failed
+  [Korean] Streaming NDJSON (resuming from line 0)...
+  [Korean] Creating list: "Korean Privacy Leads"...
+  [Korean] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Korean] ERROR: List creation failed
+  [Norwegian] Streaming NDJSON (resuming from line 0)...
+  [Norwegian] Creating list: "Norwegian Privacy Leads"...
+  [Norwegian] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Norwegian] ERROR: List creation failed
+  [Other] Streaming NDJSON (resuming from line 0)...
+  [Other] Creating list: "Other Privacy Leads"...
+  [Other] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Other] ERROR: List creation failed
+  [Polish] Streaming NDJSON (resuming from line 0)...
+  [Polish] Creating list: "Polish Privacy Leads"...
+  [Polish] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Polish] ERROR: List creation failed
+  [Portuguese] Streaming NDJSON (resuming from line 0)...
+  [Portuguese] Creating list: "Portuguese Privacy Leads"...
+  [Portuguese] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Portuguese] ERROR: List creation failed
+  [Romanian] Streaming NDJSON (resuming from line 0)...
+  [Romanian] Creating list: "Romanian Privacy Leads"...
+  [Romanian] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Romanian] ERROR: List creation failed
+  [Russian] Streaming NDJSON (resuming from line 0)...
+  [Russian] Creating list: "Russian Privacy Leads"...
+  [Russian] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Russian] ERROR: List creation failed
+  [Spanish] Streaming NDJSON (resuming from line 0)...
+  [Spanish] Creating list: "Spanish Privacy Leads"...
+  [Spanish] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Spanish] ERROR: List creation failed
+  [Swedish] Streaming NDJSON (resuming from line 0)...
+  [Swedish] Creating list: "Swedish Privacy Leads"...
+  [Swedish] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Swedish] ERROR: List creation failed
+  [Turkish] Streaming NDJSON (resuming from line 0)...
+  [Turkish] Creating list: "Turkish Privacy Leads"...
+  [Turkish] Failed to create list: {"success":false,"data":"Too many requests, please try again later."}
+  [Turkish] ERROR: List creation failed
+
+=== ALL DONE ===

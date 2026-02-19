@@ -143,6 +143,7 @@ export default function BlogIndex() {
                         <Link href="/terms" className="hover:text-gray-900">Terms</Link>
                         <Link href="/about" className="hover:text-gray-900">About</Link>
                         <Link href="/blog" className="hover:text-gray-900">Blog</Link>
+                        <Link href="/fines" className="hover:text-gray-900">Fines</Link>
                     </div>
                 </div>
             </footer>

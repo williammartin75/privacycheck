@@ -134,7 +134,7 @@ function saveProgress(lang, prog) {
 }
 
 // ============================================
-// IMPORT ONE LANGUAGE
+// IMPORT ONE LANGUAGE (streaming — no OOM)
 // ============================================
 async function importLanguage(lang) {
     const ndjsonPath = path.join(NDJSON_DIR, `${lang}.ndjson`);
@@ -173,48 +173,39 @@ async function importLanguage(lang) {
         return progress.lists[progress.currentListIndex].publicId;
     }
 
-    // Read all records (skip already processed)
-    console.log(`  [${lang}] Reading NDJSON...`);
+    // Stream records in batches — never load entire file into memory
+    console.log(`  [${lang}] Streaming NDJSON (resuming from line ${progress.lastLine})...`);
     const rl = readline.createInterface({
         input: fs.createReadStream(ndjsonPath, 'utf-8'),
         crlfDelay: Infinity
     });
 
-    const records = [];
-    let lineNum = 0;
-    for await (const line of rl) {
-        lineNum++;
-        if (lineNum <= progress.lastLine) continue;
-        const trimmed = line.trim();
-        if (!trimmed) continue;
-        try {
-            records.push({ lineNum, record: JSON.parse(trimmed) });
-        } catch (e) {
-            progress.failed++;
-        }
-    }
-
-    if (records.length === 0) {
-        console.log(`  [${lang}] No new records to import`);
-        return;
-    }
-
-    console.log(`  [${lang}] ${records.length} records to import (resuming from line ${progress.lastLine})`);
     const startTime = Date.now();
     let processed = 0;
+    let totalLines = 0;
+    let batch = [];   // small buffer, max CONCURRENCY items
 
-    // Process in batches
-    for (let i = 0; i < records.length; i += CONCURRENCY) {
+    async function flushBatch() {
+        if (batch.length === 0) return;
+
+        // Check list space, create new list if needed
+        let spaceInList = LIST_MAX - progress.currentListCount;
+        while (spaceInList <= 0) {
+            progress.currentListCount = LIST_MAX;
+            await ensureList();
+            spaceInList = LIST_MAX - progress.currentListCount;
+        }
+
+        // Trim batch to fit in current list
+        const toSend = batch.slice(0, spaceInList);
+        const overflow = batch.slice(spaceInList);
+
         const listPublicId = await ensureList();
-
-        // Determine batch size: don't exceed list limit
-        const spaceInList = LIST_MAX - progress.currentListCount;
-        const batchSize = Math.min(CONCURRENCY, records.length - i, spaceInList);
-        const batch = records.slice(i, i + batchSize);
+        progress.currentListCount += toSend.length;
 
         // Process batch in parallel
         const results = await Promise.all(
-            batch.map(({ record }) => {
+            toSend.map(({ record }) => {
                 const attributes = {
                     email: record.email,
                     domain: record.domain,
@@ -230,7 +221,6 @@ async function importLanguage(lang) {
         for (const r of results) {
             if (r.status === 'ok') {
                 progress.success++;
-                progress.currentListCount++;
             } else if (r.status === 'list_full') {
                 listFullCount++;
             } else {
@@ -238,35 +228,56 @@ async function importLanguage(lang) {
             }
         }
 
-        processed += batch.length;
-        progress.lastLine = batch[batch.length - 1].lineNum;
+        processed += toSend.length;
+        progress.lastLine = toSend[toSend.length - 1].lineNum;
 
         // Update list count
         if (progress.lists[progress.currentListIndex]) {
             progress.lists[progress.currentListIndex].count = progress.currentListCount;
         }
 
-        // If any list_full, force new list on next batch
         if (listFullCount > 0) {
             console.log(`  [${lang}] List full (${progress.currentListCount}), will create new list...`);
-            progress.currentListCount = LIST_MAX; // Force new list creation
-            // Requeue the failed contacts by rewinding
-            i -= listFullCount;
+            progress.currentListCount = LIST_MAX;
         }
 
         // Log progress
-        if (processed % LOG_INTERVAL < CONCURRENCY || i + CONCURRENCY >= records.length) {
+        if (processed % LOG_INTERVAL < CONCURRENCY) {
             const elapsed = (Date.now() - startTime) / 1000;
             const rate = processed / elapsed;
-            const remaining = (records.length - processed) / rate;
             const listInfo = `list ${progress.currentListIndex + 1} (${progress.currentListCount}/${LIST_MAX})`;
-            console.log(`  [${lang}] ${processed}/${records.length} | ${progress.success} ok | ${progress.failed} err | ${rate.toFixed(1)}/s | ETA: ${(remaining / 60).toFixed(0)}m | ${listInfo}`);
+            console.log(`  [${lang}] ${processed} done | ${progress.success} ok | ${progress.failed} err | ${rate.toFixed(1)}/s | ${listInfo}`);
         }
 
         if (processed % SAVE_INTERVAL < CONCURRENCY) {
             saveProgress(lang, progress);
         }
+
+        // Reset batch to overflow (records that didn't fit in current list)
+        batch = overflow;
+        if (overflow.length > 0) {
+            await flushBatch(); // recursively flush overflow into new list
+        }
     }
+
+    for await (const line of rl) {
+        totalLines++;
+        if (totalLines <= progress.lastLine) continue;
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        try {
+            batch.push({ lineNum: totalLines, record: JSON.parse(trimmed) });
+        } catch (e) {
+            progress.failed++;
+        }
+
+        if (batch.length >= CONCURRENCY) {
+            await flushBatch();
+        }
+    }
+
+    // Flush remaining
+    await flushBatch();
 
     saveProgress(lang, progress);
     const totalTime = ((Date.now() - startTime) / 1000).toFixed(0);

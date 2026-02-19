@@ -1,0 +1,60 @@
+{
+  "lastLine": 49000,
+  "success": 47140,
+  "failed": 1860,
+  "rateLimited": 0,
+  "lists": [
+    {
+      "publicId": "d1b9e9be-e586-4488-b032-a289abd3a344",
+      "name": "Dutch Privacy Leads",
+      "count": 4900
+    },
+    {
+      "publicId": "4ba8f98e-b1a7-44a2-aa70-628b766e6b24",
+      "name": "Dutch Privacy Leads (Part 2)",
+      "count": 4900
+    },
+    {
+      "publicId": "deec8cac-5d4b-40c8-82be-6f8e611cd6cb",
+      "name": "Dutch Privacy Leads (Part 3)",
+      "count": 4900
+    },
+    {
+      "publicId": "e70ab540-3c92-410e-adc4-b6f14736dc64",
+      "name": "Dutch Privacy Leads (Part 4)",
+      "count": 4900
+    },
+    {
+      "publicId": "35849bda-1d63-445d-9958-a15fb013c476",
+      "name": "Dutch Privacy Leads (Part 5)",
+      "count": 4900
+    },
+    {
+      "publicId": "e2520322-4598-4da3-a114-2418b804c51c",
+      "name": "Dutch Privacy Leads (Part 6)",
+      "count": 4900
+    },
+    {
+      "publicId": "a373f283-298c-4c4c-b084-d885a06b3c9f",
+      "name": "Dutch Privacy Leads (Part 7)",
+      "count": 4900
+    },
+    {
+      "publicId": "9346ea7e-5c63-4cf7-974d-5c084940bb0a",
+      "name": "Dutch Privacy Leads (Part 8)",
+      "count": 4900
+    },
+    {
+      "publicId": "ef72898a-16a8-42d4-af0e-b74f6612008b",
+      "name": "Dutch Privacy Leads (Part 9)",
+      "count": 4900
+    },
+    {
+      "publicId": "3636313e-af09-4815-9574-ecafc2f7db82",
+      "name": "Dutch Privacy Leads (Part 10)",
+      "count": 4900
+    }
+  ],
+  "currentListIndex": 9,
+  "currentListCount": 4900
+}
