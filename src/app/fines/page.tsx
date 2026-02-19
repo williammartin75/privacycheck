@@ -533,8 +533,8 @@ export default function FinesPage() {
                             <p className="text-xs sm:text-sm text-gray-500 mt-1">Jurisdictions</p>
                         </div>
                         <div className="p-4 rounded-xl border border-red-200 bg-white">
-                            <p className="text-2xl sm:text-3xl font-bold text-red-600">2,000+</p>
-                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Companies Sanctioned</p>
+                            <p className="text-2xl sm:text-3xl font-bold text-red-600">~1M</p>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Breach Notifications Since 2018</p>
                         </div>
                     </div>
 
@@ -563,7 +563,7 @@ export default function FinesPage() {
                                 <p className="text-[10px] text-gray-400 mt-0.5">&gt; €1B revenue</p>
                             </div>
                         </div>
-                        <p className="text-[11px] text-gray-400 text-center mt-2">Source: EDPB enforcement tracker, CMS GDPR Enforcement Tracker, 2018–2026 data. Most fines target small &amp; mid-size companies — not just Big Tech.</p>
+                        <p className="text-[11px] text-gray-400 text-center mt-2">Source: DLA Piper GDPR Survey 2026 (443 breach notifications/day, ~1M cumulative since 2018), CMS Enforcement Tracker (2,800+ GDPR fines, €7.1B cumulative). Most fines target small &amp; mid-size companies.</p>
                     </div>
                 </div>
 
