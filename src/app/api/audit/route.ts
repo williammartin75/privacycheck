@@ -1453,7 +1453,7 @@ export async function POST(request: NextRequest) {
             score -= breachPenalty;
         }
 
-        score = Math.max(0, Math.min(100, score));
+        score = Math.round(Math.max(0, Math.min(100, score)));
 
         const result: AuditResult = {
             score,
