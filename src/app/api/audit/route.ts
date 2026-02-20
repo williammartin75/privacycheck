@@ -781,10 +781,13 @@ export async function POST(request: NextRequest) {
         }
 
 
-        const { url, tier = 'free' } = await request.json();
+        const { url } = await request.json();
+
+        // IMPORTANT: Use DB-fetched tier (userTier) as source of truth, NOT client-sent tier
+        const tier = userTier;
 
         // Debug: Log tier information
-        console.log(`[AUDIT] User: ${user.email}, Tier received: ${tier}, DB tier: ${userTier}`);
+        console.log(`[AUDIT] User: ${user.email}, DB tier: ${userTier}`);
 
         // Tier-based helpers
         const isPro = tier === 'pro' || tier === 'pro_plus';
