@@ -930,6 +930,21 @@ export const blogPosts: BlogPost[] = [
             { question: 'Which loads faster?', answer: 'CookieYes adds approximately 30ms to page load vs Cookiebot 40ms. While the difference is small, CookieYes has a slight edge for Core Web Vitals optimization.' },
         ],
     },
+    {
+        slug: 'minimum-privacy-policy-requirements-2026',
+        title: 'Minimum Privacy Policy Requirements for Global Websites in 2026 (No PII, Anonymous Feedback & Essential Cookies)',
+        description: 'Do you need a privacy policy if your website collects no PII? What about anonymous feedback forms and anti-spam cookies? Here are the minimum requirements for global websites in 2026.',
+        date: '2026-02-20',
+        readTime: '9 min',
+        category: 'Regulations',
+        keywords: ['minimum privacy policy requirements', 'privacy policy no pii', 'anonymous feedback gdpr', 'essential anti-spam cookies', 'do i need a privacy policy', 'cookie consent not required', 'strictly necessary cookies', 'privacy policy requirements 2026', 'global website privacy policy', 'simple website privacy policy'],
+        faq: [
+            { question: 'Do I need a privacy policy if my website has no login and no forms?', answer: 'Yes. Your web server collects IP addresses automatically, and your hosting provider processes that data. Under GDPR, IP addresses are personal data. You need a privacy policy disclosing this, even if your site is purely informational.' },
+            { question: 'Are anti-spam cookies exempt from consent requirements?', answer: 'Yes, if strictly necessary. Cookies used solely to prevent bot abuse (CSRF tokens, honeypot cookies, Cloudflare Turnstile) are exempt under the ePrivacy Directive. However, Google reCAPTCHA is NOT exempt because it sends data to Google.' },
+            { question: 'What is the minimum privacy policy for a global website in 2026?', answer: 'At minimum: identify yourself, list what data is collected (including server logs), state the legal basis, name your hosting provider, specify retention periods, and list user rights. Follow GDPR for EU visitors and CCPA for California visitors.' },
+            { question: 'Can I collect anonymous feedback without GDPR obligations?', answer: 'If feedback is truly anonymous (no name, no email, no account link), the content may not be personal data. But your server still logs the submitter\'s IP address, which IS personal data under GDPR. You still need a privacy policy.' },
+        ],
+    },
 ];
 
 export function generateBlogMetadata(post: BlogPost): Metadata {
