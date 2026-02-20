@@ -21,6 +21,8 @@ const categoryColors: Record<string, string> = {
     Regulations: 'bg-purple-50 text-purple-700',
     Features: 'bg-blue-50 text-blue-700',
     'How-To': 'bg-emerald-50 text-emerald-700',
+    'Market Study': 'bg-orange-50 text-orange-700',
+    Comparisons: 'bg-amber-50 text-amber-700',
 };
 
 export default function BlogIndex() {
