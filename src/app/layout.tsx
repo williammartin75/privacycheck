@@ -71,7 +71,7 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="pl" href="https://privacychecker.pro/pl" />
         <link rel="alternate" hrefLang="x-default" href="https://privacychecker.pro" />
         {/* Cloudflare Web Analytics (free, privacy-friendly, no cookies) */}
-        <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0f9139f4c2734cbdad5eb6ec359876f8"}'></script>
+        <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0f9139f4c2734cbdad5eb6ec359876f8"}' crossOrigin="anonymous"></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
