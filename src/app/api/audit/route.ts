@@ -809,6 +809,7 @@ export async function POST(request: NextRequest) {
         const allTrackers: string[] = [];
         const pages: PageScan[] = [];
         let combinedHtml = '';
+        const MAX_COMBINED_HTML_SIZE = 5 * 1024 * 1024; // 5MB cap to prevent CPU saturation
 
         // Fetch page with 10 second timeout to prevent hanging on slow pages
         const fetchPage = async (pageUrl: string): Promise<{ html: string; cookies: string | null; headers: Headers } | null> => {
@@ -903,7 +904,11 @@ export async function POST(request: NextRequest) {
         // Process results helper
         const processPageResults = (results: { link: string; result: { html: string; cookies: string | null; headers: Headers } }[]) => {
             for (const { link, result: pageResult } of results) {
-                combinedHtml += pageResult.html;
+                // Only add to combinedHtml if under size cap (prevents 40MB+ regex operations)
+                if (combinedHtml.length < MAX_COMBINED_HTML_SIZE) {
+                    const remaining = MAX_COMBINED_HTML_SIZE - combinedHtml.length;
+                    combinedHtml += pageResult.html.substring(0, remaining);
+                }
                 const pageCookies = extractCookies(pageResult.html, pageResult.cookies);
                 const pageTrackers = detectTrackers(pageResult.html);
 
@@ -937,10 +942,9 @@ export async function POST(request: NextRequest) {
             }
         };
 
-        // Parallel crawl - fetch all pages at once for faster scanning
-        // For Free tier (20 pages), fetch all in parallel
-        // For Pro/Pro+ (200-1000 pages), use batches to avoid overwhelming
-        const maxPages = isProPlus ? 1000 : (isPro ? 200 : 20);
+        // Parallel crawl - fetch pages in batches
+        // Limits match tier pricing: Free=20, Pro=100, Pro+=200
+        const maxPages = isProPlus ? 200 : (isPro ? 100 : 20);
         const batchSize = isPro || isProPlus ? 10 : 20; // Free: all at once, Pro/Pro+: batches of 10
         let linkIndex = 0;
 
@@ -954,6 +958,9 @@ export async function POST(request: NextRequest) {
 
             const results = await crawlBatch(batch);
             processPageResults(results);
+
+            // Yield the event loop between batches to prevent blocking other requests
+            await new Promise(resolve => setTimeout(resolve, 10));
         }
 
         const htmlLower = combinedHtml.toLowerCase();
