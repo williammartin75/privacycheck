@@ -58,6 +58,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Hreflang tags for multi-language SEO */}
+        <link rel="alternate" hrefLang="en" href="https://privacychecker.pro" />
+        <link rel="alternate" hrefLang="fr" href="https://privacychecker.pro/fr" />
+        <link rel="alternate" hrefLang="x-default" href="https://privacychecker.pro" />
         {/* Cloudflare Web Analytics (free, privacy-friendly, no cookies) */}
         <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0f9139f4c2734cbdad5eb6ec359876f8"}'></script>
         <script

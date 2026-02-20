@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { blogPosts } from './blog/data'
+import { countries } from './gdpr-compliance/data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://privacychecker.pro'
@@ -19,6 +20,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
         })),
     ]
 
+    const countryEntries: MetadataRoute.Sitemap = [
+        {
+            url: `${baseUrl}/gdpr-compliance`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.9,
+        },
+        ...countries.map(country => ({
+            url: `${baseUrl}/gdpr-compliance/${country.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        })),
+    ]
+
     return [
         {
             url: baseUrl,
@@ -33,6 +49,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.8,
         },
         {
+            url: `${baseUrl}/fr`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.9,
+        },
+        {
             url: `${baseUrl}/glossary`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
@@ -45,6 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         ...blogEntries,
+        ...countryEntries,
         {
             url: `${baseUrl}/docs/consent-mode`,
             lastModified: new Date(),
