@@ -818,6 +818,48 @@ export const blogPosts: BlogPost[] = [
             { question: 'How often should I re-ask for cookie consent?', answer: 'Best practice is every 6 to 12 months. The CNIL recommends re-obtaining consent every 13 months maximum. You must also re-ask whenever you add new cookie categories or change processing purposes.' },
         ],
     },
+    {
+        slug: 'dsgvo-website-check-kostenlos',
+        title: 'DSGVO-Website-Check: Kostenlos Ihre Website auf Datenschutz prüfen',
+        description: 'Prüfen Sie Ihre Website kostenlos auf DSGVO-Verstöße. Unser automatischer Scanner analysiert Cookie-Banner, Datenschutzerklärung, Tracking, Security Headers und mehr — in unter 60 Sekunden.',
+        date: '2026-02-20',
+        readTime: '9 min',
+        category: 'Regulations',
+        keywords: ['DSGVO Website Check', 'DSGVO Check kostenlos', 'Datenschutz Website prüfen', 'DSGVO Scanner', 'DSGVO Compliance Check', 'Website Datenschutz Test', 'DSGVO Prüfung'],
+        faq: [
+            { question: 'Was ist ein DSGVO-Website-Check?', answer: 'Ein DSGVO-Website-Check ist eine automatische Analyse Ihrer Website auf datenschutzrechtliche Schwachstellen. Er prüft Cookie-Consent-Banner, Datenschutzerklärung, Tracking-Dienste, Security Headers und externe Ressourcen auf DSGVO-Konformität.' },
+            { question: 'Wie oft sollte ich einen DSGVO-Check durchführen?', answer: 'Mindestens vierteljährlich oder nach jeder Änderung an Ihrer Website. Neue Plugins, Marketing-Tools oder CMS-Updates können unbemerkt neue Tracker einfügen.' },
+            { question: 'Gilt die DSGVO auch für kleine Unternehmen?', answer: 'Ja. Die DSGVO gilt für alle Unternehmen, die personenbezogene Daten von EU-Bürgern verarbeiten — unabhängig von der Unternehmensgröße.' },
+        ],
+    },
+    {
+        slug: 'cookie-banner-deutschland-pflicht',
+        title: 'Cookie-Banner in Deutschland: Pflicht, Anforderungen und häufige Fehler',
+        description: 'Ist ein Cookie-Banner in Deutschland Pflicht? Ja — wenn Sie nicht-essenzielle Cookies verwenden. Erfahren Sie die rechtlichen Anforderungen nach DSGVO und TTDSG, häufige Dark Patterns und wie Sie Ihren Cookie-Banner rechtskonform gestalten.',
+        date: '2026-02-20',
+        readTime: '10 min',
+        category: 'Regulations',
+        keywords: ['Cookie Banner Pflicht Deutschland', 'Cookie Banner DSGVO', 'TTDSG Cookie', 'Cookie Einwilligung', 'Cookie Banner Anforderungen', 'Cookie Consent Deutschland', 'Cookie Banner gestalten'],
+        faq: [
+            { question: 'Brauche ich einen Cookie-Banner, wenn ich keine Cookies setze?', answer: 'Wenn Ihre Website wirklich keine Cookies setzt und keine ähnlichen Tracking-Technologien verwendet, dann nein. Das ist in der Praxis aber extrem selten — selbst eingebettete YouTube-Videos setzen Cookies.' },
+            { question: 'Reicht ein einfacher Hinweis "Diese Website verwendet Cookies"?', answer: 'Nein. Seit dem BGH-Urteil zu Planet49 (2020) ist klar: Ein bloßer Hinweis ohne echte Wahlmöglichkeit ist keine gültige Einwilligung. Der Nutzer muss aktiv zustimmen oder ablehnen können.' },
+            { question: 'Was ist der Unterschied zwischen DSGVO und TTDSG bei Cookies?', answer: 'Das TTDSG (§ 25) regelt den technischen Zugriff auf das Endgerät (Cookie setzen/lesen). Die DSGVO regelt die anschließende Verarbeitung der damit erhobenen personenbezogenen Daten. Beide Gesetze müssen gleichzeitig beachtet werden.' },
+        ],
+    },
+    {
+        slug: 'datenschutzerklaerung-website-pflichtangaben',
+        title: 'Datenschutzerklärung: Alle Pflichtangaben für Ihre Website (2026)',
+        description: 'Vollständige Übersicht aller Pflichtangaben für die Datenschutzerklärung Ihrer Website nach Art. 13 DSGVO. Mit Checkliste, typischen Fehlern und Hinweisen zu DSB-Pflicht, Google Analytics, Newsletter und Social Media.',
+        date: '2026-02-20',
+        readTime: '11 min',
+        category: 'Regulations',
+        keywords: ['Datenschutzerklärung Pflichtangaben', 'Datenschutzerklärung Website', 'DSGVO Datenschutzerklärung', 'Datenschutzerklärung Muster', 'Art 13 DSGVO', 'Datenschutzbeauftragter Pflicht', 'Datenschutzerklärung erstellen'],
+        faq: [
+            { question: 'Reicht eine Datenschutzerklärung aus einem Generator?', answer: 'Ein Generator ist ein guter Ausgangspunkt, aber keine Garantie für Vollständigkeit. Sie müssen die generierten Texte immer an Ihre tatsächliche Datenverarbeitung anpassen und regelmäßig aktualisieren.' },
+            { question: 'Was passiert, wenn meine Datenschutzerklärung unvollständig ist?', answer: 'Eine unvollständige Datenschutzerklärung kann zu einem Bußgeld der Aufsichtsbehörde (bis 20 Mio. €), einer wettbewerbsrechtlichen Abmahnung durch Konkurrenten, oder einer Schadensersatzklage von betroffenen Nutzern führen.' },
+            { question: 'Muss die Datenschutzerklärung auf Deutsch sein?', answer: 'Wenn sich Ihre Website an deutschsprachige Nutzer richtet, muss die Datenschutzerklärung auf Deutsch verfügbar sein. Die Anforderung leitet sich aus dem Transparenzgebot der DSGVO ab.' },
+        ],
+    },
 ];
 
 export function generateBlogMetadata(post: BlogPost): Metadata {

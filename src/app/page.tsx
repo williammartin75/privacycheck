@@ -514,7 +514,6 @@ export default function Home() {
             <span className="text-sm sm:text-2xl font-bold text-gray-900 notranslate">PrivacyChecker</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-6">
-            <a href="#pricing" className="hidden sm:block text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">Pricing</a>
             <a href="#faq" className="hidden sm:block text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">FAQ</a>
             {user ? (
               <div className="flex items-center gap-4">

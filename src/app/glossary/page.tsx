@@ -180,7 +180,6 @@ export default function GlossaryPage() {
                     </Link>
                     <div className="flex items-center gap-3 sm:gap-6">
                         <Link href="/blog" className="text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">Blog</Link>
-                        <Link href="/#pricing" className="hidden sm:block text-sm sm:text-base text-gray-600 hover:text-gray-900 transition">Pricing</Link>
                         <Link href="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition text-xs sm:text-base">
                             Sign In
                         </Link>
