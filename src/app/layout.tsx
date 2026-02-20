@@ -61,6 +61,14 @@ export default function RootLayout({
         {/* Hreflang tags for multi-language SEO */}
         <link rel="alternate" hrefLang="en" href="https://privacychecker.pro" />
         <link rel="alternate" hrefLang="fr" href="https://privacychecker.pro/fr" />
+        <link rel="alternate" hrefLang="de" href="https://privacychecker.pro/de" />
+        <link rel="alternate" hrefLang="nl" href="https://privacychecker.pro/nl" />
+        <link rel="alternate" hrefLang="es" href="https://privacychecker.pro/es" />
+        <link rel="alternate" hrefLang="it" href="https://privacychecker.pro/it" />
+        <link rel="alternate" hrefLang="da" href="https://privacychecker.pro/da" />
+        <link rel="alternate" hrefLang="pt" href="https://privacychecker.pro/pt" />
+        <link rel="alternate" hrefLang="sv" href="https://privacychecker.pro/sv" />
+        <link rel="alternate" hrefLang="pl" href="https://privacychecker.pro/pl" />
         <link rel="alternate" hrefLang="x-default" href="https://privacychecker.pro" />
         {/* Cloudflare Web Analytics (free, privacy-friendly, no cookies) */}
         <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0f9139f4c2734cbdad5eb6ec359876f8"}'></script>
