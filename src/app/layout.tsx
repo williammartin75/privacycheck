@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Hreflang tags for multi-language SEO */}
         <link rel="alternate" hrefLang="en" href="https://privacychecker.pro" />
@@ -172,7 +172,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased`} suppressHydrationWarning>
         <Providers>
           {children}
         </Providers>
