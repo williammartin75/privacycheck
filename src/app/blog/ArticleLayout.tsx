@@ -7,9 +7,18 @@ interface ArticleLayoutProps {
 }
 
 export function ArticleLayout({ post, children }: ArticleLayoutProps) {
-    const related = blogPosts
+    // Same-category related articles (up to 4)
+    const sameCategory = blogPosts
         .filter(p => p.slug !== post.slug && p.category === post.category)
-        .slice(0, 3);
+        .slice(0, 4);
+
+    // Cross-category related articles (up to 2) for broader internal linking
+    const crossCategory = blogPosts
+        .filter(p => p.slug !== post.slug && p.category !== post.category)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 2);
+
+    const related = [...sameCategory, ...crossCategory];
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -120,6 +129,55 @@ export function ArticleLayout({ post, children }: ArticleLayoutProps) {
                     >
                         Start Free Audit
                     </Link>
+                </div>
+
+                {/* Internal Links — Key Resources */}
+                <div className="mt-12 bg-gray-50 rounded-2xl p-8">
+                    <h2 className="text-xl font-bold text-gray-900 mb-4">Explore More Resources</h2>
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <Link href="/" className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition">
+                            <span className="text-2xl">🔍</span>
+                            <div>
+                                <span className="block font-medium text-gray-900 text-sm">Free Privacy Scanner</span>
+                                <span className="block text-xs text-gray-500">Audit any website in 60s</span>
+                            </div>
+                        </Link>
+                        <Link href="/fines" className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition">
+                            <span className="text-2xl">⚖️</span>
+                            <div>
+                                <span className="block font-medium text-gray-900 text-sm">GDPR Fines Database</span>
+                                <span className="block text-xs text-gray-500">€5.88B+ in penalties tracked</span>
+                            </div>
+                        </Link>
+                        <Link href="/glossary" className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition">
+                            <span className="text-2xl">📖</span>
+                            <div>
+                                <span className="block font-medium text-gray-900 text-sm">Privacy Glossary</span>
+                                <span className="block text-xs text-gray-500">100+ terms explained</span>
+                            </div>
+                        </Link>
+                        <Link href="/gdpr-compliance" className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition">
+                            <span className="text-2xl">🌍</span>
+                            <div>
+                                <span className="block font-medium text-gray-900 text-sm">GDPR by Country</span>
+                                <span className="block text-xs text-gray-500">30+ country guides</span>
+                            </div>
+                        </Link>
+                        <Link href="/docs/consent-mode" className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition">
+                            <span className="text-2xl">⚙️</span>
+                            <div>
+                                <span className="block font-medium text-gray-900 text-sm">Consent Mode v2</span>
+                                <span className="block text-xs text-gray-500">Setup & compliance guide</span>
+                            </div>
+                        </Link>
+                        <Link href="/blog" className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition">
+                            <span className="text-2xl">📝</span>
+                            <div>
+                                <span className="block font-medium text-gray-900 text-sm">All Articles</span>
+                                <span className="block text-xs text-gray-500">80+ privacy & compliance guides</span>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Related */}
