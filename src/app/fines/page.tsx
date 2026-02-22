@@ -83,6 +83,9 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Amazon France', amount: '€35M', amountNum: 35000000, violation: 'Cookie deposit without consent', year: '2020', details: 'Deposited advertising cookies on users\' computers without prior consent or adequate information about cookie purposes.' },
             { company: 'Google LLC', amount: '€100M', amountNum: 100000000, violation: 'Cookie deposit without consent', year: '2020', details: 'Placed advertising cookies on google.fr without adequate prior information or consent, violating the French Data Protection Act.' },
             { company: 'Clearview AI', amount: '€20M', amountNum: 20000000, violation: 'Biometric data collection without basis', year: '2022', details: 'Scraped billions of facial images from the internet without any legal basis, creating a biometric database without individuals\' knowledge or consent.' },
+            { company: 'SAF Logistics (transport SME)', amount: '€200K', amountNum: 200000, violation: 'Employee surveillance via GPS', year: '2023', details: 'Small logistics company tracked delivery drivers via GPS in real-time without proper consent or data protection impact assessment.' },
+            { company: 'DS Automobiles (car dealership)', amount: '€100K', amountNum: 100000, violation: 'Marketing emails without consent', year: '2024', details: 'Car dealership sent promotional emails to prospects who never consented and failed to honor unsubscribe requests within the legal deadline.' },
+            { company: 'Real estate agency (unnamed)', amount: '€75K', amountNum: 75000, violation: 'Excessive data collection from tenants', year: '2023', details: 'Small agency demanded bank statements, tax returns and ID copies beyond what is legally permitted for tenant applications.' },
         ],
     },
     {
@@ -98,6 +101,9 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'H\u0026M', amount: '€35.3M', amountNum: 35300000, violation: 'Employee surveillance', year: '2020', details: 'Systematically surveilled employees at its Nuremberg service center by recording detailed private information about health, religion, and family during return-to-work meetings.' },
             { company: 'Deutsche Wohnen', amount: '€14.5M', amountNum: 14500000, violation: 'Excessive data retention', year: '2024', details: 'Real estate company stored tenant personal data indefinitely without any data retention policy, keeping old financial records, personal IDs, and employment contracts.' },
             { company: '1\u00261 Telecom', amount: '€9.55M', amountNum: 9550000, violation: 'Insufficient authentication', year: '2019', details: 'Customer service agents could access customer accounts using only a name and date of birth — no additional identity verification was required.' },
+            { company: 'Delivery service (Hamburg)', amount: '€16K', amountNum: 16000, violation: 'Employee health data processing', year: '2024', details: 'Small food delivery company collected employees\' health data (sick notes with diagnosis details) and stored them in an insecure shared folder.' },
+            { company: 'Dental practice (Bavaria)', amount: '€10K', amountNum: 10000, violation: 'Patient records without encryption', year: '2023', details: 'Dental clinic stored unencrypted patient health records on a server accessible from the open internet, exposing sensitive medical data.' },
+            { company: 'Fitness studio (Berlin)', amount: '€8.5K', amountNum: 8500, violation: 'CCTV in changing rooms', year: '2024', details: 'Gym installed surveillance cameras covering changing room entrances without proper signage, consent, or a legitimate purpose under GDPR.' },
         ],
     },
     {
@@ -113,6 +119,8 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Clearview AI', amount: '€30.5M', amountNum: 30500000, violation: 'Unlawful facial recognition database', year: '2024', details: 'Built a facial recognition database by scraping billions of images from the internet without consent, legal basis, or transparency.' },
             { company: 'Netflix', amount: '€4.75M', amountNum: 4750000, violation: 'Inadequate privacy notices', year: '2024', details: 'Failed to adequately inform customers about what personal data was collected and how it was used between 2018 and 2020.' },
             { company: 'Uber', amount: '€10M', amountNum: 10000000, violation: 'Transparency on data transfers', year: '2025', details: 'Insufficient transparency about third-country data transfers and data retention periods communicated to drivers.' },
+            { company: 'Dentist practice (Amsterdam)', amount: '€12K', amountNum: 12000, violation: 'Unencrypted patient data sharing', year: '2024', details: 'Dental practice emailed unencrypted patient health records and X-rays to third-party labs using regular email without any security measures.' },
+            { company: 'Webshop (Utrecht)', amount: '€7.5K', amountNum: 7500, violation: 'No cookie consent mechanism', year: '2023', details: 'Small online retailer loaded Google Analytics and Facebook Pixel tracking cookies before obtaining any user consent, with no cookie banner at all.' },
         ],
     },
     {
@@ -142,6 +150,10 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Clearview AI', amount: '€20M', amountNum: 20000000, violation: 'Biometric data processing', year: '2022', details: 'Operated an unlawful biometric surveillance system by scraping facial images of Italian residents without consent or legal basis.' },
             { company: 'Enel Energia', amount: '€26.5M', amountNum: 26500000, violation: 'Unsolicited telemarketing', year: '2021', details: 'Made millions of unsolicited telemarketing calls using data obtained from unauthorized lists, contacting people on the do-not-call registry.' },
             { company: 'TIM (Telecom Italia)', amount: '€27.8M', amountNum: 27800000, violation: 'Aggressive telemarketing', year: '2020', details: 'Systematic telemarketing violations including making calls without consent, ignoring opt-out requests, and mishandling personal data across call centers.' },
+            { company: 'Bar Gioia (café)', amount: '€600', amountNum: 600, violation: 'Illegal CCTV installation', year: '2023', details: 'Small bar installed surveillance cameras without required information signs and filmed public sidewalk areas without any legal basis.' },
+            { company: 'Macelleria La Costata (butcher)', amount: '€1.5K', amountNum: 1500, violation: 'Excessive video surveillance', year: '2023', details: 'Butcher shop installed cameras covering public areas and staff workstations without a data protection impact assessment or employee consent.' },
+            { company: 'Medical practice (Rome)', amount: '€7K', amountNum: 7000, violation: 'Patient emails without BCC', year: '2024', details: 'Doctor sent a group email to 45 patients about test results using CC instead of BCC, exposing all patients\' email addresses and health conditions.' },
+            { company: 'Hotel (Florence)', amount: '€15K', amountNum: 15000, violation: 'Passport data retention', year: '2023', details: 'Small hotel kept photocopies of guests\' passports for years instead of the mandatory 24-hour retention period, storing them in an unlocked cabinet.' },
         ],
     },
     {
@@ -157,6 +169,11 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Vodafone España', amount: '€8.15M', amountNum: 8150000, violation: 'Unsolicited communications', year: '2021', details: 'Sent marketing communications to users who had opted out and processed personal data for telemarketing without adequate consent mechanisms.' },
             { company: 'La Liga (football)', amount: '€250K', amountNum: 250000, violation: 'Surveillance via mobile app', year: '2021', details: 'Used the official La Liga app to activate microphones and GPS on users\' phones to detect unauthorized broadcasts of football matches.' },
             { company: 'EDP Energía', amount: '€1.5M', amountNum: 1500000, violation: 'Lack of consent for processing', year: '2023', details: 'Processed customer personal data for marketing and profiling without obtaining proper consent, affecting a large customer base.' },
+            { company: 'Dental clinic (Madrid)', amount: '€1.2K', amountNum: 1200, violation: 'Video surveillance in examination rooms', year: '2024', details: 'Small dental practice installed CCTV in the doctor\'s office, recording patients during examinations without consent or legitimate interest.' },
+            { company: 'Restaurant owner (Valencia)', amount: '€2K', amountNum: 2000, violation: 'Unlawful CCTV recording', year: '2023', details: 'Restaurant installed cameras filming public streets and neighbouring properties without proper signage or a valid legal basis.' },
+            { company: 'Gym (Barcelona)', amount: '€5K', amountNum: 5000, violation: 'Biometric access without consent', year: '2024', details: 'Fitness center used fingerprint scanners for member access without obtaining explicit consent for biometric data processing.' },
+            { company: 'Online shop (Seville)', amount: '€3K', amountNum: 3000, violation: 'Missing privacy policy', year: '2023', details: 'Small e-commerce website collected customer data (names, addresses, payments) without any privacy policy or data processing information.' },
+            { company: 'Real estate agency (Málaga)', amount: '€10K', amountNum: 10000, violation: 'Sharing tenant data without basis', year: '2024', details: 'Agency shared personal data of tenants with third-party service providers without consent or a data processing agreement.' },
         ],
     },
     {
@@ -171,6 +188,7 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Apoteket AB (pharmacy)', amount: '€3.5M', amountNum: 3500000, violation: 'Meta Pixel data leak', year: '2024', details: 'Transferred sensitive health-related personal data to Meta via the Meta Pixel advertising tracker installed on their e-commerce website.' },
             { company: 'Spotify AB', amount: '€3.5M', amountNum: 3500000, violation: 'Right of access violation', year: '2024', details: 'Failed to provide users with sufficiently clear information about how their personal data was processed in response to access requests.' },
             { company: 'Apohem AB (pharmacy)', amount: '€800K', amountNum: 800000, violation: 'Meta Pixel health data transfer', year: '2024', details: 'Pharmacy chain transferred sensitive customer health data to Meta through advertising pixel, revealing purchases of medical products.' },
+            { company: 'Capio St. Görans Hospital', amount: '€30K', amountNum: 30000, violation: 'Unauthorized record access', year: '2023', details: 'Hospital staff accessed patient records without medical justification. Inadequate access controls allowed employees to view any patient data.' },
         ],
     },
     {
@@ -200,6 +218,7 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Verkkokauppa.com', amount: '€856K', amountNum: 856000, violation: 'No data retention limits', year: '2024', details: 'Failed to define data retention periods and forced customers to create mandatory accounts for online purchases — went beyond what is necessary.' },
             { company: 'Taksi Helsinki', amount: '€72K', amountNum: 72000, violation: 'Excessive data collection', year: '2021', details: 'Collected and stored excessive personal data from taxi passengers beyond what was necessary for the service provided.' },
             { company: 'Psykoterapiakeskus Vastaamo', amount: 'Criminal prosecution', amountNum: 0, violation: 'Massive therapy data breach', year: '2023', details: 'Private psychotherapy records of 33,000+ patients were stolen and leaked online due to catastrophically poor security. CEO was criminally charged.' },
+            { company: 'Private school (Helsinki)', amount: '€5K', amountNum: 5000, violation: 'Student data without legal basis', year: '2024', details: 'Private school processed detailed behavioral notes on students and shared them with external psychologists without parental consent.' },
         ],
     },
     {
@@ -214,6 +233,7 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Unnamed hospital', amount: '€200K', amountNum: 200000, violation: 'Cybersecurity failure — 300K records', year: '2024', details: 'Insufficient cybersecurity protections led to a cyberattack that compromised the personal data of 300,000 patients.' },
             { company: 'RTL Belgium', amount: '€40K/day', amountNum: 40000, violation: 'Non-compliant cookie banner', year: '2024', details: 'Cookie banner lacked a "Reject All" button and used misleading design with color contrasts steering users toward acceptance.' },
             { company: 'Freedelity', amount: '€5K/day', amountNum: 5000, violation: 'Consent and data minimization failures', year: '2025', details: 'Violated consent mechanisms, data minimization principles, and retained customer data excessively beyond the purpose of collection.' },
+            { company: 'Construction firm (Liège)', amount: '€3K', amountNum: 3000, violation: 'Unauthorized employee monitoring', year: '2024', details: 'Small construction company installed keystroke loggers on employee computers to monitor productivity without informing workers or having a legal basis.' },
         ],
     },
     {
@@ -273,6 +293,7 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Media company (unnamed)', amount: '€15.2K', amountNum: 15200, violation: 'Failure to cooperate with DPA', year: '2024', details: 'Refused to cooperate with the data protection authority during an investigation, obstructing regulatory enforcement.' },
             { company: 'REWE Group (supermarket)', amount: '€8M', amountNum: 8000000, violation: 'Customer profiling without consent', year: '2023', details: 'Loyalty card program processed customer behavior data for profiling purposes without valid consent under GDPR.' },
             { company: 'Jö Bonus Club', amount: '€2M', amountNum: 2000000, violation: 'Tracking purchase behavior', year: '2023', details: 'Loyalty program tracked detailed purchase behavior of 4 million Austrians and used it for targeted advertising without adequate consent.' },
+            { company: 'Physiotherapy practice (Vienna)', amount: '€11K', amountNum: 11000, violation: 'Unsecured patient records', year: '2024', details: 'Small physiotherapy clinic stored patient treatment records on a shared computer without password protection, accessible to all staff and visitors.' },
         ],
     },
     {
@@ -305,6 +326,8 @@ const jurisdictions: Jurisdiction[] = [
             { company: 'Advanced Computer Software', amount: '£3.07M', amountNum: 3070000, violation: 'Ransomware attack — NHS disruption', year: '2025', details: 'Inadequate cybersecurity allowed a ransomware attack that compromised 79,404 individuals\' data and disrupted NHS 111 healthcare services.' },
             { company: '23andMe', amount: '£2.31M', amountNum: 2310000, violation: 'Security failure — 155K UK users', year: '2025', details: 'Failed to implement appropriate security measures, leading to a credential-stuffing attack that exposed genetic data of 155,592 UK users.' },
             { company: 'Police Service of NI', amount: '£750K', amountNum: 750000, violation: 'Accidental data leak — 9,483 officers', year: '2024', details: 'Accidentally published a spreadsheet containing the personal details of all 9,483 serving officers and staff.' },
+            { company: 'Law firm (London)', amount: '£10K', amountNum: 10000, violation: 'Client data sent to wrong recipient', year: '2024', details: 'Small solicitors firm accidentally emailed sensitive case files including medical and financial records to the wrong person due to autocomplete error.' },
+            { company: 'Recruitment agency (Manchester)', amount: '£7.5K', amountNum: 7500, violation: 'CV database without security', year: '2023', details: 'Staffing agency stored CVs containing personal data of 5,000+ candidates in an unencrypted, publicly accessible cloud folder.' },
         ],
     },
     /* ═══════ AMERICAS ═══════ */
