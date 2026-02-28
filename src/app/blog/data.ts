@@ -38,12 +38,12 @@ export const blogPosts: BlogPost[] = [
     },
     {
         slug: 'eaa-2025-accessibility-requirements',
-        title: 'European Accessibility Act 2025: What Website Owners Must Do',
-        description: 'The EAA is now in effect. Learn what WCAG 2.1 AA standards mean for your website, who must comply, and how to audit your site for accessibility.',
+        title: 'EAA Rules 2025: European Accessibility Act Checklist & Requirements',
+        description: 'The EAA is enforceable since June 2025 — fines up to €30,000 and market bans. Free checklist of WCAG 2.1 AA requirements for websites: alt text, color contrast, keyboard navigation, forms, and more. 87 million EU users affected.',
         date: '2026-01-11',
         readTime: '7 min',
         category: 'Regulations',
-        keywords: ['European Accessibility Act', 'EAA 2025', 'WCAG compliance', 'website accessibility', 'accessibility audit'],
+        keywords: ['EAA rules 2025', 'EAA rules', 'European Accessibility Act', 'EAA 2025', 'EAA compliance', 'EAA requirements', 'WCAG compliance', 'website accessibility', 'accessibility audit', 'EAA checklist', 'accessibility requirements 2025'],
     },
     {
         slug: 'eu-ai-act-website-compliance',
