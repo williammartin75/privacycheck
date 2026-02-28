@@ -539,8 +539,8 @@ export const blogPosts: BlogPost[] = [
     },
     {
         slug: 'dora-compliance-checklist-2026',
-        title: 'DORA Compliance Checklist 2026: 14 Steps for Financial Entities — EU DORA Guide',
-        description: 'Complete EU DORA (Digital Operational Resilience Act) compliance checklist for 2026. Covers the 5 pillars: ICT risk management, incident reporting, resilience testing, third-party risk, and information sharing.',
+        title: 'DORA Compliance Checklist 2026: 14 Steps to Avoid Fines (Free Template)',
+        description: 'DORA is enforceable now \u2014 fines up to 1% of daily turnover. Use this free 14-step DORA compliance checklist covering ICT risk management, incident reporting (4h deadline), resilience testing, and third-party oversight. Includes DORA vs GDPR vs NIS2 comparison.',
         date: '2026-02-08',
         readTime: '12 min',
         category: 'Regulations',
